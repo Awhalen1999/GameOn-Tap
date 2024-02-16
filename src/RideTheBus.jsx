@@ -78,13 +78,13 @@ const RideTheBus = () => {
             ))}
           </div>
           <div className='mt-12'>
-            <button className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200'>
+            <button className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-blue-600'>
               Lower
             </button>
-            <button className='mx-8 px-6 py-3 text-lg text-white bg-green-500 rounded transform hover:scale-105 transition-transform duration-200'>
+            <button className='mx-8 px-6 py-3 text-lg text-white bg-yellow-400 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-500 '>
               Equal
             </button>
-            <button className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200'>
+            <button className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'>
               Higher
             </button>
           </div>
