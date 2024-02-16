@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './HomePage.jsx';
 import KingsCup from './KingsCup.jsx';
+import RideTheBus from './RideTheBus.jsx';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<HomePage />} exact />
           <Route path='/KingsCup' element={<KingsCup />} />
+          <Route path='/RideTheBus' element={<RideTheBus />} />
           {/* Add routes */}
         </Routes>
       </div>

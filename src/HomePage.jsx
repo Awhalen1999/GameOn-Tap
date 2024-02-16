@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const HomePage = () => {
   const games = [
     { name: 'Kings Cup', route: '/KingsCup' },
+    { name: 'Ride The Bus', route: '/RideTheBus' },
     // Add more games
   ];
 
@@ -18,7 +19,7 @@ const HomePage = () => {
           <li key={index} className='mb-2'>
             <Link
               to={game.route}
-              className='inline-block px-4 py-2 text-xl text-white bg-blue-600 rounded hover:bg-blue-800'
+              className='px-4 py-2 text-xl text-white bg-yellow-500 rounded hover:bg-yellow-600 hover:scale-105 mx-auto flex justify-center'
             >
               {game.name}
             </Link>
