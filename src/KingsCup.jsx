@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import placeholderImage from './assets/red.png';
 import rules from './Text';
 
+// re-add rule for ace of spades
+
 const DeckOfCards = () => {
   const initialDeck = [
     '2H',
