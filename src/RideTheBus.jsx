@@ -177,7 +177,7 @@ const RideTheBus = () => {
             onSubmit={(event) => {
               event.preventDefault();
               setGameStarted(true);
-              drawCard(); // Draw the first card when the game starts
+              drawCard();
             }}
             className='flex flex-col items-center justify-center flex-grow'
           >
