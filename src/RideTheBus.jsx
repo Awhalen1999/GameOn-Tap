@@ -71,7 +71,11 @@ const RideTheBus = () => {
       {!gameStarted ? (
         // Game start form
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(event) => {
+            event.preventDefault();
+            setGameStarted(true);
+            drawCard(); // Draw the first card when the game starts
+          }}
           className='flex flex-col items-center justify-center flex-grow'
         >
           <label className='mb-4 text-lg'>
@@ -96,25 +100,40 @@ const RideTheBus = () => {
         // Placeholder cards
         <div className='flex flex-col items-center justify-center flex-grow'>
           <div className='flex justify-center'>
-            {[...Array(parseInt(number))].map((_, index) => (
+            {drawnCards.map((card, index) => (
               <img
                 key={index}
-                src={placeholderCard}
-                alt='placeholder card'
+                src={cardImages[card] || placeholderCard}
+                alt='card'
                 className='mx-2 w-36 h-auto object-contain rounded shadow-lg'
               />
             ))}
+            {[...Array(parseInt(number) - drawnCards.length)].map(
+              (_, index) => (
+                <img
+                  key={index + drawnCards.length}
+                  src={placeholderCard}
+                  alt='placeholder card'
+                  className='mx-2 w-36 h-auto object-contain rounded shadow-lg'
+                />
+              )
+            )}
           </div>
-          <div className='mt-12'>
-            <button className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-blue-600'>
-              Lower
-            </button>
-            <button className='mx-8 px-6 py-3 text-lg text-white bg-yellow-400 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-500 '>
-              Equal
-            </button>
-            <button className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'>
-              Higher
-            </button>
+          <div className='mt-12 flex flex-col items-center justify-center'>
+            <p className='text-center text-xl font-bold mb-6'>
+              Will the next card be lower, equal, or higher than this card?
+            </p>
+            <div className='flex justify-center'>
+              <button className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-blue-600'>
+                Lower
+              </button>
+              <button className='mx-8 px-6 py-3 text-lg text-white bg-yellow-400 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-500 '>
+                Equal
+              </button>
+              <button className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'>
+                Higher
+              </button>
+            </div>
           </div>
         </div>
       )}
