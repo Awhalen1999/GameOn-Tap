@@ -33,7 +33,7 @@ const RideTheBus = () => {
     const drawnCard = deck[randomIndex];
     setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
     setDrawnCards([drawnCard]);
-    return drawnCard; // Return the drawn card
+    return drawnCard;
   };
 
   // Function to compare the ranks of two cards
@@ -129,12 +129,6 @@ const RideTheBus = () => {
     setNumber(event.target.value);
   };
 
-  //   temp
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setGameStarted(true);
-  };
-
   const resetGame = () => {
     setGameStarted(false);
     setNumber(1);
@@ -146,9 +140,9 @@ const RideTheBus = () => {
     <div
       className={`game-container ${
         guessStatus === 'correct'
-          ? 'bg-green-500'
+          ? 'bg-green-200'
           : guessStatus === 'incorrect'
-          ? 'bg-red-500'
+          ? 'bg-red-200'
           : ''
       }`}
     >
