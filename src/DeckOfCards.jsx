@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import placeholderImage from './assets/red.png';
 
 const DeckOfCards = () => {
   const initialDeck = [
@@ -82,21 +83,50 @@ const DeckOfCards = () => {
     setDrawnCards([drawnCard]);
   };
 
+  const resetDeck = () => {
+    setDeck([...initialDeck]);
+    setDrawnCards([]);
+  };
+
+  const remainingKings = deck.filter((card) => card.includes('K')).length;
+
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100'>
       <button
         onClick={drawCard}
-        className='px-4 py-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-700'
+        className='px-4 py-2 mb-4 text-white bg-orange-500 rounded hover:bg-orange-600'
       >
         Draw a Card
       </button>
+      <button
+        onClick={resetDeck}
+        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute top-0 left-0 m-4'
+      >
+        Reset Deck
+      </button>
       <div>
-        <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>
         {drawnCards.length > 0 && (
+          <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>
+        )}
+        <h3 className='mb-4 text-xl font-bold text-gray-600 absolute top-0 m-4'>
+          Remaining Kings:{' '}
+          <span className={remainingKings === 1 ? 'text-red-500' : ''}>
+            {remainingKings}
+          </span>
+        </h3>
+        {drawnCards.length > 0 ? (
           <div>
             <img
               src={cardImages[drawnCards[0]]}
               alt={drawnCards[0]}
+              className='w-full h-full object-cover rounded shadow-lg'
+            />
+          </div>
+        ) : (
+          <div>
+            <img
+              src={placeholderImage}
+              alt='Placeholder'
               className='w-full h-full object-cover rounded shadow-lg'
             />
           </div>
