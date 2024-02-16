@@ -66,6 +66,17 @@ const RideTheBus = () => {
 
   const [guessStatus, setGuessStatus] = useState(null);
 
+  const checkGameEnd = (newDrawnCards) => {
+    if (newDrawnCards.length === parseInt(number) + 1) {
+      handleWin();
+    }
+  };
+
+  const handleWin = () => {
+    alert('You won!');
+    resetGame();
+  };
+
   const handleLowerClick = () => {
     const newCard = drawCard();
     console.log('newCard:', newCard);
@@ -74,8 +85,10 @@ const RideTheBus = () => {
       const result = compareCards(drawnCards[drawnCards.length - 1], newCard);
       console.log('result:', result);
       if (result === 'lower') {
-        setDrawnCards([...drawnCards, newCard]);
+        const newDrawnCards = [...drawnCards, newCard];
+        setDrawnCards(newDrawnCards);
         setGuessStatus('correct');
+        checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
       }
@@ -87,8 +100,10 @@ const RideTheBus = () => {
     if (newCard && drawnCards.length > 0) {
       const result = compareCards(drawnCards[drawnCards.length - 1], newCard);
       if (result === 'equal') {
-        setDrawnCards([...drawnCards, newCard]);
+        const newDrawnCards = [...drawnCards, newCard];
+        setDrawnCards(newDrawnCards);
         setGuessStatus('correct');
+        checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
       }
@@ -100,8 +115,10 @@ const RideTheBus = () => {
     if (newCard && drawnCards.length > 0) {
       const result = compareCards(drawnCards[drawnCards.length - 1], newCard);
       if (result === 'higher') {
-        setDrawnCards([...drawnCards, newCard]);
+        const newDrawnCards = [...drawnCards, newCard];
+        setDrawnCards(newDrawnCards);
         setGuessStatus('correct');
+        checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
       }
