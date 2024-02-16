@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import placeholderCard from './assets/red.png';
+import initialDeck from './DeckOfCards.jsx';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState('');
   const [gameStarted, setGameStarted] = useState(false);
+  const [deck, setDeck] = useState([...initialDeck]);
+  const [drawnCards, setDrawnCards] = useState([]);
+  const [cardImages, setCardImages] = useState({});
+
+  // Load card images
+  useEffect(() => {
+    const loadImages = async () => {
+      let images = {};
+      for (let card of initialDeck) {
+        images[card] = (await import(`./assets/${card}.png`)).default;
+      }
+      setCardImages(images);
+    };
+    loadImages();
+  }, []);
+
+  // Draw card function
+  const drawCard = () => {
+    if (deck.length === 0) {
+      alert('No more cards in the deck!');
+      return;
+    }
+    const randomIndex = Math.floor(Math.random() * deck.length);
+    const drawnCard = deck[randomIndex];
+    setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
+    setDrawnCards([drawnCard]);
+  };
 
   const handleChange = (event) => {
     setNumber(event.target.value);
