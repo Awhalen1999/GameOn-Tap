@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import placeholderImage from './assets/red.png';
+import rules from './Text';
 
 const DeckOfCards = () => {
   const initialDeck = [
@@ -91,7 +92,7 @@ const DeckOfCards = () => {
   const remainingKings = deck.filter((card) => card.includes('K')).length;
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100'>
+    <div className='flex flex-col items-center justify-center h-screen bg-gray-100'>
       <button
         onClick={drawCard}
         className='px-4 py-2 mb-4 text-white bg-orange-500 rounded hover:bg-orange-600'
@@ -104,31 +105,43 @@ const DeckOfCards = () => {
       >
         Reset Deck
       </button>
-      <div>
-        {drawnCards.length > 0 && (
-          <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>
-        )}
-        <h3 className='mb-4 text-xl font-bold text-gray-600 absolute top-0 m-4'>
-          Remaining Kings:{' '}
-          <span className={remainingKings === 1 ? 'text-red-500' : ''}>
-            {remainingKings}
-          </span>
-        </h3>
+      {drawnCards.length > 0 && (
+        <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>
+      )}
+      <h3 className='mb-4 text-xl font-bold text-gray-600 absolute top-0 m-4'>
+        Remaining Kings:{' '}
+        <span className={remainingKings === 1 ? 'text-red-500' : ''}>
+          {remainingKings}
+        </span>
+      </h3>
+      <div className='grid grid-cols-3 gap-4 items-center justify-items-center'>
+        {/* Card container */}
         {drawnCards.length > 0 ? (
-          <div>
+          <div className='col-start-2'>
             <img
               src={cardImages[drawnCards[0]]}
               alt={drawnCards[0]}
-              className='w-full h-full object-cover rounded shadow-lg'
+              className='w-auto h-100 object-contain rounded shadow-lg'
             />
           </div>
         ) : (
-          <div>
+          <div className='col-start-2'>
             <img
               src={placeholderImage}
               alt='Placeholder'
-              className='w-full h-full object-cover rounded shadow-lg'
+              className='w-auto h-100 object-contain rounded shadow-lg'
             />
+          </div>
+        )}
+        {/* Rule container */}
+        {drawnCards.length > 0 && (
+          <div className='w-64 h-auto p-4 bg-white rounded shadow-lg ml-4 col-start-3'>
+            <h3 className='text-lg font-bold text-gray-700'>
+              {rules[drawnCards[0].slice(0, -1)].title}
+            </h3>
+            <p className='mt-2 text-gray-600'>
+              {rules[drawnCards[0].slice(0, -1)].description}
+            </p>
           </div>
         )}
       </div>
