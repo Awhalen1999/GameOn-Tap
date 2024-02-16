@@ -1,6 +1,5 @@
 import React from 'react';
-import DeckOfCards from './DeckOfCards.jsx';
-// test
+import DeckOfCards from './KingsCup.jsx';
 
 const App = () => {
   return (
