@@ -1,3 +1,7 @@
+// remove console logs when done
+// add colors for input numbers 1-2-3 blue 4-5 yellow 6-7 red
+// add more card slots
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import placeholderCard from './assets/red.png';
