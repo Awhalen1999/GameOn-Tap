@@ -1,11 +1,19 @@
 import React from 'react';
-import DeckOfCards from './KingsCup.jsx';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './HomePage.jsx';
+import KingsCup from './KingsCup.jsx';
 
 const App = () => {
   return (
-    <div>
-      <DeckOfCards />
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path='/' element={<HomePage />} exact />
+          <Route path='/KingsCup' element={<KingsCup />} />
+          {/* Add routes */}
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

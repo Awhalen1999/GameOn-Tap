@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import placeholderImage from './assets/red.png';
 import rules from './Text';
 
-// re-add rule for ace of spades
-
-const DeckOfCards = () => {
+const KingsCup = () => {
   const initialDeck = [
     '2H',
     '3H',
@@ -106,10 +105,17 @@ const DeckOfCards = () => {
       {/* Reset Deck button */}
       <button
         onClick={resetDeck}
-        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute top-0 left-0 m-4'
+        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute top-0 right-0 m-4'
       >
         Reset Deck
       </button>
+      {/* Link to home page button */}
+      <Link
+        to='/'
+        className='px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 absolute top-0 left-0 m-4'
+      >
+        Return to Home
+      </Link>
       {/* Drawn Card title */}
       {drawnCards.length > 0 && (
         <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>
@@ -145,10 +151,14 @@ const DeckOfCards = () => {
         {drawnCards.length > 0 && (
           <div className='w-64 h-auto p-4 bg-white rounded shadow-lg ml-4 col-start-3'>
             <h3 className='text-lg font-bold text-gray-700'>
-              {rules[drawnCards[0].slice(0, -1)].title}
+              {drawnCards[0] === 'AS'
+                ? rules['AS'].title
+                : rules[drawnCards[0].slice(0, -1)].title}
             </h3>
             <p className='mt-2 text-gray-600'>
-              {rules[drawnCards[0].slice(0, -1)].description}
+              {drawnCards[0] === 'AS'
+                ? rules['AS'].description
+                : rules[drawnCards[0].slice(0, -1)].description}
             </p>
           </div>
         )}
@@ -157,4 +167,4 @@ const DeckOfCards = () => {
   );
 };
 
-export default DeckOfCards;
+export default KingsCup;
