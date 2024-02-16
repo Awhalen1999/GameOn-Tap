@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import placeholderImage from './assets/red.png';
+import placeholderCard from './assets/red.png';
 import rules from './Text';
 import initialDeck from './DeckOfCards.jsx';
 
@@ -87,7 +87,7 @@ const KingsCup = () => {
         ) : (
           <div className='col-start-2'>
             <img
-              src={placeholderImage}
+              src={placeholderCard}
               alt='Placeholder'
               className='w-auto h-100 object-contain rounded shadow-lg'
             />
