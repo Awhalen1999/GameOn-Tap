@@ -4,6 +4,7 @@ import HomePage from './components/HomePage.jsx';
 import KingsCup from './components/KingsCup.jsx';
 import RideTheBus from './components/RideTheBus.jsx';
 import Trivia from './components/Trivia.jsx';
+import Snap from './components/Snap.jsx';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path='/KingsCup' element={<KingsCup />} />
           <Route path='/RideTheBus' element={<RideTheBus />} />
           <Route path='/Trivia' element={<Trivia />} />
+          <Route path='/Snap' element={<Snap />} />
           {/* Add routes */}
         </Routes>
       </div>
