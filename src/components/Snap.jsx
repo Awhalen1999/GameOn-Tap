@@ -100,22 +100,22 @@ const Snap = () => {
       </Link>
       {/* Card container */}
       {drawnCards.length > 0 ? (
-        <div>
-          <img
-            src={cardImages[drawnCards[0]]}
-            alt={drawnCards[0]}
-            className='w-auto h-100 object-contain rounded shadow-lg'
-          />
+        <div className='relative flex items-center justify-center h-screen'>
           {previousCard && (
             <img
               src={cardImages[previousCard]}
               alt={previousCard}
-              className='w-auto h-100 object-contain rounded shadow-lg'
+              className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute top-24 z-10 filter brightness-75'
             />
           )}
+          <img
+            src={cardImages[drawnCards[0]]}
+            alt={drawnCards[0]}
+            className='w-auto h-100 object-contain rounded shadow-lg z-20'
+          />
           {/* Display "SNAP!" if the new card is the same as the previous card */}
           {drawnCards[0].slice(0, -1) === previousCardRank && (
-            <p className='text-4xl'>SNAP!</p>
+            <p className='text-4xl absolute bottom-0 mb-10'>SNAP!</p>
           )}
         </div>
       ) : (
