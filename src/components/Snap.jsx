@@ -6,11 +6,12 @@ import placeholderCard from '../assets/red.png';
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
   const [drawnCards, setDrawnCards] = useState([]);
+  const [previousCardRank, setPreviousCardRank] = useState(null);
   const [cardImages, setCardImages] = useState({});
-  const [delay, setDelay] = useState(1000); // Delay in milliseconds
-  const [loading, setLoading] = useState(false); // Loading state
-  const [progress, setProgress] = useState(0); // Progress state
-  const intervalRef = useRef(); // Reference to store interval ID
+  const [delay, setDelay] = useState(1000);
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef();
 
   useEffect(() => {
     const loadImages = async () => {
@@ -38,6 +39,7 @@ const Snap = () => {
       const randomIndex = Math.floor(Math.random() * deck.length);
       const drawnCard = deck[randomIndex];
       setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
+      setPreviousCardRank(drawnCards[0] && drawnCards[0].slice(0, -1));
       setDrawnCards([drawnCard]);
       setLoading(false);
     }, delay);
@@ -46,6 +48,7 @@ const Snap = () => {
   const resetDeck = () => {
     setDeck([...initialDeck]);
     setDrawnCards([]);
+    setPreviousCardRank(null);
   };
 
   return (
@@ -99,6 +102,10 @@ const Snap = () => {
             alt={drawnCards[0]}
             className='w-auto h-100 object-contain rounded shadow-lg'
           />
+          {/* Display "SNAP!" if the new card is the same as the previous card */}
+          {drawnCards[0].slice(0, -1) === previousCardRank && (
+            <p className='text-4xl'>SNAP!</p>
+          )}
         </div>
       ) : (
         <div>
