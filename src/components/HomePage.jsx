@@ -5,7 +5,7 @@ const HomePage = () => {
   const games = [
     { name: 'Kings Cup', route: '/KingsCup' },
     { name: 'Ride The Bus', route: '/RideTheBus' },
-    { name: 'Trivia', route: '/TriviaSetup' },
+    { name: 'Trivia', route: '/Trivia' },
     // Add more games
   ];
 
