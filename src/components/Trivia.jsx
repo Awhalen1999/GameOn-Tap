@@ -11,6 +11,30 @@ function TriviaGame() {
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+  const handleTriviaAnswer = (answer) => {
+    setSelectedAnswer(answer);
+    const currentQuestion = questions[currentQuestionIndex];
+
+    if (answer === currentQuestion.correct_answer) {
+      setScore(score + 1);
+    }
+
+    setTimeout(() => {
+      setSelectedAnswer(null);
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        // Game Over
+        alert(`Game Over! Your score: ${score}/${questions.length}`);
+        // Reset game
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setGameStarted(false);
+      }
+    }, 1000);
+  };
 
   useEffect(() => {
     fetchCategories();
@@ -180,15 +204,22 @@ function TriviaGame() {
           {currentQuestion.incorrect_answers.map((answer, index) => (
             <button
               key={index}
-              onClick={() => handleAnswer(answer)}
-              className='bg-blue-500 text-white px-4 py-2 rounded'
+              onClick={() => handleTriviaAnswer(answer)}
+              className={`px-4 py-2 rounded ${
+                selectedAnswer === answer &&
+                answer !== currentQuestion.correct_answer
+                  ? 'bg-red-500'
+                  : 'bg-blue-500'
+              } text-white`}
             >
               {answer}
             </button>
           ))}
           <button
-            onClick={() => handleAnswer(currentQuestion.correct_answer)}
-            className='bg-blue-500 text-white px-4 py-2 rounded'
+            onClick={() => handleTriviaAnswer(currentQuestion.correct_answer)}
+            className={`px-4 py-2 rounded ${
+              selectedAnswer ? 'bg-green-500' : 'bg-blue-500'
+            } text-white`}
           >
             {currentQuestion.correct_answer}
           </button>
