@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function TriviaGame() {
   const [amount, setAmount] = useState(5);
@@ -10,6 +10,21 @@ function TriviaGame() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('https://opentdb.com/api_category.php');
+      const data = await response.json();
+      setCategories(data.trivia_categories);
+    } catch (error) {
+      console.error('Error fetching trivia categories:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -78,6 +93,59 @@ function TriviaGame() {
           Return to Home
         </Link>
         <h1 className='text-2xl font-bold mb-4'>Trivia Game Setup</h1>
+        <div className='mb-4'>
+          <label className='block mb-2'>
+            Number of Questions:
+            <input
+              type='number'
+              value={amount}
+              onChange={(e) => setAmount(parseInt(e.target.value))}
+              className='border-gray-400 border w-full p-2 rounded'
+              min={1}
+              max={50}
+            />
+          </label>
+          <label className='block mb-2'>
+            Select Category:
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className='border-gray-400 border w-full p-2 rounded'
+            >
+              <option value=''>Any Category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className='block mb-2'>
+            Select Difficulty:
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className='border-gray-400 border w-full p-2 rounded'
+            >
+              <option value=''>Any Difficulty</option>
+              <option value='easy'>Easy</option>
+              <option value='medium'>Medium</option>
+              <option value='hard'>Hard</option>
+            </select>
+          </label>
+          <label className='block mb-2'>
+            Select Type:
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className='border-gray-400 border w-full p-2 rounded'
+            >
+              <option value=''>Any Type</option>
+              <option value='multiple'>Multiple Choice</option>
+              <option value='boolean'>True/False</option>
+            </select>
+          </label>
+        </div>
         <button
           onClick={handleStartGame}
           className='bg-blue-500 text-white px-4 py-2 rounded'
