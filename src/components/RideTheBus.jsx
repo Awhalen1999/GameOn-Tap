@@ -1,5 +1,5 @@
 // remove console logs when done
-// add colors for input numbers 1-2-3 blue 4-5 yellow 6-7 red
+// continue cleaning up input section
 // add more card slots
 
 import React, { useState, useEffect } from 'react';
@@ -38,6 +38,18 @@ const RideTheBus = () => {
     setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
     setDrawnCards([drawnCard]);
     return drawnCard;
+  };
+
+  const getColorClass = (number) => {
+    if (number >= 1 && number <= 3) {
+      return 'text-blue-600';
+    } else if (number >= 4 && number <= 5) {
+      return 'text-yellow-600';
+    } else if (number >= 6 && number <= 7) {
+      return 'text-red-600';
+    } else {
+      return 'text-black';
+    }
   };
 
   // Function to compare the ranks of two cards
@@ -179,20 +191,38 @@ const RideTheBus = () => {
             }}
             className='flex flex-col items-center justify-center flex-grow'
           >
-            <label className='mb-4 text-lg'>
+            <label className='mb-4 text-2xl font-extrabold flex items-center'>
               Choose a number between 1 and 7:
-              <input
-                type='number'
-                min='1'
-                max='7'
-                value={number}
-                onChange={handleChange}
-                className='ml-2 border-2 border-gray-300 rounded-md p-1'
-              />
+              <div className='flex items-center ml-4'>
+                <button
+                  type='button'
+                  onClick={() => setNumber((prev) => Math.max(prev - 1, 1))}
+                  className='bg-gray-200 p-2 rounded-l-md'
+                >
+                  -
+                </button>
+                <input
+                  type='number'
+                  min='1'
+                  max='7'
+                  value={number}
+                  onChange={handleChange}
+                  className={`mx-0 w-12 text-center text-xl font-bold ${getColorClass(
+                    number
+                  )}`}
+                />
+                <button
+                  type='button'
+                  onClick={() => setNumber((prev) => Math.min(prev + 1, 7))}
+                  className='bg-gray-200 p-2 rounded-r-md'
+                >
+                  +
+                </button>
+              </div>
             </label>
             <button
               type='submit'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xl'
             >
               Start Game
             </button>

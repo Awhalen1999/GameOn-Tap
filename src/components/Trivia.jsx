@@ -1,4 +1,8 @@
 // remove post game alert
+// limit # of questions
+// add reset game button that returns to setup
+// add text to text.js file
+// add quick start button that starts game with default settings
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
