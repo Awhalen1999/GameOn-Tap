@@ -1,7 +1,10 @@
+// remove post game alert
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function TriviaGame() {
+  // State variables
   const [amount, setAmount] = useState(5);
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
@@ -13,6 +16,7 @@ function TriviaGame() {
   const [categories, setCategories] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
+  // handle user's answer
   const handleTriviaAnswer = (answer) => {
     setSelectedAnswer(answer);
     const currentQuestion = questions[currentQuestionIndex];
@@ -36,10 +40,12 @@ function TriviaGame() {
     }, 1000);
   };
 
+  // Fetch categories
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  // Function to fetch categories
   const fetchCategories = async () => {
     try {
       const response = await fetch('https://opentdb.com/api_category.php');
@@ -50,6 +56,7 @@ function TriviaGame() {
     }
   };
 
+  // Fetch questions when game starts
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -66,6 +73,7 @@ function TriviaGame() {
     }
   }, [gameStarted]);
 
+  // Function to build API URL
   const buildApiUrl = () => {
     let apiUrl = `https://opentdb.com/api.php?amount=${amount}`;
 
@@ -84,27 +92,9 @@ function TriviaGame() {
     return apiUrl;
   };
 
+  // Function to start the game
   const handleStartGame = () => {
     setGameStarted(true);
-  };
-
-  const handleAnswer = (answer) => {
-    const currentQuestion = questions[currentQuestionIndex];
-
-    if (answer === currentQuestion.correct_answer) {
-      setScore(score + 1);
-    }
-
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      // Game Over
-      alert(`Game Over! Your score: ${score}/${questions.length}`);
-      // Reset game
-      setCurrentQuestionIndex(0);
-      setScore(0);
-      setGameStarted(false);
-    }
   };
 
   if (!gameStarted) {
