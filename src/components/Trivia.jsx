@@ -25,8 +25,10 @@ function TriviaGame() {
     setSelectedAnswer(answer);
     const currentQuestion = questions[currentQuestionIndex];
 
+    let newScore = score;
     if (answer === currentQuestion.correct_answer) {
-      setScore(score + 1);
+      newScore = score + 1;
+      setScore(newScore);
     }
 
     setTimeout(() => {
@@ -35,7 +37,7 @@ function TriviaGame() {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
         // Game Over
-        alert(`Game Over! Your score: ${score}/${questions.length}`);
+        alert(`Game Over! Your score: ${newScore}/${questions.length}`);
         // Reset game
         setCurrentQuestionIndex(0);
         setScore(0);
