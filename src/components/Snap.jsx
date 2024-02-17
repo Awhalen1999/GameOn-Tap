@@ -12,6 +12,7 @@ const Snap = () => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef();
+  const [previousCard, setPreviousCard] = useState(null);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -39,7 +40,10 @@ const Snap = () => {
       const randomIndex = Math.floor(Math.random() * deck.length);
       const drawnCard = deck[randomIndex];
       setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
+      // Remember the rank of the previous card
+      // The rank is extracted by removing the last character from the card string
       setPreviousCardRank(drawnCards[0] && drawnCards[0].slice(0, -1));
+      setPreviousCard(drawnCards[0]); // Remember the previous card
       setDrawnCards([drawnCard]);
       setLoading(false);
     }, delay);
@@ -75,9 +79,9 @@ const Snap = () => {
         Flip a Card
       </button>
       {/* Loading message */}
-      {loading && <p>Flipping card...</p>}
+      {loading && delay > 175 && <p>Flipping card...</p>}
       {/* Progress bar */}
-      {loading && (
+      {loading && delay > 175 && (
         <progress value={progress} max={delay} className='w-full h-2 mb-4' />
       )}
       {/* Reset Deck button */}
@@ -102,6 +106,13 @@ const Snap = () => {
             alt={drawnCards[0]}
             className='w-auto h-100 object-contain rounded shadow-lg'
           />
+          {previousCard && (
+            <img
+              src={cardImages[previousCard]}
+              alt={previousCard}
+              className='w-auto h-100 object-contain rounded shadow-lg'
+            />
+          )}
           {/* Display "SNAP!" if the new card is the same as the previous card */}
           {drawnCards[0].slice(0, -1) === previousCardRank && (
             <p className='text-4xl'>SNAP!</p>
