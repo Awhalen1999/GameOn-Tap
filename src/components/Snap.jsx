@@ -1,3 +1,6 @@
+// todo: change page heights form the card element
+// todo: add start game element (set the delay to 0 automatically for this to work)
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import initialDeck from './DeckOfCards';
