@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import placeholderCard from './assets/red.png';
-import rules from './Text';
+import placeholderCard from '../assets/red.png';
+import rules from '../Text.js';
 import initialDeck from './DeckOfCards.jsx';
 
 const KingsCup = () => {
@@ -13,7 +13,7 @@ const KingsCup = () => {
     const loadImages = async () => {
       let images = {};
       for (let card of initialDeck) {
-        images[card] = (await import(`./assets/${card}.png`)).default;
+        images[card] = (await import(`../assets/${card}.png`)).default;
       }
       setCardImages(images);
     };
