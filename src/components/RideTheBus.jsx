@@ -41,11 +41,11 @@ const RideTheBus = () => {
   };
 
   const getColorClass = (number) => {
-    if (number >= 1 && number <= 3) {
+    if (number >= 1 && number <= 4) {
       return 'text-blue-600';
-    } else if (number >= 4 && number <= 5) {
+    } else if (number >= 5 && number <= 6) {
       return 'text-yellow-600';
-    } else if (number >= 6 && number <= 7) {
+    } else if (number >= 7 && number <= 8) {
       return 'text-red-600';
     } else {
       return 'text-black';
@@ -192,7 +192,7 @@ const RideTheBus = () => {
             className='flex flex-col items-center justify-center flex-grow'
           >
             <label className='mb-4 text-2xl font-extrabold flex items-center'>
-              Choose a number between 1 and 7:
+              Choose a number between 1 and 8:
               <div className='flex items-center ml-4'>
                 <button
                   type='button'
@@ -204,7 +204,7 @@ const RideTheBus = () => {
                 <input
                   type='number'
                   min='1'
-                  max='7'
+                  max='8'
                   value={number}
                   onChange={handleChange}
                   className={`mx-0 w-12 text-center text-xl font-bold ${getColorClass(
@@ -213,7 +213,7 @@ const RideTheBus = () => {
                 />
                 <button
                   type='button'
-                  onClick={() => setNumber((prev) => Math.min(prev + 1, 7))}
+                  onClick={() => setNumber((prev) => Math.min(prev + 1, 8))}
                   className='bg-gray-200 p-2 rounded-r-md'
                 >
                   +

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import placeholderCard from '../assets/red.png';
-import rules from '../Text.js';
+import rules from './Rules.js';
 import initialDeck from './DeckOfCards.jsx';
 
 const KingsCup = () => {
