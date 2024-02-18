@@ -8,3 +8,5 @@ const promptsList = [
   'Placeholder prompt 5.',
   // Add more prompts here
 ];
+
+export default promptsList;
