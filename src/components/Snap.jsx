@@ -2,6 +2,8 @@
 // todo: add start game element (set the delay to 0 automatically for this to work)
 // todo: auto refresh deck button
 // todo: move/style progress bar and style loading text
+// todo: temp remove progress bar and loading text and change to button color
+// todo: disable button when loading
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';

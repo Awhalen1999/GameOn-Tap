@@ -60,21 +60,27 @@ const PromptDash = () => {
         />
       </div>
 
-      {/* Draw Prompt button section */}
-      <button
-        onClick={drawPrompt}
-        disabled={loading && delay > 175}
-        className={`mx-auto block text-white px-8 py-4 rounded mt-32 ${
-          loading && delay > 175
-            ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
-            : 'bg-blue-500 hover:bg-blue-600'
-        }`}
-      >
-        Draw Prompt
-      </button>
+      <div className='flex flex-col items-center justify-center'>
+        {/* Draw Prompt button section */}
+        <button
+          onClick={drawPrompt}
+          disabled={loading && delay > 175}
+          className={`mx-auto block text-white px-8 py-4 rounded mt-32 ${
+            loading && delay > 175
+              ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-600'
+          }`}
+        >
+          Draw Prompt
+        </button>
 
-      {/* Display prompt section */}
-      {prompt && <p className='text-center my-4 mt-8'>{prompt}</p>}
+        {/* Display prompt section */}
+        {prompt && (
+          <div className='w-1/4 h-auto bg-blue-200 rounded p-4 flex items-center justify-center mt-4'>
+            <p className='text-center'>{prompt}</p>
+          </div>
+        )}
+      </div>
 
       {/* Reset Prompts button section */}
       <button
