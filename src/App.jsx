@@ -6,6 +6,7 @@ import RideTheBus from './components/RideTheBus.jsx';
 import Snap from './components/Snap.jsx';
 import Trivia from './components/Trivia.jsx';
 import PromptDash from './components/PromptDash.jsx';
+import DiceRoll from './components/DiceRoll.jsx';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path='/Snap' element={<Snap />} />
           <Route path='/Trivia' element={<Trivia />} />
           <Route path='/PromptDash' element={<PromptDash />} />
+          <Route path='/DiceRoll' element={<DiceRoll />} />
           {/* Add routes */}
         </Routes>
       </div>
