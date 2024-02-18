@@ -1,5 +1,7 @@
 // todo: change page heights form the card element
 // todo: add start game element (set the delay to 0 automatically for this to work)
+// todo: auto refresh deck button
+// todo: move/style progress bar and style loading text
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -43,10 +45,8 @@ const Snap = () => {
       const randomIndex = Math.floor(Math.random() * deck.length);
       const drawnCard = deck[randomIndex];
       setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
-      // Remember the rank of the previous card
-      // The rank is extracted by removing the last character from the card string
       setPreviousCardRank(drawnCards[0] && drawnCards[0].slice(0, -1));
-      setPreviousCard(drawnCards[0]); // Remember the previous card
+      setPreviousCard(drawnCards[0]);
       setDrawnCards([drawnCard]);
       setLoading(false);
     }, delay);
@@ -85,7 +85,7 @@ const Snap = () => {
       {loading && delay > 175 && <p>Flipping card...</p>}
       {/* Progress bar */}
       {loading && delay > 175 && (
-        <progress value={progress} max={delay} className='w-full h-2 mb-4' />
+        <progress value={progress} max={delay} className='w-3/4 h-2 mb-4' />
       )}
       {/* Reset Deck button */}
       <button
@@ -102,34 +102,38 @@ const Snap = () => {
         Return to Home
       </Link>
       {/* Card container */}
-      {drawnCards.length > 0 ? (
-        <div className='relative flex items-center justify-center h-screen'>
-          {previousCard && (
+      <div className='items-center '>
+        {drawnCards.length > 0 ? (
+          <div className='text-center'>
+            <div className='relative flex items-center justify-center'>
+              {previousCard && (
+                <img
+                  src={cardImages[previousCard]}
+                  alt={previousCard}
+                  className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute top-24 z-10 filter brightness-75'
+                />
+              )}
+              <img
+                src={cardImages[drawnCards[0]]}
+                alt={drawnCards[0]}
+                className='w-auto h-100 object-contain rounded shadow-lg z-20'
+              />
+            </div>
+            {/* Display "SNAP!" if the new card is the same as the previous card */}
+            {drawnCards[0].slice(0, -1) === previousCardRank && (
+              <p className='text-4xl mt-10'>SNAP!</p>
+            )}
+          </div>
+        ) : (
+          <div>
             <img
-              src={cardImages[previousCard]}
-              alt={previousCard}
-              className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute top-24 z-10 filter brightness-75'
+              src={placeholderCard}
+              alt='Placeholder'
+              className='w-auto h-100 object-contain rounded shadow-lg'
             />
-          )}
-          <img
-            src={cardImages[drawnCards[0]]}
-            alt={drawnCards[0]}
-            className='w-auto h-100 object-contain rounded shadow-lg z-20'
-          />
-          {/* Display "SNAP!" if the new card is the same as the previous card */}
-          {drawnCards[0].slice(0, -1) === previousCardRank && (
-            <p className='text-4xl absolute bottom-0 mb-10'>SNAP!</p>
-          )}
-        </div>
-      ) : (
-        <div>
-          <img
-            src={placeholderCard}
-            alt='Placeholder'
-            className='w-auto h-100 object-contain rounded shadow-lg'
-          />
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

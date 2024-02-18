@@ -64,6 +64,11 @@ export const rules = {
     description:
       'You may choose one of the following options: 1. Choose one player to finish their entire drink, 2. Everyone at the table takes a drink.',
   },
+  LastK: {
+    title: 'Last King',
+    description:
+      'The person who draws the last King must drink the entire King’s Cup.',
+  },
 };
 
 export default rules;

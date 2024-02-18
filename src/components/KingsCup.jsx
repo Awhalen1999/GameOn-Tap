@@ -99,11 +99,15 @@ const KingsCup = () => {
             <h3 className='text-lg font-bold text-gray-700'>
               {drawnCards[0] === 'AS'
                 ? rules['AS'].title
+                : drawnCards[0].includes('K') && remainingKings === 0
+                ? 'Last King'
                 : rules[drawnCards[0].slice(0, -1)].title}
             </h3>
             <p className='mt-2 text-gray-600'>
               {drawnCards[0] === 'AS'
                 ? rules['AS'].description
+                : drawnCards[0].includes('K') && remainingKings === 0
+                ? 'The person who draws the last King must drink the entire King’s Cup.'
                 : rules[drawnCards[0].slice(0, -1)].description}
             </p>
           </div>
