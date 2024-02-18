@@ -60,7 +60,7 @@ export const rules = {
       'Each player starts drinking at the same time as the person to their left. NO player can stop drinking until the person before them stops.',
   },
   AS: {
-    title: "Ace's Choice",
+    title: 'Ace of Spades',
     description:
       'You may choose one of the following options: 1. Choose one player to finish their entire drink, 2. Everyone at the table takes a drink.',
   },
