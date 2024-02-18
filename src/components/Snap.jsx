@@ -1,9 +1,6 @@
 // todo: change page heights form the card element
 // todo: add start game element (set the delay to 0 automatically for this to work)
 // todo: auto refresh deck button
-// todo: move/style progress bar and style loading text
-// todo: temp remove progress bar and loading text and change to button color
-// todo: disable button when loading
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -79,16 +76,15 @@ const Snap = () => {
       {/* Draw Card button */}
       <button
         onClick={drawCard}
-        className='px-6 py-3 mb-8 text-lg text-white bg-orange-500 rounded hover:bg-orange-600'
+        disabled={loading && delay > 175}
+        className={`px-6 py-3 mb-8 text-lg text-white rounded ${
+          loading && delay > 175
+            ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
+            : 'bg-orange-500 hover:bg-orange-600'
+        }`}
       >
         Flip a Card
       </button>
-      {/* Loading message */}
-      {loading && delay > 175 && <p>Flipping card...</p>}
-      {/* Progress bar */}
-      {loading && delay > 175 && (
-        <progress value={progress} max={delay} className='w-3/4 h-2 mb-4' />
-      )}
       {/* Reset Deck button */}
       <button
         onClick={resetDeck}
