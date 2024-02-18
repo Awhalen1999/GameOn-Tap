@@ -9,6 +9,7 @@ const HomePage = () => {
     { name: 'Ride The Bus', route: '/RideTheBus' },
     { name: 'Snap', route: '/Snap' },
     { name: 'Trivia', route: '/Trivia' },
+    { name: 'Prompt Dash', route: '/PromptDash' },
     // Add more games
   ];
 
