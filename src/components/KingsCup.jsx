@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import placeholderCard from '../assets/red.png';
-import rules from './KingsCupRules.js';
+import KingsCupRules from './KingsCupRules.js';
 import initialDeck from './DeckOfCards.jsx';
 
 const KingsCup = () => {
@@ -98,17 +98,17 @@ const KingsCup = () => {
           <div className='w-64 h-auto p-4 bg-white rounded shadow-lg ml-4 col-start-3'>
             <h3 className='text-lg font-bold text-gray-700'>
               {drawnCards[0] === 'AS'
-                ? rules['AS'].title
+                ? KingsCupRules['AS'].title
                 : drawnCards[0].includes('K') && remainingKings === 0
                 ? 'Last King'
-                : rules[drawnCards[0].slice(0, -1)].title}
+                : KingsCupRules[drawnCards[0].slice(0, -1)].title}
             </h3>
             <p className='mt-2 text-gray-600'>
               {drawnCards[0] === 'AS'
-                ? rules['AS'].description
+                ? KingsCupRules['AS'].description
                 : drawnCards[0].includes('K') && remainingKings === 0
                 ? 'The person who draws the last King must drink the entire King’s Cup.'
-                : rules[drawnCards[0].slice(0, -1)].description}
+                : KingsCupRules[drawnCards[0].slice(0, -1)].description}
             </p>
           </div>
         )}

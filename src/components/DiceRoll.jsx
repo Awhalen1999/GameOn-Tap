@@ -1,5 +1,8 @@
+// todo: add the roll number inside the rules box
+
 import React, { useState } from 'react';
 import {
+  FaDiceD6,
   FaDiceOne,
   FaDiceTwo,
   FaDiceThree,
@@ -7,41 +10,79 @@ import {
   FaDiceFive,
   FaDiceSix,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import DiceRollRules from './DiceRollRules';
 
-function DiceRoller() {
-  const [dice1, setDice1] = useState(1); // Initial value of the first dice
-  const [dice2, setDice2] = useState(1); // Initial value of the second dice
-  const [total, setTotal] = useState(2); // Initial value of the total
+function DiceRoll() {
+  const [dice1, setDice1] = useState(null);
+  const [dice2, setDice2] = useState(null);
+  const [total, setTotal] = useState(null);
+
+  const diceIcons = [
+    null,
+    <FaDiceOne />,
+    <FaDiceTwo />,
+    <FaDiceThree />,
+    <FaDiceFour />,
+    <FaDiceFive />,
+    <FaDiceSix />,
+  ];
 
   const rollDice = () => {
-    // Generate a random number between 1 and 6 for each dice
     const randomNumber1 = Math.floor(Math.random() * 6) + 1;
     const randomNumber2 = Math.floor(Math.random() * 6) + 1;
 
-    // Update the state with the new values
     setDice1(randomNumber1);
     setDice2(randomNumber2);
     setTotal(randomNumber1 + randomNumber2);
   };
 
   return (
-    <div>
-      <div>
-        <FaDiceOne size={50} style={{ marginRight: '10px' }} />
-        <FaDiceTwo size={50} style={{ marginRight: '10px' }} />
-        <FaDiceThree size={50} style={{ marginRight: '10px' }} />
-        <FaDiceFour size={50} style={{ marginRight: '10px' }} />
-        <FaDiceFive size={50} style={{ marginRight: '10px' }} />
-        <FaDiceSix size={50} style={{ marginRight: '10px' }} />
+    <div className='flex flex-col items-center justify-center h-screen'>
+      {/* home button */}
+      <Link
+        to='/'
+        className='absolute top-0 left-0 m-4 p-2 bg-blue-500 text-white rounded'
+      >
+        Return to Home
+      </Link>
+      {/* dice */}
+      <div className='flex justify-center mb-8'>
+        {dice1 !== null ? (
+          React.cloneElement(diceIcons[dice1], { size: 96 })
+        ) : (
+          <FaDiceD6 size={96} />
+        )}
+        {dice2 !== null ? (
+          React.cloneElement(diceIcons[dice2], { size: 96 })
+        ) : (
+          <FaDiceD6 size={96} />
+        )}
       </div>
-      <button onClick={rollDice}>Roll Dice</button>
+      {/* dice roll button */}
+      <button
+        onClick={rollDice}
+        className='mb-8 py-2 px-4 bg-blue-500 text-white rounded'
+      >
+        Roll Dice
+      </button>
+      {/* dice roll rules */}
       <div>
-        <p>Dice 1: {dice1}</p>
-        <p>Dice 2: {dice2}</p>
-        <p>Total: {total}</p>
+        {total !== null ? (
+          <div className='bg-blue-200 rounded text-center p-4'>
+            <h3 className='text-lg font-bold text-gray-700'>
+              {DiceRollRules[total].title}
+            </h3>
+            <p className='mt-2 text-gray-600'>
+              {DiceRollRules[total].description}
+            </p>
+          </div>
+        ) : (
+          <p>Click to roll the dice.</p>
+        )}
       </div>
     </div>
   );
 }
 
-export default DiceRoller;
+export default DiceRoll;

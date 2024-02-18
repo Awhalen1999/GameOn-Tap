@@ -1,4 +1,4 @@
-export const rules = {
+export const KingsCupRules = {
   2: {
     title: 'You',
     description: 'Whoever draws this can choose anyone to take a drink.',
@@ -71,4 +71,4 @@ export const rules = {
   },
 };
 
-export default rules;
+export default KingsCupRules;
