@@ -1,3 +1,8 @@
+// todo: fix the rotation of the wheel
+// todo: change text for rule names
+// todo: add items to wheel
+// todo: remove pop up alert and add a container below button for rule title and desc
+
 import React from 'react';
 import './DrinkRoulette.css';
 
