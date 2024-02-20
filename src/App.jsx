@@ -7,7 +7,7 @@ import Snap from './components/Snap.jsx';
 import Trivia from './components/Trivia.jsx';
 import PromptDash from './components/PromptDash.jsx';
 import DiceRoll from './components/DiceRoll.jsx';
-import DrinkRoulette from './components/DrinkRoulette.jsx';
+import DrinkRoulette from './components/DrinkRoulette/DrinkRoulette.jsx';
 
 const App = () => {
   return (
