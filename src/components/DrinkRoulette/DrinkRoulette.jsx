@@ -8,7 +8,9 @@ class DrinkRoulette extends React.Component {
 
   startRotation = () => {
     this.setState({ name: 'circle start-rotate' });
-    setTimeout(() => this.setState({ name: 'circle' }), 2000);
+    setTimeout(() => {
+      this.setState({ name: 'circle start-rotate stop-rotate' });
+    }, Math.floor(Math.random() * 10000) + 1);
   };
 
   render() {
