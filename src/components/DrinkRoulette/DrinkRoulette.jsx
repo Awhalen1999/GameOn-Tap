@@ -3,21 +3,26 @@ import './DrinkRoulette.css';
 
 class DrinkRoulette extends React.Component {
   state = {
-    name: 'circle',
+    rotation: 0,
   };
 
   startRotation = () => {
-    this.setState({ name: 'circle start-rotate' });
+    const totalDegrees = Math.floor(Math.random() * 3600) + 3600;
+    this.setState({ rotation: totalDegrees });
     setTimeout(() => {
-      this.setState({ name: 'circle start-rotate stop-rotate' });
-    }, Math.floor(Math.random() * 10000) + 1);
+      const result = 13 - Math.ceil((totalDegrees % 360) / 30);
+      alert(`The spin result is: ${result}`);
+    }, 5000);
   };
 
   render() {
     return (
       <div>
         <div className='arrow'></div>
-        <ul className={this.state.name}>
+        <ul
+          className='circle'
+          style={{ transform: `rotate(${this.state.rotation}deg)` }}
+        >
           <li>
             <div className='text'>1</div>
           </li>

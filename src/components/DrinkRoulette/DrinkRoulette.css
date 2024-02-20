@@ -1,3 +1,5 @@
+/* todo: change colors */
+
 li:first-child .text {
   background-color: violet;
 }
@@ -95,82 +97,71 @@ li:nth-child(12) {
 }
 
 li {
+  height: 50%;
   overflow: hidden;
   position: absolute;
-  top: 0;
   right: 0;
-  width: 50%;
-  height: 50%;
+  top: 0;
   transform-origin: 0% 100%;
+  width: 50%;
 }
 
 .text {
-  position: absolute;
-  left: -100%;
-  width: 200%;
-  height: 200%;
-  text-align: center;
-  display: block;
-  transform: skewY(60deg) rotate(15deg);
-  padding-top: 20px;
   cursor: pointer;
-  font-weight: bold;
+  display: block;
   font-size: 18px;
+  font-weight: bold;
+  height: 200%;
+  left: -100%;
+  padding-top: 20px;
+  position: absolute;
+  text-align: center;
+  transform: skewY(60deg) rotate(15deg);
+  width: 200%;
 }
 
 .arrow {
-  width: 0;
-  height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-top: 50px solid black;
-  position: absolute;
+  height: 0;
   left: 50%;
+  position: absolute;
   top: -20px;
+  transform: translateX(-50%);
+  width: 0;
   z-index: 1;
 }
 
+.circle {
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 25em;
+  list-style: none;
+  margin: 1em auto;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  transition: transform 5s;
+  width: 25em;
+}
+
 .spin-button {
-  position: absolute;
-  left: 40%;
-  width: 120px;
-  height: 40px;
   background-color: #76d2f9;
   border-radius: 30px;
-  margin-top: 20px;
-  cursor: pointer;
-  outline: none;
   color: black;
+  cursor: pointer;
   font-size: 20px;
   font-weight: bold;
+  height: 40px;
+  left: 50%;
+  margin-top: 20px;
+  outline: none;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 120px;
 }
 
 .spin-button:hover {
   background-color: #5e9fe2;
-}
-
-.circle {
-  width: 25em;
-  height: 25em;
-  border: 1px solid black;
-  position: relative;
-  padding: 0;
-  margin: 1em auto;
-  border-radius: 50%;
-  list-style: none;
-  overflow: hidden;
-}
-
-.start-rotate {
-  animation: start-rotate 1s linear infinite;
-}
-
-@keyframes start-rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.stop-rotate {
-  animation-play-state: paused;
 }
