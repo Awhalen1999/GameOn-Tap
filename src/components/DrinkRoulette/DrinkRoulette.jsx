@@ -1,15 +1,29 @@
-// todo: fix the rotation of the wheel
-// todo: change text for rule names
-// todo: add items to wheel
 // todo: remove pop up alert and add a container below button for rule title and desc
 
 import React from 'react';
 import './DrinkRoulette.css';
+import { TiArrowDownThick } from 'react-icons/ti';
+import { DrinkRouletteRules } from './DrinkRouletteRules';
 
 class DrinkRoulette extends React.Component {
   state = {
     rotation: 0,
   };
+
+  itemNames = [
+    'Straight Shot',
+    'Choice',
+    'Water Break',
+    'Mystery',
+    'Mix It Up',
+    'Target',
+    'Middle',
+    'Bartender',
+    'Take or Add',
+    'Generosity',
+    'Right Hand',
+    'Spinner Drinks',
+  ];
 
   startRotation = () => {
     const totalDegrees =
@@ -17,14 +31,17 @@ class DrinkRoulette extends React.Component {
     this.setState({ rotation: totalDegrees });
     setTimeout(() => {
       const result = 13 - Math.ceil((totalDegrees % 360) / 30);
-      alert(`The spin result is: ${result}`);
+      // Use the result as an index to access the corresponding item name
+      alert(`The spin result is: ${this.itemNames[result - 1]}`);
     }, 3500); // Reduced spin time to 4 seconds
   };
 
   render() {
     return (
       <div>
-        <div className='arrow'></div>
+        <div className='arrow'>
+          <TiArrowDownThick size={38} />
+        </div>
         <ul
           className='circle'
           style={{ transform: `rotate(${this.state.rotation}deg)` }}
@@ -69,7 +86,6 @@ class DrinkRoulette extends React.Component {
         <button className='spin-button' onClick={this.startRotation}>
           SPIN
         </button>
-        <div className='center-circle'></div>
       </div>
     );
   }

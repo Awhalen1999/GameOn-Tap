@@ -97,26 +97,26 @@
 }
 
 .circle {
-  border: 1px solid black;
+  border: 3px solid black;
   border-radius: 50%;
-  height: 35em; /* increased from 25em */
+  height: 35em;
   list-style: none;
   margin: 1em auto;
   overflow: hidden;
   padding: 0;
   position: relative;
   transition: transform 3.5s;
-  width: 35em; /* increased from 25em */
+  width: 35em;
 }
 
 .item {
-  height: 50%; /* adjusted back to 50% */
+  height: 50%;
   overflow: hidden;
   position: absolute;
   right: 0;
   top: 0;
   transform-origin: 0% 100%;
-  width: 50%; /* adjusted back to 50% */
+  width: 50%;
 }
 
 .text {
@@ -124,25 +124,20 @@
   display: block;
   font-size: 16px;
   font-weight: bold;
-  height: 200%; /* adjusted back to 200% */
-  left: -100%; /* adjusted back to -100% */
+  height: 200%;
+  left: -100%;
   padding-top: 20px;
   position: absolute;
   text-align: center;
   transform: skewY(60deg) rotate(15deg);
-  width: 200%; /* adjusted back to 200% */
+  width: 200%;
 }
 
 .arrow {
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 50px solid black;
-  height: 0;
-  left: 50%;
   position: absolute;
-  top: -20px;
-  transform: translateX(-50%);
-  width: 0;
+  top: 0; /* Adjusted to 0 to position at the very top */
+  left: 50%; /* Centered horizontally */
+  transform: translateX(-50%); /* Adjusted to only translate horizontally */
   z-index: 1;
 }
 
