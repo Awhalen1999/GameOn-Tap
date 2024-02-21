@@ -6,6 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function TriviaGame() {
   // State variables
@@ -54,9 +55,8 @@ function TriviaGame() {
   // Function to fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch('https://opentdb.com/api_category.php');
-      const data = await response.json();
-      setCategories(data.trivia_categories);
+      const response = await axios.get('https://opentdb.com/api_category.php');
+      setCategories(response.data.trivia_categories);
     } catch (error) {
       console.error('Error fetching trivia categories:', error);
     }
@@ -66,9 +66,8 @@ function TriviaGame() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch(buildApiUrl());
-        const data = await response.json();
-        setQuestions(data.results);
+        const response = await axios.get(buildApiUrl());
+        setQuestions(response.data.results);
       } catch (error) {
         console.error('Error fetching trivia questions:', error);
       }

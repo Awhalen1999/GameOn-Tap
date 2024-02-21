@@ -8,6 +8,7 @@ import Trivia from './components/Trivia.jsx';
 import PromptDash from './components/PromptDash.jsx';
 import DiceRoll from './components/DiceRoll.jsx';
 import DrinkRoulette from './components/DrinkRoulette/DrinkRoulette.jsx';
+import AIbartender from './components/AIBartender.jsx';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/PromptDash' element={<PromptDash />} />
           <Route path='/DiceRoll' element={<DiceRoll />} />
           <Route path='/DrinkRoulette' element={<DrinkRoulette />} />
+          <Route path='/AIBartender' element={<AIbartender />} />
           {/* Add routes */}
         </Routes>
       </div>

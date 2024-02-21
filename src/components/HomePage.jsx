@@ -12,6 +12,7 @@ const HomePage = () => {
     { name: 'Prompt Dash', route: '/PromptDash' },
     { name: 'Dice Roll', route: '/DiceRoll' },
     { name: 'Drink Roulette', route: '/DrinkRoulette' },
+    { name: 'AI Bartender', route: '/AIBartender' },
     // Add more games
   ];
 
