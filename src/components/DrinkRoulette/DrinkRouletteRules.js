@@ -1,51 +1,54 @@
 export const DrinkRouletteRules = {
   'Straight Shot': {
     title: 'Straight Shot',
-    description: 'Straight Shot description',
+    description:
+      "The Spinner take's a straight shot of liquor or 3 sips of another drink.",
   },
   Choice: {
     title: 'Choice',
-    description: 'Choice description',
+    description: 'The spinner chooses another player to take a drink.',
   },
   'Water Break': {
     title: 'Water Break',
-    description: 'Water Break description',
+    description: " You're safe from drinking this round.",
   },
   Mystery: {
     title: 'Mystery',
-    description: 'Mystery description',
+    description: 'Take a drink of a mystery concoction made by the group.',
   },
   'Mix It Up': {
     title: 'Mix It Up',
-    description: 'Mix It Up description',
+    description: 'Swap drinks with another player for a round.',
   },
   Target: {
     title: 'Target',
-    description: 'Target description',
+    description: `Any "Spinner's Choice" spins automatically are given to you until your next turn.`,
   },
   Middle: {
     title: 'Middle',
-    description: 'Middle description',
+    description: "Players on spinner's right and left drink.",
   },
   Bartender: {
     title: 'Bartender',
-    description: 'Bartender description',
+    description:
+      'The spinner creates a unique drink and chooses a player to enjoy it.',
   },
-  'Take or Add': {
-    title: 'Take or Add',
-    description: 'Take or Add description',
+  'Add or Take': {
+    title: 'Add or Take',
+    description:
+      'The spinner may choose to take 1 drink or add 1 drink and pass it on to the next player, who will be given the same choice. This can continue until the total reaches 4 drinks, at which point the last player must drink all 4.',
   },
   Generosity: {
     title: 'Generosity',
-    description: 'Generosity description',
+    description: 'The spinner generously makes all others players drink.',
   },
   'Right Hand': {
     title: 'Right Hand',
-    description: 'Right Hand description',
+    description: "Player on spinner's right drinks.",
   },
   'Spinner Drinks': {
     title: 'Spinner Drinks',
-    description: 'Spinner Drinks description',
+    description: 'The spinner takes a drink',
   },
 };
 

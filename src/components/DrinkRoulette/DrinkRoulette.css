@@ -33,7 +33,7 @@
 }
 
 .item:nth-child(9) .text {
-  background-color: #f1c40f; /* Take or Add */
+  background-color: #f1c40f; /* Add or Take */
 }
 
 .item:nth-child(10) .text {
@@ -135,9 +135,9 @@
 
 .arrow {
   position: absolute;
-  top: 0; /* Adjusted to 0 to position at the very top */
-  left: 50%; /* Centered horizontally */
-  transform: translateX(-50%); /* Adjusted to only translate horizontally */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
 }
 
@@ -147,7 +147,7 @@
   color: black;
   cursor: pointer;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 500;
   height: 40px;
   left: 50%;
   margin-top: 20px;
@@ -158,5 +158,33 @@
 }
 
 .spin-button:hover {
+  background-color: #5e9fe2;
+}
+
+.result-container {
+  background-color: lightblue;
+  padding: 20px;
+  margin-top: 90px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-radius: 15px;
+}
+
+.result-container h2 {
+  color: #333;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.result-container p {
+  color: #505050;
+  font-size: 18px;
+}
+
+.spin-button:disabled {
+  cursor: not-allowed;
+  animation: pulse 1.5s infinite;
   background-color: #5e9fe2;
 }
