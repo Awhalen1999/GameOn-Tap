@@ -30,45 +30,46 @@ class DrinkRoulette extends React.Component {
           style={{ transform: `rotate(${this.state.rotation}deg)` }}
         >
           <li className='item'>
-            <div className='text'>1</div>
+            <div className='text'>Straight Shot</div>
           </li>
           <li className='item'>
-            <div className='text'>2</div>
+            <div className='text'>Choice</div>
           </li>
           <li className='item'>
-            <div className='text'>3</div>
+            <div className='text'>Water Break</div>
           </li>
           <li className='item'>
-            <div className='text'>4</div>
+            <div className='text'>Mystery</div>
           </li>
           <li className='item'>
-            <div className='text'>5</div>
+            <div className='text'>Mix It Up</div>
           </li>
           <li className='item'>
-            <div className='text'>6</div>
+            <div className='text'>Target</div>
           </li>
           <li className='item'>
-            <div className='text'>7</div>
+            <div className='text'>Middle</div>
           </li>
           <li className='item'>
-            <div className='text'>8</div>
+            <div className='text'>Bartender</div>
           </li>
           <li className='item'>
-            <div className='text'>9</div>
+            <div className='text'>Take or Add</div>
           </li>
           <li className='item'>
-            <div className='text'>10</div>
+            <div className='text'>Generosity</div>
           </li>
           <li className='item'>
-            <div className='text'>11</div>
+            <div className='text'>Right Hand</div>
           </li>
           <li className='item'>
-            <div className='text'>12</div>
+            <div className='text'>Spinner Drinks</div>
           </li>
         </ul>
         <button className='spin-button' onClick={this.startRotation}>
           SPIN
         </button>
+        <div className='center-circle'></div>
       </div>
     );
   }
