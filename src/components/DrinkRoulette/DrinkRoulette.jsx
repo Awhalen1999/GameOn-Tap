@@ -1,5 +1,7 @@
 // todo: Reword rule descriptions
-// todo: disable/ give pulse button style when spinning
+// todo: Hide text box while spinning/ before first spin
+// todo: ease spin at end
+// todo: add slider for spin time
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
