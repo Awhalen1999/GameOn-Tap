@@ -24,7 +24,6 @@ const App = () => {
           <Route path='/DiceRoll' element={<DiceRoll />} />
           <Route path='/DrinkRoulette' element={<DrinkRoulette />} />
           <Route path='/AIBartender' element={<AIbartender />} />
-          {/* Add routes */}
         </Routes>
       </div>
     </Router>

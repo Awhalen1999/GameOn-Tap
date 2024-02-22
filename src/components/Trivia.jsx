@@ -1,15 +1,14 @@
-// remove post game alert
-// limit # of questions
-// add reset game button that returns to setup
-// add text to text.js file
-// add quick start button that starts game with default settings
+// todo: remove post game alert
+// todo: limit # of questions
+// todo: add reset game button that returns to setup
+// todo: add text to text.js file
+// todo: add quick start button that starts game with default settings
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function TriviaGame() {
-  // State variables
   const [amount, setAmount] = useState(5);
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
@@ -47,12 +46,10 @@ function TriviaGame() {
     }, 1000);
   };
 
-  // Fetch categories
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  // Function to fetch categories
   const fetchCategories = async () => {
     try {
       const response = await axios.get('https://opentdb.com/api_category.php');
@@ -62,7 +59,6 @@ function TriviaGame() {
     }
   };
 
-  // Fetch questions when game starts
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -97,7 +93,6 @@ function TriviaGame() {
     return apiUrl;
   };
 
-  // Function to start the game
   const handleStartGame = () => {
     setGameStarted(true);
   };

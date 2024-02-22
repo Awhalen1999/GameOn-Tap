@@ -67,8 +67,6 @@ const promptsList = [
   'First person to name 5 sports teams picks someone to drink.',
   'First person to whistle a tune picks someone to drink.',
   'First person to name five breeds of dogs picks someone to drink.',
-
-  // Add more prompts here
 ];
 
 export default promptsList;

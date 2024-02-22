@@ -14,7 +14,6 @@ const RideTheBus = () => {
   const [drawnCards, setDrawnCards] = useState([]);
   const [cardImages, setCardImages] = useState({});
 
-  // Load card images
   useEffect(() => {
     const loadImages = async () => {
       let images = {};
@@ -26,7 +25,6 @@ const RideTheBus = () => {
     loadImages();
   }, []);
 
-  // Draw card function
   const drawCard = () => {
     console.log('deck:', deck);
     if (deck.length === 0) {
@@ -52,7 +50,6 @@ const RideTheBus = () => {
     }
   };
 
-  // Function to compare the ranks of two cards
   const compareCards = (card1, card2) => {
     const ranks = [
       'A',
@@ -149,8 +146,6 @@ const RideTheBus = () => {
     setGameStarted(false);
     setNumber(1);
   };
-
-  // html
 
   return (
     <div
