@@ -10,6 +10,10 @@ import DiceRoll from './components/DiceRoll.jsx';
 import DrinkRoulette from './components/DrinkRoulette/DrinkRoulette.jsx';
 import AIbartender from './components/AIBartender.jsx';
 
+/**
+ * /games -> toolbar/common ui
+ *  - /games/kings-cup ->
+ */
 const App = () => {
   return (
     <Router>
@@ -31,3 +35,11 @@ const App = () => {
 };
 
 export default App;
+
+/**
+ * [us_en.txt]
+ * title="My Awesome App"
+ *
+ * [ca_fr.txt]
+ * title
+ */
