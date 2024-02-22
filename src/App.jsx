@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage.jsx';
+import HomePage from './components/HomePage/HomePage.jsx';
 import KingsCup from './components/KingsCup.jsx';
 import RideTheBus from './components/RideTheBus.jsx';
 import Snap from './components/Snap.jsx';

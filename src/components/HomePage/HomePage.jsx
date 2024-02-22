@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Nav from './Nav';
 
 const HomePage = () => {
   const games = [
@@ -17,7 +18,8 @@ const HomePage = () => {
   ];
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-indigo-200'>
+    <div className='bg-black w-screen h-screen'>
+      <Nav />
       <h1 className='text-4xl font-bold mb-4'>
         Welcome to the Party Game Hub!
       </h1>
