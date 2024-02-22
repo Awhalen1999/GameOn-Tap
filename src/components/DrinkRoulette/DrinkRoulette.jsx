@@ -1,5 +1,4 @@
 // todo: Reword rule descriptions
-// todo: Hide text box while spinning/ before first spin
 // todo: ease spin at end
 // todo: add slider for spin time
 
@@ -14,6 +13,7 @@ const DrinkRoulette = () => {
   const [result, setResult] = useState('');
   const [description, setDescription] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
+  const [hasSpun, setHasSpun] = useState(false);
 
   const itemNames = [
     'Straight Shot',
@@ -31,7 +31,7 @@ const DrinkRoulette = () => {
   ];
 
   const startRotation = () => {
-    setIsSpinning(true); // Set isSpinning to true when the wheel starts spinning
+    setIsSpinning(true);
     const totalDegrees = rotation + Math.floor(Math.random() * 3600) + 3600;
     setRotation(totalDegrees);
     setTimeout(() => {
@@ -39,7 +39,8 @@ const DrinkRoulette = () => {
       const resultName = itemNames[resultIndex - 1];
       setResult(resultName);
       setDescription(DrinkRouletteRules[resultName].description);
-      setIsSpinning(false); // Set isSpinning to false when the wheel stops spinning
+      setIsSpinning(false);
+      setHasSpun(true);
     }, 3500);
   };
 
@@ -99,10 +100,12 @@ const DrinkRoulette = () => {
       >
         SPIN
       </button>
-      <div className='result-container'>
-        <h2>{result}</h2>
-        <p>{description}</p>
-      </div>
+      {hasSpun && (
+        <div className='result-container'>
+          <h2>{result}</h2>
+          <p>{description}</p>
+        </div>
+      )}
     </div>
   );
 };
