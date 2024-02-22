@@ -107,7 +107,7 @@ function TriviaGame() {
       <div className='p-6 bg-gray-100 min-h-screen'>
         <Link
           to='/'
-          className='mb-8 inline-block bg-blue-500 text-white px-4 py-2 rounded'
+          className='mb-8 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
         >
           Return to Home
         </Link>
@@ -185,7 +185,7 @@ function TriviaGame() {
     <div className='p-6 bg-gray-100 min-h-screen'>
       <Link
         to='/'
-        className='mb-8 inline-block bg-blue-500 text-white px-4 py-2 rounded'
+        className='mb-8 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
       >
         Return to Home
       </Link>

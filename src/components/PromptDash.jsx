@@ -77,7 +77,7 @@ const PromptDash = () => {
         {/* Display prompt section */}
         {prompt && (
           <div className='w-1/4 h-auto bg-blue-200 rounded p-4 flex items-center justify-center mt-4'>
-            <p className='text-center'>{prompt}</p>
+            <p className='text-center text-lg'>{prompt}</p>
           </div>
         )}
       </div>

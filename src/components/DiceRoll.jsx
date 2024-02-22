@@ -1,4 +1,5 @@
 // todo: add the roll number inside the rules box
+// todo: add rolling animation
 
 import React, { useState } from 'react';
 import {
