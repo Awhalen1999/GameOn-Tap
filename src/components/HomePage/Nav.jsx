@@ -1,4 +1,5 @@
-//todo: update look in css for media q menu
+// todo: update look in css for media q menu
+// todo: close button for burger menu
 
 import React from 'react';
 import './Nav.css';
@@ -8,7 +9,7 @@ import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 const Nav = () => {
   return (
     <header>
-      <nav className='font-main w-full z-20 top-0 left-0 border-b'>
+      <nav className='font-main w-full z-20 top-0 left-0 border-b bg-black'>
         <ul className=' max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
           <a className='logo' href='#'>
             <h3 className='font-bold text-2xl text-white'>GameOn Tap</h3>
@@ -19,7 +20,7 @@ const Nav = () => {
             <li>
               <a
                 href='#'
-                className='p-2 hover:bg-white hover:text-black rounded'
+                className='p-2 hover:bg-white hover:text-black rounded border border-transparent'
               >
                 Games
               </a>
@@ -27,7 +28,7 @@ const Nav = () => {
             <li>
               <a
                 href='#'
-                className='p-2 hover:bg-white hover:text-black rounded'
+                className='p-2 hover:bg-white hover:text-black rounded border border-transparent'
               >
                 About
               </a>
