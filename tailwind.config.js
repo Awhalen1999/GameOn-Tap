@@ -15,55 +15,52 @@ module.exports = {
     themes: [
       {
         mydark: {
-          primary: '#000000',
-          'primary-focus': '#your-color',
-          'primary-content': '#ffffff',
-          secondary: '#f6d860',
-          'secondary-focus': '#your-color',
-          'secondary-content': '#ffffff',
-          accent: '#37cdbe',
-          'accent-focus': '#your-color',
-          'accent-content': '#ffffff',
-          neutral: '#3d4451',
-          'neutral-focus': '#your-color',
-          'neutral-content': '#ffffff',
-          'base-100': '#ffffff',
-          'base-200': '#your-color',
-          'base-300': '#your-color',
-          'base-content': '#your-color',
-          info: '#your-color',
-          success: '#your-color',
-          warning: '#your-color',
-          error: '#your-color',
+          primary: '#eab308',
+
+          secondary: '#f3f4f6',
+
+          accent: '#d1d5db',
+
+          neutral: '#111827',
+
+          'base-100': '#000000',
+
+          info: '#00a4e6',
+
+          success: '#008a4b',
+
+          warning: '#f97316',
+
+          error: '#ff70a0',
         },
       },
       {
         mylight: {
-          primary: '#your-color',
-          'primary-focus': '#your-color',
-          'primary-content': '#your-color',
-          secondary: '#your-color',
-          'secondary-focus': '#your-color',
-          'secondary-content': '#your-color',
-          accent: '#your-color',
-          'accent-focus': '#your-color',
-          'accent-content': '#your-color',
-          neutral: '#your-color',
-          'neutral-focus': '#your-color',
-          'neutral-content': '#your-color',
-          'base-100': '#your-color',
-          'base-200': '#your-color',
-          'base-300': '#your-color',
-          'base-content': '#your-color',
-          info: '#your-color',
-          success: '#your-color',
-          warning: '#your-color',
-          error: '#your-color',
+          primary: '#eab308',
+
+          secondary: '#111827',
+
+          accent: '#374151',
+
+          neutral: '#9ca3af',
+
+          'base-100': '#f3f4f6',
+
+          info: '#00a4e6',
+
+          success: '#008a4b',
+
+          warning: '#f97316',
+
+          error: '#ff70a0',
         },
       },
-      'lemonade',
+      'synthwave',
       'coffee',
       'sunset',
+      'cyberpunk',
+      'valentine',
+      'halloween',
     ],
   },
 };
