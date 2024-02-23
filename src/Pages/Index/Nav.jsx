@@ -1,63 +1,82 @@
 // todo: update look in css for media q menu
 // todo: close button for burger menu
 
-import { useState } from 'react';
 import './Nav.css';
-import { MdOutlineLightMode, MdOutlineDarkMode } from 'react-icons/md';
-import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 
 const Nav = () => {
-  const [darkMode, setDarkMode] = useState(true);
-
   return (
-    <header>
-      <nav className='font-main w-full top-0 border-b bg-black'>
-        <ul className=' max-w-[90vw] flex flex-wrap justify-between items-center mx-auto py-8'>
-          <a className='logo' href='#'>
-            <h3 className='font-bold text-2xl text-white'>GameOn Tap</h3>
-          </a>
-          <input type='checkbox' id='check' />
-          <div className='flex items-center space-x-4'>
-            <li>
-              <a
-                href='#'
-                className='p-2 hover:bg-white hover:text-black border border-transparent rounded-btn'
-              >
-                Games
-              </a>
-            </li>
-            <li>
-              <a
-                href='#'
-                className='p-2 hover:bg-white hover:text-black rounded border border-transparent'
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href='#'
-                className='border border-white border-solid p-2 rounded hover:bg-white hover:text-black'
-              >
-                Login
-              </a>
-            </li>
-
-            <li>
-              <button
-                className='bg-gray-900 text-xl text-white rounded p-2 hover:bg-white hover:text-black transition duration-200'
-                onClick={() => setDarkMode(!darkMode)}
-              >
-                {darkMode ? <MdOutlineLightMode /> : <MdOutlineDarkMode />}
-              </button>
-            </li>
+    <div className='navbar bg-base-100'>
+      <div className='navbar-start'>
+        <div className='dropdown'>
+          <div tabIndex={0} role='button' className='btn btn-ghost lg:hidden'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-5 w-5'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                d='M4 6h16M4 12h8m-8 6h16'
+              />
+            </svg>
           </div>
-          <label htmlFor='check' className='open-menu text-lg text-white'>
-            <HiOutlineMenuAlt3 />
-          </label>
+          <ul
+            tabIndex={0}
+            className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52'
+          >
+            <li>
+              <a>Item 1</a>
+            </li>
+            <li>
+              <a>Item 3</a>
+            </li>
+            <li>
+              <a>Parent</a>
+              <ul className='p-2'>
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <a className='btn btn-ghost text-xl'>GameOn Tap</a>
+      </div>
+      <div className='navbar-center hidden lg:flex'>
+        <ul className='menu menu-horizontal px-1'>
+          <li>
+            <a>Item 1</a>
+          </li>
+
+          <li>
+            <a>Item 3</a>
+          </li>
+          <li>
+            <details>
+              <summary>Parent</summary>
+              <ul className='p-2'>
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </details>
+          </li>
         </ul>
-      </nav>
-    </header>
+      </div>
+      <div className='navbar-end'>
+        <a className='btn'>Login</a>
+      </div>
+    </div>
   );
 };
 
