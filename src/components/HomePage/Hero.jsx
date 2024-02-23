@@ -1,10 +1,10 @@
 import React from 'react';
-import heroImage from '../../assets/hero-image3.png';
+import heroImage from '../../assets/hero-image6.png';
 
 const Hero = () => {
   return (
     <main class='flex flex-col xl:flex-row h-screen'>
-      <div class='w-full xl:w-1/2 my-4 h-screen flex items-center justify-center'>
+      <div class='w-full xl:w-1/2 h-3/4 flex items-center justify-center border'>
         <div class='w-4/6'>
           <h1 class='tracking-tight font-light text-gray-400 text-4xl '>
             Welcome to
@@ -26,15 +26,15 @@ const Hero = () => {
           </a>
           <a
             href='#'
-            class='inline-block ml-6 border border-yellow-500 hover:bg-yellow-600 mt-8 px-6 py-3 rounded-md text-white'
+            class='inline-block ml-6 border border-yellow-500 hover:border-yellow-600 hover:bg-yellow-600 mt-8 px-6 py-3 rounded-md text-white'
           >
             Random Game
           </a>
         </div>
       </div>
-      <div class='w-auto h-3/4 mt-40'>
+      <div class='xl:w-1/2 h-3/4 border'>
         <img
-          class='object-cover w-full h-full'
+          class='object-cover w-auto h-full m-auto'
           src={heroImage}
           alt='hero image'
         />
