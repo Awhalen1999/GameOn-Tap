@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './HomePage/HomePage.jsx';
-import KingsCup from './components/games/KingsCup/KingsCup.jsx';
-import RideTheBus from './components/games/RideTheBus.jsx';
-import Snap from './components/games/Snap.jsx';
-import Trivia from './components/games/Trivia.jsx';
-import PromptDash from './components/games/PromptDash/PromptDash.jsx';
-import DiceRoll from './components/games/DiceRoll/DiceRoll.jsx';
-import DrinkRoulette from './components/games/DrinkRoulette/DrinkRoulette.jsx';
-import AIbartender from './components/games/AIBartender.jsx';
+import KingsCup from './Pages/Games/KingsCup/KingsCup.jsx';
+import RideTheBus from './Pages/Games/RideTheBus.jsx';
+import Snap from './Pages/Games/Snap.jsx';
+import Trivia from './Pages/Games/Trivia.jsx';
+import PromptDash from './Pages/Games/PromptDash/PromptDash.jsx';
+import DiceRoll from './Pages/Games/DiceRoll/DiceRoll.jsx';
+import DrinkRoulette from './Pages/Games/DrinkRoulette/DrinkRoulette.jsx';
+import AIbartender from './Pages/Games/AIBartender.jsx';
 
 /**
  * /games -> toolbar/common ui
