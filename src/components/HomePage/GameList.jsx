@@ -16,7 +16,7 @@ const GameList = () => {
   return (
     <div className='w-screen h-auto bg-black'>
       <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
-        <div className='w-full h-10 flex items-center justify-start border'>
+        <div className='w-full h-10 flex items-center justify-start'>
           <h1 className='font-bold text-2xl text-white font-main'>
             Featured Games
           </h1>
