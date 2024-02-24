@@ -1,6 +1,7 @@
 // todo: update/add more bartender personas (slack saved msg)
 // todo: update initial prompts
 // todo: make text from bartender persona and initial prompts dynamic and use image to show the bartender persona
+// todo: initial prompt not changing with bartender persona
 
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -68,90 +69,139 @@ const AIBartender = () => {
   };
 
   return (
-    <div className='flex bg-slate-600 h-screen w-screen'>
-      {/* Buttons */}
-      <div className=' p-6 flex items-start space-y-4 flex-col'>
-        <Link
-          to='/'
-          className='inline-block px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded mb-40 no-underline'
-        >
-          Return to Home
-        </Link>
-        {bartenders.map((bartender) => {
-          let color;
-          switch (bartender) {
-            case 'Default':
-              color =
-                'bg-blue-600 hover:bg-blue-500 focus:border-blue-700 active:bg-blue-700';
-              break;
-            case 'Pirate':
-              color =
-                'bg-yellow-400 hover:bg-yellow-300 focus:border-yellow-500 active:bg-yellow-500';
-              break;
-            case 'Gangster':
-              color =
-                'bg-gray-500 hover:bg-gray-400 focus:border-gray-600 active:bg-gray-600';
-              break;
-            case 'Medieval':
-              color =
-                'bg-red-600 hover:bg-red-500 focus:border-red-700 active:bg-red-700';
-              break;
-            default:
-              color =
-                'bg-blue-600 hover:bg-blue-500 focus:border-blue-700 active:bg-blue-700';
-          }
-          return (
+    <div className='flex bg-slate-500 h-screen w-screen p-6 pt-12 items-start justify-center gap-1 border'>
+      {/* bartender section */}
+      <div className='w-1/4 h-full flex flex-col items-start p-2.5 border'>
+        <div className='w-full h-10 flex flex-row justify-start items-center border text-xl font-bold text-left text-white'>
+          Choose a bartender
+        </div>
+        {/* Profiles */}
+        <div className='w-full h-22 bg-accent rounded border flex p-4 my-1'>
+          <div className='avatar flex-shrink-0'>
+            <div className='w-24 rounded-full'>
+              <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+            </div>
+          </div>
+          <div className='flex-grow flex flex-col justify-center items-start space-y-2 ml-4'>
+            <h3 className='text-black'>Default</h3>
             <button
-              onClick={() => {
-                setBartender(bartender);
-                setInitialPrompt(bartenderInitialPrompts[bartender]);
-              }}
-              className={` inline-flex items-center px-4 py-2 font-medium rounded-md text-white ${color} `}
+              onClick={() => setBartender('Default')}
+              className='btn btn-primary'
             >
-              {bartender}
+              Select
             </button>
-          );
-        })}
+          </div>
+        </div>
+        <div className='w-full h-22 bg-accent rounded border flex p-4 my-1'>
+          <div className='avatar flex-shrink-0'>
+            <div className='w-24 rounded-full'>
+              <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+            </div>
+          </div>
+          <div className='flex-grow flex flex-col justify-center items-start space-y-2 ml-4'>
+            <h3 className='text-black'>Pirate</h3>
+            <button
+              onClick={() => setBartender('Pirate')}
+              className='btn btn-primary'
+            >
+              Select
+            </button>
+          </div>
+        </div>
+        <div className='w-full h-22 bg-accent rounded border flex p-4 my-1'>
+          <div className='avatar flex-shrink-0'>
+            <div className='w-24 rounded-full'>
+              <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+            </div>
+          </div>
+          <div className='flex-grow flex flex-col justify-center items-start space-y-2 ml-4'>
+            <h3 className='text-black'>Gangster</h3>
+            <button
+              onClick={() => setBartender('Gangster')}
+              className='btn btn-primary'
+            >
+              Select
+            </button>
+          </div>
+        </div>
+        <div className='w-full h-22 bg-accent rounded border flex p-4 my-1'>
+          <div className='avatar flex-shrink-0'>
+            <div className='w-24 rounded-full'>
+              <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+            </div>
+          </div>
+          <div className='flex-grow flex flex-col justify-center items-start space-y-2 ml-4'>
+            <h3 className='text-black'>Medieval</h3>
+            <button
+              onClick={() => setBartender('Medieval')}
+              className='btn btn-primary'
+            >
+              Select
+            </button>
+          </div>
+        </div>
       </div>
       {/* Chat section */}
-      <div className='p-6 w-3/4 mx-auto bg-white rounded-xl flex flex-col'>
-        <h2 className='text-xl font-bold mb-4 text-center'>
+      <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 border'>
+        <h2 className='w-full h-10 flex flex-row justify-start items-center border text-xl font-bold text-left text-white'>
           AI Bartender ({bartender})
         </h2>
-        <p className='mb-4 mt-4 text-lg font-medium'>{initialPrompt}</p>
-        <label className='mb-2 text-lg font-medium'>Describe the drink:</label>
+        <div className='w-full h-25 flex flex-col justify-start items-start border'>
+          <div className='flex items-center'>
+            <div className='avatar flex-shrink-0'>
+              <div className='w-24 rounded-full'>
+                <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+              </div>
+            </div>
+            <div className='px-2 py-5 bg-base-100 rounded-xl ml-4'>
+              <p className='mb-4 mt-4 text-lg font-medium'>{initialPrompt}</p>
+            </div>
+          </div>
+        </div>
         <textarea
           value={drinkDescription}
           onChange={(e) => setDrinkDescription(e.target.value)}
           cols='30'
           rows='2'
-          className='p-2 mb-4 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+          className='textarea textarea-primary w-1/2 mt-5'
+          placeholder='Describe a drink:'
         />
-        <label className='mb-2 text-lg font-medium'>
-          Available ingredients:
-        </label>
         <textarea
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
+          value={drinkDescription}
+          onChange={(e) => setDrinkDescription(e.target.value)}
           cols='30'
           rows='2'
-          className='p-2 mb-4 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+          className='textarea textarea-primary w-1/2 mt-5'
+          placeholder='Available ingredients:'
         />
         <div className='flex items-start'>
           <button
             onClick={() => handleSubmit(false)}
-            className='inline-flex  px-4 py-2  text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 f'
+            className='btn btn-primary mt-5 mr-2'
           >
-            Submit
+            Make this drink
           </button>
           <button
             onClick={() => handleSubmit(true)}
-            className='inline-flex px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-green-600 hover:bg-green-500  ml-4'
+            className='btn btn-primary mt-5 ml-2'
           >
-            Random / Quick Start
+            Random drink / Quick Start
           </button>
         </div>
-        <p className='mt-6 text-lg font-medium'>{recipe}</p>
+        {/* AI recipe returned: */}
+
+        <div className='w-full h-25 flex flex-col justify-start items-start border mt-5'>
+          <div className='flex items-center'>
+            <div className='avatar flex-shrink-0'>
+              <div className='w-24 rounded-full'>
+                <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+              </div>
+            </div>
+            <div className='px-2 py-5 bg-base-100 rounded-xl ml-4'>
+              <p className='mb-4 mt-4 text-lg font-medium'>{recipe}</p>
+            </div>
+          </div>
+        </div>
       </div>
       {/* end of chat section */}
     </div>

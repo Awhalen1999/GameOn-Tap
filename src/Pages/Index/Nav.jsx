@@ -5,7 +5,7 @@ import './Nav.css';
 
 const Nav = () => {
   return (
-    <div className='navbar bg-base-100'>
+    <div className='navbar bg-base-100 border-b border-secondary'>
       <div className='navbar-start'>
         <div className='dropdown'>
           <div tabIndex={0} role='button' className='btn btn-ghost lg:hidden'>
@@ -56,7 +56,7 @@ const Nav = () => {
           </li>
 
           <li>
-            <a>Item 3</a>
+            <a>Item 2</a>
           </li>
           <li>
             <details>
@@ -74,7 +74,7 @@ const Nav = () => {
         </ul>
       </div>
       <div className='navbar-end'>
-        <a className='btn'>Login</a>
+        <a className='btn btn-outline btn-secondary'>Login</a>
       </div>
     </div>
   );
