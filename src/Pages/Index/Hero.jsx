@@ -1,9 +1,9 @@
 import React from 'react';
-import heroImage from '../../assets/hero-image6.png';
+import heroImage from '../../assets/hero-image.png';
 
 const Hero = () => {
   return (
-    <div className='hero bg-base-200 border '>
+    <div className='hero bg-base-200 '>
       <img src={heroImage} alt='Hero' className='mx-auto' />
       <div className=' hero-content w-full h-full flex items-center justify-start'>
         <div className='w-2/5'>
