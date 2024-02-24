@@ -21,6 +21,7 @@ const AIBartender = () => {
 
   useEffect(() => {
     setInitialPrompt(BartenderInfo[bartender].initialPrompt);
+    setRecipe(''); // clear the recipe
   }, [bartender]);
 
   const handleSubmit = async (quickStart = false) => {
@@ -54,54 +55,58 @@ const AIBartender = () => {
 
   return (
     <div
-      className='font-space-grotesk flex bg-slate-500 h-screen w-screen p-6 pt-12 items-start justify-center gap-1 border'
+      className=' flex h-screen w-screen p-6 pt-12 items-start justify-center gap-1'
       style={{ backgroundImage: `url(${BartenderInfo[bartender].background})` }}
     >
       {/* bartender section */}
-      <div className='w-1/4 h-full flex flex-col items-start p-2.5 bg-base-100 bg-opacity-85 rounded-lg'>
-        <div className=' w-full h-10 flex flex-row justify-start items-center border text-xl font-bold text-left text-white'>
+      <div className='w-1/4 h-full flex flex-col items-start p-2.5 bg-base-100 bg-opacity-85 rounded-lg border border-primary border-1 mr-1'>
+        <div className=' w-full h-10 flex flex-row justify-start items-center text-xl font-bold text-left text-white'>
           Choose a bartender
         </div>
         {/* Profiles */}
-        {bartenders.map((bartenderKey) => (
-          <div
-            key={bartenderKey}
-            className='w-full h-22 bg-accent rounded border flex p-4 my-1'
-          >
-            <div className='avatar flex-shrink-0'>
-              <div className='w-24 rounded-full'>
-                <img
-                  src={BartenderInfo[bartenderKey].picture}
-                  alt={bartenderKey}
-                />
+        <div className='w-full h-full overflow-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thin'>
+          {bartenders.map((bartenderKey) => (
+            <div
+              key={bartenderKey}
+              className='w-full h-22 bg-base rounded flex my-1'
+            >
+              <div className='avatar flex-shrink-0'>
+                <div className='m-2 w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
+                  <img
+                    src={BartenderInfo[bartenderKey].picture}
+                    alt={bartenderKey}
+                  />
+                </div>
+              </div>
+              <div className='flex-grow flex flex-col justify-center items-start space-y-2 ml-4'>
+                <h3 className='text-white'>{bartenderKey}</h3>
+                <button
+                  onClick={() => setBartender(bartenderKey)}
+                  className='btn btn-primary'
+                >
+                  Select
+                </button>
               </div>
             </div>
-            <div className='flex-grow flex flex-col justify-center items-start space-y-2 ml-4'>
-              <h3 className='text-black'>{bartenderKey}</h3>
-              <button
-                onClick={() => setBartender(bartenderKey)}
-                className='btn btn-primary'
-              >
-                Select
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       {/* Chat section */}
-      <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 bg-base-100 bg-opacity-85 rounded-lg'>
-        <h2 className='w-full h-10 flex flex-row justify-start items-center border text-xl font-bold text-left text-white'>
+      <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 bg-base-100 bg-opacity-75 rounded-lg border border-primary border-1 ml-1'>
+        <h2 className='w-full h-10 flex flex-row justify-start items-center text-xl font-bold text-left text-white'>
           AI Bartender ({bartender})
         </h2>
-        <div className='w-full h-25 flex flex-col justify-start items-start border'>
+        <div className='w-full h-25 flex flex-col justify-start items-start mt-2'>
           <div className='flex items-center'>
             <div className='avatar flex-shrink-0'>
-              <div className='w-24 rounded-full'>
+              <div className='m-2 w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
                 <img src={BartenderInfo[bartender].picture} />
               </div>
             </div>
-            <div className='px-2 py-5 rounded-xl ml-4 bg-accent text-black'>
-              <p className='mb-4 mt-4 text-lg font-medium'>{initialPrompt}</p>
+            <div className='chat chat-start'>
+              <div className='chat-bubble chat-bubble-accent'>
+                {initialPrompt}
+              </div>
             </div>
           </div>
         </div>
@@ -137,15 +142,15 @@ const AIBartender = () => {
         </div>
         {/* AI recipe returned: */}
         {recipe && (
-          <div className='w-full h-25 flex flex-col justify-start items-start border mt-5'>
-            <div className='flex items-center'>
+          <div className='w-full h-25 flex flex-col justify-start items-start mt-5'>
+            <div className='flex items-end'>
               <div className='avatar flex-shrink-0'>
-                <div className='w-24 rounded-full'>
+                <div className='m-2 w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
                   <img src={BartenderInfo[bartender].picture} />
                 </div>
               </div>
-              <div className='px-2 py-5 rounded-xl ml-4 bg-accent text-black'>
-                <p className='mb-4 mt-4 text-lg font-medium'>{recipe}</p>
+              <div className='chat chat-start'>
+                <div className='chat-bubble chat-bubble-accent'>{recipe}</div>
               </div>
             </div>
           </div>
