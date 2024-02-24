@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        main: ['Be Vietnam Pro', 'sans-serif'],
+        'be-vietnam-pro': ['"Be Vietnam Pro"', 'sans-serif'],
+        'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
       },
     },
   },

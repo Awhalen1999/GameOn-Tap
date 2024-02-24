@@ -11,7 +11,7 @@ import Trivia from './Pages/Games/Trivia';
 import PromptDash from './Pages/Games/PromptDash/PromptDash';
 import DiceRoll from './Pages/Games/DiceRoll/DiceRoll';
 import DrinkRoulette from './Pages/Games/DrinkRoulette/DrinkRoulette';
-import AIbartender from './Pages/Games/AIBartender';
+import AIbartender from './Pages/Games/AIBartender/AIBartender';
 
 const router = createBrowserRouter([
   {
