@@ -7,7 +7,6 @@ module.exports = {
     extend: {
       fontFamily: {
         main: ['Electrolize', 'sans-serif'],
-        'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
       },
     },
   },
@@ -63,6 +62,7 @@ module.exports = {
       'coffee',
       'aqua',
       'synthwave',
+      'lofi',
     ],
   },
 };

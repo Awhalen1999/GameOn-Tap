@@ -57,9 +57,7 @@ const GameList = () => {
     <div className='w-screen h-auto bg-base-100'>
       <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
         <div className='w-full h-10 flex items-center justify-start'>
-          <h1 className='font-bold text-2xl text-white font-main'>
-            Featured Games
-          </h1>
+          <h1 className='font-bold text-2xl text-text'>Featured Games</h1>
         </div>
         <div className='mt-10 grid grid-cols-4 gap-4'>
           {games.map((game, index) => (
@@ -73,7 +71,7 @@ const GameList = () => {
                   alt={game.name}
                   className='w-full h-48 object-cover mb-2 rounded'
                 />
-                <div className='text-white bg-yellow-500 rounded hover:bg-yellow-600 w-full text-center'>
+                <div className='text-base-100 bg-primary rounded hover:bg-accent w-full text-center'>
                   {game.name}
                 </div>
               </Link>

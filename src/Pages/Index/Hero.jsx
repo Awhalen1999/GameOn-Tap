@@ -12,7 +12,7 @@ const Hero = () => {
           <h1 className='tracking-tight font-light text-text text-4xl '>
             Welcome to
           </h1>
-          <h1 className='text-6xl md:text-6xl tracking-tight leading-none font-extrabold text-yellow-500'>
+          <h1 className='text-6xl md:text-6xl tracking-tight leading-none font-extrabold text-primary'>
             GameOn Tap
           </h1>
           <p className='text-lg text-text mt-2'>
@@ -23,13 +23,13 @@ const Hero = () => {
           </p>
           <a
             href='#'
-            className='inline-block bg-yellow-500 hover:bg-yellow-600 mt-8 px-6 py-3 rounded-md text-black border border-transparent'
+            className='inline-block bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-base-100 border border-transparent hover:border-accent'
           >
             Get Started
           </a>
           <a
             href='#'
-            className='inline-block ml-6 border border-yellow-500 hover:border-yellow-600 hover:bg-yellow-600 mt-8 px-6 py-3 rounded-md text-white'
+            className='inline-block ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-text hover:text-base-100'
           >
             Random Game
           </a>

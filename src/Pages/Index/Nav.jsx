@@ -72,9 +72,7 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-        <span className='font-bold text-xl text-text font-main px-8'>
-          GameOn Tap
-        </span>
+        <span className='font-bold text-xl text-text px-8'>GameOn Tap</span>
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1 text-text font-semibold'>

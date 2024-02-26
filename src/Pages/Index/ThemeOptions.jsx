@@ -9,6 +9,7 @@ const ThemeOptions = ({ selectedTheme, setSelectedTheme }) => {
     coffee: 'Coffee',
     aqua: 'Aqua',
     synthwave: 'Synthwave',
+    lofi: 'Lofi',
   };
 
   return (
