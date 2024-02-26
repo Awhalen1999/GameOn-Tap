@@ -4,7 +4,9 @@ import heroImage from '../../assets/hero-image.png';
 const Hero = () => {
   return (
     <div className='hero bg-base-200 '>
-      <img src={heroImage} alt='Hero' className='mx-auto' />
+      <div className='bg-black'>
+        <img src={heroImage} alt='Hero' className='mx-auto' />
+      </div>
       <div className=' hero-content w-full h-full flex items-center justify-start'>
         <div className='w-2/5'>
           <h1 className='tracking-tight font-light text-gray-300 text-4xl '>
