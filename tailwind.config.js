@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        electrolize: ['Electrolize', 'sans-serif'],
+        main: ['Electrolize', 'sans-serif'],
         'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
       },
     },
@@ -18,11 +18,13 @@ module.exports = {
         mydark: {
           primary: '#eab308',
 
-          secondary: '#f3f4f6',
+          secondary: '#FAFAFA',
 
           accent: '#d1d5db',
 
           neutral: '#111827',
+
+          text: '#d1d5db',
 
           'base-100': '#000000',
 
