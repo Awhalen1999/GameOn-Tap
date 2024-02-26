@@ -1,5 +1,7 @@
 // todo: update look in css for media q menu
 // todo: close button for burger menu
+// todo: change hero to more retro look
+// todo: add local storage to save theme
 
 import './Nav.css';
 import react, { useState } from 'react';
@@ -35,18 +37,44 @@ const Nav = () => {
               <a>Item 1</a>
             </li>
             <li>
-              <a>Item 3</a>
+              <a>Item 2</a>
             </li>
             <li>
-              <a>Parent</a>
-              <ul className='p-2'>
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
+              <div className='dropdown relative'>
+                <div tabIndex={0} role='button'>
+                  Parent
+                  <svg
+                    width='18px'
+                    height='18px'
+                    className='h-3 w-3 ml-2 fill-current inline-block'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 2048 2048'
+                  >
+                    <path d='M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z'></path>
+                  </svg>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className='dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52 absolute top-full left-[calc(-16px)] mt-1'
+                >
+                  <li>
+                    <a
+                      className='btn btn-sm btn-block btn-ghost justify-start'
+                      onClick={() => setSelectedMenu('submenu1')}
+                    >
+                      Submenu 1
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className='btn btn-sm btn-block btn-ghost justify-start'
+                      onClick={() => setSelectedMenu('submenu2')}
+                    >
+                      Submenu 2
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -128,10 +156,10 @@ const Nav = () => {
                     type='radio'
                     name='theme-dropdown'
                     className='theme-controller btn btn-sm btn-block btn-ghost justify-start'
-                    aria-label='Valentine'
-                    value='valentine'
-                    checked={selectedTheme === 'valentine'}
-                    onChange={() => setSelectedTheme('valentine')}
+                    aria-label='Coffee'
+                    value='coffee'
+                    checked={selectedTheme === 'coffee'}
+                    onChange={() => setSelectedTheme('coffee')}
                   />
                 </li>
                 <li>
@@ -143,6 +171,17 @@ const Nav = () => {
                     value='aqua'
                     checked={selectedTheme === 'aqua'}
                     onChange={() => setSelectedTheme('aqua')}
+                  />
+                </li>
+                <li>
+                  <input
+                    type='radio'
+                    name='theme-dropdown'
+                    className='theme-controller btn btn-sm btn-block btn-ghost justify-start'
+                    aria-label='Synthwave'
+                    value='synthwave'
+                    checked={selectedTheme === 'synthwave'}
+                    onChange={() => setSelectedTheme('synthwave')}
                   />
                 </li>
               </ul>

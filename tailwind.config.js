@@ -58,8 +58,9 @@ module.exports = {
       },
       'retro',
       'cyberpunk',
-      'valentine',
+      'coffee',
       'aqua',
+      'synthwave',
     ],
   },
 };

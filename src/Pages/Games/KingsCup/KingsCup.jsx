@@ -40,7 +40,7 @@ const KingsCup = () => {
 
   return (
     // Main container
-    <div className='flex flex-col items-center justify-center h-screen bg-indigo-200'>
+    <div className='flex flex-col items-center justify-center h-screen bg-base-100'>
       {/* Draw Card button */}
       <button
         onClick={drawCard}
