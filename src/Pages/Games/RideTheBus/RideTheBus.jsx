@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import placeholderCard from '../../cards/red.png';
-import initialDeck from './DeckOfCards.jsx';
+import initialDeck from '../DeckOfCards.jsx';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);

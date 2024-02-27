@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import initialDeck from './DeckOfCards';
+import initialDeck from '../DeckOfCards';
 import placeholderCard from '../../cards/red.png';
 
 const Snap = () => {

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ThemeOptions from './ThemeOptions';
 import { FaWrench } from 'react-icons/fa';
+import { KingsCupRules } from './Games/KingsCup/KingsCupRules.js';
+import RulesModal from './RulesModal';
 
 const GameNav = () => {
   const location = useLocation();
@@ -22,13 +24,27 @@ const GameNav = () => {
   switch (location.pathname) {
     case '/games/KingsCup':
       buttons = [
-        <span className='flex items-center'>
-          Kings Cup Rules <FaWrench className='ml-2 text-xl' />
-        </span>,
+        <RulesModal
+          id='kings-cup-rules'
+          title='Kings Cup Rules'
+          rules={Object.values(KingsCupRules)
+            .map((rule) => `${rule.title}: ${rule.description}`)
+            .join('\n\n')}
+          buttonText='Open Kings Cup Rules'
+        />,
       ];
       break;
     case '/games/RideTheBus':
-      buttons = ['Ride The Bus Rules'];
+      buttons = [
+        <RulesModal
+          id='ride-the-bus-rules'
+          title='Ride The Bus Rules'
+          rules={Object.values(RideTheBusRules)
+            .map((rule) => `${rule.title}: ${rule.description}`)
+            .join('\n\n')}
+          buttonText='Open Ride The Bus Rules'
+        />,
+      ];
       break;
     case '/games/Snap':
       buttons = [
