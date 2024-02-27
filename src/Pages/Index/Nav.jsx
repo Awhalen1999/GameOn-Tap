@@ -1,12 +1,18 @@
 // todo: update look in css for media q menu
 // todo: add local storage to save theme
 
-import react, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ThemeOptions from '../ThemeOptions';
 
 const Nav = () => {
-  const [selectedTheme, setSelectedTheme] = useState('mydark');
+  const [selectedTheme, setSelectedTheme] = useState(
+    localStorage.getItem('theme') || 'mydark'
+  );
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('theme', selectedTheme);
+  }, [selectedTheme]);
 
   return (
     <div className='navbar bg-base-100 border-b border-secondary'>

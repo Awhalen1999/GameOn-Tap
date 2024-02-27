@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ThemeOptions from './ThemeOptions';
 
 const GameNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [selectedTheme, setSelectedTheme] = useState('default');
+  const [selectedTheme, setSelectedTheme] = useState(
+    localStorage.getItem('theme') || 'default'
+  );
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('theme', selectedTheme);
+  }, [selectedTheme]);
 
   let buttons;
 
