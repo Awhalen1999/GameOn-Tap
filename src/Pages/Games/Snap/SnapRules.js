@@ -1,7 +1,8 @@
-import React from 'react';
-
-const SnapRules = () => {
-  return <div>SnapRules</div>;
+export const SnapRules = {
+  2: {
+    title: 'You',
+    description: 'Whoever draws this can choose anyone to take a drink.',
+  },
 };
 
 export default SnapRules;

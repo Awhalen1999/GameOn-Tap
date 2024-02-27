@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import initialDeck from '../DeckOfCards';
-import placeholderCard from '../../cards/red.png';
+import placeholderCard from '../../../cards/red.png';
 
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -22,7 +22,7 @@ const Snap = () => {
     const loadImages = async () => {
       let images = {};
       for (let card of initialDeck) {
-        images[card] = (await import(`../../cards/${card}.png`)).default;
+        images[card] = (await import(`../../../cards/${card}.png`)).default;
       }
       setCardImages(images);
     };

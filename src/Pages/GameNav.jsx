@@ -4,8 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ThemeOptions from './ThemeOptions';
 import { FaWrench } from 'react-icons/fa';
-import { KingsCupRules } from './Games/KingsCup/KingsCupRules.js';
-import RulesModal from './RulesModal';
+import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
+import RideTheBusRules from './Games/RideTheBus/RideTheBusRules.js';
+import SnapRules from './Games/Snap/SnapRules.js';
+import TriviaRules from './Games/Trivia/TriviaRules.js';
+import PromptDashRules from './Games/PromptDash/PromptDashRules.js';
+import DiceRollRules from './Games/DiceRoll/DiceRollRules';
+import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 
 const GameNav = () => {
   const location = useLocation();
@@ -19,64 +24,36 @@ const GameNav = () => {
     localStorage.setItem('theme', selectedTheme);
   }, [selectedTheme]);
 
-  let buttons;
+  const gameRules = {
+    '/games/KingsCup': KingsCupRules,
+    '/games/RideTheBus': RideTheBusRules,
+    '/games/Snap': SnapRules,
+    '/games/Trivia': TriviaRules,
+    '/games/PromptDash': PromptDashRules,
+    '/games/DiceRoll': DiceRollRules,
+    '/games/DrinkRoulette': DrinkRouletteRules,
+  };
 
-  switch (location.pathname) {
-    case '/games/KingsCup':
-      buttons = [
-        <RulesModal
-          id='kings-cup-rules'
-          title='Kings Cup Rules'
-          rules={Object.values(KingsCupRules)
-            .map((rule) => `${rule.title}: ${rule.description}`)
-            .join('\n\n')}
-          buttonText='Open Kings Cup Rules'
-        />,
-      ];
-      break;
-    case '/games/RideTheBus':
-      buttons = [
-        <RulesModal
-          id='ride-the-bus-rules'
-          title='Ride The Bus Rules'
-          rules={Object.values(RideTheBusRules)
-            .map((rule) => `${rule.title}: ${rule.description}`)
-            .join('\n\n')}
-          buttonText='Open Ride The Bus Rules'
-        />,
-      ];
-      break;
-    case '/games/Snap':
-      buttons = [
-        <span className='flex items-center'>
-          Snap Rules <FaWrench className='ml-2 text-xl' />
-        </span>,
-      ];
-      break;
-    case '/games/Trivia':
-      buttons = ['Trivia Rules'];
-      break;
-    case '/games/PromptDash':
-      buttons = ['Prompt Dash Rules'];
-      break;
-    case '/games/DiceRoll':
-      buttons = [
-        <span className='flex items-center'>
-          Dice Roll Rules <FaWrench className='ml-2 text-xl' />
-        </span>,
-      ];
-      break;
-    case '/games/DrinkRoulette':
-      buttons = [
-        <span className='flex items-center'>
-          Drink Roulette Rules <FaWrench className='ml-2 text-xl' />
-        </span>,
-      ];
-      break;
-    case '/games/AIBartender':
-      buttons = [];
-      break;
-  }
+  const gameTitles = {
+    '/games/KingsCup': 'Kings Cup Rules',
+    '/games/RideTheBus': 'Ride The Bus Rules',
+    '/games/Snap': 'Snap Rules',
+    '/games/Trivia': 'Trivia Rules',
+    '/games/PromptDash': 'Prompt Dash Rules',
+    '/games/DiceRoll': 'Dice Roll Rules',
+    '/games/DrinkRoulette': 'Drink Roulette Rules',
+  };
+
+  const gamesWithIcon = new Set([
+    '/games/KingsCup',
+    '/games/DiceRoll',
+    '/games/DrinkRoulette',
+  ]);
+
+  const openModal = () => {
+    const modalId = `${location.pathname.slice(1)}-rules`;
+    document.getElementById(modalId).showModal();
+  };
 
   return (
     <div className='navbar bg-base-100'>
@@ -102,11 +79,14 @@ const GameNav = () => {
             tabIndex={0}
             className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
           >
-            {buttons.map((button, index) => (
-              <li key={index} className='mr-2'>
-                <a className='btn btn-ghost'>{button}</a>
-              </li>
-            ))}
+            <li>
+              <button className='btn btn-ghost' onClick={openModal}>
+                {gameTitles[location.pathname]}
+                {gamesWithIcon.has(location.pathname) && (
+                  <FaWrench className='ml-2' size={18} />
+                )}
+              </button>
+            </li>
             <li>
               <div
                 className='dropdown relative btn btn-ghost flex items-center'
@@ -117,7 +97,7 @@ const GameNav = () => {
                   <svg
                     width='18px'
                     height='18px'
-                    className='h-3 w-3 ml-1 fill-current inline-block'
+                    className='h-3 w-3 fill-current inline-block'
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 2048 2048'
                   >
@@ -138,17 +118,11 @@ const GameNav = () => {
           GameOn Tap
         </button>
       </div>
+      {/* Desktop menu */}
       <div className='navbar-end'>
         <div className='navbar-center hidden lg:flex items-center'>
-          <ul className='menu menu-horizontal px-1'>
-            {buttons.map((button, index) => (
-              <li key={index} className='mr-2'>
-                <a className='btn btn-ghost'>{button}</a>
-              </li>
-            ))}
-          </ul>
-          <div className='dropdown relative mr-2'>
-            <button tabIndex={0} role='button' className='btn btn-ghost'>
+          <div className='dropdown relative '>
+            <button tabIndex={0} role='button' className='btn btn-ghost mr-2'>
               Theme
               <svg
                 width='18px'
@@ -165,9 +139,33 @@ const GameNav = () => {
               setSelectedTheme={setSelectedTheme}
             />
           </div>
+          <button className='btn btn-ghost mr-2' onClick={openModal}>
+            {gameTitles[location.pathname]}
+            {gamesWithIcon.has(location.pathname) && (
+              <FaWrench className='ml-2' size={18} />
+            )}
+          </button>
         </div>
         <a className='btn btn-outline btn-text'>Login</a>
       </div>
+      <dialog
+        id={`${location.pathname.slice(1)}-rules`}
+        className='modal modal-bottom sm:modal-middle'
+      >
+        <div className='modal-box'>
+          <h3 className='font-bold text-lg'>{gameTitles[location.pathname]}</h3>
+          <p className='py-4'>
+            {Object.values(gameRules[location.pathname])
+              .map((rule) => `${rule.title}: ${rule.description}`)
+              .join('\n\n')}
+          </p>
+          <div className='modal-action'>
+            <form method='dialog'>
+              <button className='btn'>Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
