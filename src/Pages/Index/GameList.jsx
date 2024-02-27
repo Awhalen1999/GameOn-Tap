@@ -13,42 +13,42 @@ const GameList = () => {
   const games = [
     {
       name: 'Kings Cup',
-      route: '/KingsCup',
+      route: '/games/KingsCup',
       image: kingsCupCover,
     },
     {
       name: 'Ride The Bus',
-      route: '/RideTheBus',
+      route: '/games/RideTheBus',
       image: rideTheBusCover,
     },
     {
       name: 'Snap',
-      route: '/Snap',
+      route: '/games/Snap',
       image: snapCover,
     },
     {
       name: 'Trivia',
-      route: '/Trivia',
+      route: '/games/Trivia',
       image: triviaCover,
     },
     {
       name: 'Prompt Dash',
-      route: '/PromptDash',
+      route: '/games/PromptDash',
       image: promptDashCover,
     },
     {
       name: 'Dice Roll',
-      route: '/DiceRoll',
+      route: '/games/DiceRoll',
       image: diceRollCover,
     },
     {
       name: 'Drink Roulette',
-      route: '/DrinkRoulette',
+      route: '/games/DrinkRoulette',
       image: drinkRouletteCover,
     },
     {
       name: 'AI Bartender',
-      route: '/AIBartender',
+      route: '/games/AIBartender',
       image: aiBartenderCover,
     },
   ];
