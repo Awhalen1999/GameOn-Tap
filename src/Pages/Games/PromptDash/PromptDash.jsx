@@ -89,14 +89,6 @@ const PromptDash = () => {
       >
         Reset Prompts
       </button>
-
-      {/* Return to Home button section */}
-      <Link
-        to='/'
-        className='px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 absolute top-0 left-0 m-4'
-      >
-        Return to Home
-      </Link>
     </div>
   );
 };

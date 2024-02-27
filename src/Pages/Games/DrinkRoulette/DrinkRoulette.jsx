@@ -46,12 +46,6 @@ const DrinkRoulette = () => {
 
   return (
     <div>
-      <Link
-        to='/'
-        className='px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 absolute top-0 left-0 m-4'
-      >
-        Return to Home
-      </Link>
       <div className='arrow'>
         <TiArrowDownThick size={38} />
       </div>

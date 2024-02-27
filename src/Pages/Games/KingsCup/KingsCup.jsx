@@ -55,13 +55,6 @@ const KingsCup = () => {
       >
         Reset Deck
       </button>
-      {/* Link to home page button */}
-      <Link
-        to='/'
-        className='px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 absolute top-0 left-0 m-4'
-      >
-        Return to Home
-      </Link>
       {/* Drawn Card title */}
       {drawnCards.length > 0 && (
         <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>

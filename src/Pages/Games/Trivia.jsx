@@ -100,12 +100,6 @@ function TriviaGame() {
   if (!gameStarted) {
     return (
       <div className='p-6 bg-gray-100 min-h-screen'>
-        <Link
-          to='/'
-          className='mb-8 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-        >
-          Return to Home
-        </Link>
         <h1 className='text-2xl font-bold mb-4'>Trivia Game Setup</h1>
         <div className='mb-4'>
           <label className='block mb-2'>

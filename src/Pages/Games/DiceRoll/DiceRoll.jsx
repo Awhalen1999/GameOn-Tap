@@ -40,13 +40,6 @@ function DiceRoll() {
 
   return (
     <div className='flex flex-col items-center justify-center h-screen'>
-      {/* home button */}
-      <Link
-        to='/'
-        className='absolute top-0 left-0 m-4 p-2 bg-blue-500 text-white rounded'
-      >
-        Return to Home
-      </Link>
       {/* dice */}
       <div className='flex justify-center mb-8'>
         {dice1 !== null ? (
