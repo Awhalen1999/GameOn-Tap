@@ -51,7 +51,7 @@ const KingsCup = () => {
       {/* Reset Deck button */}
       <button
         onClick={resetDeck}
-        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute top-0 right-0 m-4'
+        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 fixed bottom-0 right-0 m-4'
       >
         Reset Deck
       </button>
@@ -60,7 +60,7 @@ const KingsCup = () => {
         <h2 className='mb-4 text-2xl font-bold text-gray-700'>Drawn Card:</h2>
       )}
       {/* Remaining Kings counter */}
-      <h3 className='mb-4 text-xl font-bold text-gray-600 absolute top-0 m-4'>
+      <h3 className='mt-20 text-xl font-bold text-gray-600 absolute top-0 m-4'>
         Remaining Kings:{' '}
         <span className={remainingKings === 1 ? 'text-red-500' : ''}>
           {remainingKings}

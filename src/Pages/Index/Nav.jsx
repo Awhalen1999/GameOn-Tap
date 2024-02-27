@@ -1,9 +1,8 @@
 // todo: update look in css for media q menu
 // todo: add local storage to save theme
 
-import './Nav.css';
 import react, { useState } from 'react';
-import ThemeOptions from './ThemeOptions';
+import ThemeOptions from '../ThemeOptions';
 
 const Nav = () => {
   const [selectedTheme, setSelectedTheme] = useState('mydark');

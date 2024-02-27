@@ -1,16 +1,18 @@
-// GameNav.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ThemeOptions from './ThemeOptions';
 
 const GameNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [selectedTheme, setSelectedTheme] = useState('default');
+  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
 
   let buttons;
 
   switch (location.pathname) {
     case '/games/KingsCup':
-      buttons = ['Kings Cup Button 1', 'Kings Cup Button 2'];
+      buttons = ['Kings Cup Button 1'];
       break;
     case '/games/RideTheBus':
       buttons = ['Ride The Bus Button 1', 'Ride The Bus Button 2'];
@@ -33,12 +35,7 @@ const GameNav = () => {
     case '/games/AIBartender':
       buttons = ['AI Bartender Button 1', 'AI Bartender Button 2'];
       break;
-    default:
-      buttons = ['Default Button'];
   }
-
-  // Add the home button to all pages
-  buttons.push('Home');
 
   return (
     <div className='navbar bg-base-100'>
@@ -66,26 +63,71 @@ const GameNav = () => {
           >
             {buttons.map((button, index) => (
               <li key={index}>
-                <a>{button}</a>
+                <a btn btn-ghost>
+                  {button}
+                </a>
               </li>
             ))}
+            <li>
+              <div
+                className='dropdown relative btn btn-ghost flex items-center'
+                onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
+              >
+                <button tabIndex={0} role='button' className='text-center'>
+                  Theme
+                  <svg
+                    width='18px'
+                    height='18px'
+                    className='h-3 w-3 ml-1 fill-current inline-block'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 2048 2048'
+                  >
+                    <path d='M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z'></path>
+                  </svg>
+                </button>
+                {isThemeDropdownOpen && (
+                  <ThemeOptions
+                    selectedTheme={selectedTheme}
+                    setSelectedTheme={setSelectedTheme}
+                  />
+                )}
+              </div>
+            </li>
           </ul>
         </div>
         <button className='btn btn-ghost text-xl' onClick={() => navigate('/')}>
-          daisyUI
+          GameOn Tap
         </button>
       </div>
-      <div className='navbar-center hidden lg:flex'>
-        <ul className='menu menu-horizontal px-1'>
-          {buttons.map((button, index) => (
-            <li key={index}>
-              <a>{button}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
       <div className='navbar-end'>
-        <button className='btn'>Button</button>
+        <div className='navbar-center hidden lg:flex items-center'>
+          <ul className='menu menu-horizontal px-1'>
+            {buttons.map((button, index) => (
+              <li key={index} className='mr-2'>
+                <a className='btn btn-ghost'>{button}</a>
+              </li>
+            ))}
+          </ul>
+          <div className='dropdown relative mr-2'>
+            <button tabIndex={0} role='button' className='btn btn-ghost'>
+              Theme
+              <svg
+                width='18px'
+                height='18px'
+                className='h-3 w-3 ml-1 fill-current inline-block'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 2048 2048'
+              >
+                <path d='M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z'></path>
+              </svg>
+            </button>
+            <ThemeOptions
+              selectedTheme={selectedTheme}
+              setSelectedTheme={setSelectedTheme}
+            />
+          </div>
+        </div>
+        <a className='btn btn-outline btn-text'>Login</a>
       </div>
     </div>
   );
