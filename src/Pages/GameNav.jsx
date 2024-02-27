@@ -87,10 +87,8 @@ const GameNav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
           >
             {buttons.map((button, index) => (
-              <li key={index}>
-                <a btn btn-ghost>
-                  {button}
-                </a>
+              <li key={index} className='mr-2'>
+                <a className='btn btn-ghost'>{button}</a>
               </li>
             ))}
             <li>
