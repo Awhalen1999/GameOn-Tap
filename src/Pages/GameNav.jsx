@@ -1,6 +1,9 @@
+// Potentially add a "My Bar" to save alcohol if you have account as well as ability to save drink recipes
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ThemeOptions from './ThemeOptions';
+import { FaWrench } from 'react-icons/fa';
 
 const GameNav = () => {
   const location = useLocation();
@@ -18,28 +21,44 @@ const GameNav = () => {
 
   switch (location.pathname) {
     case '/games/KingsCup':
-      buttons = ['Kings Cup Button 1'];
+      buttons = [
+        <span className='flex items-center'>
+          Kings Cup Rules <FaWrench className='ml-2 text-xl' />
+        </span>,
+      ];
       break;
     case '/games/RideTheBus':
-      buttons = ['Ride The Bus Button 1', 'Ride The Bus Button 2'];
+      buttons = ['Ride The Bus Rules'];
       break;
     case '/games/Snap':
-      buttons = ['Snap Button 1', 'Snap Button 2'];
+      buttons = [
+        <span className='flex items-center'>
+          Snap Rules <FaWrench className='ml-2 text-xl' />
+        </span>,
+      ];
       break;
     case '/games/Trivia':
-      buttons = ['Trivia Button 1', 'Trivia Button 2'];
+      buttons = ['Trivia Rules'];
       break;
     case '/games/PromptDash':
-      buttons = ['Prompt Dash Button 1', 'Prompt Dash Button 2'];
+      buttons = ['Prompt Dash Rules'];
       break;
     case '/games/DiceRoll':
-      buttons = ['Dice Roll Button 1', 'Dice Roll Button 2'];
+      buttons = [
+        <span className='flex items-center'>
+          Dice Roll Rules <FaWrench className='ml-2 text-xl' />
+        </span>,
+      ];
       break;
     case '/games/DrinkRoulette':
-      buttons = ['Drink Roulette Button 1', 'Drink Roulette Button 2'];
+      buttons = [
+        <span className='flex items-center'>
+          Drink Roulette Rules <FaWrench className='ml-2 text-xl' />
+        </span>,
+      ];
       break;
     case '/games/AIBartender':
-      buttons = ['AI Bartender Button 1', 'AI Bartender Button 2'];
+      buttons = [];
       break;
   }
 

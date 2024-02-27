@@ -158,8 +158,8 @@ const RideTheBus = () => {
       }`}
     >
       <div className='flex flex-col h-screen'>
-        <div className='m-4 flex justify-between'>
-          {/* Reset game button */}
+        {/* Reset game button */}
+        <div className='absolute bottom-0 right-0 m-4'>
           <button
             onClick={resetGame}
             className='px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600'

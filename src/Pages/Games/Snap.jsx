@@ -1,6 +1,6 @@
 // todo: change page heights form the card element
 // todo: add start game element (set the delay to 0 automatically for this to work)
-// todo: auto refresh deck button
+// todo: auto refresh deck button <-
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -88,7 +88,7 @@ const Snap = () => {
       {/* Reset Deck button */}
       <button
         onClick={resetDeck}
-        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute top-0 right-0 m-4'
+        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute bottom-0 right-0 m-4'
       >
         Reset Deck
       </button>

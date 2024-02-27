@@ -85,7 +85,7 @@ const PromptDash = () => {
       {/* Reset Prompts button section */}
       <button
         onClick={resetPrompts}
-        className='px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 absolute top-0 right-0 m-4'
+        className='px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 absolute bottom-0 right-0 m-4'
       >
         Reset Prompts
       </button>
