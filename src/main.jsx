@@ -14,12 +14,17 @@ import DiceRoll from './Pages/Games/DiceRoll/DiceRoll';
 import DrinkRoulette from './Pages/Games/DrinkRoulette/DrinkRoulette';
 import AIbartender from './Pages/Games/AIBartender/AIBartender';
 import EditRulesPage from './Pages/EditRulesPage';
+import GamePage from './Pages/GamePage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Index />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/GamePage',
+    element: <GamePage />,
   },
   {
     path: 'games',

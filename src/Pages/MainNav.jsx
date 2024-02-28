@@ -2,7 +2,7 @@
 // todo: add local storage to save theme
 
 import React, { useState, useEffect } from 'react';
-import ThemeOptions from '../ThemeOptions';
+import ThemeOptions from './ThemeOptions';
 
 const Nav = () => {
   const [selectedTheme, setSelectedTheme] = useState(

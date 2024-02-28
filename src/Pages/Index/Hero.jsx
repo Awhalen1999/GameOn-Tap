@@ -1,5 +1,6 @@
 import React from 'react';
 import heroImage from '../../assets/hero-image-alt.png';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -21,12 +22,12 @@ const Hero = () => {
             and roulette challenges and trivia showdowns. Spice up any gathering
             with laughter, competition, and good times!
           </p>
-          <a
-            href='#'
+          <Link
+            to='/gamepage'
             className='inline-block bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-base-100 border border-transparent hover:border-accent'
           >
-            Get Started
-          </a>
+            Games
+          </Link>
           <a
             href='#'
             className='inline-block ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-text hover:text-base-100'
