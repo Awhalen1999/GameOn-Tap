@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
@@ -52,6 +52,9 @@ const EditRulesPage = () => {
   return (
     <div className='p-6 bg-base-100 min-h-screen'>
       <h1 className='text-2xl font-bold mb-4'>Edit Rules for {game}</h1>
+      <Link to={`/games/${game}`} className='btn btn-primary'>
+        Return to Game
+      </Link>
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
           <div key={key} className='mb-4'>
