@@ -23,9 +23,10 @@ const DrinkRoulette = () => {
     setRotation(totalDegrees);
     setTimeout(() => {
       const resultIndex = 13 - Math.ceil((totalDegrees % 360) / 30);
-      const resultName = itemNames[resultIndex - 1];
-      setResult(resultName);
-      setDescription(DrinkRouletteRules[resultName].description);
+      const resultKey = itemNames[resultIndex - 1];
+      const resultRule = DrinkRouletteRules[resultKey];
+      setResult(resultRule.title);
+      setDescription(resultRule.description);
       setIsSpinning(false);
       setHasSpun(true);
     }, 3500);
