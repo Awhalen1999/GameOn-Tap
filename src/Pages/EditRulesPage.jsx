@@ -84,9 +84,17 @@ const EditRulesPage = () => {
         <h1 className='text-2xl font-bold text-primary'>
           Edit Rules for {game}
         </h1>
-        <Link to={`/games/${game}`} className='btn btn-primary'>
-          Return to {game}
-        </Link>
+        <div className='flex justify-end'>
+          <Link to={`/games/${game}`} className='btn btn-primary mr-4'>
+            Return to {game}
+          </Link>
+          <button
+            onClick={() => window.location.reload()}
+            className='btn btn-primary'
+          >
+            Default rules
+          </button>
+        </div>
       </div>
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (

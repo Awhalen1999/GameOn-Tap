@@ -4,7 +4,6 @@
 // rule edit not working because text is coming from drink roulette not from rules
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './DrinkRoulette.css';
 import { TiArrowDownThick } from 'react-icons/ti';
 import { DrinkRouletteRules } from './DrinkRouletteRules';
@@ -16,20 +15,7 @@ const DrinkRoulette = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
 
-  const itemNames = [
-    'Straight Shot',
-    'Choice',
-    'Water Break',
-    'Mystery',
-    'Mix It Up',
-    'Target',
-    'Middle',
-    'Bartender',
-    'Add or Take',
-    'Generosity',
-    'Right Hand',
-    'Spinner Drinks',
-  ];
+  const itemNames = Object.keys(DrinkRouletteRules);
 
   const startRotation = () => {
     setIsSpinning(true);
@@ -51,42 +37,13 @@ const DrinkRoulette = () => {
         <TiArrowDownThick size={38} />
       </div>
       <ul className='circle' style={{ transform: `rotate(${rotation}deg)` }}>
-        <li className='item'>
-          <div className='text'>Straight Shot</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Choice</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Water Break</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Mystery</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Mix It Up</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Target</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Middle</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Bartender</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Add or Take</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Generosity</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Right Hand</div>
-        </li>
-        <li className='item'>
-          <div className='text'>Spinner Drinks</div>
-        </li>
+        {itemNames.map((itemName) => (
+          <li className='item' key={itemName}>
+            <div className='text text-black'>
+              {DrinkRouletteRules[itemName].title}
+            </div>
+          </li>
+        ))}
       </ul>
       <button
         className='spin-button'
