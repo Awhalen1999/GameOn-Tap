@@ -26,13 +26,6 @@ const EditRulesPage = () => {
     }
   }, [location.pathname]);
 
-  const handleBlur = () => {
-    if (editing) {
-      rules[editing.index][editing.type] = editedText;
-      setEditing(null);
-    }
-  };
-
   const handleEdit = (key, type, text) => {
     setEditing({ key, type });
     setEditedText(text);
@@ -51,10 +44,12 @@ const EditRulesPage = () => {
 
   return (
     <div className='p-6 bg-base-100 min-h-screen'>
-      <h1 className='text-2xl font-bold mb-4'>Edit Rules for {game}</h1>
-      <Link to={`/games/${game}`} className='btn btn-primary'>
-        Return to Game
-      </Link>
+      <div className='flex justify-between items-center mb-4'>
+        <h1 className='text-2xl font-bold'>Edit Rules for {game}</h1>
+        <Link to={`/games/${game}`} className='btn btn-primary'>
+          Return to {game}
+        </Link>
+      </div>
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
           <div key={key} className='mb-4'>
@@ -63,21 +58,21 @@ const EditRulesPage = () => {
                 <input
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
-                  onBlur={handleBlur}
                   autoFocus
                 />
               ) : (
                 <div className='font-semibold'>{rule.title}</div>
               )}
-              <button
-                className='btn btn-primary'
-                onClick={() => handleEdit(key, 'title', rule.title)}
-              >
-                Edit
-              </button>
-              {editing?.key === key && editing?.type === 'title' && (
+              {editing?.key === key && editing?.type === 'title' ? (
                 <button className='btn btn-primary' onClick={handleSubmit}>
                   Submit
+                </button>
+              ) : (
+                <button
+                  className='btn btn-primary'
+                  onClick={() => handleEdit(key, 'title', rule.title)}
+                >
+                  Edit
                 </button>
               )}
             </div>
@@ -86,21 +81,23 @@ const EditRulesPage = () => {
                 <input
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
-                  onBlur={handleBlur}
                   autoFocus
                 />
               ) : (
                 <div>{rule.description}</div>
               )}
-              <button
-                className='btn btn-primary'
-                onClick={() => handleEdit(key, 'description', rule.description)}
-              >
-                Edit
-              </button>
-              {editing?.key === key && editing?.type === 'description' && (
+              {editing?.key === key && editing?.type === 'description' ? (
                 <button className='btn btn-primary' onClick={handleSubmit}>
                   Submit
+                </button>
+              ) : (
+                <button
+                  className='btn btn-primary'
+                  onClick={() =>
+                    handleEdit(key, 'description', rule.description)
+                  }
+                >
+                  Edit
                 </button>
               )}
             </div>

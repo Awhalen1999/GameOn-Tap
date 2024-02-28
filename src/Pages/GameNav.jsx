@@ -174,7 +174,6 @@ const GameNav = () => {
           </p>
           <div className='modal-action'>
             <form method='dialog'>
-              <button className='btn'>Close</button>
               {gamesWithIcon.has(location.pathname) && (
                 <button
                   className='btn'
@@ -182,9 +181,10 @@ const GameNav = () => {
                     navigate(`/games/EditRules/${location.pathname.slice(7)}`)
                   }
                 >
-                  Edit Rules
+                  Edit Rules <FaWrench className='ml-2' size={18} />
                 </button>
               )}
+              <button className='btn ml-2'>Close</button>
             </form>
           </div>
         </div>
