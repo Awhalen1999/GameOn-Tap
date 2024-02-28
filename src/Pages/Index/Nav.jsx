@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import ThemeOptions from '../ThemeOptions';
 
-const MainNav = () => {
+const Nav = () => {
   const [selectedTheme, setSelectedTheme] = useState(
     localStorage.getItem('theme') || 'mydark'
   );
@@ -118,4 +118,4 @@ const MainNav = () => {
   );
 };
 
-export default MainNav;
+export default Nav;

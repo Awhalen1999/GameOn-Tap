@@ -71,7 +71,7 @@ const GameList = () => {
                   alt={game.name}
                   className='w-full h-48 object-cover mb-2 rounded'
                 />
-                <div className='text-base-100 bg-primary rounded hover:bg-accent w-full text-center'>
+                <div className='text-base-100 font-bold bg-primary rounded hover:bg-accent w-full text-center'>
                   {game.name}
                 </div>
               </Link>

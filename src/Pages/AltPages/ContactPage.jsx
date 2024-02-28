@@ -1,7 +1,12 @@
 import React from 'react';
+import AltNav from './AltNav';
 
-const ContactPage = () => {
-  return <div>ContactPage</div>;
+const GamePage = () => {
+  return (
+    <div>
+      <AltNav />
+    </div>
+  );
 };
 
-export default ContactPage;
+export default GamePage;
