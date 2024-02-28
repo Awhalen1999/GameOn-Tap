@@ -10,6 +10,42 @@ const rulesModules = {
   DrinkRoulette: DrinkRouletteRules,
 };
 
+const RuleEdit = ({
+  editing,
+  editedText,
+  setEditedText,
+  handleSubmit,
+  handleEdit,
+  rule,
+  ruleKey,
+  type,
+}) => (
+  <div className='flex justify-between items-center bg-neutral p-4 rounded-lg'>
+    {editing?.key === ruleKey && editing?.type === type ? (
+      <input
+        value={editedText}
+        onChange={(e) => setEditedText(e.target.value)}
+        autoFocus
+        className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
+      />
+    ) : (
+      <div className='font-semibold text-accent'>{rule[type]}</div>
+    )}
+    {editing?.key === ruleKey && editing?.type === type ? (
+      <button className='btn btn-primary ml-4' onClick={handleSubmit}>
+        Submit
+      </button>
+    ) : (
+      <button
+        className='btn btn-primary ml-4'
+        onClick={() => handleEdit(ruleKey, type, rule[type])}
+      >
+        Edit
+      </button>
+    )}
+  </div>
+);
+
 const EditRulesPage = () => {
   const { game } = useParams();
   const location = useLocation();
@@ -55,56 +91,28 @@ const EditRulesPage = () => {
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
           <div key={key} className='mb-4'>
-            <div className='flex justify-between items-center mb-1 bg-neutral p-4 rounded-lg'>
-              {editing?.key === key && editing?.type === 'title' ? (
-                <input
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                  autoFocus
-                  className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
-                />
-              ) : (
-                <div className='font-semibold text-accent'>{rule.title}</div>
-              )}
-              {editing?.key === key && editing?.type === 'title' ? (
-                <button className='btn btn-primary ml-4' onClick={handleSubmit}>
-                  Submit
-                </button>
-              ) : (
-                <button
-                  className='btn btn-primary'
-                  onClick={() => handleEdit(key, 'title', rule.title)}
-                >
-                  Edit
-                </button>
-              )}
+            <div className='mb-1'>
+              <RuleEdit
+                editing={editing}
+                editedText={editedText}
+                setEditedText={setEditedText}
+                handleSubmit={handleSubmit}
+                handleEdit={handleEdit}
+                rule={rule}
+                ruleKey={key}
+                type='title'
+              />
             </div>
-            <div className='flex justify-between items-center bg-neutral p-4 rounded-lg'>
-              {editing?.key === key && editing?.type === 'description' ? (
-                <textarea
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                  autoFocus
-                  className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
-                />
-              ) : (
-                <div className='text-accent'>{rule.description}</div>
-              )}
-              {editing?.key === key && editing?.type === 'description' ? (
-                <button className='btn btn-primary ml-4' onClick={handleSubmit}>
-                  Submit
-                </button>
-              ) : (
-                <button
-                  className='btn btn-primary'
-                  onClick={() =>
-                    handleEdit(key, 'description', rule.description)
-                  }
-                >
-                  Edit
-                </button>
-              )}
-            </div>
+            <RuleEdit
+              editing={editing}
+              editedText={editedText}
+              setEditedText={setEditedText}
+              handleSubmit={handleSubmit}
+              handleEdit={handleEdit}
+              rule={rule}
+              ruleKey={key}
+              type='description'
+            />
           </div>
         ))}
     </div>
