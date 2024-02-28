@@ -23,7 +23,7 @@ const Hero = () => {
             with laughter, competition, and good times!
           </p>
           <Link
-            to='/gamepage'
+            to='/GamePage'
             className='inline-block bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-base-100 border border-transparent hover:border-accent'
           >
             Games

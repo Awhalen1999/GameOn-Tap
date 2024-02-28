@@ -69,14 +69,14 @@ const GamePage = () => {
       <div className='w-screen h-auto bg-base-100'>
         <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
           <div className='w-full h-10 flex items-center justify-start'>
-            <h1 className='font-bold text-2xl text-text'>Featured Games</h1>
+            <h1 className='font-bold text-2xl text-text'>Games</h1>
           </div>
-          <div className='mt-10 grid grid-cols-4 gap-4'>
+          <div className='mt-10 grid grid-cols-3 gap-4'>
             {games.map((game, index) => (
               <div key={index} className='mb-2'>
                 <Link
                   to={game.route}
-                  className='px-4 py-2 bg-transparent rounded hover:scale-105 mx-auto flex flex-col items-center'
+                  className='px-6 py-3 bg-transparent rounded hover:scale-105 mx-auto flex flex-col items-center'
                 >
                   <div className='text-text p-1.5 font-bold text-lg bg-primary rounded-t hover:bg-accent w-full text-center'>
                     {game.name}
@@ -86,7 +86,7 @@ const GamePage = () => {
                     alt={game.name}
                     className='w-full h-48 object-cover'
                   />
-                  <div className='text-text bg-secondary rounded-b hover:bg-accent w-full text-center h-[100px] p-4'>
+                  <div className='text-text bg-secondary rounded-b hover:bg-accent w-full text-center h-auto p-4'>
                     {game.description}
                   </div>
                 </Link>
