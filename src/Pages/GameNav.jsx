@@ -97,7 +97,7 @@ const GameNav = () => {
                   <svg
                     width='18px'
                     height='18px'
-                    className='h-3 w-3 fill-current inline-block'
+                    className='h-3 w-3 ml-1 fill-current inline-block'
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 2048 2048'
                   >
@@ -155,9 +155,13 @@ const GameNav = () => {
         <div className='modal-box'>
           <h3 className='font-bold text-lg'>{gameTitles[location.pathname]}</h3>
           <p className='py-4'>
-            {Object.values(gameRules[location.pathname])
-              .map((rule) => `${rule.title}: ${rule.description}`)
-              .join('\n\n')}
+            {Object.values(gameRules[location.pathname]).map((rule, index) => (
+              <>
+                <strong>{rule.title}</strong>: {rule.description}
+                <br />
+                <br />
+              </>
+            ))}
           </p>
           <div className='modal-action'>
             <form method='dialog'>
