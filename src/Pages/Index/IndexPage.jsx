@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from '../MainNav';
+import Nav from './Nav';
 import Hero from './Hero';
 import GameList from './GameList';
 

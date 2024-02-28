@@ -14,7 +14,7 @@ import DiceRoll from './Pages/Games/DiceRoll/DiceRoll';
 import DrinkRoulette from './Pages/Games/DrinkRoulette/DrinkRoulette';
 import AIbartender from './Pages/Games/AIBartender/AIBartender';
 import EditRulesPage from './Pages/EditRulesPage';
-import GamePage from './Pages/GamePage';
+import GamePage from './Pages/AltPages/GamePage';
 
 const router = createBrowserRouter([
   {

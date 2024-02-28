@@ -1,10 +1,9 @@
 // todo: update look in css for media q menu
-// todo: add local storage to save theme
 
 import React, { useState, useEffect } from 'react';
-import ThemeOptions from './ThemeOptions';
+import ThemeOptions from '../ThemeOptions';
 
-const Nav = () => {
+const MainNav = () => {
   const [selectedTheme, setSelectedTheme] = useState(
     localStorage.getItem('theme') || 'mydark'
   );
@@ -77,7 +76,9 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-        <span className='font-bold text-xl text-text px-8'>GameOn Tap</span>
+        <div className='navbar bg-base-100'>
+          <span className='font-bold text-xl'>GameOn Tap</span>
+        </div>
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1 text-text font-semibold'>
@@ -117,4 +118,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default MainNav;
