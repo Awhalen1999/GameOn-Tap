@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
@@ -12,7 +12,16 @@ const rulesModules = {
 
 const EditRulesPage = () => {
   const { game } = useParams();
+  const location = useLocation();
   const rules = rulesModules[game];
+
+  useEffect(() => {
+    const modalId = `${location.pathname.slice(1)}-rules`;
+    const modal = document.getElementById(modalId);
+    if (modal && modal.close) {
+      modal.close();
+    }
+  }, [location.pathname]);
 
   return (
     <div className='p-6 bg-base-100 min-h-screen'>

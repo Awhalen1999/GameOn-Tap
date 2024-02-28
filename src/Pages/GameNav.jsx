@@ -125,7 +125,7 @@ const GameNav = () => {
       {/* Desktop menu */}
       <div className='navbar-end'>
         <div className='navbar-center hidden lg:flex items-center'>
-          <div className='dropdown relative '>
+          <div className='dropdown relative'>
             <button tabIndex={0} role='button' className='btn btn-ghost mr-2'>
               Theme
               <svg
