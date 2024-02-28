@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       { path: 'DiceRoll', element: <DiceRoll /> },
       { path: 'DrinkRoulette', element: <DrinkRoulette /> },
       { path: 'AIBartender', element: <AIbartender /> },
-      { path: 'edit-rules/:game', element: <EditRulesPage /> },
+      { path: 'EditRules/:game', element: <EditRulesPage /> },
     ],
     errorElement: <ErrorPage />,
   },

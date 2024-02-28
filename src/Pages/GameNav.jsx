@@ -55,7 +55,9 @@ const GameNav = () => {
     document.getElementById(modalId).showModal();
   };
 
-  const isEditRulesPage = location.pathname.includes('edit-rules');
+  const isEditRulesOrAIBartenderPage =
+    location.pathname.includes('EditRules') ||
+    location.pathname.includes('AIBartender');
 
   return (
     <div className='navbar bg-base-100'>
@@ -82,7 +84,7 @@ const GameNav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
           >
             <li>
-              {!isEditRulesPage && (
+              {!isEditRulesOrAIBartenderPage && (
                 <button className='btn btn-ghost' onClick={openModal}>
                   {gameTitles[location.pathname]}
                   {gamesWithIcon.has(location.pathname) && (
@@ -143,7 +145,7 @@ const GameNav = () => {
               setSelectedTheme={setSelectedTheme}
             />
           </div>
-          {!isEditRulesPage && (
+          {!isEditRulesOrAIBartenderPage && (
             <button className='btn btn-ghost mr-2' onClick={openModal}>
               {gameTitles[location.pathname]}
               {gamesWithIcon.has(location.pathname) && (
@@ -177,7 +179,7 @@ const GameNav = () => {
                 <button
                   className='btn'
                   onClick={() =>
-                    navigate(`/games/edit-rules/${location.pathname.slice(7)}`)
+                    navigate(`/games/EditRules/${location.pathname.slice(7)}`)
                   }
                 >
                   Edit Rules
