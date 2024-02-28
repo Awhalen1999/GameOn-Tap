@@ -53,18 +53,19 @@ const EditRulesPage = () => {
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
           <div key={key} className='mb-4'>
-            <div className='flex justify-between items-center mb-1 bg-neutral p-4 rounded'>
+            <div className='flex justify-between items-center mb-1 bg-neutral p-4 rounded-lg'>
               {editing?.key === key && editing?.type === 'title' ? (
                 <input
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
                   autoFocus
+                  className='w-full h-10 rounded-lg p-2'
                 />
               ) : (
                 <div className='font-semibold'>{rule.title}</div>
               )}
               {editing?.key === key && editing?.type === 'title' ? (
-                <button className='btn btn-primary' onClick={handleSubmit}>
+                <button className='btn btn-primary ml-4' onClick={handleSubmit}>
                   Submit
                 </button>
               ) : (
@@ -76,18 +77,19 @@ const EditRulesPage = () => {
                 </button>
               )}
             </div>
-            <div className='flex justify-between items-center bg-neutral p-4 rounded'>
+            <div className='flex justify-between items-center bg-neutral p-4 rounded-lg'>
               {editing?.key === key && editing?.type === 'description' ? (
-                <input
+                <textarea
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
                   autoFocus
+                  className='w-full h-10 rounded-lg p-2'
                 />
               ) : (
                 <div>{rule.description}</div>
               )}
               {editing?.key === key && editing?.type === 'description' ? (
-                <button className='btn btn-primary' onClick={handleSubmit}>
+                <button className='btn btn-primary ml-4' onClick={handleSubmit}>
                   Submit
                 </button>
               ) : (
