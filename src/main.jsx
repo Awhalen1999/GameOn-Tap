@@ -13,6 +13,7 @@ import PromptDash from './Pages/Games/PromptDash/PromptDash';
 import DiceRoll from './Pages/Games/DiceRoll/DiceRoll';
 import DrinkRoulette from './Pages/Games/DrinkRoulette/DrinkRoulette';
 import AIbartender from './Pages/Games/AIBartender/AIBartender';
+import EditRulesPage from './Pages/EditRulesPage';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: 'DiceRoll', element: <DiceRoll /> },
       { path: 'DrinkRoulette', element: <DrinkRoulette /> },
       { path: 'AIBartender', element: <AIbartender /> },
+      { path: 'edit-rules/:game', element: <EditRulesPage /> },
     ],
     errorElement: <ErrorPage />,
   },

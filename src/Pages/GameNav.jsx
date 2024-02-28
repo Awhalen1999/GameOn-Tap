@@ -55,6 +55,8 @@ const GameNav = () => {
     document.getElementById(modalId).showModal();
   };
 
+  const isEditRulesPage = location.pathname.includes('edit-rules');
+
   return (
     <div className='navbar bg-base-100'>
       <div className='navbar-start'>
@@ -80,12 +82,14 @@ const GameNav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
           >
             <li>
-              <button className='btn btn-ghost' onClick={openModal}>
-                {gameTitles[location.pathname]}
-                {gamesWithIcon.has(location.pathname) && (
-                  <FaWrench className='ml-2' size={18} />
-                )}
-              </button>
+              {!isEditRulesPage && (
+                <button className='btn btn-ghost' onClick={openModal}>
+                  {gameTitles[location.pathname]}
+                  {gamesWithIcon.has(location.pathname) && (
+                    <FaWrench className='ml-2' size={18} />
+                  )}
+                </button>
+              )}
             </li>
             <li>
               <div
@@ -139,12 +143,14 @@ const GameNav = () => {
               setSelectedTheme={setSelectedTheme}
             />
           </div>
-          <button className='btn btn-ghost mr-2' onClick={openModal}>
-            {gameTitles[location.pathname]}
-            {gamesWithIcon.has(location.pathname) && (
-              <FaWrench className='ml-2' size={18} />
-            )}
-          </button>
+          {!isEditRulesPage && (
+            <button className='btn btn-ghost mr-2' onClick={openModal}>
+              {gameTitles[location.pathname]}
+              {gamesWithIcon.has(location.pathname) && (
+                <FaWrench className='ml-2' size={18} />
+              )}
+            </button>
+          )}
         </div>
         <a className='btn btn-outline btn-text'>Login</a>
       </div>
@@ -155,17 +161,28 @@ const GameNav = () => {
         <div className='modal-box'>
           <h3 className='font-bold text-lg'>{gameTitles[location.pathname]}</h3>
           <p className='py-4'>
-            {Object.values(gameRules[location.pathname]).map((rule, index) => (
-              <>
-                <strong>{rule.title}</strong>: {rule.description}
-                <br />
-                <br />
-              </>
-            ))}
+            {gameRules[location.pathname] &&
+              Object.values(gameRules[location.pathname]).map((rule, index) => (
+                <React.Fragment key={index}>
+                  <strong>{rule.title}</strong>: {rule.description}
+                  <br />
+                  <br />
+                </React.Fragment>
+              ))}
           </p>
           <div className='modal-action'>
             <form method='dialog'>
               <button className='btn'>Close</button>
+              {gamesWithIcon.has(location.pathname) && (
+                <button
+                  className='btn'
+                  onClick={() =>
+                    navigate(`/games/edit-rules/${location.pathname.slice(7)}`)
+                  }
+                >
+                  Edit Rules
+                </button>
+              )}
             </form>
           </div>
         </div>
