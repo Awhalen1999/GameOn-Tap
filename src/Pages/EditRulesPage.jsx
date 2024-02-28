@@ -43,9 +43,11 @@ const EditRulesPage = () => {
   };
 
   return (
-    <div className='p-6 bg-base-100 min-h-screen'>
+    <div className='p-6 bg-base-100 min-h-screen text-text'>
       <div className='flex justify-between items-center mb-4'>
-        <h1 className='text-2xl font-bold'>Edit Rules for {game}</h1>
+        <h1 className='text-2xl font-bold text-primary'>
+          Edit Rules for {game}
+        </h1>
         <Link to={`/games/${game}`} className='btn btn-primary'>
           Return to {game}
         </Link>
@@ -59,10 +61,10 @@ const EditRulesPage = () => {
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
                   autoFocus
-                  className='w-full h-10 rounded-lg p-2'
+                  className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
                 />
               ) : (
-                <div className='font-semibold'>{rule.title}</div>
+                <div className='font-semibold text-accent'>{rule.title}</div>
               )}
               {editing?.key === key && editing?.type === 'title' ? (
                 <button className='btn btn-primary ml-4' onClick={handleSubmit}>
@@ -83,10 +85,10 @@ const EditRulesPage = () => {
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
                   autoFocus
-                  className='w-full h-10 rounded-lg p-2'
+                  className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
                 />
               ) : (
-                <div>{rule.description}</div>
+                <div className='text-accent'>{rule.description}</div>
               )}
               {editing?.key === key && editing?.type === 'description' ? (
                 <button className='btn btn-primary ml-4' onClick={handleSubmit}>

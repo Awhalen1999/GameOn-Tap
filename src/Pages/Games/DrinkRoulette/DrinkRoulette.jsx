@@ -1,6 +1,7 @@
 // todo: Reword rule descriptions
 // todo: ease spin at end
 // todo: add slider for spin time
+// rule edit not working because text is coming from drink roulette not from rules
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
