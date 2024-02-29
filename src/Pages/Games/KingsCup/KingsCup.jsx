@@ -6,7 +6,7 @@ import placeholderCard from '../../../cards/red.png';
 import KingsCupRules from './KingsCupRules.js';
 import initialDeck from '../DeckOfCards.jsx';
 
-const KingsCup = () => {
+const KingsCup = (props) => {
   const [deck, setDeck] = useState([...initialDeck]);
   const [drawnCards, setDrawnCards] = useState([]);
   const [cardImages, setCardImages] = useState({});
