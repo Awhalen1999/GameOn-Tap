@@ -10,7 +10,7 @@ const Hero = () => {
         backgroundImage: 'url(' + heroImage + ')',
       }}
     >
-      <div className='hero-overlay bg-opacity-75'></div>
+      <div className='hero-overlay bg-opacity-70'></div>
       <div className='hero-content text-left text-neutral-content w-full flex items-center justify-start'>
         <div className='max-w-lg pl-15'>
           <h1 className='tracking-tight font-light text-text text-4xl '>

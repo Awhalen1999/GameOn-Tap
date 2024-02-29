@@ -17,31 +17,6 @@ const GameList = () => {
       image: kingsCupCover,
     },
     {
-      name: 'Ride The Bus',
-      route: '/games/RideTheBus',
-      image: rideTheBusCover,
-    },
-    {
-      name: 'Snap',
-      route: '/games/Snap',
-      image: snapCover,
-    },
-    {
-      name: 'Trivia',
-      route: '/games/Trivia',
-      image: triviaCover,
-    },
-    {
-      name: 'Prompt Dash',
-      route: '/games/PromptDash',
-      image: promptDashCover,
-    },
-    {
-      name: 'Dice Roll',
-      route: '/games/DiceRoll',
-      image: diceRollCover,
-    },
-    {
       name: 'Drink Roulette',
       route: '/games/DrinkRoulette',
       image: drinkRouletteCover,
@@ -57,7 +32,7 @@ const GameList = () => {
     <div className='w-screen h-auto bg-base-100'>
       <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
         <div className='w-full h-10 flex items-center justify-start'>
-          <h1 className='font-bold text-2xl text-text'>Featured Games</h1>
+          <h1 className='font-bold text-2xl text-text'>Featured</h1>
         </div>
         <div className='mt-10 grid grid-cols-4 gap-4'>
           {games.map((game, index) => (
@@ -77,6 +52,13 @@ const GameList = () => {
               </Link>
             </div>
           ))}
+          <div className='mb-2 flex items-center'>
+            <Link to='/GamePage' className='w-full'>
+              <button className='text-base-100 font-bold bg-primary rounded hover:bg-accent w-full text-center'>
+                See all games
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
