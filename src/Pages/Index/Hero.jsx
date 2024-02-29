@@ -1,15 +1,18 @@
 import React from 'react';
-import heroImage from '../../assets/hero-image-alt.png';
+import heroImage from '../../assets/hero-image-g.png';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <div className='hero bg-base-100 '>
-      <div>
-        <img src={heroImage} alt='Hero' className='mx-auto' />
-      </div>
-      <div className=' hero-content w-full h-full flex items-center justify-start'>
-        <div className='w-2/5'>
+    <div
+      className='hero min-h-screen'
+      style={{
+        backgroundImage: 'url(' + heroImage + ')',
+      }}
+    >
+      <div className='hero-overlay bg-opacity-75'></div>
+      <div className='hero-content text-left text-neutral-content w-full flex items-center justify-start'>
+        <div className='max-w-lg pl-15'>
           <h1 className='tracking-tight font-light text-text text-4xl '>
             Welcome to
           </h1>
