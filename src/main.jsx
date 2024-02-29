@@ -16,34 +16,39 @@ import AIbartender from './Pages/Games/AIBartender/AIBartender';
 import EditRulesPage from './Pages/EditRulesPage';
 import GamePage from './Pages/AltPages/GamePage/GamePage';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Index />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: '/GamePage',
+      element: <GamePage />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: 'games',
+      element: <Game />,
+      children: [
+        { path: 'KingsCup', element: <KingsCup /> },
+        { path: 'RideTheBus', element: <RideTheBus /> },
+        { path: 'Snap', element: <Snap /> },
+        { path: 'Trivia', element: <Trivia /> },
+        { path: 'PromptDash', element: <PromptDash /> },
+        { path: 'DiceRoll', element: <DiceRoll /> },
+        { path: 'DrinkRoulette', element: <DrinkRoulette /> },
+        { path: 'AIBartender', element: <AIbartender /> },
+        { path: 'EditRules/:game', element: <EditRulesPage /> },
+      ],
+      errorElement: <ErrorPage />,
+    },
+  ],
   {
-    path: '/',
-    element: <Index />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/GamePage',
-    element: <GamePage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: 'games',
-    element: <Game />,
-    children: [
-      { path: 'KingsCup', element: <KingsCup /> },
-      { path: 'RideTheBus', element: <RideTheBus /> },
-      { path: 'Snap', element: <Snap /> },
-      { path: 'Trivia', element: <Trivia /> },
-      { path: 'PromptDash', element: <PromptDash /> },
-      { path: 'DiceRoll', element: <DiceRoll /> },
-      { path: 'DrinkRoulette', element: <DrinkRoulette /> },
-      { path: 'AIBartender', element: <AIbartender /> },
-      { path: 'EditRules/:game', element: <EditRulesPage /> },
-    ],
-    errorElement: <ErrorPage />,
-  },
-]);
+    basename: '/GameOn-Tap',
+  }
+);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
