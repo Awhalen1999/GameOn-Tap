@@ -120,8 +120,17 @@ const GameNav = () => {
             </li>
           </ul>
         </div>
-        <button className='btn btn-ghost text-xl' onClick={() => navigate('/')}>
+        <button
+          className='btn btn-ghost text-xl border'
+          onClick={() => navigate('/')}
+        >
           GameOn Tap
+        </button>
+        <button
+          className='btn btn-ghost text-xl ml-2 border'
+          onClick={() => navigate('/GamePage')}
+        >
+          Games
         </button>
       </div>
       {/* Desktop menu */}

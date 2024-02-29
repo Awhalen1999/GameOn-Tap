@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Micro+5&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,5 +26,3 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(90, 90, 90, 0.9);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Electrolize&family=Space+Grotesk:wght@300..700&display=swap');

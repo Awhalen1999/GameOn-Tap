@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        main: ['Electrolize', 'sans-serif'],
+        micro: ['Micro 5', 'sans-serif'],
       },
     },
   },
