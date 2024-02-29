@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   // base: 'https://awhalen1999.github.io/',
-  base: '/GameOn-Tap/',
+  // base: '/GameOn-Tap/',
 });
