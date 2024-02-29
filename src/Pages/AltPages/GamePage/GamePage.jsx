@@ -10,6 +10,7 @@ import diceRollCover from '../../../assets/dice-roll-cover.png';
 import drinkRouletteCover from '../../../assets/drink-roulette-cover.png';
 import aiBartenderCover from '../../../assets/ai-bartender-cover.png';
 import gameDescription from './GameDescription';
+import gameHero from '../../../assets/games-hero.png';
 
 const GamePage = () => {
   const games = [
@@ -66,7 +67,28 @@ const GamePage = () => {
   return (
     <div>
       <AltNav />
-      <div className='w-screen h-auto bg-base-100'>
+      <div className=' bg-base-100'>
+        <div
+          className='hero w-screen h-[65vh] bg-cover bg-center bg-no-repeat relative'
+          style={{
+            backgroundImage: `url(${gameHero})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className='hero-overlay bg-opacity-60'></div>
+          <div className='hero-content text-center text-neutral-content'>
+            <div className='max-w-md'>
+              <h1 className='mb-5 text-5xl font-bold'>Hello there</h1>
+              <p className='mb-5'>
+                Provident cupiditate voluptatem et in. Quaerat fugiat ut
+                assumenda excepturi exercitationem quasi. In deleniti eaque aut
+                repudiandae et a id nisi.
+              </p>
+              <button className='btn btn-primary'>Get Started</button>
+            </div>
+          </div>
+        </div>
         <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
           <div className='w-full h-10 flex items-center justify-start'>
             <h1 className='font-bold text-2xl text-text'>Games</h1>
