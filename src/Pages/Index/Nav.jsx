@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ThemeOptions from '../ThemeOptions';
 
 const Nav = () => {
@@ -13,6 +14,7 @@ const Nav = () => {
 
   return (
     <div className='navbar bg-base-100 border-b border-secondary'>
+      {/* left */}
       <div className='navbar-start'>
         <div className='dropdown'>
           <div
@@ -40,10 +42,7 @@ const Nav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
             <li>
-              <a className='text-base-content'>Item 1</a>
-            </li>
-            <li>
-              <a className='text-base-content'>Item 2</a>
+              <Link to='/GamePage'>Games</Link>
             </li>
             <li>
               <div
@@ -80,16 +79,18 @@ const Nav = () => {
           </span>
         </div>
       </div>
-      <div className='navbar-center hidden lg:flex'>
-        <ul className='menu menu-horizontal px-1 text-base-content font-semibold'>
+      {/* center */}
+      <div className='navbar-center hidden lg:flex'></div>
+      {/* right */}
+      <div className='navbar-end'>
+        <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
           <li>
-            <a className='text-base-content'>Item 1</a>
+            <Link to='/GamePage' className='btn btn-ghost ml-2'>
+              Games
+            </Link>
           </li>
           <li>
-            <a className='text-base-content'>Item 2</a>
-          </li>
-          <li>
-            <div className='dropdown relative'>
+            <div className='dropdown relative btn btn-ghost flex items-center justify-center ml-2'>
               <div tabIndex={0} role='button' className='text-base-content'>
                 Theme
                 <svg
@@ -109,9 +110,9 @@ const Nav = () => {
             </div>
           </li>
         </ul>
-      </div>
-      <div className='navbar-end'>
-        <a className='btn btn-outline btn-base-content'>Login</a>
+        <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
+          <a className=' btn-outline btn ml-2'>Login</a>
+        </li>
       </div>
     </div>
   );
