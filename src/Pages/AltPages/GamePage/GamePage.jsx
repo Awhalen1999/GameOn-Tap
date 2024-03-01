@@ -1,5 +1,4 @@
 import React from 'react';
-import AltNav from '../AltNav';
 import { Link } from 'react-router-dom';
 import kingsCupCover from '../../../assets/kings-cup-cover.png';
 import rideTheBusCover from '../../../assets/ride-the-bus-cover.png';

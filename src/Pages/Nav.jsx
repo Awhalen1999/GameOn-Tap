@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeOptions from './ThemeOptions';
+import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
+import RideTheBusRules from './Games/RideTheBus/RideTheBusRules.js';
+import SnapRules from './Games/Snap/SnapRules.js';
+import TriviaRules from './Games/Trivia/TriviaRules.js';
+import PromptDashRules from './Games/PromptDash/PromptDashRules.js';
+import DiceRollRules from './Games/DiceRoll/DiceRollRules';
+import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
+import { FaWrench } from 'react-icons/fa';
 
 const Nav = () => {
   const [selectedTheme, setSelectedTheme] = useState(
@@ -8,6 +16,7 @@ const Nav = () => {
   );
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isGamePage = location.pathname === '/GamePage';
@@ -15,6 +24,42 @@ const Nav = () => {
   useEffect(() => {
     localStorage.setItem('theme', selectedTheme);
   }, [selectedTheme]);
+
+  const gameRules = {
+    '/games/KingsCup': KingsCupRules,
+    '/games/RideTheBus': RideTheBusRules,
+    '/games/Snap': SnapRules,
+    '/games/Trivia': TriviaRules,
+    '/games/PromptDash': PromptDashRules,
+    '/games/DiceRoll': DiceRollRules,
+    '/games/DrinkRoulette': DrinkRouletteRules,
+  };
+
+  const gameTitles = {
+    '/games/KingsCup': 'Kings Cup Rules',
+    '/games/RideTheBus': 'Ride The Bus Rules',
+    '/games/Snap': 'Snap Rules',
+    '/games/Trivia': 'Trivia Rules',
+    '/games/PromptDash': 'Prompt Dash Rules',
+    '/games/DiceRoll': 'Dice Roll Rules',
+    '/games/DrinkRoulette': 'Drink Roulette Rules',
+  };
+
+  const gamesWithIcon = new Set([
+    '/games/KingsCup',
+    '/games/DiceRoll',
+    '/games/DrinkRoulette',
+  ]);
+
+  const openModal = () => {
+    const modalId = `${location.pathname.slice(1)}-rules`;
+    document.getElementById(modalId).showModal();
+  };
+
+  const isNotGamePage = !(
+    location.pathname.includes('games') &&
+    !location.pathname.endsWith('AIBartender')
+  );
 
   return (
     <div className='navbar bg-base-100 border-b border-secondary'>
@@ -50,6 +95,16 @@ const Nav = () => {
                 <Link to='/GamePage'>Games</Link>
               </li>
             )}
+            <li>
+              {!isNotGamePage && (
+                <button className='btn btn-ghost' onClick={openModal}>
+                  {gameTitles[location.pathname]}
+                  {gamesWithIcon.has(location.pathname) && (
+                    <FaWrench className='ml-2' size={18} />
+                  )}
+                </button>
+              )}
+            </li>
             <li>
               <div
                 className='dropdown relative'
@@ -90,16 +145,26 @@ const Nav = () => {
         </div>
       </div>
       {/* center */}
-      <div className='navbar-center hidden lg:flex'></div>
+      <div className='navbar-center hidden lg:flex'>
+        {location.pathname.includes('games') && gameTitles[location.pathname]}
+      </div>
       {/* right */}
       <div className='navbar-end'>
         <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
           {!isGamePage && (
             <li>
-              <Link to='/GamePage' className='btn btn-ghost ml-2'>
+              <Link to='/GamePage' className='btn btn-ghost mr-2'>
                 Games
               </Link>
             </li>
+          )}
+          {!isNotGamePage && (
+            <button className='btn btn-ghost' onClick={openModal}>
+              {gameTitles[location.pathname]}
+              {gamesWithIcon.has(location.pathname) && (
+                <FaWrench className='ml-2' size={18} />
+              )}
+            </button>
           )}
           <li>
             <div className='dropdown relative btn btn-ghost flex items-center justify-center ml-2'>
@@ -126,6 +191,46 @@ const Nav = () => {
           <a className=' btn-outline btn ml-2'>Login</a>
         </li>
       </div>
+      <dialog
+        id={`${location.pathname.slice(1)}-rules`}
+        className='modal modal-bottom sm:modal-middle'
+      >
+        <div className='modal-box'>
+          <h3 className='font-bold text-lg'>{gameTitles[location.pathname]}</h3>
+          <p className='py-4'>
+            {gameRules[location.pathname] &&
+              Object.values(gameRules[location.pathname]).map((rule, index) => (
+                <React.Fragment key={index}>
+                  <strong>{rule.title}</strong>: {rule.description}
+                  <br />
+                  <br />
+                </React.Fragment>
+              ))}
+          </p>
+          <div className='modal-action'>
+            {gamesWithIcon.has(location.pathname) && (
+              <button
+                className='btn'
+                onClick={() =>
+                  navigate(`/EditRules/${location.pathname.slice(7)}`)
+                }
+              >
+                Edit Rules <FaWrench className='ml-2' size={18} />
+              </button>
+            )}
+            <button
+              className='btn ml-2'
+              onClick={() =>
+                document
+                  .getElementById(`${location.pathname.slice(1)}-rules`)
+                  .close()
+              }
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
