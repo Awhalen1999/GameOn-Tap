@@ -156,7 +156,7 @@ const RideTheBus = () => {
           : ''
       }`}
     >
-      <div className='flex flex-col h-screen'>
+      <div className='flex flex-col'>
         {/* Reset game button */}
         <div className='absolute bottom-0 right-0 m-4'>
           <button

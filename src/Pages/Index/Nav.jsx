@@ -1,5 +1,3 @@
-// todo: update look in css for media q menu
-
 import React, { useState, useEffect } from 'react';
 import ThemeOptions from '../ThemeOptions';
 
@@ -20,7 +18,7 @@ const Nav = () => {
           <div
             tabIndex={0}
             role='button'
-            className='btn btn-ghost lg:hidden text-text'
+            className='btn btn-ghost lg:hidden text-base-content'
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -39,13 +37,13 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-text font-semibold'
+            className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
             <li>
-              <a>Item 1</a>
+              <a className='text-primary'>Item 1</a>
             </li>
             <li>
-              <a>Item 2</a>
+              <a className='text-primary'>Item 2</a>
             </li>
             <li>
               <div
@@ -54,7 +52,7 @@ const Nav = () => {
                 role='button'
                 onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
               >
-                <div>
+                <div className='text-primary'>
                   Theme
                   <svg
                     width='18px'
@@ -77,21 +75,21 @@ const Nav = () => {
           </ul>
         </div>
         <div className='navbar bg-base-100'>
-          <span className='font-bold text-xl'>GameOn Tap</span>
+          <span className='font-bold text-xl text-primary'>GameOn Tap</span>
         </div>
       </div>
       <div className='navbar-center hidden lg:flex'>
-        <ul className='menu menu-horizontal px-1 text-text font-semibold'>
+        <ul className='menu menu-horizontal px-1 text-base-content font-semibold'>
           <li>
-            <a>Item 1</a>
+            <a className='text-primary'>Item 1</a>
           </li>
 
           <li>
-            <a>Item 2</a>
+            <a className='text-primary'>Item 2</a>
           </li>
           <li>
             <div className='dropdown relative'>
-              <div tabIndex={0} role='button'>
+              <div tabIndex={0} role='button' className='text-primary'>
                 Theme
                 <svg
                   width='18px'
@@ -112,7 +110,7 @@ const Nav = () => {
         </ul>
       </div>
       <div className='navbar-end'>
-        <a className='btn btn-outline btn-text'>Login</a>
+        <a className='btn btn-outline btn-primary'>Login</a>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ const KingsCup = (props) => {
   const remainingKings = deck.filter((card) => card.includes('K')).length;
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-base-100'>
+    <div className='flex flex-col items-center justify-center bg-base-100'>
       {/* Draw Card button */}
       <button
         onClick={drawCard}

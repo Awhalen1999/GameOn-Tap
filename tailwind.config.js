@@ -16,45 +16,49 @@ module.exports = {
       {
         mydark: {
           primary: '#eab308',
-
-          secondary: '#FAFAFA',
-
-          accent: '#d1d5db',
-
+          'primary-content': '#111827',
+          secondary: '#F8F8FF',
+          'secondary-content': '#111827',
+          accent: '#FF007F',
+          'accent-content': '#FFFFFF',
           neutral: '#111827',
-
-          text: '#d1d5db',
-
+          'neutral-content': '#F8F8FF',
           'base-100': '#000000',
-
+          'base-200': '#000000',
+          'base-300': '#000000',
+          'base-content': '#F8F8FF',
           info: '#00a4e6',
-
+          'info-content': '#FFFFFF',
           success: '#008a4b',
-
+          'success-content': '#FFFFFF',
           warning: '#f97316',
-
+          'warning-content': '#FFFFFF',
           error: '#ff70a0',
+          'error-content': '#FFFFFF',
         },
       },
       {
         mylight: {
           primary: '#eab308',
-
+          'primary-content': '#111827',
           secondary: '#111827',
-
+          'secondary-content': '#F8F8FF',
           accent: '#374151',
-
+          'accent-content': '#FFFFFF',
           neutral: '#9ca3af',
-
-          'base-100': '#f3f4f6',
-
+          'neutral-content': '#111827',
+          'base-100': '#F8F8FF',
+          'base-200': '#F0F0F0',
+          'base-300': '#E8E8E8',
+          'base-content': '#111827',
           info: '#00a4e6',
-
+          'info-content': '#FFFFFF',
           success: '#008a4b',
-
+          'success-content': '#FFFFFF',
           warning: '#f97316',
-
+          'warning-content': '#FFFFFF',
           error: '#ff70a0',
+          'error-content': '#FFFFFF',
         },
       },
       'retro',
@@ -62,7 +66,6 @@ module.exports = {
       'coffee',
       'aqua',
       'synthwave',
-      'lofi',
     ],
   },
 };

@@ -58,7 +58,7 @@ const Snap = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-base-100'>
+    <div className='flex flex-col items-center justify-center bg-base-100'>
       {/* Delay slider */}
       <div className='mb-4'>
         <label htmlFor='delay' className='mr-2'>

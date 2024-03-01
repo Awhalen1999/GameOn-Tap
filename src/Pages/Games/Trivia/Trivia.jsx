@@ -99,7 +99,7 @@ function TriviaGame() {
 
   if (!gameStarted) {
     return (
-      <div className='p-6 bg-base-100 min-h-screen'>
+      <div className='p-6 bg-base-100'>
         <h1 className='text-2xl font-bold mb-4'>Trivia Game Setup</h1>
         <div className='mb-4'>
           <label className='block mb-2'>

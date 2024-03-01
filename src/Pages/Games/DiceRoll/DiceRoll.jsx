@@ -39,7 +39,7 @@ function DiceRoll() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
+    <div className='flex flex-col items-center justify-center'>
       {/* dice */}
       <div className='flex justify-center mb-8'>
         {dice1 !== null ? (

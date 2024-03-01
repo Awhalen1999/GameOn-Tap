@@ -4,7 +4,7 @@ import GameNav from './GameNav';
 
 const Game = () => {
   return (
-    <div>
+    <div className='h-screen'>
       <GameNav />
       <Outlet />
     </div>
