@@ -35,7 +35,7 @@ const Nav = () => {
     '/games/DrinkRoulette': DrinkRouletteRules,
   };
 
-  const gameTitles = {
+  const gameTitlesButton = {
     '/games/KingsCup': 'Kings Cup Rules',
     '/games/RideTheBus': 'Ride The Bus Rules',
     '/games/Snap': 'Snap Rules',
@@ -43,6 +43,17 @@ const Nav = () => {
     '/games/PromptDash': 'Prompt Dash Rules',
     '/games/DiceRoll': 'Dice Roll Rules',
     '/games/DrinkRoulette': 'Drink Roulette Rules',
+  };
+
+  const gameTitles = {
+    '/games/KingsCup': 'Kings Cup',
+    '/games/RideTheBus': 'Ride The Bus',
+    '/games/Snap': 'Snap',
+    '/games/Trivia': 'Trivia',
+    '/games/PromptDash': 'Prompt Dash',
+    '/games/DiceRoll': 'Dice Roll',
+    '/games/DrinkRoulette': 'Drink Roulette',
+    '/games/AIBartender': 'AI Bartender',
   };
 
   const gamesWithIcon = new Set([
@@ -98,7 +109,7 @@ const Nav = () => {
             <li>
               {!isNotGamePage && (
                 <button className='btn btn-ghost' onClick={openModal}>
-                  {gameTitles[location.pathname]}
+                  {gameTitlesButton[location.pathname]}
                   {gamesWithIcon.has(location.pathname) && (
                     <FaWrench className='ml-2' size={18} />
                   )}
@@ -145,7 +156,7 @@ const Nav = () => {
         </div>
       </div>
       {/* center */}
-      <div className='navbar-center hidden lg:flex'>
+      <div className='navbar-center hidden lg:flex text-2xl font-bold text-primary'>
         {location.pathname.includes('games') && gameTitles[location.pathname]}
       </div>
       {/* right */}
@@ -160,7 +171,7 @@ const Nav = () => {
           )}
           {!isNotGamePage && (
             <button className='btn btn-ghost' onClick={openModal}>
-              {gameTitles[location.pathname]}
+              {gameTitlesButton[location.pathname]}
               {gamesWithIcon.has(location.pathname) && (
                 <FaWrench className='ml-2' size={18} />
               )}
