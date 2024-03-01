@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ThemeOptions from '../ThemeOptions';
 
 const Nav = () => {
@@ -7,6 +7,10 @@ const Nav = () => {
     localStorage.getItem('theme') || 'mydark'
   );
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+  const isGamePage = location.pathname === '/GamePage';
 
   useEffect(() => {
     localStorage.setItem('theme', selectedTheme);
@@ -41,9 +45,11 @@ const Nav = () => {
             tabIndex={0}
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
-            <li>
-              <Link to='/GamePage'>Games</Link>
-            </li>
+            {!isGamePage && (
+              <li>
+                <Link to='/GamePage'>Games</Link>
+              </li>
+            )}
             <li>
               <div
                 className='dropdown relative'
@@ -74,9 +80,13 @@ const Nav = () => {
           </ul>
         </div>
         <div className='navbar bg-base-100'>
-          <span className='font-bold text-xl text-base-content'>
-            GameOn Tap
-          </span>
+          {isHomePage ? (
+            <span className='text-xl font-bold ml-2'>GameOn Tap</span>
+          ) : (
+            <Link to='/' className='btn btn-ghost text-xl'>
+              GameOn Tap
+            </Link>
+          )}
         </div>
       </div>
       {/* center */}
@@ -84,11 +94,13 @@ const Nav = () => {
       {/* right */}
       <div className='navbar-end'>
         <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
-          <li>
-            <Link to='/GamePage' className='btn btn-ghost ml-2'>
-              Games
-            </Link>
-          </li>
+          {!isGamePage && (
+            <li>
+              <Link to='/GamePage' className='btn btn-ghost ml-2'>
+                Games
+              </Link>
+            </li>
+          )}
           <li>
             <div className='dropdown relative btn btn-ghost flex items-center justify-center ml-2'>
               <div tabIndex={0} role='button' className='text-base-content'>
