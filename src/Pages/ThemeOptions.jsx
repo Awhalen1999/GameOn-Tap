@@ -14,7 +14,7 @@ const ThemeOptions = ({ selectedTheme, setSelectedTheme }) => {
   return (
     <ul
       tabIndex={0}
-      className='dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52 absolute top-full left-[calc(-16px)] mt-1'
+      className='dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52 absolute top-full mt-1'
     >
       {Object.entries(themes).map(([themeKey, themeName]) => (
         <li key={themeKey}>

@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import './index.css';
+import Layout from './Pages/Layout';
 import Index from './Pages/Index/IndexPage';
 import ErrorPage from './error-page';
-import Game from './Pages/Game';
 import KingsCup from './Pages/Games/KingsCup/KingsCup';
 import RideTheBus from './Pages/Games/RideTheBus/RideTheBus';
 import Snap from './Pages/Games/Snap/Snap';
@@ -20,26 +20,18 @@ const router = createBrowserRouter(
   [
     {
       path: '/',
-      element: <Index />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: '/GamePage',
-      element: <GamePage />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: 'games',
-      element: <Game />,
+      element: <Layout />,
       children: [
-        { path: 'KingsCup', element: <KingsCup /> },
-        { path: 'RideTheBus', element: <RideTheBus /> },
-        { path: 'Snap', element: <Snap /> },
-        { path: 'Trivia', element: <Trivia /> },
-        { path: 'PromptDash', element: <PromptDash /> },
-        { path: 'DiceRoll', element: <DiceRoll /> },
-        { path: 'DrinkRoulette', element: <DrinkRoulette /> },
-        { path: 'AIBartender', element: <AIbartender /> },
+        { path: '', element: <Index /> },
+        { path: 'GamePage', element: <GamePage /> },
+        { path: 'games/KingsCup', element: <KingsCup /> },
+        { path: 'games/RideTheBus', element: <RideTheBus /> },
+        { path: 'games/Snap', element: <Snap /> },
+        { path: 'games/Trivia', element: <Trivia /> },
+        { path: 'games/PromptDash', element: <PromptDash /> },
+        { path: 'games/DiceRoll', element: <DiceRoll /> },
+        { path: 'games/DrinkRoulette', element: <DrinkRoulette /> },
+        { path: 'games/AIBartender', element: <AIbartender /> },
         { path: 'EditRules/:game', element: <EditRulesPage /> },
       ],
       errorElement: <ErrorPage />,

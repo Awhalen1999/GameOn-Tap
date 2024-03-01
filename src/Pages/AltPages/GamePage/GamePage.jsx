@@ -65,7 +65,6 @@ const GamePage = () => {
 
   return (
     <div>
-      <AltNav />
       <div>
         {/* HERO */}
         <div className='diff aspect-[32/9]'>
