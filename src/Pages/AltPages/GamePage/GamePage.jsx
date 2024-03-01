@@ -66,7 +66,7 @@ const GamePage = () => {
   return (
     <div>
       <AltNav />
-      <div className=' bg-base-100'>
+      <div>
         {/* HERO */}
         <div className='diff aspect-[32/9]'>
           <div className='diff-item-1'>
@@ -86,7 +86,7 @@ const GamePage = () => {
             </div>
           </div>
           <div className='diff-item-2'>
-            <div className='bg-base-200 text-primary-content flex justify-center items-center'>
+            <div className='bg-base-200 text-base-content flex justify-center items-center'>
               <div className='flex flex-col items-start w-[40vw] ml-[15vw]'>
                 <div>
                   <h1 className='text-9xl font-black mb-2'>On Tap</h1>
@@ -106,7 +106,7 @@ const GamePage = () => {
         {/* GAME LIST */}
         <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto mb-10'>
           <div className='w-full h-10 flex items-center justify-start py-20'>
-            <h1 className='font-bold text-5xl text-text'>Games</h1>
+            <h1 className='font-bold text-5xl text-base-content'>Games</h1>
           </div>
           <div className=' grid grid-cols-3 gap-4'>
             {games.map((game, index) => (
@@ -115,7 +115,7 @@ const GamePage = () => {
                   to={game.route}
                   className='px-6 py-3 bg-transparent rounded hover:scale-105 mx-auto flex flex-col items-center'
                 >
-                  <div className='text-text p-1.5 font-bold text-lg bg-primary rounded-t hover:bg-accent w-full text-center'>
+                  <div className='text-primary-content p-1.5 font-bold text-lg bg-primary rounded-t hover:bg-accent hover:text-accent-content w-full text-center'>
                     {game.name}
                   </div>
                   <img
@@ -123,7 +123,7 @@ const GamePage = () => {
                     alt={game.name}
                     className='w-full h-48 object-cover'
                   />
-                  <div className='text-text bg-secondary rounded-b hover:bg-accent w-full text-center h-auto p-4'>
+                  <div className='text-neutral-content bg-neutral rounded-b hover:bg-accent hover:text-accent-content w-full text-center h-auto p-4'>
                     {game.description}
                   </div>
                 </Link>

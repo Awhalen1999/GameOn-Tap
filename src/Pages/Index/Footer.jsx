@@ -9,19 +9,23 @@ const Footer = () => {
       <aside className='items-center grid-flow-col'>
         <img
           src={logo}
-          width='36'
-          height='36'
+          width='26'
+          height='26'
           alt='Logo'
-          className='fill-current'
+          className='fill-current mx-2'
         />
-        <p>Copyright © 2024 - All right reserved</p>
+        <p className='text-neutral-content font-medium'>
+          Copyright © 2024 - All right reserved
+        </p>
       </aside>
-      <nav className='grid-flow-col gap-4 md:place-self-center md:justify-self-end'>
-        <p>Contact Me:</p>
+      <nav className='grid-flow-col gap-4 md:place-self-center md:justify-self-end mr-2'>
+        <p className='text-neutral-content font-medium'>Contact Me:</p>
         <a
           href='https://www.linkedin.com/in/alex-whalen-0496b227b/'
           target='_blank'
           rel='noopener noreferrer'
+          className='text-neutral-content'
+          alt='LinkedIn'
         >
           <FaLinkedin size={24} className='fill-current' />
         </a>
@@ -29,6 +33,8 @@ const Footer = () => {
           href='https://github.com/Awhalen1999'
           target='_blank'
           rel='noopener noreferrer'
+          className='text-neutral-content'
+          alt='GitHub'
         >
           <SiGithub size={24} className='fill-current' />
         </a>

@@ -17,9 +17,9 @@ module.exports = {
         mydark: {
           primary: '#eab308',
           'primary-content': '#111827',
-          secondary: '#F8F8FF',
+          secondary: '#FF007F',
           'secondary-content': '#111827',
-          accent: '#FF007F',
+          accent: '#c09400', // Darker version of primary color for hover effect
           'accent-content': '#FFFFFF',
           neutral: '#111827',
           'neutral-content': '#F8F8FF',
@@ -41,9 +41,9 @@ module.exports = {
         mylight: {
           primary: '#eab308',
           'primary-content': '#111827',
-          secondary: '#111827',
+          secondary: '#FF007F',
           'secondary-content': '#F8F8FF',
-          accent: '#374151',
+          accent: '#c09400', // Darker version of primary color for hover effect
           'accent-content': '#FFFFFF',
           neutral: '#9ca3af',
           'neutral-content': '#111827',

@@ -33,21 +33,24 @@ const GameList = () => {
     <div className='w-screen h-auto bg-base-100'>
       <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
         <div className='w-full h-10 flex items-center justify-start'>
-          <h1 className='font-bold text-4xl text-text'>Featured</h1>
+          <h1 className='font-bold text-4xl text-base-content'>Featured</h1>
         </div>
-        <div className='mt-10 grid grid-cols-4 gap-4'>
+        <div className='mt-10 grid grid-cols-4 gap-6'>
           {games.map((game, index) => (
-            <div key={index} className='mb-2'>
+            <div
+              key={index}
+              className='border-2 border-secondary rounded-xl transform hover:scale-105 relative z-10'
+            >
               <Link
                 to={game.route}
-                className='px-4 py-2 text-xl bg-transparent rounded hover:scale-105 mx-auto flex flex-col items-center'
+                className='text-xl bg-transparent flex flex-col items-center'
               >
                 <img
                   src={game.image}
                   alt={game.name}
-                  className='w-full h-48 object-cover mb-2 rounded'
+                  className='w-full h-48 object-cover rounded-t-lg'
                 />
-                <div className='text-base-100 font-bold bg-primary rounded hover:bg-accent w-full text-center'>
+                <div className='text-primary-content font-bold bg-primary rounded-b-lg hover:bg-accent w-full text-center'>
                   {game.name}
                 </div>
               </Link>
@@ -58,7 +61,7 @@ const GameList = () => {
               to='/GamePage'
               className='w-full flex justify-center items-center'
             >
-              <button className='btn btn-ghost text-2xl p-5 flex items-center justify-center flex-col'>
+              <button className='btn btn-ghost text-2xl p-5 flex items-center justify-center flex-col text-base-content'>
                 Full Game List
                 <FaArrowRightLong className='flex-shrink-0 ml-2' />
               </button>
