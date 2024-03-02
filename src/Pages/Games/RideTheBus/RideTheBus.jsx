@@ -323,8 +323,11 @@ const RideTheBus = () => {
                 You are on card {drawnCards.length} of {number}.
               </p>
               <p className='text-center text-xl font-bold mb-6'>
-                Will the next card be lower, equal, or higher than{' '}
-                {drawnCards[drawnCards.length - 1]}?
+                {ruleSet === 'higher/lower'
+                  ? `Will the next card be lower, equal, or higher than ${
+                      drawnCards[drawnCards.length - 1]
+                    }?`
+                  : 'Will the next card be red or black?'}
               </p>
               <div className='flex justify-center'>
                 {ruleSet === 'higher/lower' ? (
