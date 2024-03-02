@@ -1,10 +1,9 @@
-// todo: change page heights form the card element
-// todo: add start game element (set the delay to 0 automatically for this to work)
-// todo: auto refresh deck button <-
+// todo: change page heights form the card elements
 
 import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../DeckOfCards';
 import placeholderCard from '../../../cards/red.png';
+import { GrPowerReset } from 'react-icons/gr';
 
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -16,7 +15,8 @@ const Snap = () => {
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef();
   const [previousCard, setPreviousCard] = useState(null);
-  const [ruleSet, setRuleSet] = useState('value'); // 'value' or 'suit'
+  const [ruleSet, setRuleSet] = useState('value');
+  const [autoReset, setAutoReset] = useState(false);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -29,11 +29,31 @@ const Snap = () => {
     loadImages();
   }, []);
 
-  const drawCard = () => {
+  useEffect(() => {
+    if (autoReset && deck.length === initialDeck.length) {
+      drawCard();
+    }
+  }, [deck]);
+
+  const resetDeck = () => {
+    return new Promise((resolve) => {
+      setDeck([...initialDeck]);
+      setDrawnCards([]);
+      setPreviousCardRank(null);
+      resolve();
+    });
+  };
+
+  const drawCard = async () => {
     if (deck.length === 0) {
-      alert('No more cards in the deck!');
+      if (autoReset) {
+        await resetDeck();
+      } else {
+        alert('No more cards in the deck!');
+      }
       return;
     }
+
     setLoading(true);
     setProgress(0);
     intervalRef.current = setInterval(() => {
@@ -49,12 +69,6 @@ const Snap = () => {
       setDrawnCards([drawnCard]);
       setLoading(false);
     }, delay);
-  };
-
-  const resetDeck = () => {
-    setDeck([...initialDeck]);
-    setDrawnCards([]);
-    setPreviousCardRank(null);
   };
 
   return (
@@ -106,12 +120,28 @@ const Snap = () => {
         Flip a Card
       </button>
       {/* Reset Deck button */}
-      <button
-        onClick={resetDeck}
-        className='px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600 absolute bottom-0 right-0 m-4'
-      >
-        Reset Deck
-      </button>
+      <div className='flex items-center absolute bottom-0 left-0 m-4'>
+        <button
+          onClick={() => setAutoReset(!autoReset)}
+          className={`btn mr-2 text-neutral-content ${
+            autoReset
+              ? 'bg-green-500 hover:bg-green-600'
+              : 'bg-gray-500 hover:bg-gray-600'
+          }`}
+        >
+          <GrPowerReset size={24} />
+        </button>
+        <button
+          onClick={resetDeck}
+          className={`btn text-neutral-content rounded ml-4 ${
+            autoReset
+              ? 'bg-gray-500 hover:bg-gray-600'
+              : 'bg-green-500 hover:bg-green-600'
+          }`}
+        >
+          Reset Deck
+        </button>
+      </div>
       {/* Card container */}
       <div className='items-center '>
         {drawnCards.length > 0 ? (

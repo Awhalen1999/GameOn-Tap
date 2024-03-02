@@ -1,6 +1,6 @@
 // remove console logs when done
 // continue cleaning up input section
-// add more card slots
+// todo: change game rules option
 
 import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../cards/red.png';
@@ -91,11 +91,8 @@ const RideTheBus = () => {
 
   const handleLowerClick = () => {
     const newCard = drawCard();
-    console.log('newCard:', newCard);
     if (newCard && drawnCards.length > 0) {
-      console.log('last drawn card:', drawnCards[drawnCards.length - 1]);
       const result = compareCards(drawnCards[drawnCards.length - 1], newCard);
-      console.log('result:', result);
       if (result === 'lower') {
         const newDrawnCards = [...drawnCards, newCard];
         setDrawnCards(newDrawnCards);
