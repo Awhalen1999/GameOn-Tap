@@ -1,7 +1,8 @@
 export const PromptDashRules = {
-  2: {
-    title: 'You',
-    description: 'Whoever draws this can choose anyone to take a drink.',
+  1: {
+    title: 'Objective',
+    description:
+      'Draw a random prompt card from the deck and race against other players to complete the challenge as quickly as possible to avoid the punishment.',
   },
 };
 

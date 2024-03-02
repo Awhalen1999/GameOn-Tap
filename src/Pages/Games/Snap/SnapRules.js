@@ -1,7 +1,8 @@
 export const SnapRules = {
-  2: {
-    title: 'You',
-    description: 'Whoever draws this can choose anyone to take a drink.',
+  1: {
+    title: 'Objective',
+    description:
+      'Draw cards from the deck until two matching cards are drawn back to back. The last player to say "Snap" or smack the table must take a drink.',
   },
 };
 
