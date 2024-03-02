@@ -206,40 +206,60 @@ const Nav = () => {
         id={`${location.pathname.slice(1)}-rules`}
         className='modal modal-bottom sm:modal-middle'
       >
-        <div className='modal-box'>
-          <h3 className='font-bold text-lg'>{gameTitles[location.pathname]}</h3>
-          <p className='py-4'>
-            {gameRules[location.pathname] &&
-              Object.values(gameRules[location.pathname]).map((rule, index) => (
-                <React.Fragment key={index}>
-                  <strong>{rule.title}</strong>: {rule.description}
-                  <br />
-                  <br />
-                </React.Fragment>
-              ))}
-          </p>
-          <div className='modal-action'>
-            {gamesWithIcon.has(location.pathname) && (
-              <button
-                className='btn'
-                onClick={() =>
-                  navigate(`/EditRules/${location.pathname.slice(7)}`)
-                }
-              >
-                Edit Rules <FaWrench className='ml-2' size={18} />
-              </button>
-            )}
-            <button
-              className='btn ml-2'
-              onClick={() =>
-                document
-                  .getElementById(`${location.pathname.slice(1)}-rules`)
-                  .close()
-              }
-            >
-              Close
-            </button>
+        <div className='modal-box p-0'>
+          {/* navbar */}
+          <div className='navbar bg-base-100 sticky top-0 px-5'>
+            <div className='flex-1'>
+              <h3 className='font-bold text-lg'>
+                {gameTitles[location.pathname]}
+              </h3>
+            </div>
+            <div className='flex-none'>
+              <ul className='menu menu-horizontal px-1'>
+                <li>
+                  {gamesWithIcon.has(location.pathname) && (
+                    <button
+                      className='btn'
+                      onClick={() =>
+                        navigate(`/EditRules/${location.pathname.slice(7)}`)
+                      }
+                    >
+                      Edit Rules <FaWrench className='ml-2' size={18} />
+                    </button>
+                  )}
+                </li>
+                <li>
+                  <button
+                    className='btn ml-2'
+                    onClick={() =>
+                      document
+                        .getElementById(`${location.pathname.slice(1)}-rules`)
+                        .close()
+                    }
+                  >
+                    Close
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
+          <p className='p-4'>
+            {gameRules[location.pathname] &&
+              Object.values(gameRules[location.pathname]).map(
+                (rule, index, self) => (
+                  <React.Fragment key={index}>
+                    <div className='flex flex-col items-center'>
+                      <strong className='text-xl mb-2 '>{rule.result}</strong>
+                      <div className='text-lg'>
+                        <strong>{rule.title}</strong>: {rule.description}
+                      </div>
+                    </div>
+                    <br />
+                    {index < self.length - 1 && <div className='divider'></div>}
+                  </React.Fragment>
+                )
+              )}
+          </p>
         </div>
       </dialog>
     </div>
