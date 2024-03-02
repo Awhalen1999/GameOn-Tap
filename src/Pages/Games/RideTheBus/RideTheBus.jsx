@@ -14,6 +14,7 @@ const RideTheBus = () => {
   const [drawnCards, setDrawnCards] = useState([]);
   const [cardImages, setCardImages] = useState({});
   const [guessStatus, setGuessStatus] = useState('');
+  const [ruleSet, setRuleSet] = useState('higher/lower');
 
   useEffect(() => {
     if (guessStatus !== '') {
@@ -88,6 +89,15 @@ const RideTheBus = () => {
     }
   };
 
+  const getCardColor = (card) => {
+    const suit = card.slice(-1);
+    if (suit === 'H' || suit === 'D') {
+      return 'red';
+    } else if (suit === 'S' || suit === 'C') {
+      return 'black';
+    }
+  };
+
   const checkGameEnd = (newDrawnCards) => {
     if (newDrawnCards.length === parseInt(number) + 1) {
       handleWin();
@@ -97,6 +107,10 @@ const RideTheBus = () => {
   const handleWin = () => {
     alert('You won!');
     resetGame();
+  };
+
+  const handleRuleSetChange = (event) => {
+    setRuleSet(event.target.value);
   };
 
   const handleLowerClick = () => {
@@ -134,6 +148,35 @@ const RideTheBus = () => {
     if (newCard && drawnCards.length > 0) {
       const result = compareCards(drawnCards[drawnCards.length - 1], newCard);
       if (result === 'higher') {
+        const newDrawnCards = [...drawnCards, newCard];
+        setDrawnCards(newDrawnCards);
+        setGuessStatus('correct');
+        checkGameEnd(newDrawnCards);
+      } else {
+        setGuessStatus('incorrect');
+      }
+    }
+  };
+  const handleRedClick = () => {
+    const newCard = drawCard();
+    if (newCard) {
+      const color = getCardColor(newCard);
+      if (color === 'red') {
+        const newDrawnCards = [...drawnCards, newCard];
+        setDrawnCards(newDrawnCards);
+        setGuessStatus('correct');
+        checkGameEnd(newDrawnCards);
+      } else {
+        setGuessStatus('incorrect');
+      }
+    }
+  };
+
+  const handleBlackClick = () => {
+    const newCard = drawCard();
+    if (newCard) {
+      const color = getCardColor(newCard);
+      if (color === 'black') {
         const newDrawnCards = [...drawnCards, newCard];
         setDrawnCards(newDrawnCards);
         setGuessStatus('correct');
@@ -213,6 +256,26 @@ const RideTheBus = () => {
                 </button>
               </div>
             </label>
+            <div className='mb-4'>
+              <label>
+                <input
+                  type='radio'
+                  value='higher/lower'
+                  checked={ruleSet === 'higher/lower'}
+                  onChange={handleRuleSetChange}
+                />
+                Higher/Lower
+              </label>
+              <label>
+                <input
+                  type='radio'
+                  value='red/black'
+                  checked={ruleSet === 'red/black'}
+                  onChange={handleRuleSetChange}
+                />
+                Red/Black
+              </label>
+            </div>
             <button
               type='submit'
               className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xl'
@@ -264,24 +327,44 @@ const RideTheBus = () => {
                 {drawnCards[drawnCards.length - 1]}?
               </p>
               <div className='flex justify-center'>
-                <button
-                  onClick={handleLowerClick}
-                  className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-blue-600'
-                >
-                  Lower
-                </button>
-                <button
-                  onClick={handleEqualClick}
-                  className='mx-8 px-6 py-3 text-lg text-white bg-yellow-400 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-500 '
-                >
-                  Equal
-                </button>
-                <button
-                  onClick={handleHigherClick}
-                  className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'
-                >
-                  Higher
-                </button>
+                {ruleSet === 'higher/lower' ? (
+                  <>
+                    <button
+                      onClick={handleLowerClick}
+                      className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-blue-600'
+                    >
+                      Lower
+                    </button>
+                    <button
+                      onClick={handleEqualClick}
+                      className='mx-8 px-6 py-3 text-lg text-white bg-yellow-400 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-500 '
+                    >
+                      Equal
+                    </button>
+                    <button
+                      onClick={handleHigherClick}
+                      className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'
+                    >
+                      Higher
+                    </button>
+                  </>
+                ) : (
+                  // Red/Black buttons
+                  <>
+                    <button
+                      onClick={handleRedClick}
+                      className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'
+                    >
+                      Red
+                    </button>
+                    <button
+                      onClick={handleBlackClick}
+                      className='mx-8 px-6 py-3 text-lg text-white bg-black rounded transform hover:scale-105 transition-transform duration-200 hover:bg-gray-800'
+                    >
+                      Black
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
