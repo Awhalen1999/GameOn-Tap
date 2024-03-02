@@ -16,7 +16,7 @@ const Snap = () => {
   const intervalRef = useRef();
   const [previousCard, setPreviousCard] = useState(null);
   const [ruleSet, setRuleSet] = useState('value');
-  const [autoReset, setAutoReset] = useState(false);
+  const [autoReset, setAutoReset] = useState(true);
 
   useEffect(() => {
     const loadImages = async () => {

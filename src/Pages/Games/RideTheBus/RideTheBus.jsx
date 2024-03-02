@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../cards/red.png';
 import initialDeck from '../DeckOfCards.jsx';
+import { FaArrowDown } from 'react-icons/fa';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -12,6 +13,17 @@ const RideTheBus = () => {
   const [deck, setDeck] = useState([...initialDeck]);
   const [drawnCards, setDrawnCards] = useState([]);
   const [cardImages, setCardImages] = useState({});
+  const [guessStatus, setGuessStatus] = useState('');
+
+  useEffect(() => {
+    if (guessStatus !== '') {
+      const timer = setTimeout(() => {
+        setGuessStatus('');
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [guessStatus]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -75,8 +87,6 @@ const RideTheBus = () => {
       return 'equal';
     }
   };
-
-  const [guessStatus, setGuessStatus] = useState(null);
 
   const checkGameEnd = (newDrawnCards) => {
     if (newDrawnCards.length === parseInt(number) + 1) {
@@ -145,7 +155,7 @@ const RideTheBus = () => {
 
   return (
     <div
-      className={`game-container ${
+      className={`game-container transition-colors duration-500 ease-out ${
         guessStatus === 'correct'
           ? 'bg-green-200'
           : guessStatus === 'incorrect'
@@ -214,26 +224,41 @@ const RideTheBus = () => {
           // Placeholder cards
           <div className='flex flex-col items-center justify-center flex-grow'>
             <div className='flex justify-center'>
-              {drawnCards.map((card, index) => (
-                <img
-                  key={index}
-                  src={cardImages[card] || placeholderCard}
-                  alt='card'
-                  className='mx-2 w-36 h-auto object-contain rounded shadow-lg'
-                />
-              ))}
-              {[...Array(parseInt(number) - drawnCards.length)].map(
-                (_, index) => (
-                  <img
-                    key={index + drawnCards.length}
-                    src={placeholderCard}
-                    alt='placeholder card'
-                    className='mx-2 w-36 h-auto object-contain rounded shadow-lg'
-                  />
-                )
-              )}
+              <div className='flex justify-center items-end'>
+                {drawnCards.map((card, index) => (
+                  <div key={index} className='mx-2 relative'>
+                    {index === drawnCards.length - 1 && (
+                      <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl' />
+                    )}
+                    <img
+                      src={cardImages[card] || placeholderCard}
+                      alt={card}
+                      className='h-64'
+                    />
+                  </div>
+                ))}
+
+                {[...Array(parseInt(number) - drawnCards.length)].map(
+                  (_, index) => (
+                    <div
+                      key={index + drawnCards.length}
+                      className='mx-2 relative'
+                    >
+                      <img
+                        src={placeholderCard}
+                        alt='placeholder card'
+                        className='h-64'
+                      />
+                    </div>
+                  )
+                )}
+              </div>
             </div>
+
             <div className='mt-12 flex flex-col items-center justify-center'>
+              <p className='text-center text-xl font-bold mb-6'>
+                You are on card {drawnCards.length} of {number}.
+              </p>
               <p className='text-center text-xl font-bold mb-6'>
                 Will the next card be lower, equal, or higher than{' '}
                 {drawnCards[drawnCards.length - 1]}?
