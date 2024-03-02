@@ -98,8 +98,11 @@ const EditRulesPage = () => {
       </div>
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
-          <div key={key} className='mb-4'>
+          <div key={key} className='mb-8'>
             <div className='mb-1'>
+              <div className='text-xl font-bold mb-2 text-base-content'>
+                {rule.result}
+              </div>
               <RuleEdit
                 editing={editing}
                 editedText={editedText}

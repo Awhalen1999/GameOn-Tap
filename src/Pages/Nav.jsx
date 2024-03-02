@@ -254,7 +254,6 @@ const Nav = () => {
                         <strong>{rule.title}</strong>: {rule.description}
                       </div>
                     </div>
-                    <br />
                     {index < self.length - 1 && <div className='divider'></div>}
                   </React.Fragment>
                 )

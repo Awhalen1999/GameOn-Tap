@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import heroImage from '../../assets/hero-image-g.png';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
+  const games = [
+    'games/KingsCup',
+    'games/RideTheBus',
+    'games/Snap',
+    'games/Trivia',
+    'games/PromptDash',
+    'games/DiceRoll',
+    'games/DrinkRoulette',
+  ];
+
+  const [randomGame, setRandomGame] = useState(
+    games[Math.floor(Math.random() * games.length)]
+  );
+
+  const handleRandomGame = () => {
+    setRandomGame(games[Math.floor(Math.random() * games.length)]);
+  };
+
   return (
     <div
       className='hero min-h-screen bg-base-100'
@@ -31,12 +49,13 @@ const Hero = () => {
           >
             Games
           </Link>
-          <a
-            href='#'
+          <Link
+            onClick={handleRandomGame}
+            to={randomGame}
             className='inline-block font-medium ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-white hover:text-primary-content'
           >
             Random Game
-          </a>
+          </Link>
         </div>
       </div>
     </div>
