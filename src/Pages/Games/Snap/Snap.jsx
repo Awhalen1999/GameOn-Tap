@@ -3,7 +3,6 @@
 // todo: auto refresh deck button <-
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import initialDeck from '../DeckOfCards';
 import placeholderCard from '../../../cards/red.png';
 
@@ -17,6 +16,7 @@ const Snap = () => {
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef();
   const [previousCard, setPreviousCard] = useState(null);
+  const [ruleSet, setRuleSet] = useState('value'); // 'value' or 'suit'
 
   useEffect(() => {
     const loadImages = async () => {
@@ -60,6 +60,26 @@ const Snap = () => {
   return (
     <div className='flex flex-col items-center justify-center bg-base-100'>
       {/* Delay slider */}
+      <div className='mb-4'>
+        <label>
+          <input
+            type='radio'
+            value='value'
+            checked={ruleSet === 'value'}
+            onChange={(e) => setRuleSet(e.target.value)}
+          />
+          Value
+        </label>
+        <label>
+          <input
+            type='radio'
+            value='suit'
+            checked={ruleSet === 'suit'}
+            onChange={(e) => setRuleSet(e.target.value)}
+          />
+          Suit
+        </label>
+      </div>
       <div className='mb-4'>
         <label htmlFor='delay' className='mr-2'>
           Delay (ms):
@@ -111,9 +131,12 @@ const Snap = () => {
               />
             </div>
             {/* Display "SNAP!" if the new card is the same as the previous card */}
-            {drawnCards[0].slice(0, -1) === previousCardRank && (
+            {(ruleSet === 'value' &&
+              drawnCards[0].slice(0, -1) === previousCardRank) ||
+            (ruleSet === 'suit' &&
+              drawnCards[0].slice(-1) === previousCard.slice(-1)) ? (
               <p className='text-4xl mt-10'>SNAP!</p>
-            )}
+            ) : null}
           </div>
         ) : (
           <div>

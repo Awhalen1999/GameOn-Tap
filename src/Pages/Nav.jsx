@@ -243,7 +243,7 @@ const Nav = () => {
               </ul>
             </div>
           </div>
-          <p className='p-4'>
+          <div className='p-4'>
             {gameRules[location.pathname] &&
               Object.values(gameRules[location.pathname]).map(
                 (rule, index, self) => (
@@ -258,7 +258,7 @@ const Nav = () => {
                   </React.Fragment>
                 )
               )}
-          </p>
+          </div>
         </div>
       </dialog>
     </div>
