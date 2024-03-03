@@ -73,7 +73,7 @@ const Nav = () => {
   );
 
   return (
-    <div className='navbar bg-base-100 border-b border-secondary'>
+    <div className='navbar bg-base-100 border-b border-secondary h-20'>
       {/* left */}
       <div className='navbar-start'>
         <div className='dropdown'>
