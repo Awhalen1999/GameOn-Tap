@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../cards/red.png';
 import initialDeck from '../DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
+import StartGameForm from './StartGameForm.jsx';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -187,8 +188,10 @@ const RideTheBus = () => {
     }
   };
 
-  const handleChange = (event) => {
-    setNumber(event.target.value);
+  const startGame = (event) => {
+    event.preventDefault();
+    setGameStarted(true);
+    drawCard();
   };
 
   const resetGame = () => {
@@ -197,182 +200,112 @@ const RideTheBus = () => {
   };
 
   return (
-    <div
-      className={`game-container transition-colors duration-500 ease-out ${
-        guessStatus === 'correct'
-          ? 'bg-green-200'
-          : guessStatus === 'incorrect'
-          ? 'bg-red-200'
-          : ''
-      }`}
-    >
-      <div className='flex flex-col'>
-        {/* Reset game button */}
-        <div className='absolute bottom-0 right-0 m-4'>
-          <button
-            onClick={resetGame}
-            className='px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600'
-          >
-            Reset Game
-          </button>
-        </div>
+    <div className='flex flex-col h-full'>
+      {/* Reset game button */}
+      <div className='absolute bottom-0 right-0 m-4'>
+        <button onClick={resetGame} className='btn btn-success'>
+          Reset Game
+        </button>
+      </div>
 
-        {!gameStarted ? (
-          // Game start form
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              setGameStarted(true);
-              drawCard();
-            }}
-            className='flex flex-col items-center justify-center flex-grow'
-          >
-            <label className='mb-4 text-2xl font-extrabold flex items-center'>
-              Choose a number between 1 and 8:
-              <div className='flex items-center ml-4'>
-                <button
-                  type='button'
-                  onClick={() => setNumber((prev) => Math.max(prev - 1, 1))}
-                  className='bg-gray-200 p-2 rounded-l-md'
-                >
-                  -
-                </button>
-                <input
-                  type='number'
-                  min='1'
-                  max='8'
-                  value={number}
-                  onChange={handleChange}
-                  className={`mx-0 w-12 text-center text-xl font-bold ${getColorClass(
-                    number
-                  )}`}
-                />
-                <button
-                  type='button'
-                  onClick={() => setNumber((prev) => Math.min(prev + 1, 8))}
-                  className='bg-gray-200 p-2 rounded-r-md'
-                >
-                  +
-                </button>
-              </div>
-            </label>
-            <div className='mb-4'>
-              <label>
-                <input
-                  type='radio'
-                  value='higher/lower'
-                  checked={ruleSet === 'higher/lower'}
-                  onChange={handleRuleSetChange}
-                />
-                Higher/Lower
-              </label>
-              <label>
-                <input
-                  type='radio'
-                  value='red/black'
-                  checked={ruleSet === 'red/black'}
-                  onChange={handleRuleSetChange}
-                />
-                Red/Black
-              </label>
-            </div>
-            <button
-              type='submit'
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xl'
-            >
-              Start Game
-            </button>
-          </form>
-        ) : (
-          // Placeholder cards
-          <div className='flex flex-col items-center justify-center flex-grow'>
-            <div className='flex justify-center'>
-              <div className='flex justify-center items-end'>
-                {drawnCards.map((card, index) => (
-                  <div key={index} className='mx-2 relative'>
-                    {index === drawnCards.length - 1 && (
-                      <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl' />
-                    )}
+      {!gameStarted ? (
+        // Game start form
+        <StartGameForm
+          number={number}
+          setNumber={setNumber}
+          ruleSet={ruleSet}
+          setRuleSet={setRuleSet}
+          startGame={startGame}
+        />
+      ) : (
+        // Placeholder cards
+        <div className='flex flex-col items-center justify-center flex-grow'>
+          <div className='flex justify-center'>
+            <div className='flex justify-center items-end'>
+              {drawnCards.map((card, index) => (
+                <div key={index} className='mx-2 relative'>
+                  {index === drawnCards.length - 1 && (
+                    <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
+                  )}
+                  <img
+                    src={cardImages[card] || placeholderCard}
+                    alt={card}
+                    className='h-64'
+                  />
+                </div>
+              ))}
+
+              {[...Array(parseInt(number) - drawnCards.length)].map(
+                (_, index) => (
+                  <div
+                    key={index + drawnCards.length}
+                    className='mx-2 relative'
+                  >
                     <img
-                      src={cardImages[card] || placeholderCard}
-                      alt={card}
+                      src={placeholderCard}
+                      alt='placeholder card'
                       className='h-64'
                     />
                   </div>
-                ))}
-
-                {[...Array(parseInt(number) - drawnCards.length)].map(
-                  (_, index) => (
-                    <div
-                      key={index + drawnCards.length}
-                      className='mx-2 relative'
-                    >
-                      <img
-                        src={placeholderCard}
-                        alt='placeholder card'
-                        className='h-64'
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-
-            <div className='mt-12 flex flex-col items-center justify-center'>
-              <p className='text-center text-xl font-bold mb-6'>
-                You are on card {drawnCards.length} of {number}.
-              </p>
-              <p className='text-center text-xl font-bold mb-6'>
-                {ruleSet === 'higher/lower'
-                  ? `Will the next card be lower, equal, or higher than ${
-                      drawnCards[drawnCards.length - 1]
-                    }?`
-                  : 'Will the next card be red or black?'}
-              </p>
-              <div className='flex justify-center'>
-                {ruleSet === 'higher/lower' ? (
-                  <>
-                    <button
-                      onClick={handleLowerClick}
-                      className='mx-8 px-6 py-3 text-lg text-white bg-blue-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-blue-600'
-                    >
-                      Lower
-                    </button>
-                    <button
-                      onClick={handleEqualClick}
-                      className='mx-8 px-6 py-3 text-lg text-white bg-yellow-400 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-500 '
-                    >
-                      Equal
-                    </button>
-                    <button
-                      onClick={handleHigherClick}
-                      className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'
-                    >
-                      Higher
-                    </button>
-                  </>
-                ) : (
-                  // Red/Black buttons
-                  <>
-                    <button
-                      onClick={handleRedClick}
-                      className='mx-8 px-6 py-3 text-lg text-white bg-red-500 rounded transform hover:scale-105 transition-transform duration-200 hover:bg-red-600'
-                    >
-                      Red
-                    </button>
-                    <button
-                      onClick={handleBlackClick}
-                      className='mx-8 px-6 py-3 text-lg text-white bg-black rounded transform hover:scale-105 transition-transform duration-200 hover:bg-gray-800'
-                    >
-                      Black
-                    </button>
-                  </>
-                )}
-              </div>
+                )
+              )}
             </div>
           </div>
-        )}
-      </div>
+
+          <div className='mt-12 flex flex-col items-center justify-center'>
+            <p className='text-center text-xl font-bold mb-6 text-base-content'>
+              You are on card {drawnCards.length} of {number}.
+            </p>
+            <p className='text-center text-xl font-bold mb-6 text-base-content'>
+              {ruleSet === 'higher/lower'
+                ? `Will the next card be lower, equal, or higher than ${
+                    drawnCards[drawnCards.length - 1]
+                  }?`
+                : 'Will the next card be red or black?'}
+            </p>
+            <div className='flex justify-center'>
+              {ruleSet === 'higher/lower' ? (
+                <>
+                  <button
+                    onClick={handleLowerClick}
+                    className='mx-8 btn btn-lg btn-outline text-white bg-blue-500 hover:bg-blue-600'
+                  >
+                    Lower
+                  </button>
+                  <button
+                    onClick={handleEqualClick}
+                    className='mx-8 btn btn-lg btn-outline text-white  bg-yellow-500 hover:bg-yellow-600'
+                  >
+                    Equal
+                  </button>
+                  <button
+                    onClick={handleHigherClick}
+                    className='mx-8 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600'
+                  >
+                    Higher
+                  </button>
+                </>
+              ) : (
+                // Red/Black buttons
+                <>
+                  <button
+                    onClick={handleRedClick}
+                    className='mx-8 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600 hover:text-white'
+                  >
+                    Red
+                  </button>
+                  <button
+                    onClick={handleBlackClick}
+                    className='mx-8 btn btn-lg btn-outline text-white bg-black hover:bg-gray-900 hover:text-white'
+                  >
+                    Black
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

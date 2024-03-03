@@ -1,3 +1,5 @@
+// todo: fix rules button for dropdown menu
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeOptions from './ThemeOptions';
