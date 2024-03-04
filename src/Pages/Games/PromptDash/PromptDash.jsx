@@ -44,48 +44,46 @@ const PromptDash = () => {
   };
 
   return (
-    <div>
-      {/* Delay slider section */}
-      <div className='flex flex-col items-center mb-4 mt-10'>
-        <label htmlFor='delay' className='mr-2'>
-          Delay (ms):
-        </label>
-        <input
-          type='range'
-          id='delay'
-          min='0'
-          max='5000'
-          value={delay}
-          onChange={(e) => setDelay(e.target.value)}
-        />
-      </div>
-
-      <div className='flex flex-col items-center justify-center'>
-        {/* Draw Prompt button section */}
+    <div className='h-full bg-base-100 border'>
+      <div className='flex flex-col items-center mt-10'>
+        {/* Delay slider */}
+        <div className='mb-4 text-center'>
+          <label htmlFor='delay' className='text-lg font-bold mb-2'>
+            Delay (ms):
+          </label>
+          <input
+            type='range'
+            id='delay'
+            min='0'
+            max='3000'
+            value={delay}
+            onChange={(e) => setDelay(e.target.value)}
+            className='range range-primary'
+          />
+        </div>
+        {/* Draw Card button */}
         <button
           onClick={drawPrompt}
           disabled={loading && delay > 175}
-          className={`mx-auto block text-white px-8 py-4 rounded mt-32 ${
+          className={`  text-white px-8 py-4 rounded ${
             loading && delay > 175
               ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
-              : 'bg-blue-500 hover:bg-blue-600'
+              : 'bg-primary hover:bg-accent'
           }`}
         >
           Draw Prompt
         </button>
-
-        {/* Display prompt section */}
+      </div>
+      <div className='flex flex-col items-center justify-center mt-20'>
         {prompt && (
-          <div className='w-1/4 h-auto bg-blue-200 rounded p-4 flex items-center justify-center mt-4'>
-            <p className='text-center text-lg'>{prompt}</p>
+          <div className='w-[35vw] h-auto bg-neutral rounded p-8 flex items-center justify-center border border-secondary text-neutral-content'>
+            <p className='text-center text-xl text-bold'>{prompt}</p>
           </div>
         )}
       </div>
-
-      {/* Reset Prompts button section */}
       <button
         onClick={resetPrompts}
-        className='px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 absolute bottom-0 right-0 m-4'
+        className='btn btn-success absolute bottom-0 right-0 m-4'
       >
         Reset Prompts
       </button>
