@@ -42,7 +42,7 @@ const StartGameForm = ({
             checked={ruleSet === 'higher/lower'}
             onChange={handleRuleSetChange}
           />
-          <span>Higher/Lower</span>
+          <span className='text-xl font-bold'>Higher/Lower</span>
         </label>
         <label className='flex items-center space-x-2 text-lg'>
           <input
@@ -52,7 +52,7 @@ const StartGameForm = ({
             checked={ruleSet === 'red/black'}
             onChange={handleRuleSetChange}
           />
-          <span>Red/Black</span>
+          <span className='text-xl font-bold'>Red/Black</span>
         </label>
       </div>
       {/* input */}

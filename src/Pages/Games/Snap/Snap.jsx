@@ -15,8 +15,9 @@ const Snap = () => {
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef();
   const [previousCard, setPreviousCard] = useState(null);
-  const [ruleSet, setRuleSet] = useState('value');
+  const [ruleSet, setRuleSet] = useState('suit');
   const [autoReset, setAutoReset] = useState(true);
+  const [showSnap, setShowSnap] = useState(true);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -72,7 +73,7 @@ const Snap = () => {
   };
 
   return (
-    <div className='flex flex-col bg-base-100 border h-full'>
+    <div className='flex flex-col bg-base-100 h-full'>
       {/* Delay slider and Draw Card button */}
       <div className='flex flex-col items-center mt-10'>
         {/* Delay slider */}
@@ -109,21 +110,21 @@ const Snap = () => {
           <input
             className='radio radio-primary'
             type='radio'
-            value='value'
-            checked={ruleSet === 'value'}
+            value='suit'
+            checked={ruleSet === 'suit'}
             onChange={(e) => setRuleSet(e.target.value)}
           />
-          <span>Value</span>
+          <span className='text-xl font-bold'>Suit</span>
         </label>
         <label className='flex items-center space-x-2 text-lg'>
           <input
             className='radio radio-primary'
             type='radio'
-            value='suit'
-            checked={ruleSet === 'suit'}
+            value='value'
+            checked={ruleSet === 'value'}
             onChange={(e) => setRuleSet(e.target.value)}
           />
-          <span>Suit</span>
+          <span className='text-xl font-bold'>Value</span>
         </label>
       </div>
       {/* Card container */}
@@ -136,7 +137,7 @@ const Snap = () => {
                   <img
                     src={cardImages[previousCard]}
                     alt={previousCard}
-                    className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute top-24 z-10 filter brightness-75'
+                    className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute right-24 z-10 filter brightness-75'
                   />
                 )}
                 <img
@@ -146,12 +147,15 @@ const Snap = () => {
                 />
               </div>
               {/* Display "SNAP!" if the new card is the same as the previous card */}
-              {(ruleSet === 'value' &&
+              {showSnap &&
+              ((ruleSet === 'value' &&
                 drawnCards[0].slice(0, -1) === previousCardRank) ||
-              (ruleSet === 'suit' &&
-                previousCard &&
-                drawnCards[0].slice(-1) === previousCard.slice(-1)) ? (
-                <p className='text-4xl mt-10'>SNAP!</p>
+                (ruleSet === 'suit' &&
+                  previousCard &&
+                  drawnCards[0].slice(-1) === previousCard.slice(-1))) ? (
+                <p className='text-4xl font-bold mt-10 text-base-content'>
+                  SNAP!
+                </p>
               ) : null}
             </div>
           ) : (
@@ -164,6 +168,19 @@ const Snap = () => {
             </div>
           )}
         </div>
+      </div>
+      {/* Snap show */}
+      <div className='absolute bottom-16 right-0 m-4 flex items-center'>
+        <input
+          type='checkbox'
+          id='showSnap'
+          checked={showSnap}
+          onChange={(e) => setShowSnap(e.target.checked)}
+          className='checkbox checkbox-primary'
+        />
+        <label htmlFor='showSnap' className='ml-2 text-lg font-bold'>
+          Show "SNAP!" text
+        </label>
       </div>
       {/* Reset Deck button */}
       <div className='absolute bottom-0 right-0 m-4 flex items-center'>
