@@ -39,9 +39,9 @@ function DiceRoll() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div className='h-full'>
       {/* dice */}
-      <div className='flex justify-center mb-8'>
+      <div className='flex justify-center mt-20'>
         {dice1 !== null ? (
           React.cloneElement(diceIcons[dice1], { size: 96 })
         ) : (
@@ -54,25 +54,26 @@ function DiceRoll() {
         )}
       </div>
       {/* dice roll button */}
-      <button
-        onClick={rollDice}
-        className='mb-8 py-2 px-4 bg-blue-500 text-white rounded'
-      >
-        Roll Dice
-      </button>
+      <div className='flex justify-center'>
+        <button onClick={rollDice} className='btn btn-primary btn-lg mt-10'>
+          Roll Dice
+        </button>
+      </div>
       {/* dice roll rules */}
-      <div>
+      <div className='flex justify-center mt-10'>
         {total !== null ? (
-          <div className='bg-blue-200 rounded text-center p-4'>
-            <h3 className='text-lg font-bold text-gray-700'>
+          <div className='bg-neutral border border-secondary w-[40vw] rounded text-center p-4'>
+            <h3 className='text-xl font-bold text-neutral-content'>
               {DiceRollRules[total].title}
             </h3>
-            <p className='mt-2 text-gray-600'>
+            <p className='mt-2 text-neutral-content text-lg font-medium'>
               {DiceRollRules[total].description}
             </p>
           </div>
         ) : (
-          <p>Click to roll the dice.</p>
+          <p className='text-base-content text-xl font-bold'>
+            Click to roll the dice
+          </p>
         )}
       </div>
     </div>

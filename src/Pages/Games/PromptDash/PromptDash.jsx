@@ -44,7 +44,7 @@ const PromptDash = () => {
   };
 
   return (
-    <div className='h-full bg-base-100 border'>
+    <div className='h-full bg-base-100'>
       <div className='flex flex-col items-center mt-10'>
         {/* Delay slider */}
         <div className='mb-4 text-center'>
