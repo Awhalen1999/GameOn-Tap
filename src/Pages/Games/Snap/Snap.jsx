@@ -72,111 +72,123 @@ const Snap = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center bg-base-100'>
-      {/* Delay slider */}
-      <div className='mb-4'>
-        <label>
+    <div className='flex flex-col bg-base-100 border h-full'>
+      {/* Delay slider and Draw Card button */}
+      <div className='flex flex-col items-center mt-10'>
+        {/* Delay slider */}
+        <div className='mb-4 text-center'>
+          <label htmlFor='delay' className='text-lg font-bold mb-2'>
+            Delay (ms):
+          </label>
           <input
+            type='range'
+            id='delay'
+            min='0'
+            max='3000'
+            value={delay}
+            onChange={(e) => setDelay(e.target.value)}
+            className='range range-primary'
+          />
+        </div>
+        {/* Draw Card button */}
+        <button
+          onClick={drawCard}
+          disabled={loading && delay > 175}
+          className={`px-6 py-3 mb-8 text-lg text-white rounded ${
+            loading && delay > 175
+              ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
+              : 'bg-primary hover:bg-accent'
+          }`}
+        >
+          Flip a Card
+        </button>
+      </div>
+      {/* Radio buttons */}
+      <div className='flex flex-col justify-center space-y-4 ml-4 absolute left-0 top-0 bottom-0'>
+        <label className='flex items-center space-x-2 text-lg'>
+          <input
+            className='radio radio-primary'
             type='radio'
             value='value'
             checked={ruleSet === 'value'}
             onChange={(e) => setRuleSet(e.target.value)}
           />
-          Value
+          <span>Value</span>
         </label>
-        <label>
+        <label className='flex items-center space-x-2 text-lg'>
           <input
+            className='radio radio-primary'
             type='radio'
             value='suit'
             checked={ruleSet === 'suit'}
             onChange={(e) => setRuleSet(e.target.value)}
           />
-          Suit
+          <span>Suit</span>
         </label>
       </div>
-      <div className='mb-4'>
-        <label htmlFor='delay' className='mr-2'>
-          Delay (ms):
-        </label>
-        <input
-          type='range'
-          id='delay'
-          min='0'
-          max='5000'
-          value={delay}
-          onChange={(e) => setDelay(e.target.value)}
-        />
+      {/* Card container */}
+      <div className='flex flex-col items-center mt-10'>
+        <div className='items-center '>
+          {drawnCards.length > 0 ? (
+            <div className='text-center'>
+              <div className='relative flex items-center justify-center'>
+                {previousCard && (
+                  <img
+                    src={cardImages[previousCard]}
+                    alt={previousCard}
+                    className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute top-24 z-10 filter brightness-75'
+                  />
+                )}
+                <img
+                  src={cardImages[drawnCards[0]]}
+                  alt={drawnCards[0]}
+                  className='w-auto h-100 object-contain rounded shadow-lg z-20'
+                />
+              </div>
+              {/* Display "SNAP!" if the new card is the same as the previous card */}
+              {(ruleSet === 'value' &&
+                drawnCards[0].slice(0, -1) === previousCardRank) ||
+              (ruleSet === 'suit' &&
+                previousCard &&
+                drawnCards[0].slice(-1) === previousCard.slice(-1)) ? (
+                <p className='text-4xl mt-10'>SNAP!</p>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <img
+                src={placeholderCard}
+                alt='Placeholder'
+                className='w-auto h-100 object-contain rounded shadow-lg'
+              />
+            </div>
+          )}
+        </div>
       </div>
-      {/* Draw Card button */}
-      <button
-        onClick={drawCard}
-        disabled={loading && delay > 175}
-        className={`px-6 py-3 mb-8 text-lg text-white rounded ${
-          loading && delay > 175
-            ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
-            : 'bg-orange-500 hover:bg-orange-600'
-        }`}
-      >
-        Flip a Card
-      </button>
       {/* Reset Deck button */}
-      <div className='flex items-center absolute bottom-0 left-0 m-4'>
-        <button
-          onClick={() => setAutoReset(!autoReset)}
-          className={`btn mr-2 text-neutral-content ${
-            autoReset
-              ? 'bg-green-500 hover:bg-green-600'
-              : 'bg-gray-500 hover:bg-gray-600'
-          }`}
-        >
-          <GrPowerReset size={24} />
-        </button>
+      <div className='absolute bottom-0 right-0 m-4 flex items-center'>
+        <div className='tooltip' data-tip='Auto-reset deck'>
+          <button
+            onClick={() => setAutoReset(!autoReset)}
+            className={`btn mr-2 ${
+              autoReset
+                ? 'btn-primary'
+                : 'btn bg-gray-300 hover:bg-gray-400 text-black'
+            }`}
+          >
+            <GrPowerReset size={24} />
+          </button>
+        </div>
         <button
           onClick={resetDeck}
-          className={`btn text-neutral-content rounded ml-4 ${
+          className={`btn ml-4 ${
             autoReset
-              ? 'bg-gray-500 hover:bg-gray-600'
-              : 'bg-green-500 hover:bg-green-600'
+              ? 'btn bg-gray-300 hover:bg-gray-400 text-black'
+              : 'btn-primary'
           }`}
         >
           Reset Deck
         </button>
-      </div>
-      {/* Card container */}
-      <div className='items-center '>
-        {drawnCards.length > 0 ? (
-          <div className='text-center'>
-            <div className='relative flex items-center justify-center'>
-              {previousCard && (
-                <img
-                  src={cardImages[previousCard]}
-                  alt={previousCard}
-                  className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute top-24 z-10 filter brightness-75'
-                />
-              )}
-              <img
-                src={cardImages[drawnCards[0]]}
-                alt={drawnCards[0]}
-                className='w-auto h-100 object-contain rounded shadow-lg z-20'
-              />
-            </div>
-            {/* Display "SNAP!" if the new card is the same as the previous card */}
-            {(ruleSet === 'value' &&
-              drawnCards[0].slice(0, -1) === previousCardRank) ||
-            (ruleSet === 'suit' &&
-              drawnCards[0].slice(-1) === previousCard.slice(-1)) ? (
-              <p className='text-4xl mt-10'>SNAP!</p>
-            ) : null}
-          </div>
-        ) : (
-          <div>
-            <img
-              src={placeholderCard}
-              alt='Placeholder'
-              className='w-auto h-100 object-contain rounded shadow-lg'
-            />
-          </div>
-        )}
       </div>
     </div>
   );

@@ -268,19 +268,19 @@ const RideTheBus = () => {
                 <>
                   <button
                     onClick={handleLowerClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-blue-500 hover:bg-blue-600'
+                    className='mx-8 btn btn-lg btn-outline text-white bg-blue-500 hover:bg-blue-600 hover:text-white'
                   >
                     Lower
                   </button>
                   <button
                     onClick={handleEqualClick}
-                    className='mx-8 btn btn-lg btn-outline text-white  bg-yellow-500 hover:bg-yellow-600'
+                    className='mx-8 btn btn-lg btn-outline text-white  bg-yellow-500 hover:bg-yellow-600 hover:text-white'
                   >
                     Equal
                   </button>
                   <button
                     onClick={handleHigherClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600'
+                    className='mx-8 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600 hover:text-white'
                   >
                     Higher
                   </button>
