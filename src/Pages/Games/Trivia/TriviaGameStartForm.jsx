@@ -14,7 +14,7 @@ const TriviaGameStartForm = ({
   handleStartGame,
 }) => {
   return (
-    <div className='p-6 bg-base-100 border h-full'>
+    <div className='p-6 bg-base-100 h-full'>
       <h1 className='text-2xl font-bold mb-4 text-base-content'>
         Trivia Game Setup
       </h1>

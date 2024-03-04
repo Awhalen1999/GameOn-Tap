@@ -70,7 +70,8 @@ function TriviaGame() {
     };
 
     if (gameStarted) {
-      fetchQuestions();
+      // Add a delay before fetching the questions
+      setTimeout(fetchQuestions, 1000);
     }
   }, [gameStarted]);
 
@@ -115,20 +116,28 @@ function TriviaGame() {
   }
 
   if (questions.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div className='bg-base-100 text-base-content h-full flex items-center justify-center'>
+        Loading...
+      </div>
+    );
   }
 
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className='p-6 bg-gray-100 min-h-screen'>
+    <div className='p-6 bg-base-100 h-full border'>
       <h1 className='text-2xl font-bold mb-4'>Trivia Game</h1>
-      <div className='space-y-4'>
-        <p>
+      <div className='my-4 flex flex-col items-center justify-center'>
+        <p className=' font-bold text-lg text-base-content'>
           Question {currentQuestionIndex + 1} of {amount}
         </p>
-        <p dangerouslySetInnerHTML={{ __html: currentQuestion.question }} />
-        <div className='space-y-2'>
+        <div className=' divider divider-primary'></div>
+        <p
+          className='text-lg font-medium text-base-content my-4'
+          dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
+        />
+        <div className='space-x-4 my-6'>
           {currentQuestion.incorrect_answers.map((answer, index) => (
             <button
               key={index}
@@ -136,8 +145,8 @@ function TriviaGame() {
               className={`px-4 py-2 rounded ${
                 selectedAnswer === answer &&
                 answer !== currentQuestion.correct_answer
-                  ? 'bg-red-500'
-                  : 'bg-blue-500'
+                  ? 'bg-red-600'
+                  : 'bg-primary hover:bg-accent'
               } text-white`}
             >
               {answer}
@@ -146,14 +155,26 @@ function TriviaGame() {
           <button
             onClick={() => handleTriviaAnswer(currentQuestion.correct_answer)}
             className={`px-4 py-2 rounded ${
-              selectedAnswer ? 'bg-green-500' : 'bg-blue-500'
+              selectedAnswer ? 'bg-green-500' : 'bg-primary hover:bg-accent'
             } text-white`}
           >
             {currentQuestion.correct_answer}
           </button>
         </div>
-        <p>Score: {score}</p>
+        <p className='my-6 text-base-content text-lg font-medium'>
+          Score: {score}
+        </p>
       </div>
+      <button
+        onClick={() => {
+          setCurrentQuestionIndex(0);
+          setScore(0);
+          setGameStarted(false);
+        }}
+        className='btn btn-success absolute bottom-0 right-0 m-4'
+      >
+        Reset Game
+      </button>
     </div>
   );
 }
