@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../cards/red.png';
 import initialDeck from '../DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
-import StartGameForm from './StartGameForm.jsx';
+import RTBStartGameForm from './RTBStartGameForm.jsx';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -210,7 +210,7 @@ const RideTheBus = () => {
 
       {!gameStarted ? (
         // Game start form
-        <StartGameForm
+        <RTBStartGameForm
           number={number}
           setNumber={setNumber}
           ruleSet={ruleSet}

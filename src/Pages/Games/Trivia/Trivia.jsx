@@ -5,8 +5,8 @@
 // todo: add quick start button that starts game with default settings
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
+import TriviaGameStartForm from './TriviaGameStartForm';
 
 function TriviaGame() {
   const [amount, setAmount] = useState(5);
@@ -99,68 +99,18 @@ function TriviaGame() {
 
   if (!gameStarted) {
     return (
-      <div className='p-6 bg-base-100'>
-        <h1 className='text-2xl font-bold mb-4'>Trivia Game Setup</h1>
-        <div className='mb-4'>
-          <label className='block mb-2'>
-            Number of Questions:
-            <input
-              type='number'
-              value={amount}
-              onChange={(e) => setAmount(parseInt(e.target.value))}
-              className='border-gray-400 border w-full p-2 rounded'
-              min={1}
-              max={50}
-            />
-          </label>
-          <label className='block mb-2'>
-            Select Category:
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className='border-gray-400 border w-full p-2 rounded'
-            >
-              <option value=''>Any Category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className='block mb-2'>
-            Select Difficulty:
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-              className='border-gray-400 border w-full p-2 rounded'
-            >
-              <option value=''>Any Difficulty</option>
-              <option value='easy'>Easy</option>
-              <option value='medium'>Medium</option>
-              <option value='hard'>Hard</option>
-            </select>
-          </label>
-          <label className='block mb-2'>
-            Select Type:
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className='border-gray-400 border w-full p-2 rounded'
-            >
-              <option value=''>Any Type</option>
-              <option value='multiple'>Multiple Choice</option>
-              <option value='boolean'>True/False</option>
-            </select>
-          </label>
-        </div>
-        <button
-          onClick={handleStartGame}
-          className='bg-blue-500 text-white px-4 py-2 rounded'
-        >
-          Start Game
-        </button>
-      </div>
+      <TriviaGameStartForm
+        amount={amount}
+        setAmount={setAmount}
+        category={category}
+        setCategory={setCategory}
+        difficulty={difficulty}
+        setDifficulty={setDifficulty}
+        type={type}
+        setType={setType}
+        categories={categories}
+        handleStartGame={handleStartGame}
+      />
     );
   }
 
@@ -172,12 +122,6 @@ function TriviaGame() {
 
   return (
     <div className='p-6 bg-gray-100 min-h-screen'>
-      <Link
-        to='/'
-        className='mb-8 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
-      >
-        Return to Home
-      </Link>
       <h1 className='text-2xl font-bold mb-4'>Trivia Game</h1>
       <div className='space-y-4'>
         <p>

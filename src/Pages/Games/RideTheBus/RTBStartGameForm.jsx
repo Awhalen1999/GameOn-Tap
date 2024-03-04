@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
-const StartGameForm = ({
+const RTBStartGameForm = ({
   number,
   setNumber,
   ruleSet,
@@ -101,4 +101,4 @@ const StartGameForm = ({
   );
 };
 
-export default StartGameForm;
+export default RTBStartGameForm;
