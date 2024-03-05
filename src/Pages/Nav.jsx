@@ -11,6 +11,8 @@ import PromptDashRules from './Games/PromptDash/PromptDashRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import { FaWrench } from 'react-icons/fa';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 
 const Nav = () => {
   const [selectedTheme, setSelectedTheme] = useState(
@@ -75,7 +77,7 @@ const Nav = () => {
   );
 
   return (
-    <div className='navbar bg-base-100 border-b border-secondary h-20'>
+    <div className='navbar bg-base-100 border-b border-secondary h-20 font-space'>
       {/* left */}
       <div className='navbar-start'>
         <div className='dropdown'>
@@ -84,20 +86,7 @@ const Nav = () => {
             role='button'
             className='btn btn-ghost lg:hidden text-base-content'
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-5 w-5'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M4 6h16M4 12h8m-8 6h16'
-              />
-            </svg>
+            <HiOutlineMenuAlt3 className='h-5 w-5 text-current' />
           </div>
           <ul
             tabIndex={0}
@@ -127,15 +116,7 @@ const Nav = () => {
               >
                 <div className='text-base-content'>
                   Theme
-                  <svg
-                    width='18px'
-                    height='18px'
-                    className='h-3 w-3 ml-2 fill-current inline-block'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 2048 2048'
-                  >
-                    <path d='M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z'></path>
-                  </svg>
+                  <IoMdArrowDropdown className='h-6 w-6 ml-2 text-current inline-block' />
                 </div>
                 {isThemeDropdownOpen && (
                   <ThemeOptions
@@ -185,15 +166,7 @@ const Nav = () => {
             <div className='dropdown relative btn btn-ghost flex items-center justify-center ml-2'>
               <div tabIndex={0} role='button' className='text-base-content'>
                 Theme
-                <svg
-                  width='18px'
-                  height='18px'
-                  className='h-3 w-3 ml-2 fill-current inline-block'
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 2048 2048'
-                >
-                  <path d='M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z'></path>
-                </svg>
+                <IoMdArrowDropdown className='h-6 w-6 ml-2 text-current inline-block' />
               </div>
               <ThemeOptions
                 selectedTheme={selectedTheme}

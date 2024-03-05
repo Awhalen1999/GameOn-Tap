@@ -31,10 +31,8 @@ const Hero = () => {
       <div className='hero-overlay bg-opacity-25 bg-black'></div>
       <div className='hero-content text-left text-neutral-content w-full flex items-center justify-start'>
         <div className='max-w-lg pl-15 bg-opacity-80 bg-black p-10 rounded-3xl font-space'>
-          <h1 className='tracking-tight font-regular text-white text-4xl mb-1'>
-            Welcome to
-          </h1>
-          <h1 className='text-6xl md:text-6xl tracking-tight leading-none font-extrabold text-primary'>
+          <h1 className=' font-regular text-white text-4xl mb-1'>Welcome to</h1>
+          <h1 className='text-6xl md:text-6xl leading-none font-extrabold text-primary'>
             GameOn Tap
           </h1>
           <p className='text-xl font-medium text-white mt-2 leading-relaxed'>
@@ -45,14 +43,14 @@ const Hero = () => {
           </p>
           <Link
             to='/GamePage'
-            className='inline-block font- bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-primary-content border border-transparent hover:border-accent font-tech'
+            className='inline-block font- bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-primary-content border border-transparent hover:border-accent font-pixel2'
           >
             Games
           </Link>
           <Link
             onClick={handleRandomGame}
             to={randomGame}
-            className='inline-block font-medium ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-white hover:text-primary-content font-tech'
+            className='inline-block font-medium ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-white hover:text-primary-content font-pixel2'
           >
             Random Game
           </Link>

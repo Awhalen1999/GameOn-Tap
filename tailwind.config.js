@@ -9,6 +9,7 @@ module.exports = {
         space: ['Space Grotesk', 'sans-serif'],
         pixel: ['VT323', 'monospace'],
         tech: ['Share Tech Mono', 'monospace'],
+        pixel2: ['Silkscreen', 'sans-serif'],
       },
     },
   },

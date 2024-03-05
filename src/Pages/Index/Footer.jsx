@@ -5,7 +5,7 @@ import { SiGithub } from 'react-icons/si';
 
 const Footer = () => {
   return (
-    <footer className='footer items-center p-4 bg-neutral text-neutral-content'>
+    <footer className='footer items-center p-4 bg-neutral text-neutral-content font-space'>
       <aside className='items-center grid-flow-col'>
         <img
           src={logo}
