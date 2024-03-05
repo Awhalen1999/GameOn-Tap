@@ -37,7 +37,7 @@ const Hero = () => {
           <h1 className='text-6xl md:text-6xl tracking-tight leading-none font-extrabold text-primary'>
             GameOn Tap
           </h1>
-          <p className='text-lg font-medium text-white mt-2'>
+          <p className='text-lg font-medium text-white mt-2 font-micro'>
             GameOn Tap is your ultimate destination for endless fun! Explore a
             collection of popular party games, from classic card games to dice
             and roulette challenges and trivia showdowns. Spice up any gathering

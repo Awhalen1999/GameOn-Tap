@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        micro: ['Micro 5', 'sans-serif'],
+        micro: ['Micro 5', 'sans'],
       },
     },
   },
