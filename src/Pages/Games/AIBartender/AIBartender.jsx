@@ -61,7 +61,7 @@ const AIBartender = () => {
         }}
       >
         {/* bartender section */}
-        <div className='w-1/4 h-full flex flex-col items-start p-2.5 bg-base-100 bg-opacity-85 rounded-lg border border-primary border-1 mr-1'>
+        <div className='w-1/4 h-full flex flex-col items-start p-2.5 bg-black bg-opacity-85 rounded-lg border border-secondary border-1 mr-1'>
           <div className=' w-full h-10 flex flex-row justify-start items-center text-xl font-bold text-left text-white'>
             Choose a bartender
           </div>
@@ -94,7 +94,7 @@ const AIBartender = () => {
           </div>
         </div>
         {/* Chat section */}
-        <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 bg-base-100 bg-opacity-75 rounded-lg border border-primary border-1 ml-1'>
+        <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 bg-black bg-opacity-75 rounded-lg border border-secondary border-1 ml-1 overflow-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thin'>
           <h2 className='w-full h-10 flex flex-row justify-start items-center text-xl font-bold text-left text-white'>
             AI Bartender ({bartender})
           </h2>
@@ -118,7 +118,7 @@ const AIBartender = () => {
             cols='30'
             rows='2'
             className='textarea textarea-primary w-1/2 mt-5'
-            placeholder='Describe a drink:'
+            placeholder='Describe a drink (optional):'
           />
           <textarea
             value={ingredients}
@@ -126,7 +126,7 @@ const AIBartender = () => {
             cols='30'
             rows='2'
             className='textarea textarea-primary w-1/2 mt-5'
-            placeholder='Available ingredients:'
+            placeholder='Available ingredients (optional):'
           />
           <div className='flex items-start'>
             <button
