@@ -200,7 +200,7 @@ const RideTheBus = () => {
   };
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col h-full font-space'>
       {/* Reset game button */}
       <div className='absolute bottom-0 right-0 m-4'>
         <button onClick={resetGame} className='btn btn-success'>

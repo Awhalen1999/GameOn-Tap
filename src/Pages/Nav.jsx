@@ -92,11 +92,13 @@ const Nav = () => {
             tabIndex={0}
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
-            {!isGamePage && (
-              <li>
-                <Link to='/GamePage'>Games</Link>
-              </li>
-            )}
+            <li>
+              {!isGamePage && (
+                <button className='btn btn-ghost'>
+                  <Link to='/GamePage'>Games</Link>
+                </button>
+              )}
+            </li>
             <li>
               {!isNotGamePage && (
                 <button className='btn btn-ghost' onClick={openModal}>
@@ -108,8 +110,8 @@ const Nav = () => {
               )}
             </li>
             <li>
-              <div
-                className='dropdown relative'
+              <button
+                className='dropdown relative btn btn-ghost'
                 tabIndex={0}
                 role='button'
                 onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
@@ -124,7 +126,7 @@ const Nav = () => {
                     setSelectedTheme={setSelectedTheme}
                   />
                 )}
-              </div>
+              </button>
             </li>
           </ul>
         </div>

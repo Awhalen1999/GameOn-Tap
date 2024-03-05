@@ -79,7 +79,7 @@ const EditRulesPage = () => {
   };
 
   return (
-    <div className='p-6 bg-base-100 min-h-screen text-text'>
+    <div className='p-6 bg-base-100 min-h-screen font-space'>
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl font-bold text-primary'>
           Edit Rules for {game}

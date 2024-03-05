@@ -126,7 +126,7 @@ function TriviaGame() {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className='p-6 bg-base-100 h-full border'>
+    <div className='p-6 bg-base-100 h-full border font-space'>
       <h1 className='text-2xl font-bold mb-4'>Trivia Game</h1>
       <div className='my-4 flex flex-col items-center justify-center'>
         <p className=' font-bold text-lg text-base-content'>

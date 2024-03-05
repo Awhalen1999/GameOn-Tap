@@ -73,7 +73,7 @@ const Snap = () => {
   };
 
   return (
-    <div className='flex flex-col bg-base-100 h-full'>
+    <div className='flex flex-col bg-base-100 h-full font-space'>
       {/* Delay slider and Draw Card button */}
       <div className='flex flex-col items-center mt-10'>
         {/* Delay slider */}

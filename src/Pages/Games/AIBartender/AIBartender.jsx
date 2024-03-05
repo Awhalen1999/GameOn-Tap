@@ -49,7 +49,7 @@ const AIBartender = () => {
   };
 
   return (
-    <div>
+    <div className='font-space'>
       <div
         className=' flex h-screen w-screen p-6 pt-12 items-start justify-center gap-1'
         style={{
@@ -102,7 +102,7 @@ const AIBartender = () => {
                 </div>
               </div>
               <div className='chat chat-start'>
-                <div className='chat-bubble chat-bubble-accent'>
+                <div className='chat-bubble chat-bubble-accent font-tech'>
                   {initialPrompt}
                 </div>
               </div>
@@ -148,7 +148,9 @@ const AIBartender = () => {
                   </div>
                 </div>
                 <div className='chat chat-start'>
-                  <div className='chat-bubble chat-bubble-accent'>{recipe}</div>
+                  <div className='chat-bubble chat-bubble-accent font-tech'>
+                    {recipe}
+                  </div>
                 </div>
               </div>
             </div>

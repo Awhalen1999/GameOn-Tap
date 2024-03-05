@@ -32,7 +32,7 @@ const DrinkRoulette = () => {
   };
 
   return (
-    <div className='h-full bg-base-100'>
+    <div className='h-full bg-base-100 font-space'>
       <div className='flex justify-center'>
         <div className='z-10'>
           <TiArrowDownThick size={38} />
