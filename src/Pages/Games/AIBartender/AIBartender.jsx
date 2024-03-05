@@ -1,7 +1,3 @@
-// todo: update/add more bartender personas (slack saved msg)
-// todo: update initial prompts
-// todo: make text from bartender persona and initial prompts dynamic and use image to show the bartender persona
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BartenderInfo from './BartenderInfo';
@@ -20,7 +16,7 @@ const AIBartender = () => {
 
   useEffect(() => {
     setInitialPrompt(BartenderInfo[bartender].initialPrompt);
-    setRecipe(''); // clear the recipe
+    setRecipe('');
   }, [bartender]);
 
   const handleSubmit = async (quickStart = false) => {
