@@ -7,6 +7,7 @@ import triviaCover from '../../assets/trivia-cover.png';
 import promptDashCover from '../../assets/prompt-dash-cover.png';
 import diceRollCover from '../../assets/dice-roll-cover.png';
 import drinkRouletteCover from '../../assets/drink-roulette-cover.png';
+import bountyBlastCover from '../../assets/bounty-blast-cover.png';
 import aiBartenderCover from '../../assets/ai-bartender-cover.png';
 import gameDescription from './GameDescription';
 
@@ -53,6 +54,12 @@ const GamePage = () => {
       route: '/games/DrinkRoulette',
       image: drinkRouletteCover,
       description: gameDescription['Drink Roulette'],
+    },
+    {
+      name: 'Bounty Blast',
+      route: '/games/BountyBlast',
+      image: bountyBlastCover,
+      description: gameDescription['Bounty Blast'],
     },
     {
       name: 'AI Bartender',

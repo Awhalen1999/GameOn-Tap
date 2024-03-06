@@ -8,6 +8,7 @@ import triviaCover from '../../assets/trivia-cover.png';
 import promptDashCover from '../../assets/prompt-dash-cover.png';
 import diceRollCover from '../../assets/dice-roll-cover.png';
 import drinkRouletteCover from '../../assets/drink-roulette-cover.png';
+import bountyBlastCover from '../../assets/bounty-blast-cover.png';
 import aiBartenderCover from '../../assets/ai-bartender-cover.png';
 
 const GameList = () => {
