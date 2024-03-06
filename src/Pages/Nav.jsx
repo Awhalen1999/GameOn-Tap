@@ -10,6 +10,7 @@ import TriviaRules from './Games/Trivia/TriviaRules.js';
 import PromptDashRules from './Games/PromptDash/PromptDashRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
+import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
@@ -37,6 +38,7 @@ const Nav = () => {
     '/games/PromptDash': PromptDashRules,
     '/games/DiceRoll': DiceRollRules,
     '/games/DrinkRoulette': DrinkRouletteRules,
+    '/games/BountyBlast': BountyBlastRules,
   };
 
   const gameTitlesButton = {
@@ -47,6 +49,7 @@ const Nav = () => {
     '/games/PromptDash': 'Prompt Dash Rules',
     '/games/DiceRoll': 'Dice Roll Rules',
     '/games/DrinkRoulette': 'Drink Roulette Rules',
+    '/games/BountyBlast': 'Bounty Blast Rules',
   };
 
   const gameTitles = {
@@ -58,6 +61,7 @@ const Nav = () => {
     '/games/DiceRoll': 'Dice Roll',
     '/games/DrinkRoulette': 'Drink Roulette',
     '/games/AIBartender': 'AI Bartender',
+    '/games/BountyBlast': 'Bounty Blast',
   };
 
   const gamesWithIcon = new Set([
