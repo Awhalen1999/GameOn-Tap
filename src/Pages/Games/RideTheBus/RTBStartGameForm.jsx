@@ -9,14 +9,12 @@ const RTBStartGameForm = ({
   startGame,
 }) => {
   const getColorClass = (number) => {
-    if (number >= 1 && number <= 4) {
-      return 'text-blue-600';
+    if (number < 5) {
+      return 'text-base-content';
     } else if (number >= 5 && number <= 6) {
       return 'text-yellow-600';
-    } else if (number >= 7 && number <= 8) {
-      return 'text-red-600';
     } else {
-      return 'text-black';
+      return 'text-red-600';
     }
   };
 

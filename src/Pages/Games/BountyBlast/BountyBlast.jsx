@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import treasureChest from '../../../assets/treasure-chest.png';
 import bomb from '../../../assets/bomb.png';
 import treasure from '../../../assets/treasure.png';
+import empty from '../../../assets/empty.png';
 
 const BountyBlast = () => {
-  const [bombs, setBombs] = useState(4);
-  const [treasures, setTreasures] = useState(6);
+  const [bombs, setBombs] = useState(3);
+  const [treasures, setTreasures] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
   const [board, setBoard] = useState([]);
   const [gameOver, setGameOver] = useState(false);
@@ -17,22 +18,32 @@ const BountyBlast = () => {
     }
   }, [gameStarted]);
 
-  // Function to generate the game board
+  const restartRound = () => {
+    setBoard([]);
+    setGameOver(false);
+    setMessage('');
+    generateBoard();
+  };
+
   const generateBoard = () => {
     let newBoard = [];
-    // Create 24 empty chests
+
     for (let i = 0; i < 24; i++) {
       newBoard.push({ type: 'empty', opened: false, img: treasureChest });
     }
-    // Place bombs randomly
+
     for (let i = 0; i < bombs; i++) {
       let randomIndex = Math.floor(Math.random() * 24);
       while (newBoard[randomIndex].type !== 'empty') {
         randomIndex = Math.floor(Math.random() * 24);
       }
-      newBoard[randomIndex] = { type: 'bomb', opened: false, img: bomb };
+      newBoard[randomIndex] = {
+        type: 'bomb',
+        opened: false,
+        img: treasureChest,
+      };
     }
-    // Place treasures randomly
+
     for (let i = 0; i < treasures; i++) {
       let randomIndex = Math.floor(Math.random() * 24);
       while (newBoard[randomIndex].type !== 'empty') {
@@ -41,57 +52,90 @@ const BountyBlast = () => {
       newBoard[randomIndex] = {
         type: 'treasure',
         opened: false,
-        img: treasure,
+        img: treasureChest,
       };
     }
     setBoard(newBoard);
   };
 
   const handleChestClick = (index) => {
-    if (!board[index].opened && !gameOver) {
+    if (!board[index].opened) {
       let newBoard = [...board];
       newBoard[index].opened = true;
-      setBoard(newBoard);
       if (newBoard[index].type === 'bomb') {
-        // Handle bomb clicked
+        newBoard[index].img = bomb;
         setMessage('Oh no! You found a bomb! Drink up!');
-        setGameOver(true);
       } else if (newBoard[index].type === 'treasure') {
-        // Handle treasure clicked
-        setMessage('Congratulations! You found treasure!');
+        newBoard[index].img = treasure;
+        setMessage(
+          'Congratulations! You found treasure! You may assign a drink to another player or be safe from your next bomb!'
+        );
+      } else {
+        newBoard[index].img = empty;
+        setMessage('Safe! This chest is empty.');
       }
+
+      setBoard(newBoard);
+    }
+  };
+
+  const getColorClass = (number) => {
+    if (number <= 5) {
+      return 'text-base-content';
+    } else if (number >= 6 && number <= 8) {
+      return 'text-yellow-600';
+    } else {
+      return 'text-red-600';
     }
   };
 
   return (
-    <div className='h-full border bg-base-100 font-space'>
+    <div className='h-full bg-base-100 font-space'>
       {!gameStarted && (
         <div className='flex flex-col items-center justify-center'>
-          <h2 className='text-4xl font-bold mb-4'>Bounty Blast</h2>
-          <h3 className='text-2xl mb-4'>Game Setup</h3>
+          <h2 className='text-4xl font-bold m-8 text-base-content'>
+            Bounty Blast
+          </h2>
+          <h3 className='text-2xl mb-6 text-base-content'>Game Setup</h3>
           <div className='space-y-4'>
-            <label className='flex flex-col'>
+            <label className='flex flex-col text-lg text-base-content'>
               Number of Bombs:
               <input
                 type='number'
                 value={bombs}
-                onChange={(e) => setBombs(parseInt(e.target.value))}
-                className='input input-bordered'
+                onChange={(e) => {
+                  const newBombs = parseInt(e.target.value);
+                  if (newBombs + treasures <= 24) {
+                    setBombs(newBombs);
+                  }
+                }}
+                className={`input text-lg  mb-6 mt-2 input-bordered ${getColorClass(
+                  bombs
+                )}`}
+                required
               />
             </label>
-            <label className='flex flex-col'>
+            <label className='flex flex-col text-lg text-base-content'>
               Number of Treasures:
               <input
                 type='number'
                 value={treasures}
-                onChange={(e) => setTreasures(parseInt(e.target.value))}
-                className='input input-bordered'
+                onChange={(e) => {
+                  const newTreasures = parseInt(e.target.value);
+                  if (newTreasures + bombs <= 24) {
+                    setTreasures(newTreasures);
+                  }
+                }}
+                className={`input text-lg mb-6 mt-2 input-bordered ${getColorClass(
+                  treasures
+                )}`}
+                required
               />
             </label>
           </div>
           <button
             onClick={() => setGameStarted(true)}
-            className='btn btn-primary mt-4'
+            className='btn btn-primary btn-lg mt-4'
           >
             Start Game
           </button>
@@ -107,7 +151,7 @@ const BountyBlast = () => {
                     key={index}
                     className={`card ${
                       chest.opened ? 'bordered' : ''
-                    } flex justify-center items-center border`}
+                    } flex justify-center items-center`}
                     onClick={() => handleChestClick(index)}
                   >
                     <img
@@ -120,9 +164,26 @@ const BountyBlast = () => {
               </div>
             </div>
           </div>
-          <div className='mt-auto mb-10 p-4 rounded bg-neutral text-neutral-content border border-secondary text-center text-lg font-semibold'>
-            {message}
-          </div>
+          {message && (
+            <div className='mt-auto mb-10 p-4 rounded bg-neutral text-neutral-content border border-secondary text-center text-lg font-semibold max-w-[70vw]'>
+              {message}
+            </div>
+          )}
+          <button
+            onClick={() => {
+              setGameStarted(false);
+              setMessage('');
+            }}
+            className='btn btn-primary absolute bottom-4 left-4'
+          >
+            Return to Game Start
+          </button>
+          <button
+            onClick={restartRound}
+            className='btn btn-primary absolute bottom-4 right-4'
+          >
+            Restart Round
+          </button>
         </div>
       )}
     </div>
