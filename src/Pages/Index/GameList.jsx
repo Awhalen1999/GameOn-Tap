@@ -24,9 +24,9 @@ const GameList = () => {
       image: drinkRouletteCover,
     },
     {
-      name: 'AI Bartender',
-      route: '/games/AIBartender',
-      image: aiBartenderCover,
+      name: 'Bounty Blast',
+      route: '/games/BountyBlast',
+      image: bountyBlastCover,
     },
   ];
 
