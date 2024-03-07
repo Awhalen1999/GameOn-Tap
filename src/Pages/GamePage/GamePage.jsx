@@ -44,6 +44,12 @@ const GamePage = () => {
       description: gameDescription['Prompt Dash'],
     },
     {
+      name: 'Bounty Blast',
+      route: '/games/BountyBlast',
+      image: bountyBlastCover,
+      description: gameDescription['Bounty Blast'],
+    },
+    {
       name: 'Dice Roll',
       route: '/games/DiceRoll',
       image: diceRollCover,
@@ -54,12 +60,6 @@ const GamePage = () => {
       route: '/games/DrinkRoulette',
       image: drinkRouletteCover,
       description: gameDescription['Drink Roulette'],
-    },
-    {
-      name: 'Bounty Blast',
-      route: '/games/BountyBlast',
-      image: bountyBlastCover,
-      description: gameDescription['Bounty Blast'],
     },
     {
       name: 'AI Bartender',

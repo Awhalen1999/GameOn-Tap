@@ -43,14 +43,14 @@ const Hero = () => {
           </p>
           <Link
             to='/GamePage'
-            className='inline-block font- bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-primary-content border border-transparent hover:border-accent font-pixel2'
+            className='inline-block font- bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-primary-content border border-transparent hover:border-accent '
           >
             Games
           </Link>
           <Link
             onClick={handleRandomGame}
             to={randomGame}
-            className='inline-block font-medium ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-white hover:text-primary-content font-pixel2'
+            className='inline-block font-medium ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-white hover:text-primary-content '
           >
             Random Game
           </Link>
