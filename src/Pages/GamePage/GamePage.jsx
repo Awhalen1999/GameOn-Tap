@@ -154,7 +154,7 @@ const GamePage = () => {
           {/* end of game list */}
           <label
             htmlFor='my-drawer-2'
-            className='btn btn-ghost drawer-button lg:hidden absolute top-0 left-0 m-4'
+            className='btn btn-ghost text-base-content drawer-button lg:hidden absolute top-0 left-0 m-4'
           >
             <MdMenuOpen size={24} />
           </label>

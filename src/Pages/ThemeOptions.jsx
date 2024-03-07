@@ -4,8 +4,6 @@ const ThemeOptions = ({ selectedTheme, setSelectedTheme }) => {
   const themes = {
     mydark: 'Dark',
     mylight: 'Light',
-    retro: 'Retro',
-    cyberpunk: 'Cyberpunk',
     coffee: 'Coffee',
     aqua: 'Aqua',
     synthwave: 'Synthwave',
@@ -14,7 +12,7 @@ const ThemeOptions = ({ selectedTheme, setSelectedTheme }) => {
   return (
     <ul
       tabIndex={0}
-      className='dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52 absolute top-full mt-1'
+      className='dropdown-content z-[10] p-2 shadow-2xl bg-base-300 rounded-box w-52 absolute top-full mt-1'
     >
       {Object.entries(themes).map(([themeKey, themeName]) => (
         <li key={themeKey}>
