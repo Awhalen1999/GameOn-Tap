@@ -141,7 +141,7 @@ const GamePage = () => {
                     <img
                       src={game.image}
                       alt={game.name}
-                      className='w-full h-48 object-cover'
+                      className='w-full h-auto object-cover'
                     />
                     <div className='text-neutral-content bg-neutral rounded-b hover:bg-accent hover:text-accent-content w-full text-center h-auto p-4'>
                       {game.description}

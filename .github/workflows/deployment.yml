@@ -37,6 +37,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install
+      - name: Build .env file
+        run: echo ${{ secrets }} >> secrets.txt && node scripts/buildEnv.js
       - name: Build
         run: npm run build
       - name: Setup Pages
