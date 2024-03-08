@@ -36,7 +36,7 @@ const GameList = () => {
         <div className='w-full h-10 flex items-center justify-start'>
           <h1 className='font-bold text-4xl text-base-content'>Featured</h1>
         </div>
-        <div className='mt-10 grid grid-cols-4 gap-6'>
+        <div className='mt-10 grid sm:grid-cols-2 md:grid-cols-4 gap-6'>
           {games.map((game, index) => (
             <div
               key={index}
@@ -49,7 +49,7 @@ const GameList = () => {
                 <img
                   src={game.image}
                   alt={game.name}
-                  className='w-full h-48 object-cover rounded-t-lg'
+                  className='w-full h-auto object-cover rounded-t-lg'
                 />
                 <div className='text-primary-content font-bold bg-primary rounded-b-lg hover:bg-accent w-full text-center'>
                   {game.name}
