@@ -7,6 +7,7 @@ const AIBartender = () => {
   const [ingredients, setIngredients] = useState('');
   const [recipe, setRecipe] = useState('');
   const [bartender, setBartender] = useState('Default');
+  const [isLoading, setIsLoading] = useState(false);
 
   const bartenders = Object.keys(BartenderInfo); // List of bartenders
 
@@ -20,6 +21,7 @@ const AIBartender = () => {
   }, [bartender]);
 
   const handleSubmit = async (quickStart = false) => {
+    setIsLoading(true);
     const data = {
       model: 'gpt-3.5-turbo',
       messages: [
@@ -45,6 +47,7 @@ const AIBartender = () => {
       .then((response) => {
         const message = response.data.choices[0].message.content;
         setRecipe(message);
+        setIsLoading(false); // set loading state to false when response is received
       });
   };
 
@@ -139,7 +142,7 @@ const AIBartender = () => {
             </button>
           </div>
           {/* AI recipe returned: */}
-          {recipe && (
+          {isLoading || recipe ? (
             <div className='w-full h-25 flex flex-col justify-start items-start mt-5'>
               <div className='flex items-end'>
                 <div className='avatar flex-shrink-0'>
@@ -148,13 +151,17 @@ const AIBartender = () => {
                   </div>
                 </div>
                 <div className='chat chat-start'>
-                  <div className='chat-bubble chat-bubble-accent font-tech'>
-                    {recipe}
+                  <div className='chat-bubble chat-bubble-accent font-tech flex items-center justify-center'>
+                    {isLoading ? (
+                      <span className='loading loading-dots loading-lg'></span>
+                    ) : recipe ? (
+                      recipe
+                    ) : null}
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
         {/* end of chat section */}
       </div>

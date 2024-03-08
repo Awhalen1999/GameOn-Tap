@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import heroImage from '../../assets/hero-image-g.png';
+import heroImage from '../../assets/hero-image.png';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
