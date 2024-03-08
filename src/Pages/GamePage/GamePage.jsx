@@ -128,7 +128,7 @@ const GamePage = () => {
               </div>
             </div>
             {/* end of hero */}
-            <div className=' grid grid-cols-2 gap-6 my-10 mx-12'>
+            <div className='grid sm:grid-cols-1 md:grid-cols-2 gap-6 my-10 mx-12'>
               {filteredGames.map((game, index) => (
                 <div key={index} className='mb-2'>
                   <Link
