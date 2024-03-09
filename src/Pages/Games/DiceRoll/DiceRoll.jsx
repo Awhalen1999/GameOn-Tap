@@ -1,7 +1,7 @@
 // todo: add the roll number inside the rules box
 // todo: add rolling animation
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaDiceD6,
   FaDiceOne,
@@ -18,6 +18,21 @@ function DiceRoll() {
   const [dice1, setDice1] = useState(null);
   const [dice2, setDice2] = useState(null);
   const [total, setTotal] = useState(null);
+  const [activeRuleset, setActiveRuleset] = useState(DiceRollRules);
+
+  useEffect(() => {
+    const activeRulesetTitle = localStorage.getItem('activeRuleset-DiceRoll');
+    if (activeRulesetTitle) {
+      const savedRulesets =
+        JSON.parse(localStorage.getItem('rulesets-DiceRoll')) || [];
+      const foundRuleset = savedRulesets.find(
+        (ruleset) => ruleset.title === activeRulesetTitle
+      );
+      if (foundRuleset) {
+        setActiveRuleset(foundRuleset.rules);
+      }
+    }
+  }, []);
 
   const diceIcons = [
     null,
@@ -64,10 +79,10 @@ function DiceRoll() {
         {total !== null ? (
           <div className='bg-neutral border border-secondary w-[40vw] rounded text-center p-4'>
             <h3 className='text-xl font-bold text-neutral-content'>
-              {DiceRollRules[total].title}
+              {activeRuleset[total].title}
             </h3>
             <p className='mt-2 text-neutral-content text-lg font-medium'>
-              {DiceRollRules[total].description}
+              {activeRuleset[total].description}
             </p>
           </div>
         ) : (

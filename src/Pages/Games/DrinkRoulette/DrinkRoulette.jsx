@@ -2,7 +2,7 @@
 // todo: ease spin at end
 // todo: add slider for spin time
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DrinkRoulette.css';
 import { TiArrowDownThick } from 'react-icons/ti';
 import { DrinkRouletteRules } from './DrinkRouletteRules';
@@ -13,8 +13,25 @@ const DrinkRoulette = () => {
   const [description, setDescription] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
+  const [activeRuleset, setActiveRuleset] = useState(DrinkRouletteRules);
 
-  const itemNames = Object.keys(DrinkRouletteRules);
+  useEffect(() => {
+    const activeRulesetTitle = localStorage.getItem(
+      'activeRuleset-DrinkRoulette'
+    );
+    if (activeRulesetTitle) {
+      const savedRulesets =
+        JSON.parse(localStorage.getItem('rulesets-DrinkRoulette')) || [];
+      const foundRuleset = savedRulesets.find(
+        (ruleset) => ruleset.title === activeRulesetTitle
+      );
+      if (foundRuleset) {
+        setActiveRuleset(foundRuleset.rules);
+      }
+    }
+  }, []);
+
+  const itemNames = Object.keys(activeRuleset);
 
   const startRotation = () => {
     setIsSpinning(true);
@@ -23,7 +40,7 @@ const DrinkRoulette = () => {
     setTimeout(() => {
       const resultIndex = 13 - Math.ceil((totalDegrees % 360) / 30);
       const resultKey = itemNames[resultIndex - 1];
-      const resultRule = DrinkRouletteRules[resultKey];
+      const resultRule = activeRuleset[resultKey];
       setResult(resultRule.title);
       setDescription(resultRule.description);
       setIsSpinning(false);
@@ -43,7 +60,7 @@ const DrinkRoulette = () => {
           {itemNames.map((itemName) => (
             <li className='item' key={itemName}>
               <div className='text text-black'>
-                {DrinkRouletteRules[itemName].title}
+                {activeRuleset[itemName].title}
               </div>
             </li>
           ))}
