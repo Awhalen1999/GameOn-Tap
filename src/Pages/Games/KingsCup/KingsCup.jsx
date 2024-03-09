@@ -19,7 +19,6 @@ const KingsCup = (props) => {
     };
     loadImages();
 
-    // Add this block to load the active ruleset from local storage
     const activeRulesetTitle = localStorage.getItem('activeRuleset-KingsCup');
     if (activeRulesetTitle) {
       const savedRulesets =
@@ -30,7 +29,6 @@ const KingsCup = (props) => {
       if (activeRuleset) {
         setRules(activeRuleset.rules);
       } else {
-        // activeRuleset is undefined, set rules to the default ruleset
         setRules(KingsCupRules);
       }
     }

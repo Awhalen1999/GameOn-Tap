@@ -3,7 +3,8 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
-import { CiCircleRemove } from 'react-icons/ci';
+import { TiDelete } from 'react-icons/ti';
+import { MdKeyboardReturn } from 'react-icons/md';
 
 const rulesModules = {
   KingsCup: KingsCupRules,
@@ -140,7 +141,6 @@ const EditRulesPage = () => {
     localStorage.setItem(`rulesets-${game}`, JSON.stringify(newSavedRulesets));
     setSavedRulesets(newSavedRulesets);
 
-    // Reset to the default rules
     handleDefaultRules();
   };
 
@@ -152,31 +152,31 @@ const EditRulesPage = () => {
         </h1>
         <div className='flex justify-end'>
           <Link to={`/games/${game}`} className='btn btn-primary mr-4'>
-            Return to {game}
+            <MdKeyboardReturn size={32} /> Return to {game}
           </Link>
-          <button onClick={handleDefaultRules} className='btn btn-primary'>
+          <button onClick={handleDefaultRules} className='btn btn-error'>
             Default rules
           </button>
         </div>
       </div>
-      <div>
+      <div className='mb-4'>
         <input
           type='text'
-          className='input input-bordered'
+          className='input input-bordered input-primary w-1/4'
           value={customRulesTitle}
           onChange={(e) => setCustomRulesTitle(e.target.value)}
           placeholder='Enter a title for your custom ruleset'
         />
 
         <button
-          className='btn btn-primary ml-4'
+          className='btn btn-primary ml-1'
           onClick={handleSaveCustomRuleset}
         >
           Save custom ruleset
         </button>
 
         <select
-          className='select select-bordered ml-4'
+          className='select select-bordered select-primary ml-6'
           value={activeRulesetTitle || ''}
           onChange={(e) => {
             if (e.target.value === 'Default') {
@@ -197,7 +197,7 @@ const EditRulesPage = () => {
           ))}
         </select>
         <button
-          className='btn btn-primary ml-4'
+          className='btn btn-primary ml-6'
           onClick={() =>
             document.getElementById('saved-rulesets-modal').showModal()
           }
@@ -207,26 +207,34 @@ const EditRulesPage = () => {
       </div>
       {/* MODAL */}
       <dialog id='saved-rulesets-modal' className='modal'>
-        <div className='modal-box'>
-          <h2>Saved rulesets</h2>
+        <div className='modal-box bg-neutral'>
+          {/* navbar */}
+          <div className='navbar bg-neutral sticky top-0 flex justify-between items-center mb-2'>
+            <h3 className='font-bold text-lg text-neutral-content'>
+              Saved rulesets for {game}
+            </h3>
+            <form>
+              <button className='btn btn-ghost font-semibold text-lg text-neutral-content'>
+                Close
+              </button>
+            </form>
+          </div>
           <ul>
             {savedRulesets.map((ruleset) => (
-              <li key={ruleset.title}>
+              <li
+                className=' flex justify-between items-center px-4 py-2 rounded-lg mb-2 bg-base-100'
+                key={ruleset.title}
+              >
                 {ruleset.title}
                 <button
-                  className='btn btn-icon ml-4'
+                  className='btn btn-primary ml-4'
                   onClick={() => handleDeleteRuleset(ruleset.title)}
                 >
-                  <CiCircleRemove />
+                  <TiDelete size={28} />
                 </button>
               </li>
             ))}
           </ul>
-          <div className='modal-action'>
-            <form method='dialog'>
-              <button className='btn'>Close</button>
-            </form>
-          </div>
         </div>
       </dialog>
       {/* end of modal */}
