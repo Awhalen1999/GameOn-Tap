@@ -73,11 +73,12 @@ const EditRulesPage = () => {
 
   const handleSaveCustomRuleset = () => {
     if (customRulesTitle.trim() !== '') {
-      const newRuleset = { title: customRulesTitle, rules: editedRules };
+      const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
       const updatedRulesets = [...savedRulesets, newRuleset];
       localStorage.setItem(`rulesets-${game}`, JSON.stringify(updatedRulesets));
       setSavedRulesets(updatedRulesets);
       setActiveRulesetTitle(customRulesTitle);
+      handleLoadSavedRuleset(customRulesTitle);
       setCustomRulesTitle('');
     } else {
       alert('Please enter a title for your custom ruleset.');
