@@ -25,10 +25,7 @@ const Nav = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isGamePage = location.pathname === '/GamePage';
-
-  useEffect(() => {
-    localStorage.setItem('theme', selectedTheme);
-  }, [selectedTheme]);
+  const game = location.pathname.split('/')[2]; // Extract the game name from the current location
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
@@ -40,6 +37,24 @@ const Nav = () => {
     '/games/DrinkRoulette': DrinkRouletteRules,
     '/games/BountyBlast': BountyBlastRules,
   };
+
+  useEffect(() => {
+    localStorage.setItem('theme', selectedTheme);
+  }, [selectedTheme]);
+
+  // Load the active ruleset from local storage
+  const activeRulesetTitle = localStorage.getItem(`activeRuleset-${game}`);
+  let activeRuleset = gameRules[location.pathname];
+  if (activeRulesetTitle) {
+    const savedRulesets =
+      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || [];
+    const foundRuleset = savedRulesets.find(
+      (ruleset) => ruleset.title === activeRulesetTitle
+    );
+    if (foundRuleset) {
+      activeRuleset = foundRuleset.rules;
+    }
+  }
 
   const gameTitlesButton = {
     '/games/KingsCup': 'Kings Cup Rules',
@@ -227,20 +242,18 @@ const Nav = () => {
             </div>
           </div>
           <div className='p-4'>
-            {gameRules[location.pathname] &&
-              Object.values(gameRules[location.pathname]).map(
-                (rule, index, self) => (
-                  <React.Fragment key={index}>
-                    <div className='flex flex-col items-center'>
-                      <strong className='text-xl mb-2 '>{rule.result}</strong>
-                      <div className='text-lg'>
-                        <strong>{rule.title}</strong>: {rule.description}
-                      </div>
+            {activeRuleset &&
+              Object.values(activeRuleset).map((rule, index, self) => (
+                <React.Fragment key={index}>
+                  <div className='flex flex-col items-center'>
+                    <strong className='text-xl mb-2 '>{rule.result}</strong>
+                    <div className='text-lg'>
+                      <strong>{rule.title}</strong>: {rule.description}
                     </div>
-                    {index < self.length - 1 && <div className='divider'></div>}
-                  </React.Fragment>
-                )
-              )}
+                  </div>
+                  {index < self.length - 1 && <div className='divider'></div>}
+                </React.Fragment>
+              ))}
           </div>
         </div>
       </dialog>

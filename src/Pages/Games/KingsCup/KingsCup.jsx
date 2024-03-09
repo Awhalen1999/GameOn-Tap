@@ -7,6 +7,7 @@ const KingsCup = (props) => {
   const [deck, setDeck] = useState([...initialDeck]);
   const [drawnCards, setDrawnCards] = useState([]);
   const [cardImages, setCardImages] = useState({});
+  const [rules, setRules] = useState({});
 
   useEffect(() => {
     const loadImages = async () => {
@@ -17,6 +18,19 @@ const KingsCup = (props) => {
       setCardImages(images);
     };
     loadImages();
+
+    // Add this block to load the active ruleset from local storage
+    const activeRulesetTitle = localStorage.getItem('activeRuleset-KingsCup');
+    if (activeRulesetTitle) {
+      const savedRulesets =
+        JSON.parse(localStorage.getItem('rulesets-KingsCup')) || [];
+      const activeRuleset = savedRulesets.find(
+        (ruleset) => ruleset.title === activeRulesetTitle
+      );
+      if (activeRuleset) {
+        setRules(activeRuleset.rules);
+      }
+    }
   }, []);
 
   const drawCard = () => {
@@ -89,18 +103,18 @@ const KingsCup = (props) => {
               <div className='w-64 h-auto p-4 bg-neutral rounded shadow-lg ml-auto col-start-3 border border-secondary mr-10'>
                 <h3 className='text-xl font-bold text-neutral-content text-center'>
                   {drawnCards[0] === 'AS'
-                    ? KingsCupRules['AS'].title
+                    ? rules['AS'].title
                     : drawnCards[0].includes('K') && remainingKings === 0
                     ? 'Last King'
-                    : KingsCupRules[drawnCards[0].slice(0, -1)].title}
+                    : rules[drawnCards[0].slice(0, -1)].title}
                 </h3>
                 <div className='divider'></div>
                 <p className='mt-2 text-neutral-content text-lg'>
                   {drawnCards[0] === 'AS'
-                    ? KingsCupRules['AS'].description
+                    ? rules['AS'].description
                     : drawnCards[0].includes('K') && remainingKings === 0
                     ? 'The person who draws the last King must drink the entire King’s Cup.'
-                    : KingsCupRules[drawnCards[0].slice(0, -1)].description}
+                    : rules[drawnCards[0].slice(0, -1)].description}
                 </p>
               </div>
             </div>

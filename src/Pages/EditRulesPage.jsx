@@ -47,12 +47,59 @@ const RuleEdit = ({
 );
 
 const EditRulesPage = () => {
+  const [customRulesTitle, setCustomRulesTitle] = useState('');
+  const [savedRulesets, setSavedRulesets] = useState([]);
+  const [activeRulesetTitle, setActiveRulesetTitle] = useState('');
   const { game } = useParams();
   const location = useLocation();
   const rules = rulesModules[game];
   const [editing, setEditing] = useState(null);
   const [editedText, setEditedText] = useState('');
   const [editedRules, setEditedRules] = useState(rules);
+
+  useEffect(() => {
+    const savedRules =
+      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || [];
+    setSavedRulesets(savedRules);
+  }, [game]);
+
+  const handleSaveCustomRuleset = () => {
+    if (customRulesTitle.trim() !== '') {
+      const newRuleset = { title: customRulesTitle, rules: editedRules };
+      const updatedRulesets = [...savedRulesets, newRuleset];
+      localStorage.setItem(`rulesets-${game}`, JSON.stringify(updatedRulesets));
+      setSavedRulesets(updatedRulesets);
+      setCustomRulesTitle('');
+    } else {
+      alert('Please enter a title for your custom ruleset.');
+    }
+  };
+
+  const handleLoadSavedRuleset = (title) => {
+    const loadedRulesets =
+      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || [];
+    const loadedRuleset = loadedRulesets.find(
+      (ruleset) => ruleset.title === title
+    );
+    if (loadedRuleset) {
+      setEditedRules(loadedRuleset.rules);
+      setActiveRulesetTitle(title);
+    }
+  };
+
+  useEffect(() => {
+    if (activeRulesetTitle) {
+      localStorage.setItem(`activeRuleset-${game}`, activeRulesetTitle);
+    }
+  }, [activeRulesetTitle, game]);
+
+  useEffect(() => {
+    const activeRulesetTitle = localStorage.getItem(`activeRuleset-${game}`);
+    if (activeRulesetTitle) {
+      setActiveRulesetTitle(activeRulesetTitle);
+      handleLoadSavedRuleset(activeRulesetTitle);
+    }
+  }, [game]);
 
   useEffect(() => {
     const modalId = `${location.pathname.slice(1)}-rules`;
@@ -95,6 +142,35 @@ const EditRulesPage = () => {
             Default rules
           </button>
         </div>
+      </div>
+      <div>
+        <input
+          type='text'
+          className='input input-bordered'
+          value={customRulesTitle}
+          onChange={(e) => setCustomRulesTitle(e.target.value)}
+          placeholder='Enter a title for your custom ruleset'
+        />
+
+        <button
+          className='btn btn-primary ml-4'
+          onClick={handleSaveCustomRuleset}
+        >
+          Save custom ruleset
+        </button>
+
+        <select
+          className='select select-bordered ml-4'
+          value={activeRulesetTitle}
+          onChange={(e) => handleLoadSavedRuleset(e.target.value)}
+        >
+          <option disabled>Select a saved ruleset</option>
+          {savedRulesets.map((ruleset) => (
+            <option key={ruleset.title} value={ruleset.title}>
+              {ruleset.title}
+            </option>
+          ))}
+        </select>
       </div>
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
