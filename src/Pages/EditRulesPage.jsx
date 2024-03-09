@@ -141,7 +141,9 @@ const EditRulesPage = () => {
     localStorage.setItem(`rulesets-${game}`, JSON.stringify(newSavedRulesets));
     setSavedRulesets(newSavedRulesets);
 
-    handleDefaultRules();
+    if (activeRulesetTitle === title) {
+      handleDefaultRules();
+    }
   };
 
   return (
