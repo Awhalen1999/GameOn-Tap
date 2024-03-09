@@ -63,6 +63,12 @@ const EditRulesPage = () => {
     setSavedRulesets(savedRules);
   }, [game]);
 
+  const handleDefaultRules = () => {
+    setEditedRules(rulesModules[game]);
+    localStorage.removeItem(`activeRuleset-${game}`);
+    setActiveRulesetTitle('');
+  };
+
   const handleSaveCustomRuleset = () => {
     if (customRulesTitle.trim() !== '') {
       const newRuleset = { title: customRulesTitle, rules: editedRules };
@@ -135,10 +141,7 @@ const EditRulesPage = () => {
           <Link to={`/games/${game}`} className='btn btn-primary mr-4'>
             Return to {game}
           </Link>
-          <button
-            onClick={() => window.location.reload()}
-            className='btn btn-primary'
-          >
+          <button onClick={handleDefaultRules} className='btn btn-primary'>
             Default rules
           </button>
         </div>
@@ -161,10 +164,12 @@ const EditRulesPage = () => {
 
         <select
           className='select select-bordered ml-4'
-          value={activeRulesetTitle}
+          value={activeRulesetTitle || ''}
           onChange={(e) => handleLoadSavedRuleset(e.target.value)}
         >
-          <option disabled>Select a saved ruleset</option>
+          <option disabled value=''>
+            Select a saved ruleset
+          </option>
           {savedRulesets.map((ruleset) => (
             <option key={ruleset.title} value={ruleset.title}>
               {ruleset.title}
