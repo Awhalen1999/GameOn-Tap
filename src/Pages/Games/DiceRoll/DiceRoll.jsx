@@ -11,7 +11,6 @@ import {
   FaDiceFive,
   FaDiceSix,
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import DiceRollRules from './DiceRollRules';
 
 function DiceRoll() {
@@ -25,11 +24,13 @@ function DiceRoll() {
     if (activeRulesetTitle) {
       const savedRulesets =
         JSON.parse(localStorage.getItem('rulesets-DiceRoll')) || [];
-      const foundRuleset = savedRulesets.find(
+      const activeRuleset = savedRulesets.find(
         (ruleset) => ruleset.title === activeRulesetTitle
       );
-      if (foundRuleset) {
-        setActiveRuleset(foundRuleset.rules);
+      if (activeRuleset) {
+        setActiveRuleset(activeRuleset.rules);
+      } else {
+        setActiveRuleset(DiceRollRules);
       }
     }
   }, []);

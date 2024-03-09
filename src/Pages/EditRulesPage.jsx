@@ -3,6 +3,7 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
+import { CiCircleRemove } from 'react-icons/ci';
 
 const rulesModules = {
   KingsCup: KingsCupRules,
@@ -66,7 +67,7 @@ const EditRulesPage = () => {
   const handleDefaultRules = () => {
     setEditedRules(rulesModules[game]);
     localStorage.removeItem(`activeRuleset-${game}`);
-    setActiveRulesetTitle('');
+    setActiveRulesetTitle('Default');
   };
 
   const handleSaveCustomRuleset = () => {
@@ -75,6 +76,7 @@ const EditRulesPage = () => {
       const updatedRulesets = [...savedRulesets, newRuleset];
       localStorage.setItem(`rulesets-${game}`, JSON.stringify(updatedRulesets));
       setSavedRulesets(updatedRulesets);
+      setActiveRulesetTitle(customRulesTitle);
       setCustomRulesTitle('');
     } else {
       alert('Please enter a title for your custom ruleset.');
@@ -131,6 +133,17 @@ const EditRulesPage = () => {
     }
   };
 
+  const handleDeleteRuleset = (title) => {
+    const newSavedRulesets = savedRulesets.filter(
+      (ruleset) => ruleset.title !== title
+    );
+    localStorage.setItem(`rulesets-${game}`, JSON.stringify(newSavedRulesets));
+    setSavedRulesets(newSavedRulesets);
+
+    // Reset to the default rules
+    handleDefaultRules();
+  };
+
   return (
     <div className='p-6 bg-base-100 min-h-screen font-space'>
       <div className='flex justify-between items-center mb-4'>
@@ -165,18 +178,58 @@ const EditRulesPage = () => {
         <select
           className='select select-bordered ml-4'
           value={activeRulesetTitle || ''}
-          onChange={(e) => handleLoadSavedRuleset(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === 'Default') {
+              handleDefaultRules();
+            } else {
+              handleLoadSavedRuleset(e.target.value);
+            }
+          }}
         >
           <option disabled value=''>
             Select a saved ruleset
           </option>
+          <option value='Default'>Default</option>
           {savedRulesets.map((ruleset) => (
             <option key={ruleset.title} value={ruleset.title}>
               {ruleset.title}
             </option>
           ))}
         </select>
+        <button
+          className='btn btn-primary ml-4'
+          onClick={() =>
+            document.getElementById('saved-rulesets-modal').showModal()
+          }
+        >
+          View saved rulesets
+        </button>
       </div>
+      {/* MODAL */}
+      <dialog id='saved-rulesets-modal' className='modal'>
+        <div className='modal-box'>
+          <h2>Saved rulesets</h2>
+          <ul>
+            {savedRulesets.map((ruleset) => (
+              <li key={ruleset.title}>
+                {ruleset.title}
+                <button
+                  className='btn btn-icon ml-4'
+                  onClick={() => handleDeleteRuleset(ruleset.title)}
+                >
+                  <CiCircleRemove />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className='modal-action'>
+            <form method='dialog'>
+              <button className='btn'>Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      {/* end of modal */}
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => (
           <div key={key} className='mb-8'>

@@ -29,6 +29,9 @@ const KingsCup = (props) => {
       );
       if (activeRuleset) {
         setRules(activeRuleset.rules);
+      } else {
+        // activeRuleset is undefined, set rules to the default ruleset
+        setRules(KingsCupRules);
       }
     }
   }, []);

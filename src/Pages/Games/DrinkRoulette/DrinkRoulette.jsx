@@ -22,11 +22,13 @@ const DrinkRoulette = () => {
     if (activeRulesetTitle) {
       const savedRulesets =
         JSON.parse(localStorage.getItem('rulesets-DrinkRoulette')) || [];
-      const foundRuleset = savedRulesets.find(
+      const activeRuleset = savedRulesets.find(
         (ruleset) => ruleset.title === activeRulesetTitle
       );
-      if (foundRuleset) {
-        setActiveRuleset(foundRuleset.rules);
+      if (activeRuleset) {
+        setActiveRuleset(activeRuleset.rules);
+      } else {
+        setActiveRuleset(DrinkRouletteRules);
       }
     }
   }, []);
