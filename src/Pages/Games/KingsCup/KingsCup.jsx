@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../cards/red.png';
 import KingsCupRules from './KingsCupRules.js';
 import initialDeck from '../DeckOfCards.jsx';
+import { FaInfoCircle } from 'react-icons/fa';
 
 const KingsCup = (props) => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -34,9 +35,11 @@ const KingsCup = (props) => {
     }
   }, []);
 
+  const [showAlert, setShowAlert] = useState(false);
+
   const drawCard = () => {
     if (deck.length === 0) {
-      alert('No more cards in the deck!');
+      setShowAlert(true);
       return;
     }
     const randomIndex = Math.floor(Math.random() * deck.length);
@@ -54,6 +57,33 @@ const KingsCup = (props) => {
 
   return (
     <div className='bg-base-100 h-full font-space'>
+      {/* alert */}
+      {showAlert && (
+        <div
+          role='alert'
+          className='alert w-[90vw] mx-auto border border-base-content mt-2'
+        >
+          <FaInfoCircle />
+          <span className='text-lg'>No more cards in the deck!</span>
+          <div>
+            <button
+              className='btn btn-ghost'
+              onClick={() => setShowAlert(false)}
+            >
+              Close
+            </button>
+            <button
+              className='btn btn-ghost ml-2'
+              onClick={() => {
+                resetDeck();
+                setShowAlert(false);
+              }}
+            >
+              Reset Deck
+            </button>
+          </div>
+        </div>
+      )}
       {/* Remaining Kings counter */}
       <div className='flex justify-center'>
         <h3 className='text-xl font-bold text-base-content m-4 mb-4'>

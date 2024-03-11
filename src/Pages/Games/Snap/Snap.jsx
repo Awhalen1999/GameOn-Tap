@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../DeckOfCards';
 import placeholderCard from '../../../cards/red.png';
-import { GrPowerReset } from 'react-icons/gr';
+import { FaInfoCircle } from 'react-icons/fa';
 
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -45,12 +45,14 @@ const Snap = () => {
     });
   };
 
+  const [showAlert, setShowAlert] = useState(false);
+
   const drawCard = async () => {
     if (deck.length === 0) {
       if (autoReset) {
         await resetDeck();
       } else {
-        alert('No more cards in the deck!');
+        setShowAlert(true);
       }
       return;
     }
@@ -74,6 +76,33 @@ const Snap = () => {
 
   return (
     <div className='flex flex-col bg-base-100 h-full font-space'>
+      {/* alert */}
+      {showAlert && (
+        <div
+          role='alert'
+          className='alert w-[90vw] mx-auto border border-base-content mt-2'
+        >
+          <FaInfoCircle />
+          <span className='text-lg'>No more cards in the deck!</span>
+          <div>
+            <button
+              className='btn btn-ghost'
+              onClick={() => setShowAlert(false)}
+            >
+              Close
+            </button>
+            <button
+              className='btn btn-ghost ml-2'
+              onClick={() => {
+                resetDeck();
+                setShowAlert(false);
+              }}
+            >
+              Reset Deck
+            </button>
+          </div>
+        </div>
+      )}
       {/* Delay slider and Draw Card button */}
       <div className='flex flex-col items-center mt-10'>
         {/* Delay slider */}
@@ -170,7 +199,7 @@ const Snap = () => {
         </div>
       </div>
       {/* Snap show */}
-      <div className='absolute bottom-16 right-0 m-4 flex items-center'>
+      <div className='absolute bottom-24 right-0 m-4 flex items-center'>
         <input
           type='checkbox'
           id='showSnap'
@@ -182,28 +211,22 @@ const Snap = () => {
           Show "SNAP!" text
         </label>
       </div>
+      {/* Auto-reset deck */}
+      <div className='absolute bottom-14 right-0 m-4 flex items-center'>
+        <input
+          type='checkbox'
+          id='autoReset'
+          checked={autoReset}
+          onChange={(e) => setAutoReset(e.target.checked)}
+          className='checkbox checkbox-primary'
+        />
+        <label htmlFor='autoReset' className='ml-2 text-lg font-bold'>
+          Auto-reset deck
+        </label>
+      </div>
       {/* Reset Deck button */}
       <div className='absolute bottom-0 right-0 m-4 flex items-center'>
-        <div className='tooltip' data-tip='Auto-reset deck'>
-          <button
-            onClick={() => setAutoReset(!autoReset)}
-            className={`btn mr-2 ${
-              autoReset
-                ? 'btn-primary'
-                : 'btn bg-gray-300 hover:bg-gray-400 text-black'
-            }`}
-          >
-            <GrPowerReset size={24} />
-          </button>
-        </div>
-        <button
-          onClick={resetDeck}
-          className={`btn ml-4 ${
-            autoReset
-              ? 'btn bg-gray-300 hover:bg-gray-400 text-black'
-              : 'btn-primary'
-          }`}
-        >
+        <button onClick={resetDeck} className='btn btn-success '>
           Reset Deck
         </button>
       </div>

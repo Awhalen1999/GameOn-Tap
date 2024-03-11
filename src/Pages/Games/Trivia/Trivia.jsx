@@ -1,8 +1,4 @@
 // todo: remove post game alert
-// todo: limit # of questions
-// todo: add reset game button that returns to setup
-// todo: add text to text.js file
-// todo: add quick start button that starts game with default settings
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -124,59 +120,62 @@ function TriviaGame() {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
-
-  return (
-    <div className='p-6 bg-base-100 h-full border font-space'>
-      <h1 className='text-2xl font-bold mb-4'>Trivia Game</h1>
-      <div className='my-4 flex flex-col items-center justify-center'>
-        <p className=' font-bold text-lg text-base-content'>
-          Question {currentQuestionIndex + 1} of {amount}
-        </p>
-        <div className=' divider divider-primary'></div>
-        <p
-          className='text-lg font-medium text-base-content my-4'
-          dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
-        />
-        <div className='space-x-4 my-6'>
-          {currentQuestion.incorrect_answers.map((answer, index) => (
+  if (currentQuestion) {
+    return (
+      <div className='p-6 bg-base-100 h-full font-space'>
+        <h1 className='text-2xl font-bold mb-4'>Trivia Game</h1>
+        <div className='my-4 flex flex-col items-center justify-center'>
+          <p className=' font-bold text-lg text-base-content'>
+            Question {currentQuestionIndex + 1} of {amount}
+          </p>
+          <div className=' divider divider-primary'></div>
+          <p
+            className='text-lg font-medium text-base-content my-4'
+            dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
+          />
+          <div className='space-x-4 my-6'>
+            {currentQuestion.incorrect_answers.map((answer, index) => (
+              <button
+                key={index}
+                onClick={() => handleTriviaAnswer(answer)}
+                className={`px-4 py-2 rounded ${
+                  selectedAnswer === answer &&
+                  answer !== currentQuestion.correct_answer
+                    ? 'bg-red-600'
+                    : 'bg-primary hover:bg-accent'
+                } text-white`}
+              >
+                {answer}
+              </button>
+            ))}
             <button
-              key={index}
-              onClick={() => handleTriviaAnswer(answer)}
+              onClick={() => handleTriviaAnswer(currentQuestion.correct_answer)}
               className={`px-4 py-2 rounded ${
-                selectedAnswer === answer &&
-                answer !== currentQuestion.correct_answer
-                  ? 'bg-red-600'
-                  : 'bg-primary hover:bg-accent'
+                selectedAnswer ? 'bg-green-500' : 'bg-primary hover:bg-accent'
               } text-white`}
             >
-              {answer}
+              {currentQuestion.correct_answer}
             </button>
-          ))}
-          <button
-            onClick={() => handleTriviaAnswer(currentQuestion.correct_answer)}
-            className={`px-4 py-2 rounded ${
-              selectedAnswer ? 'bg-green-500' : 'bg-primary hover:bg-accent'
-            } text-white`}
-          >
-            {currentQuestion.correct_answer}
-          </button>
+          </div>
+          <p className='my-6 text-base-content text-lg font-medium'>
+            Score: {score}
+          </p>
         </div>
-        <p className='my-6 text-base-content text-lg font-medium'>
-          Score: {score}
-        </p>
+        <button
+          onClick={() => {
+            setCurrentQuestionIndex(0);
+            setScore(0);
+            setGameStarted(false);
+          }}
+          className='btn btn-success absolute bottom-0 right-0 m-4'
+        >
+          Reset Game
+        </button>
       </div>
-      <button
-        onClick={() => {
-          setCurrentQuestionIndex(0);
-          setScore(0);
-          setGameStarted(false);
-        }}
-        className='btn btn-success absolute bottom-0 right-0 m-4'
-      >
-        Reset Game
-      </button>
-    </div>
-  );
+    );
+  } else {
+    return <div>No more questions</div>;
+  }
 }
 
 export default TriviaGame;

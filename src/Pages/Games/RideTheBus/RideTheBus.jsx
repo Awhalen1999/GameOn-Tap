@@ -1,12 +1,9 @@
-// remove console logs when done
-// continue cleaning up input section
-// todo: change game rules option
-
 import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../cards/red.png';
 import initialDeck from '../DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
+import { FaInfoCircle } from 'react-icons/fa';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -51,18 +48,6 @@ const RideTheBus = () => {
     return drawnCard;
   };
 
-  const getColorClass = (number) => {
-    if (number >= 1 && number <= 4) {
-      return 'text-blue-600';
-    } else if (number >= 5 && number <= 6) {
-      return 'text-yellow-600';
-    } else if (number >= 7 && number <= 8) {
-      return 'text-red-600';
-    } else {
-      return 'text-black';
-    }
-  };
-
   const compareCards = (card1, card2) => {
     const ranks = [
       'A',
@@ -104,14 +89,11 @@ const RideTheBus = () => {
       handleWin();
     }
   };
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleWin = () => {
-    alert('You won!');
+    setShowAlert(true);
     resetGame();
-  };
-
-  const handleRuleSetChange = (event) => {
-    setRuleSet(event.target.value);
   };
 
   const handleLowerClick = () => {
@@ -189,7 +171,9 @@ const RideTheBus = () => {
   };
 
   const startGame = (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     setGameStarted(true);
     drawCard();
   };
@@ -207,6 +191,33 @@ const RideTheBus = () => {
           Reset Game
         </button>
       </div>
+      {/* alert */}
+      {showAlert && (
+        <div
+          role='alert'
+          className='alert w-[90vw] mx-auto border border-base-content mt-2'
+        >
+          <FaInfoCircle />
+          <span>You won!</span>
+          <div>
+            <button
+              className='btn btn-ghost'
+              onClick={() => setShowAlert(false)}
+            >
+              Close
+            </button>
+            <button
+              className='btn btn-ghost ml-2'
+              onClick={() => {
+                setShowAlert(false);
+                startGame();
+              }}
+            >
+              Play Again
+            </button>
+          </div>
+        </div>
+      )}
 
       {!gameStarted ? (
         // Game start form
