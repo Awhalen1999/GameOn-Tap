@@ -1,5 +1,3 @@
-// todo: remove post game alert
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TriviaGameStartForm from './TriviaGameStartForm';
