@@ -47,16 +47,18 @@ const AIBartender = () => {
       .then((response) => {
         const message = response.data.choices[0].message.content;
         setRecipe(message);
-        setIsLoading(false); // set loading state to false when response is received
+        setIsLoading(false);
       });
   };
 
   return (
     <div className='font-space'>
       <div
-        className=' flex h-screen w-screen p-6 pt-12 items-start justify-center gap-1'
+        className='flex h-screen w-screen p-6 pt-12 items-start justify-center gap-1'
         style={{
           backgroundImage: `url(${BartenderInfo[bartender].background})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
         }}
       >
         {/* bartender section */}
