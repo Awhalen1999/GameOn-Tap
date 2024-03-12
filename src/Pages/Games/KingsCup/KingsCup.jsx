@@ -32,6 +32,8 @@ const KingsCup = (props) => {
       } else {
         setRules(KingsCupRules);
       }
+    } else {
+      setRules(KingsCupRules);
     }
   }, []);
 

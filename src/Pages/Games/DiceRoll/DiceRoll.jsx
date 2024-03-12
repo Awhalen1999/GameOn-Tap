@@ -32,6 +32,8 @@ function DiceRoll() {
       } else {
         setActiveRuleset(DiceRollRules);
       }
+    } else {
+      setActiveRuleset(DiceRollRules);
     }
   }, []);
 

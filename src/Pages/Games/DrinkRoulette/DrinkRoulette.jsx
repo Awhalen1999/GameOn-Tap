@@ -30,6 +30,8 @@ const DrinkRoulette = () => {
       } else {
         setActiveRuleset(DrinkRouletteRules);
       }
+    } else {
+      setActiveRuleset(DrinkRouletteRules);
     }
   }, []);
 
