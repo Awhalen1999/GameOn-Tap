@@ -124,10 +124,16 @@ const EditRulesPage = () => {
     setEditedText(text);
   };
 
+  // temp fix for when default rules and a new ruleset is added so the default rules are not overwritten
   const handleSubmit = () => {
     if (editing) {
       setEditedRules((prevRules) => {
-        const newRules = Object.assign({}, prevRules);
+        let newRules;
+        if (activeRulesetTitle === 'Default') {
+          newRules = JSON.parse(JSON.stringify(rulesModules[game]));
+        } else {
+          newRules = JSON.parse(JSON.stringify(prevRules));
+        }
         newRules[editing.key][editing.type] = editedText;
         return newRules;
       });
