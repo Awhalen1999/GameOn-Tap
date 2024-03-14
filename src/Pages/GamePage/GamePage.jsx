@@ -32,16 +32,16 @@ const GamePage = () => {
       description: gameDescription['Ride The Bus'],
     },
     {
+      name: 'Dice Roll',
+      route: '/games/DiceRoll',
+      image: diceRollCover,
+      description: gameDescription['Dice Roll'],
+    },
+    {
       name: 'Snap',
       route: '/games/Snap',
       image: snapCover,
       description: gameDescription['Snap'],
-    },
-    {
-      name: 'Trivia',
-      route: '/games/Trivia',
-      image: triviaCover,
-      description: gameDescription['Trivia'],
     },
     {
       name: 'Prompt Dash',
@@ -56,10 +56,10 @@ const GamePage = () => {
       description: gameDescription['Bounty Blast'],
     },
     {
-      name: 'Dice Roll',
-      route: '/games/DiceRoll',
-      image: diceRollCover,
-      description: gameDescription['Dice Roll'],
+      name: 'Trivia',
+      route: '/games/Trivia',
+      image: triviaCover,
+      description: gameDescription['Trivia'],
     },
     {
       name: 'Drink Roulette',
