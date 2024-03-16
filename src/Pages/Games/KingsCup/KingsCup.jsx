@@ -20,6 +20,14 @@ const KingsCup = (props) => {
     };
     loadImages();
 
+    // getActiveRulesetTitle().then(title => {
+    //   if (title === 'default') {
+    //     setRules(KingsCupRules)
+    //   } else {
+    //     getActiveRuleset(title).then(ruleset => setRules(ruleset))
+    //   }
+    // })
+
     const activeRulesetTitle = localStorage.getItem('activeRuleset-KingsCup');
     if (activeRulesetTitle) {
       const savedRulesets =

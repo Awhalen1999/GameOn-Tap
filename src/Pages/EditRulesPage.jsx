@@ -71,6 +71,11 @@ const EditRulesPage = () => {
     setActiveRulesetTitle('Default');
   };
 
+  // const saveRuleset = () => {
+  //   // Assuming game and ruleset are state
+  //   api.saveRuleset(game, ruleset);
+  // };
+
   const handleSaveCustomRuleset = () => {
     if (customRulesTitle.trim() !== '') {
       const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
