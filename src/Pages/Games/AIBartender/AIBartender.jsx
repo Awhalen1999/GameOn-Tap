@@ -67,7 +67,7 @@ const AIBartender = () => {
             Choose a bartender
           </div>
           {/* Profiles */}
-          <div className='w-full h-full overflow-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thin'>
+          <div className='w-full h-full overflow-auto'>
             {bartenders.map((bartenderKey) => (
               <div
                 key={bartenderKey}
@@ -95,7 +95,7 @@ const AIBartender = () => {
           </div>
         </div>
         {/* Chat section */}
-        <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 bg-black bg-opacity-75 rounded-lg border border-secondary border-1 ml-1 overflow-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-200 scrollbar-thin'>
+        <div className='w-3/4 h-full flex flex-col justify-start items-start p-2.5 bg-black bg-opacity-75 rounded-lg border border-secondary border-1 ml-1 overflow-auto'>
           <h2 className='w-full h-10 flex flex-row justify-start items-center text-xl font-bold text-left text-white'>
             AI Bartender ({bartender})
           </h2>
