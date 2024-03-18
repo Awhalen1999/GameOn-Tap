@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import heroImage from '../../assets/hero-image.png';
 import { Link } from 'react-router-dom';
 
@@ -17,17 +17,30 @@ const Hero = () => {
     games[Math.floor(Math.random() * games.length)]
   );
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleRandomGame = () => {
     setRandomGame(games[Math.floor(Math.random() * games.length)]);
   };
 
+  useEffect(() => {
+    const img = new Image();
+    img.src = heroImage;
+    img.onload = () => {
+      setIsLoading(false);
+    };
+  }, []);
+
   return (
     <div
-      className='hero min-h-screen bg-base-100'
+      className='hero min-h-screen bg-base-100 relative' // Add 'relative' here
       style={{
         backgroundImage: 'url(' + heroImage + ')',
       }}
     >
+      {isLoading && (
+        <span className='loading loading-spinner text-secondary absolute inset-0 flex items-center justify-center'></span> // Add 'absolute', 'inset-0', 'flex', 'items-center', and 'justify-center' here
+      )}
       <div className='hero-overlay bg-opacity-25 bg-black'></div>
       <div className='hero-content text-left text-neutral-content w-full flex items-center justify-start'>
         <div className='max-w-lg pl-15 bg-opacity-80 bg-black p-10 rounded-3xl font-space'>
