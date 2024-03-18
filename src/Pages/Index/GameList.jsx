@@ -10,6 +10,7 @@ import diceRollCover from '../../assets/dice-roll-cover.png';
 import drinkRouletteCover from '../../assets/drink-roulette-cover.png';
 import bountyBlastCover from '../../assets/bounty-blast-cover.png';
 import aiBartenderCover from '../../assets/ai-bartender-cover.png';
+import GameImage from '../GameImage';
 
 const GameList = () => {
   const games = [
@@ -46,7 +47,7 @@ const GameList = () => {
                 to={game.route}
                 className='text-xl bg-transparent flex flex-col items-center'
               >
-                <img
+                <GameImage
                   src={game.image}
                   alt={game.name}
                   className='w-full h-auto object-cover rounded-t-lg'
