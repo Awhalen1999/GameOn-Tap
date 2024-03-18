@@ -3,7 +3,6 @@ import placeholderCard from '../../../cards/red.png';
 import KingsCupRules from './KingsCupRules.js';
 import initialDeck from '../DeckOfCards.jsx';
 import { FaInfoCircle } from 'react-icons/fa';
-import ImageLoader from '../../ImageLoader';
 
 const KingsCup = (props) => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -123,7 +122,7 @@ const KingsCup = (props) => {
             {/* Card container */}
             {drawnCards.length > 0 ? (
               <div className='col-start-2'>
-                <ImageLoader
+                <img
                   src={cardImages[drawnCards[0]]}
                   alt={drawnCards[0]}
                   className='w-auto h-100 object-contain shadow-lg'
@@ -131,7 +130,7 @@ const KingsCup = (props) => {
               </div>
             ) : (
               <div className='col-start-2'>
-                <ImageLoader
+                <img
                   src={placeholderCard}
                   alt='Placeholder'
                   className='w-auto h-100 object-contain shadow-lg'

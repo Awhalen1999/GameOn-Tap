@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../DeckOfCards';
 import placeholderCard from '../../../cards/red.png';
 import { FaInfoCircle } from 'react-icons/fa';
-import ImageLoader from '../../ImageLoader';
 
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -162,13 +161,13 @@ const Snap = () => {
             <div className='text-center'>
               <div className='relative flex items-center justify-center'>
                 {previousCard && (
-                  <ImageLoader
+                  <img
                     src={cardImages[previousCard]}
                     alt={previousCard}
                     className='w-10/12 h-10/12 object-contain rounded shadow-lg absolute right-24 z-10 filter brightness-75'
                   />
                 )}
-                <ImageLoader
+                <img
                   src={cardImages[drawnCards[0]]}
                   alt={drawnCards[0]}
                   className='w-auto h-100 object-contain rounded shadow-lg z-20'
@@ -188,7 +187,7 @@ const Snap = () => {
             </div>
           ) : (
             <div>
-              <ImageLoader
+              <img
                 src={placeholderCard}
                 alt='Placeholder'
                 className='w-auto h-100 object-contain rounded shadow-lg'

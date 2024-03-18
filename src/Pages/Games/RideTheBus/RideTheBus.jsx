@@ -4,7 +4,6 @@ import initialDeck from '../DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
 import { FaInfoCircle } from 'react-icons/fa';
-import ImageLoader from '../../ImageLoader.jsx';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -239,7 +238,7 @@ const RideTheBus = () => {
                   {index === drawnCards.length - 1 && (
                     <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
                   )}
-                  <ImageLoader
+                  <img
                     src={cardImages[card] || placeholderCard}
                     alt={card}
                     className='h-64'
@@ -253,7 +252,7 @@ const RideTheBus = () => {
                     key={index + drawnCards.length}
                     className='mx-2 relative'
                   >
-                    <ImageLoader
+                    <img
                       src={placeholderCard}
                       alt='placeholder card'
                       className='h-64'
