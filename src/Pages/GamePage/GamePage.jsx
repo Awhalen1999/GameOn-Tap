@@ -16,6 +16,7 @@ import { TbPlayCard } from 'react-icons/tb';
 import { FaDiceFive } from 'react-icons/fa';
 import { IoIosMore } from 'react-icons/io';
 import { BiGridAlt } from 'react-icons/bi';
+import ImageLoader from '../ImageLoader';
 
 const GamePage = () => {
   const games = [
@@ -138,7 +139,7 @@ const GamePage = () => {
                     <div className='text-primary-content p-1.5 font-bold text-lg bg-primary rounded-t hover:bg-accent hover:text-accent-content w-full text-center'>
                       {game.name}
                     </div>
-                    <img
+                    <ImageLoader
                       src={game.image}
                       alt={game.name}
                       className='w-full h-auto object-cover'

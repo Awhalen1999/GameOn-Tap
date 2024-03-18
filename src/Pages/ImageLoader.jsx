@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GameImage = ({ src, alt, ...props }) => {
+const ImageLoader = ({ src, alt, ...props }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleImageLoad = () => {
@@ -8,7 +8,7 @@ const GameImage = ({ src, alt, ...props }) => {
   };
 
   return (
-    <div className='relative'>
+    <div className='relative flex items-center justify-center'>
       {isLoading && (
         <span className='loading loading-spinner loading-large text-secondary absolute inset-0 flex items-center justify-center'></span>
       )}
@@ -25,4 +25,4 @@ const GameImage = ({ src, alt, ...props }) => {
   );
 };
 
-export default GameImage;
+export default ImageLoader;

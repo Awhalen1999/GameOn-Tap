@@ -3,6 +3,7 @@ import treasureChest from '../../../assets/treasure-chest.png';
 import bomb from '../../../assets/bomb.png';
 import treasure from '../../../assets/treasure.png';
 import empty from '../../../assets/empty.png';
+import ImageLoader from '../../ImageLoader';
 
 const BountyBlast = () => {
   const [bombs, setBombs] = useState(3);
