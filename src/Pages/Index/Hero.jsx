@@ -35,6 +35,7 @@ const Hero = () => {
     <div
       className='hero min-h-screen bg-base-100 relative'
       style={{
+        position: 'relative',
         backgroundImage: 'url(' + heroImage + ')',
       }}
     >
