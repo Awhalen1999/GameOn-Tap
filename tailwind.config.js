@@ -17,7 +17,7 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        mydark: {
+        myDark: {
           primary: '#eab308',
           'primary-content': '#111827',
           secondary: '#FF007F',
@@ -41,7 +41,7 @@ module.exports = {
         },
       },
       {
-        mylight: {
+        myLight: {
           primary: '#eab308',
           'primary-content': '#111827',
           secondary: '#FF007F',
@@ -64,11 +64,6 @@ module.exports = {
           'error-content': '#FFFFFF',
         },
       },
-      'retro',
-      'cyberpunk',
-      'coffee',
-      'aqua',
-      'synthwave',
     ],
   },
 };

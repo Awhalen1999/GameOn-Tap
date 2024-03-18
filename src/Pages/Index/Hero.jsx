@@ -33,13 +33,13 @@ const Hero = () => {
 
   return (
     <div
-      className='hero min-h-screen bg-base-100 relative' // Add 'relative' here
+      className='hero min-h-screen bg-base-100 relative'
       style={{
         backgroundImage: 'url(' + heroImage + ')',
       }}
     >
       {isLoading && (
-        <span className='loading loading-spinner text-secondary absolute inset-0 flex items-center justify-center'></span> // Add 'absolute', 'inset-0', 'flex', 'items-center', and 'justify-center' here
+        <span className='loading loading-spinner text-secondary absolute inset-0 flex items-center justify-center'></span>
       )}
       <div className='hero-overlay bg-opacity-25 bg-black'></div>
       <div className='hero-content text-left text-neutral-content w-full flex items-center justify-start'>
