@@ -11,6 +11,7 @@ import {
   deleteRuleset,
   getActiveRuleset,
   setActiveRuleset,
+  getActiveRulesetTitle,
 } from '../utils/api';
 
 const rulesModules = {
@@ -66,47 +67,121 @@ const EditRulesPage = () => {
   const [editedText, setEditedText] = useState('');
   const [editedRules, setEditedRules] = useState(rules);
 
-  useEffect(() => {
-    const savedRulesets = getRulesets(game);
-    const rulesetArray = Object.entries(savedRulesets[game] || {}).map(
-      ([title, rules]) => ({
-        title,
-        rules,
-      })
-    );
-    setSavedRulesets(rulesetArray);
-  }, [game]);
+  //save custom ruleset function (this works)
+  const handleSaveCustomRuleset = async () => {
+    if (customRulesTitle.trim() !== '') {
+      const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
+      try {
+        await saveRuleset(game, customRulesTitle, newRuleset.rules);
+        const updatedRulesets = [...savedRulesets, newRuleset];
+        setSavedRulesets(updatedRulesets);
+        setActiveRulesetTitle(customRulesTitle);
+        handleLoadSavedRuleset(customRulesTitle);
+        setCustomRulesTitle('');
+      } catch (error) {
+        console.error('Failed to save ruleset:', error);
+      }
+    } else {
+      alert('Please enter a title for your custom ruleset.');
+    }
+  };
 
+  //delete ruleset function (this works but the delete function needs to be fixed so it doesn't close after deleting each item)
+  const handleDeleteRuleset = async (title) => {
+    try {
+      await deleteRuleset(game, title);
+      const savedRulesets = await getRulesets(game);
+      const rulesetArray = Object.entries(savedRulesets[game] || {}).map(
+        ([title, rules]) => ({
+          title,
+          rules,
+        })
+      );
+      setSavedRulesets(rulesetArray);
+
+      if (activeRulesetTitle === title) {
+        handleDefaultRules();
+      }
+    } catch (error) {
+      console.error('Failed to delete ruleset:', error);
+    }
+  };
+
+  // this reflects the changes to the ruleset in the ui once the user clicks submit (this works)
+  const handleSubmit = () => {
+    if (editing) {
+      setEditedRules((prevRules) => {
+        let newRules;
+        if (activeRulesetTitle === 'Default') {
+          newRules = JSON.parse(JSON.stringify(rulesModules[game]));
+        } else {
+          newRules = JSON.parse(JSON.stringify(prevRules));
+        }
+        newRules[editing.key][editing.type] = editedText;
+        return newRules;
+      });
+      setEditing(null);
+    }
+  };
+
+  const handleEdit = (key, type, text) => {
+    setEditing({ key, type });
+    setEditedText(text);
+  };
+
+  //this sets the default ruleset for the game (this works)
   const handleDefaultRules = () => {
     setEditedRules(rulesModules[game]);
     setActiveRuleset(game, null);
     setActiveRulesetTitle('Default');
   };
 
-  const handleSaveCustomRuleset = async () => {
-    if (customRulesTitle.trim() !== '') {
-      const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
-      await saveRuleset(game, customRulesTitle, newRuleset.rules);
-      const updatedRulesets = [...savedRulesets, newRuleset];
-      setSavedRulesets(updatedRulesets);
-      setActiveRulesetTitle(customRulesTitle);
-      handleLoadSavedRuleset(customRulesTitle);
-      setCustomRulesTitle('');
+  //this loads the saved rulesets for the game (this works)
+  useEffect(() => {
+    const loadSavedRulesets = async () => {
+      try {
+        const savedRulesets = await getRulesets(game);
+        if (savedRulesets) {
+          const rulesetArray = Object.entries(savedRulesets).map(
+            ([title, rules]) => ({
+              title,
+              rules,
+            })
+          );
+          setSavedRulesets(rulesetArray);
+        } else {
+          setSavedRulesets([]);
+        }
+      } catch (error) {
+        console.error('Failed to load rulesets:', error);
+      }
+    };
+    loadSavedRulesets();
+  }, [game]);
+
+  //load selected ruleset from saved rulesets (close to working when i select a custom ruleset there are 2 options activeRuleset-KingsCup which is the item that is being displayed on the page and then activeRulesetObject-KingsCup which is the item that is not being displayed but this item does have the correct response from the local storage)
+
+  const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
+    // Set the selected ruleset as the active ruleset for the game
+    await setActiveRuleset(game, selectedRulesetTitle);
+
+    // Load the active ruleset
+    const activeRuleset = await getActiveRuleset(game);
+    if (activeRuleset) {
+      setEditedRules(activeRuleset.rules);
+
+      // Get the title of the active ruleset from local storage
+      const activeRulesetTitleFromStorage = await getActiveRulesetTitle(game);
+      setActiveRulesetTitle(activeRulesetTitleFromStorage);
     } else {
-      alert('Please enter a title for your custom ruleset.');
+      // Handle the case where there's no active ruleset
+      console.error(
+        `No active ruleset found for game ${game} with title ${selectedRulesetTitle}`
+      );
     }
   };
 
-  const handleLoadSavedRuleset = (title) => {
-    const savedRulesets = getRulesets(game);
-    const loadedRuleset = savedRulesets?.[title];
-    if (loadedRuleset) {
-      setEditedRules(loadedRuleset.rules);
-      setActiveRulesetTitle(title);
-      setActiveRuleset(game, title); // Set the active ruleset after loading it
-    }
-  };
-
+  //ignore this code for now
   useEffect(() => {
     const loadActiveRuleset = async () => {
       const activeRuleset = await getActiveRuleset(game);
@@ -134,37 +209,7 @@ const EditRulesPage = () => {
     }
   }, [location.pathname]);
 
-  const handleEdit = (key, type, text) => {
-    setEditing({ key, type });
-    setEditedText(text);
-  };
-
-  // temp fix for when default rules and a new ruleset is added so the default rules are not overwritten
-  const handleSubmit = () => {
-    if (editing) {
-      setEditedRules((prevRules) => {
-        let newRules;
-        if (activeRulesetTitle === 'Default') {
-          newRules = JSON.parse(JSON.stringify(rulesModules[game]));
-        } else {
-          newRules = JSON.parse(JSON.stringify(prevRules));
-        }
-        newRules[editing.key][editing.type] = editedText;
-        return newRules;
-      });
-      setEditing(null);
-    }
-  };
-
-  const handleDeleteRuleset = (title) => {
-    deleteRuleset(game, title);
-    const savedRulesets = getRulesets(game);
-    setSavedRulesets(savedRulesets);
-
-    if (activeRulesetTitle === title) {
-      handleDefaultRules();
-    }
-  };
+  //this is the main return for the component
 
   return (
     <div className='p-6 bg-base-100 min-h-screen font-space'>
