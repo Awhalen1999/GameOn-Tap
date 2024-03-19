@@ -5,6 +5,13 @@ import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import { TiDelete } from 'react-icons/ti';
 import { MdKeyboardReturn } from 'react-icons/md';
+import {
+  getRulesets,
+  saveRuleset,
+  deleteRuleset,
+  getActiveRuleset,
+  setActiveRuleset,
+} from '../utils/api';
 
 const rulesModules = {
   KingsCup: KingsCupRules,
@@ -60,27 +67,27 @@ const EditRulesPage = () => {
   const [editedRules, setEditedRules] = useState(rules);
 
   useEffect(() => {
-    const savedRules =
-      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || [];
-    setSavedRulesets(savedRules);
+    const savedRulesets = getRulesets(game);
+    const rulesetArray = Object.entries(savedRulesets[game] || {}).map(
+      ([title, rules]) => ({
+        title,
+        rules,
+      })
+    );
+    setSavedRulesets(rulesetArray);
   }, [game]);
 
   const handleDefaultRules = () => {
     setEditedRules(rulesModules[game]);
-    localStorage.removeItem(`activeRuleset-${game}`);
+    setActiveRuleset(game, null);
     setActiveRulesetTitle('Default');
   };
 
-  // const saveRuleset = () => {
-  //   // Assuming game and ruleset are state
-  //   api.saveRuleset(game, ruleset);
-  // };
-
-  const handleSaveCustomRuleset = () => {
+  const handleSaveCustomRuleset = async () => {
     if (customRulesTitle.trim() !== '') {
       const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
+      await saveRuleset(game, customRulesTitle, newRuleset.rules);
       const updatedRulesets = [...savedRulesets, newRuleset];
-      localStorage.setItem(`rulesets-${game}`, JSON.stringify(updatedRulesets));
       setSavedRulesets(updatedRulesets);
       setActiveRulesetTitle(customRulesTitle);
       handleLoadSavedRuleset(customRulesTitle);
@@ -91,31 +98,34 @@ const EditRulesPage = () => {
   };
 
   const handleLoadSavedRuleset = (title) => {
-    const loadedRulesets =
-      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || [];
-    const loadedRuleset = loadedRulesets.find(
-      (ruleset) => ruleset.title === title
-    );
+    const savedRulesets = getRulesets(game);
+    const loadedRuleset = savedRulesets?.[title];
     if (loadedRuleset) {
       setEditedRules(loadedRuleset.rules);
       setActiveRulesetTitle(title);
+      setActiveRuleset(game, title); // Set the active ruleset after loading it
     }
   };
 
   useEffect(() => {
-    if (activeRulesetTitle) {
-      localStorage.setItem(`activeRuleset-${game}`, activeRulesetTitle);
-    }
+    const loadActiveRuleset = async () => {
+      const activeRuleset = await getActiveRuleset(game);
+      if (activeRuleset) {
+        setEditedRules(activeRuleset.rules);
+        setActiveRulesetTitle(activeRuleset.title);
+      }
+    };
+    loadActiveRuleset();
   }, [activeRulesetTitle, game]);
 
   useEffect(() => {
-    const activeRulesetTitle = localStorage.getItem(`activeRuleset-${game}`);
-    if (activeRulesetTitle) {
-      setActiveRulesetTitle(activeRulesetTitle);
-      handleLoadSavedRuleset(activeRulesetTitle);
-    }
-  }, [game]);
-
+    const updateActiveRuleset = async () => {
+      if (activeRulesetTitle) {
+        await setActiveRuleset(game, activeRulesetTitle);
+      }
+    };
+    updateActiveRuleset();
+  }, [activeRulesetTitle, game]);
   useEffect(() => {
     const modalId = `${location.pathname.slice(1)}-rules`;
     const modal = document.getElementById(modalId);
@@ -147,11 +157,9 @@ const EditRulesPage = () => {
   };
 
   const handleDeleteRuleset = (title) => {
-    const newSavedRulesets = savedRulesets.filter(
-      (ruleset) => ruleset.title !== title
-    );
-    localStorage.setItem(`rulesets-${game}`, JSON.stringify(newSavedRulesets));
-    setSavedRulesets(newSavedRulesets);
+    deleteRuleset(game, title);
+    const savedRulesets = getRulesets(game);
+    setSavedRulesets(savedRulesets);
 
     if (activeRulesetTitle === title) {
       handleDefaultRules();
@@ -193,10 +201,11 @@ const EditRulesPage = () => {
           className='select select-bordered select-primary ml-6'
           value={activeRulesetTitle || ''}
           onChange={(e) => {
-            if (e.target.value === 'Default') {
+            const selectedRulesetTitle = e.target.value;
+            if (selectedRulesetTitle === 'Default') {
               handleDefaultRules();
             } else {
-              handleLoadSavedRuleset(e.target.value);
+              handleLoadSavedRuleset(selectedRulesetTitle);
             }
           }}
         >
@@ -210,6 +219,7 @@ const EditRulesPage = () => {
             </option>
           ))}
         </select>
+
         <button
           className='btn btn-primary ml-6'
           onClick={() =>

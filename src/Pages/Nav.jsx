@@ -48,10 +48,8 @@ const Nav = () => {
   let activeRuleset = gameRules[location.pathname];
   if (activeRulesetTitle) {
     const savedRulesets =
-      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || [];
-    const foundRuleset = savedRulesets.find(
-      (ruleset) => ruleset.title === activeRulesetTitle
-    );
+      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || {};
+    const foundRuleset = savedRulesets[activeRulesetTitle];
     if (foundRuleset) {
       activeRuleset = foundRuleset.rules;
     }
