@@ -58,7 +58,7 @@ const RuleEdit = ({
 
 const EditRulesPage = () => {
   const [customRulesTitle, setCustomRulesTitle] = useState('');
-  const [savedRulesets, setSavedRulesets] = useState([]);
+  const [savedRulesets, setSavedRulesets] = useState({});
   const [activeRulesetTitle, setActiveRulesetTitle] = useState('');
   const { game } = useParams();
   const location = useLocation();
@@ -73,7 +73,10 @@ const EditRulesPage = () => {
       const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
       try {
         await saveRuleset(game, customRulesTitle, newRuleset.rules);
-        const updatedRulesets = [...savedRulesets, newRuleset];
+        const updatedRulesets = {
+          ...savedRulesets,
+          [customRulesTitle]: newRuleset,
+        };
         setSavedRulesets(updatedRulesets);
         setActiveRulesetTitle(customRulesTitle);
         handleLoadSavedRuleset(customRulesTitle);
@@ -91,13 +94,7 @@ const EditRulesPage = () => {
     try {
       await deleteRuleset(game, title);
       const savedRulesets = await getRulesets(game);
-      const rulesetArray = Object.entries(savedRulesets[game] || {}).map(
-        ([title, rules]) => ({
-          title,
-          rules,
-        })
-      );
-      setSavedRulesets(rulesetArray);
+      setSavedRulesets(savedRulesets[game] || {});
 
       if (activeRulesetTitle === title) {
         handleDefaultRules();
@@ -141,17 +138,7 @@ const EditRulesPage = () => {
     const loadSavedRulesets = async () => {
       try {
         const savedRulesets = await getRulesets(game);
-        if (savedRulesets) {
-          const rulesetArray = Object.entries(savedRulesets).map(
-            ([title, rules]) => ({
-              title,
-              rules,
-            })
-          );
-          setSavedRulesets(rulesetArray);
-        } else {
-          setSavedRulesets([]);
-        }
+        setSavedRulesets(savedRulesets || {});
       } catch (error) {
         console.error('Failed to load rulesets:', error);
       }
@@ -159,13 +146,20 @@ const EditRulesPage = () => {
     loadSavedRulesets();
   }, [game]);
 
-  //this selects a ruleset from the saved ruleset and sets it as the active ruleset (this works)
+  //this selects a ruleset from the saved ruleset and sets it as the active ruleset (this works), but the ruleset is not being displayed on the page correctly
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
     await setActiveRuleset(game, selectedRulesetTitle);
     setActiveRulesetTitle(selectedRulesetTitle);
-  };
 
-  //this code need to be used to load the active ruleset to the page when the active ruleset is changed (handleLoadSavedRuleset is used to load the active ruleset from the saved rulesets)
+    // Find the selected ruleset in the savedRulesets object
+    const selectedRuleset = savedRulesets[selectedRulesetTitle];
+
+    // Update the editedRules state with the rules from the selected ruleset
+    if (selectedRuleset) {
+      setEditedRules(selectedRuleset.rules);
+    }
+  };
+  //this code sets the active ruleset for the game (this works)
   useEffect(() => {
     const loadActiveRuleset = async () => {
       const activeRuleset = await getActiveRuleset(game);
@@ -228,7 +222,7 @@ const EditRulesPage = () => {
             Select a saved ruleset
           </option>
           <option value='Default'>Default</option>
-          {savedRulesets.map((ruleset) => (
+          {Object.values(savedRulesets).map((ruleset) => (
             <option key={ruleset.title} value={ruleset.title}>
               {ruleset.title}
             </option>
@@ -259,7 +253,7 @@ const EditRulesPage = () => {
             </form>
           </div>
           <ul>
-            {savedRulesets.map((ruleset) => (
+            {Object.values(savedRulesets).map((ruleset) => (
               <li
                 className=' flex justify-between items-center px-4 py-2 rounded-lg mb-2 bg-base-100'
                 key={ruleset.title}
