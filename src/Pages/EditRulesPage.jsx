@@ -162,18 +162,7 @@ const EditRulesPage = () => {
   //this selects a ruleset from the saved ruleset and sets it as the active ruleset (this works)
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
     await setActiveRuleset(game, selectedRulesetTitle);
-
-    const activeRuleset = await getActiveRuleset(game);
-    if (activeRuleset) {
-      setEditedRules(activeRuleset.rules);
-
-      const activeRulesetTitleFromStorage = await getActiveRulesetTitle(game);
-      setActiveRulesetTitle(activeRulesetTitleFromStorage);
-    } else {
-      console.error(
-        `No active ruleset found for game ${game} with title ${selectedRulesetTitle}`
-      );
-    }
+    setActiveRulesetTitle(selectedRulesetTitle);
   };
 
   //this code need to be used to load the active ruleset to the page when the active ruleset is changed (handleLoadSavedRuleset is used to load the active ruleset from the saved rulesets)
