@@ -67,6 +67,13 @@ const EditRulesPage = () => {
   const [editedText, setEditedText] = useState('');
   const [editedRules, setEditedRules] = useState(rules);
 
+  //this sets the default ruleset for the game (this works)
+  const handleDefaultRules = () => {
+    setEditedRules(rulesModules[game]);
+    setActiveRuleset(game, null);
+    setActiveRulesetTitle('Default');
+  };
+
   //save custom ruleset function (this works)
   const handleSaveCustomRuleset = async () => {
     if (customRulesTitle.trim() !== '') {
@@ -93,8 +100,8 @@ const EditRulesPage = () => {
   const handleDeleteRuleset = async (title) => {
     try {
       await deleteRuleset(game, title);
-      const savedRulesets = await getRulesets(game);
-      setSavedRulesets(savedRulesets[game] || {});
+      const updatedSavedRulesets = await getRulesets(game);
+      setSavedRulesets(updatedSavedRulesets || {});
 
       if (activeRulesetTitle === title) {
         handleDefaultRules();
@@ -124,13 +131,6 @@ const EditRulesPage = () => {
   const handleEdit = (key, type, text) => {
     setEditing({ key, type });
     setEditedText(text);
-  };
-
-  //this sets the default ruleset for the game (this works)
-  const handleDefaultRules = () => {
-    setEditedRules(rulesModules[game]);
-    setActiveRuleset(game, null);
-    setActiveRulesetTitle('Default');
   };
 
   //this loads the saved rulesets for the game (this works)
@@ -218,9 +218,6 @@ const EditRulesPage = () => {
             }
           }}
         >
-          <option disabled value=''>
-            Select a saved ruleset
-          </option>
           <option value='Default'>Default</option>
           {Object.values(savedRulesets).map((ruleset) => (
             <option key={ruleset.title} value={ruleset.title}>
@@ -246,11 +243,14 @@ const EditRulesPage = () => {
             <h3 className='font-bold text-lg text-neutral-content'>
               Saved rulesets for {game}
             </h3>
-            <form>
-              <button className='btn btn-ghost font-semibold text-lg text-neutral-content'>
-                Close
-              </button>
-            </form>
+            <button
+              className='btn btn-ghost font-semibold text-lg text-neutral-content'
+              onClick={() =>
+                document.getElementById('saved-rulesets-modal').close()
+              }
+            >
+              Close
+            </button>
           </div>
           <ul>
             {Object.values(savedRulesets).map((ruleset) => (

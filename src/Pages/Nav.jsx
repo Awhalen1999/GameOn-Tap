@@ -236,9 +236,12 @@ const Nav = () => {
                   {gamesWithIcon.has(location.pathname) && (
                     <button
                       className='btn'
-                      onClick={() =>
-                        navigate(`/EditRules/${location.pathname.slice(7)}`)
-                      }
+                      onClick={() => {
+                        document
+                          .getElementById(`${location.pathname.slice(1)}-rules`)
+                          .close();
+                        navigate(`/EditRules/${location.pathname.slice(7)}`);
+                      }}
                     >
                       Edit Rules <FaWrench className='ml-2' size={18} />
                     </button>
