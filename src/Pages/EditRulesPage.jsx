@@ -159,29 +159,24 @@ const EditRulesPage = () => {
     loadSavedRulesets();
   }, [game]);
 
-  //load selected ruleset from saved rulesets (close to working when i select a custom ruleset there are 2 options activeRuleset-KingsCup which is the item that is being displayed on the page and then activeRulesetObject-KingsCup which is the item that is not being displayed but this item does have the correct response from the local storage)
-
+  //this selects a ruleset from the saved ruleset and sets it as the active ruleset (this works)
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
-    // Set the selected ruleset as the active ruleset for the game
     await setActiveRuleset(game, selectedRulesetTitle);
 
-    // Load the active ruleset
     const activeRuleset = await getActiveRuleset(game);
     if (activeRuleset) {
       setEditedRules(activeRuleset.rules);
 
-      // Get the title of the active ruleset from local storage
       const activeRulesetTitleFromStorage = await getActiveRulesetTitle(game);
       setActiveRulesetTitle(activeRulesetTitleFromStorage);
     } else {
-      // Handle the case where there's no active ruleset
       console.error(
         `No active ruleset found for game ${game} with title ${selectedRulesetTitle}`
       );
     }
   };
 
-  //ignore this code for now
+  //this code need to be used to load the active ruleset to the page when the active ruleset is changed (handleLoadSavedRuleset is used to load the active ruleset from the saved rulesets)
   useEffect(() => {
     const loadActiveRuleset = async () => {
       const activeRuleset = await getActiveRuleset(game);
@@ -192,22 +187,6 @@ const EditRulesPage = () => {
     };
     loadActiveRuleset();
   }, [activeRulesetTitle, game]);
-
-  useEffect(() => {
-    const updateActiveRuleset = async () => {
-      if (activeRulesetTitle) {
-        await setActiveRuleset(game, activeRulesetTitle);
-      }
-    };
-    updateActiveRuleset();
-  }, [activeRulesetTitle, game]);
-  useEffect(() => {
-    const modalId = `${location.pathname.slice(1)}-rules`;
-    const modal = document.getElementById(modalId);
-    if (modal && modal.close) {
-      modal.close();
-    }
-  }, [location.pathname]);
 
   //this is the main return for the component
 
@@ -242,6 +221,8 @@ const EditRulesPage = () => {
           Save custom ruleset
         </button>
 
+        {/* not updating the active ruleset title or ruleset being displayed when the user selects a saved ruleset from the dropdown */}
+
         <select
           className='select select-bordered select-primary ml-6'
           value={activeRulesetTitle || ''}
@@ -274,7 +255,7 @@ const EditRulesPage = () => {
           View saved rulesets
         </button>
       </div>
-      {/* MODAL */}
+      {/* saved ruleset list MODAL */}
       <dialog id='saved-rulesets-modal' className='modal'>
         <div className='modal-box bg-neutral'>
           {/* navbar */}

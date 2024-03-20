@@ -36,7 +36,7 @@ async function setActiveRuleset(gameName, rulesetTitle) {
   localStorage.setItem(`activeRuleset-${gameName}`, rulesetTitle);
   if (selectedRuleset) {
     localStorage.setItem(
-      `activeRulesetObject-${gameName}`,
+      `activeRuleset-${gameName}`,
       JSON.stringify(selectedRuleset)
     );
   }
