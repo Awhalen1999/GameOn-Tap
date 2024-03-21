@@ -24,27 +24,26 @@ async function getRulesets(gameName) {
 // this gets the active ruleset for a game
 async function getActiveRuleset(gameName) {
   let activeRuleset = JSON.parse(
-    localStorage.getItem(`activeRulesetObject-${gameName}`)
+    localStorage.getItem(`activeRuleset-${gameName}`)
   );
   return activeRuleset ? activeRuleset.rules : null;
+}
+
+// this gets the active ruleset title for a game
+async function getActiveRulesetTitle(gameName) {
+  return localStorage.getItem(`activeRuleset-${gameName}`);
 }
 
 // this sets the active ruleset for a game
 async function setActiveRuleset(gameName, rulesetTitle) {
   let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   let selectedRuleset = rulesets[gameName] && rulesets[gameName][rulesetTitle];
-  localStorage.setItem(`activeRuleset-${gameName}`, rulesetTitle);
   if (selectedRuleset) {
     localStorage.setItem(
       `activeRuleset-${gameName}`,
-      JSON.stringify(selectedRuleset)
+      JSON.stringify({ title: rulesetTitle, rules: selectedRuleset })
     );
   }
-}
-
-// this gets the active ruleset title for a game
-async function getActiveRulesetTitle(gameName) {
-  return localStorage.getItem(`activeRuleset-${gameName}`);
 }
 
 export {

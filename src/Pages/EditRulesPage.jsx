@@ -146,20 +146,7 @@ const EditRulesPage = () => {
     loadSavedRulesets();
   }, [game]);
 
-  //this selects a ruleset from the saved ruleset and sets it as the active ruleset (this works), but the ruleset is not being displayed on the page correctly
-  const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
-    await setActiveRuleset(game, selectedRulesetTitle);
-    setActiveRulesetTitle(selectedRulesetTitle);
-
-    // Find the selected ruleset in the savedRulesets object
-    const selectedRuleset = savedRulesets[selectedRulesetTitle];
-
-    // Update the editedRules state with the rules from the selected ruleset
-    if (selectedRuleset) {
-      setEditedRules(selectedRuleset.rules);
-    }
-  };
-  //this code sets the active ruleset for the game (this works)
+  // Load the active ruleset when the component mounts or when the game changes
   useEffect(() => {
     const loadActiveRuleset = async () => {
       const activeRuleset = await getActiveRuleset(game);
@@ -169,7 +156,20 @@ const EditRulesPage = () => {
       }
     };
     loadActiveRuleset();
-  }, [activeRulesetTitle, game]);
+  }, [game]);
+
+  // Handle loading a saved ruleset when a ruleset is selected from the dropdown
+  const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
+    // Set the selected ruleset as the active ruleset
+    await setActiveRuleset(game, selectedRulesetTitle);
+    // Fetch the updated active ruleset from local storage
+    const activeRuleset = await getActiveRuleset(game);
+    if (activeRuleset) {
+      // Update the editedRules and activeRulesetTitle states
+      setEditedRules(activeRuleset.rules);
+      setActiveRulesetTitle(activeRuleset.title);
+    }
+  };
 
   //this is the main return for the component
 
