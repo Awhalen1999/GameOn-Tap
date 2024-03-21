@@ -44,14 +44,6 @@ const Nav = () => {
   }, [theme]);
 
   // this gets the current active ruleset from the api.js file for the nav modal
-  useEffect(() => {
-    const fetchActiveRuleset = async () => {
-      const ruleset = await getActiveRuleset(game);
-      setActiveRuleset(ruleset);
-    };
-
-    fetchActiveRuleset();
-  }, [game, activeRuleset]);
 
   const gameTitlesButton = {
     '/games/KingsCup': 'Kings Cup Rules',

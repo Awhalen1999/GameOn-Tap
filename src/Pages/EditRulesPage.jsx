@@ -75,19 +75,15 @@ const EditRulesPage = () => {
     setActiveRulesetTitle('Default');
   };
 
-  //save custom ruleset function (this works)
+  // Save custom ruleset function
   const handleSaveCustomRuleset = async () => {
     if (customRulesTitle.trim() !== '') {
-      const newRuleset = { title: customRulesTitle, rules: { ...editedRules } };
       try {
-        await saveRuleset(game, customRulesTitle, newRuleset.rules);
-        const updatedRulesets = {
-          ...savedRulesets,
-          [customRulesTitle]: newRuleset,
-        };
-        setSavedRulesets(updatedRulesets);
+        await saveRuleset(game, customRulesTitle, editedRules);
+        const updatedRulesets = await getRulesets(game);
+        setSavedRulesets(updatedRulesets || {});
         setActiveRulesetTitle(customRulesTitle);
-        handleLoadSavedRuleset(customRulesTitle);
+        await handleLoadSavedRuleset(customRulesTitle);
         setCustomRulesTitle('');
       } catch (error) {
         console.error('Failed to save ruleset:', error);
@@ -97,7 +93,7 @@ const EditRulesPage = () => {
     }
   };
 
-  //delete ruleset function (this works)
+  // Delete ruleset function
   const handleDeleteRuleset = async (title) => {
     try {
       await deleteRuleset(game, title);
@@ -117,7 +113,7 @@ const EditRulesPage = () => {
     if (editing) {
       setEditedRules((prevRules) => {
         let newRules;
-        if (activeRulesetTitle === 'Default') {
+        if (activeRulesetTitle === 'default') {
           newRules = JSON.parse(JSON.stringify(rulesModules[game]));
         } else {
           newRules = JSON.parse(JSON.stringify(prevRules));
@@ -138,8 +134,8 @@ const EditRulesPage = () => {
   useEffect(() => {
     const loadSavedRulesets = async () => {
       try {
-        const savedRulesets = await getRulesets(game);
-        setSavedRulesets(savedRulesets || {});
+        const rulesets = await getRulesets(game);
+        setSavedRulesets(rulesets);
       } catch (error) {
         console.error('Failed to load rulesets:', error);
       }
@@ -147,25 +143,40 @@ const EditRulesPage = () => {
     loadSavedRulesets();
   }, [game]);
 
-  //Load the active ruleset when the component mounts or when the game changes
   useEffect(() => {
     const loadActiveRuleset = async () => {
-      const activeRuleset = await getActiveRuleset(game);
-      if (activeRuleset) {
-        setEditedRules(activeRuleset.rules);
-        setActiveRulesetTitle(activeRuleset.title);
+      const activeRulesetTitle = await getActiveRulesetTitle(game);
+      if (activeRulesetTitle) {
+        const activeRuleset = await getRulesets(game, activeRulesetTitle);
+        if (activeRuleset) {
+          setEditedRules(activeRuleset.rules);
+          setActiveRulesetTitle(activeRulesetTitle);
+        }
       }
     };
     loadActiveRuleset();
   }, [game]);
 
-  // Handle loading a saved ruleset when a ruleset is selected from the dropdown
+  useEffect(() => {
+    const loadActiveRulesetTitle = async () => {
+      const activeRulesetTitle = await getActiveRulesetTitle(game);
+      setActiveRulesetTitle(activeRulesetTitle);
+    };
+    loadActiveRulesetTitle();
+  }, [game, activeRulesetTitle]);
+
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
-    await setActiveRuleset(game, selectedRulesetTitle);
-    const activeRuleset = await getActiveRuleset(game);
-    if (activeRuleset) {
-      setEditedRules(activeRuleset.rules);
-      setActiveRulesetTitle(activeRuleset.title);
+    try {
+      await setActiveRuleset(game, selectedRulesetTitle);
+      const activeRuleset = await getActiveRuleset(game);
+      if (activeRuleset) {
+        setEditedRules(activeRuleset.rules);
+        setActiveRulesetTitle(activeRuleset.title);
+      } else {
+        console.error('Failed to get active ruleset:', activeRuleset);
+      }
+    } catch (error) {
+      console.error('Failed to set active ruleset:', error);
     }
   };
 
@@ -202,6 +213,8 @@ const EditRulesPage = () => {
           Save custom ruleset
         </button>
 
+        {/* ruleset selector */}
+
         <select
           className='select select-bordered select-primary ml-6'
           value={activeRulesetTitle || ''}
@@ -221,6 +234,8 @@ const EditRulesPage = () => {
             </option>
           ))}
         </select>
+
+        {/* end of ruleset selector */}
 
         <button
           className='btn btn-primary ml-6'
@@ -268,11 +283,28 @@ const EditRulesPage = () => {
       </dialog>
       {/* end of modal */}
       {editedRules &&
-        Object.entries(editedRules).map(([key, rule]) => (
-          <div key={key} className='mb-8'>
-            <div className='mb-1'>
-              <div className='text-xl font-bold mb-2 text-base-content'>
-                {rule.result}
+        Object.entries(editedRules).map(([key, rule]) => {
+          if (!rule) {
+            console.error(`Rule with key ${key} is undefined`);
+            return null;
+          }
+
+          return (
+            <div key={key} className='mb-8'>
+              <div className='mb-1'>
+                <div className='text-xl font-bold mb-2 text-base-content'>
+                  {rule.result}
+                </div>
+                <RuleEdit
+                  editing={editing}
+                  editedText={editedText}
+                  setEditedText={setEditedText}
+                  handleSubmit={handleSubmit}
+                  handleEdit={handleEdit}
+                  rule={rule}
+                  ruleKey={key}
+                  type='title'
+                />
               </div>
               <RuleEdit
                 editing={editing}
@@ -282,21 +314,11 @@ const EditRulesPage = () => {
                 handleEdit={handleEdit}
                 rule={rule}
                 ruleKey={key}
-                type='title'
+                type='description'
               />
             </div>
-            <RuleEdit
-              editing={editing}
-              editedText={editedText}
-              setEditedText={setEditedText}
-              handleSubmit={handleSubmit}
-              handleEdit={handleEdit}
-              rule={rule}
-              ruleKey={key}
-              type='description'
-            />
-          </div>
-        ))}
+          );
+        })}
     </div>
   );
 };
