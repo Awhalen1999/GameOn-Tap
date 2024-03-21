@@ -11,7 +11,6 @@ import {
   deleteRuleset,
   getActiveRuleset,
   setActiveRuleset,
-  getActiveRulesetTitle,
   setDefaultRuleset,
 } from '../utils/api';
 

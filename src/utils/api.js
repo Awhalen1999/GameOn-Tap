@@ -20,7 +20,7 @@ const gameRules = {
 
 saveDefaultRulesets(gameRules);
 
-// Save a ruleset for a game
+// Save a ruleset for a game (works)
 async function saveRuleset(gameName, rulesetTitle, rules) {
   let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   rulesets[gameName] = rulesets[gameName] || {};
@@ -28,7 +28,7 @@ async function saveRuleset(gameName, rulesetTitle, rules) {
   localStorage.setItem('rulesets', JSON.stringify(rulesets));
 }
 
-// Delete a ruleset for a game
+// Delete a ruleset for a game (works)
 async function deleteRuleset(gameName, rulesetTitle) {
   let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   if (rulesets[gameName]) {
@@ -37,21 +37,21 @@ async function deleteRuleset(gameName, rulesetTitle) {
   }
 }
 
-// this gets all rulesets for a game
+// this gets all rulesets for a game (works)
 async function getRulesets(gameName) {
   let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   return rulesets[gameName] || {};
 }
 
-// this gets the active ruleset for a game
+// this gets the active ruleset for a game (works)
 async function getActiveRuleset(gameName) {
   let activeRuleset = JSON.parse(
     localStorage.getItem(`activeRuleset-${gameName}`)
   );
-  return activeRuleset ? activeRuleset.rules : null;
+  return activeRuleset || null;
 }
 
-// this sets the active ruleset for a game
+// this sets the active ruleset for a game (works)
 async function setActiveRuleset(gameName, rulesetTitle) {
   let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   let selectedRuleset = rulesets[gameName] && rulesets[gameName][rulesetTitle];
@@ -81,21 +81,12 @@ async function setDefaultRuleset(gameName) {
   }
 }
 
-// this gets the active ruleset title for a game
-async function getActiveRulesetTitle(gameName) {
-  let activeRuleset = JSON.parse(
-    localStorage.getItem(`activeRuleset-${gameName}`)
-  );
-  return activeRuleset ? activeRuleset.title : null;
-}
-
 export {
   saveRuleset,
   getActiveRuleset,
   setActiveRuleset,
-  getActiveRulesetTitle,
   deleteRuleset,
   getRulesets,
-  setDefaultRuleset, // export the new function
-  saveDefaultRulesets, // export the new function
+  setDefaultRuleset,
+  saveDefaultRulesets,
 };
