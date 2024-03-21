@@ -71,7 +71,7 @@ const EditRulesPage = () => {
   //this sets the default ruleset for the game (this works)
   const handleDefaultRules = () => {
     setEditedRules(rulesModules[game]);
-    setDefaultRuleset(game); // set the active ruleset to null
+    setDefaultRuleset(game);
     setActiveRulesetTitle('Default');
   };
 
@@ -97,7 +97,7 @@ const EditRulesPage = () => {
     }
   };
 
-  //delete ruleset function (this works but the delete function needs to be fixed so it doesn't close after deleting each item)
+  //delete ruleset function (this works)
   const handleDeleteRuleset = async (title) => {
     try {
       await deleteRuleset(game, title);
@@ -112,7 +112,7 @@ const EditRulesPage = () => {
     }
   };
 
-  // this reflects the changes to the ruleset in the ui once the user clicks submit (this works)
+  //this reflects the changes to the ruleset in the ui once the user clicks submit (this works)
   const handleSubmit = () => {
     if (editing) {
       setEditedRules((prevRules) => {
@@ -147,7 +147,7 @@ const EditRulesPage = () => {
     loadSavedRulesets();
   }, [game]);
 
-  // Load the active ruleset when the component mounts or when the game changes
+  //Load the active ruleset when the component mounts or when the game changes
   useEffect(() => {
     const loadActiveRuleset = async () => {
       const activeRuleset = await getActiveRuleset(game);
@@ -161,12 +161,9 @@ const EditRulesPage = () => {
 
   // Handle loading a saved ruleset when a ruleset is selected from the dropdown
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
-    // Set the selected ruleset as the active ruleset
     await setActiveRuleset(game, selectedRulesetTitle);
-    // Fetch the updated active ruleset from local storage
     const activeRuleset = await getActiveRuleset(game);
     if (activeRuleset) {
-      // Update the editedRules and activeRulesetTitle states
       setEditedRules(activeRuleset.rules);
       setActiveRulesetTitle(activeRuleset.title);
     }
@@ -204,8 +201,6 @@ const EditRulesPage = () => {
         >
           Save custom ruleset
         </button>
-
-        {/* not updating the active ruleset title or ruleset being displayed when the user selects a saved ruleset from the dropdown */}
 
         <select
           className='select select-bordered select-primary ml-6'
