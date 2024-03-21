@@ -12,6 +12,7 @@ import {
   getActiveRuleset,
   setActiveRuleset,
   getActiveRulesetTitle,
+  setDefaultRuleset,
 } from '../utils/api';
 
 const rulesModules = {
@@ -70,7 +71,7 @@ const EditRulesPage = () => {
   //this sets the default ruleset for the game (this works)
   const handleDefaultRules = () => {
     setEditedRules(rulesModules[game]);
-    setActiveRuleset(game, null);
+    setDefaultRuleset(game); // set the active ruleset to null
     setActiveRulesetTitle('Default');
   };
 

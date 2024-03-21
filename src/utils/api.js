@@ -46,6 +46,11 @@ async function setActiveRuleset(gameName, rulesetTitle) {
   }
 }
 
+// this sets the active ruleset to null for a game
+async function setDefaultRuleset(gameName) {
+  localStorage.setItem(`activeRuleset-${gameName}`, null);
+}
+
 export {
   saveRuleset,
   getActiveRuleset,
@@ -53,4 +58,5 @@ export {
   getActiveRulesetTitle,
   deleteRuleset,
   getRulesets,
+  setDefaultRuleset,
 };
