@@ -1,5 +1,3 @@
-// todo: fix rules button for dropdown menu
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
@@ -12,6 +10,7 @@ import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
+import { getActiveRuleset } from '../utils/api'; // import the function to get the act
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -27,6 +26,7 @@ const Nav = () => {
   const isHomePage = location.pathname === '/';
   const isGamePage = location.pathname === '/GamePage';
   const game = location.pathname.split('/')[2];
+  const [activeRuleset, setActiveRuleset] = useState(null);
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
@@ -43,17 +43,15 @@ const Nav = () => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Load the active ruleset from local storage
-  const activeRulesetTitle = localStorage.getItem(`activeRuleset-${game}`);
-  let activeRuleset = gameRules[location.pathname];
-  if (activeRulesetTitle) {
-    const savedRulesets =
-      JSON.parse(localStorage.getItem(`rulesets-${game}`)) || {};
-    const foundRuleset = savedRulesets[activeRulesetTitle];
-    if (foundRuleset) {
-      activeRuleset = foundRuleset.rules;
-    }
-  }
+  // this gets the current active ruleset from the api.js file for the nav modal
+  useEffect(() => {
+    const fetchActiveRuleset = async () => {
+      const ruleset = await getActiveRuleset(game);
+      setActiveRuleset(ruleset);
+    };
+
+    fetchActiveRuleset();
+  }, [game, activeRuleset]);
 
   const gameTitlesButton = {
     '/games/KingsCup': 'Kings Cup Rules',
@@ -264,7 +262,7 @@ const Nav = () => {
           </div>
           <div className='p-4'>
             {activeRuleset &&
-              Object.values(activeRuleset).map((rule, index, self) => (
+              Object.values(activeRuleset.rules).map((rule, index, self) => (
                 <React.Fragment key={index}>
                   <div className='flex flex-col items-center'>
                     <strong className='text-xl mb-2 '>{rule.result}</strong>
