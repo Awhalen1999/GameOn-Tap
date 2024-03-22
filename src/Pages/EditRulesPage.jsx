@@ -11,50 +11,14 @@ import {
   deleteRuleset,
   getActiveRuleset,
   setActiveRuleset,
-  setDefaultRuleset,
 } from '../utils/api';
+import RuleEdit from './RuleEdit';
 
 const rulesModules = {
   KingsCup: KingsCupRules,
   DiceRoll: DiceRollRules,
   DrinkRoulette: DrinkRouletteRules,
 };
-
-const RuleEdit = ({
-  editing,
-  editedText,
-  setEditedText,
-  handleSubmit,
-  handleEdit,
-  rule,
-  ruleKey,
-  type,
-}) => (
-  <div className='flex justify-between items-center bg-neutral p-4 rounded-lg'>
-    {editing?.key === ruleKey && editing?.type === type ? (
-      <input
-        value={editedText}
-        onChange={(e) => setEditedText(e.target.value)}
-        autoFocus
-        className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
-      />
-    ) : (
-      <div className='font-semibold text-accent'>{rule[type]}</div>
-    )}
-    {editing?.key === ruleKey && editing?.type === type ? (
-      <button className='btn btn-primary ml-4' onClick={handleSubmit}>
-        Submit
-      </button>
-    ) : (
-      <button
-        className='btn btn-primary ml-4'
-        onClick={() => handleEdit(ruleKey, type, rule[type])}
-      >
-        Edit
-      </button>
-    )}
-  </div>
-);
 
 const EditRulesPage = () => {
   const [customRulesTitle, setCustomRulesTitle] = useState('');
@@ -131,38 +95,52 @@ const EditRulesPage = () => {
 
   //this loads the saved rulesets for the game (this works)
   useEffect(() => {
-    const loadSavedRulesets = async () => {
-      try {
-        const rulesets = await getRulesets(game);
-        setSavedRulesets(rulesets);
-      } catch (error) {
-        console.error('Failed to load rulesets:', error);
-      }
-    };
-    loadSavedRulesets();
-  }, [game]);
+    // const loadSavedRulesets = async () => {
+    //   try {
+    //     const rulesets = await getRulesets(game);
+    //     setSavedRulesets(rulesets);
+    //   } catch (error) {
+    //     console.error('Failed to load rulesets:', error);
+    //   }
+    // };
+    // loadSavedRulesets();
 
-  useEffect(() => {
-    const loadActiveRuleset = async () => {
-      const activeRulesetTitle = await getActiveRulesetTitle(game);
-      if (activeRulesetTitle) {
-        const activeRuleset = await getRulesets(game, activeRulesetTitle);
-        if (activeRuleset) {
-          setEditedRules(activeRuleset.rules);
+    getActiveRuleset(game)
+      .then((activeRulesetTitle) => {
+        getRulesets(game, activeRulesetTitle).then((activeRuleset) => {
+          setEditedRules(activeRuleset);
           setActiveRulesetTitle(activeRulesetTitle);
-        }
-      }
-    };
-    loadActiveRuleset();
+        });
+      })
+      .catch((error) =>
+        console.error('Failed to get active ruleset title:', game)
+      );
   }, [game]);
 
-  useEffect(() => {
-    const loadActiveRulesetTitle = async () => {
-      const activeRulesetTitle = await getActiveRulesetTitle(game);
-      setActiveRulesetTitle(activeRulesetTitle);
-    };
-    loadActiveRulesetTitle();
-  }, [game, activeRulesetTitle]);
+  // useEffect(() => {
+  //   const loadActiveRuleset = async () => {
+  //     const activeRulesetTitle = await getActiveRulesetTitle(game);
+  //     if (activeRulesetTitle) {
+  //       const activeRuleset = await getRulesets(game, activeRulesetTitle);
+  //       if (activeRuleset) {
+  //         setEditedRules(activeRuleset.rules);
+  //         setActiveRulesetTitle(activeRulesetTitle);
+  //       }
+  //     }
+  //   };
+  //   loadActiveRuleset();
+  // }, [game]);
+
+  // useEffect(() => {
+  //   // const loadActiveRulesetTitle = async () => {
+  //   //   const activeRulesetTitle = await getActiveRulesetTitle(game);
+  //   //   setActiveRulesetTitle(activeRulesetTitle);
+  //   // };
+  //   // loadActiveRulesetTitle();
+  //   getActiveRuleset(game).then((activeRulesetTitle) =>
+  //     setActiveRulesetTitle(activeRulesetTitle)
+  //   );
+  // }, [game, activeRulesetTitle]);
 
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
     try {
@@ -183,6 +161,7 @@ const EditRulesPage = () => {
 
   return (
     <div className='p-6 bg-base-100 min-h-screen font-space'>
+      {/* Header section */}
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl font-bold text-primary'>
           Edit Rules for {game}
@@ -191,11 +170,10 @@ const EditRulesPage = () => {
           <Link to={`/games/${game}`} className='btn btn-primary mr-4'>
             <MdKeyboardReturn size={32} /> Return to {game}
           </Link>
-          <button onClick={handleDefaultRules} className='btn btn-error'>
-            Default rules
-          </button>
         </div>
       </div>
+
+      {/* Custom ruleset title input and save button */}
       <div className='mb-4'>
         <input
           type='text'
@@ -204,7 +182,6 @@ const EditRulesPage = () => {
           onChange={(e) => setCustomRulesTitle(e.target.value)}
           placeholder='Enter a title for your custom ruleset'
         />
-
         <button
           className='btn btn-primary ml-1'
           onClick={handleSaveCustomRuleset}
@@ -212,8 +189,7 @@ const EditRulesPage = () => {
           Save custom ruleset
         </button>
 
-        {/* ruleset selector */}
-
+        {/* Ruleset selector */}
         <select
           className='select select-bordered select-primary ml-6'
           value={activeRulesetTitle || ''}
@@ -234,8 +210,7 @@ const EditRulesPage = () => {
           ))}
         </select>
 
-        {/* end of ruleset selector */}
-
+        {/* View saved rulesets button */}
         <button
           className='btn btn-primary ml-6'
           onClick={() =>
@@ -245,10 +220,11 @@ const EditRulesPage = () => {
           View saved rulesets
         </button>
       </div>
-      {/* saved ruleset list MODAL */}
+
+      {/* Saved rulesets modal */}
       <dialog id='saved-rulesets-modal' className='modal'>
         <div className='modal-box bg-neutral'>
-          {/* navbar */}
+          {/* Modal navbar */}
           <div className='navbar bg-neutral sticky top-0 flex justify-between items-center mb-2'>
             <h3 className='font-bold text-lg text-neutral-content'>
               Saved rulesets for {game}
@@ -262,6 +238,8 @@ const EditRulesPage = () => {
               Close
             </button>
           </div>
+
+          {/* Saved rulesets list */}
           <ul>
             {Object.values(savedRulesets).map((ruleset) => (
               <li
@@ -280,7 +258,8 @@ const EditRulesPage = () => {
           </ul>
         </div>
       </dialog>
-      {/* end of modal */}
+
+      {/* Rules editor */}
       {editedRules &&
         Object.entries(editedRules).map(([key, rule]) => {
           if (!rule) {

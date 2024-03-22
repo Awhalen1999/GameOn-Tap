@@ -7,86 +7,111 @@ import DiceRollRules from '../Pages/Games/DiceRoll/DiceRollRules.js';
 import DrinkRouletteRules from '../Pages/Games/DrinkRoulette/DrinkRouletteRules.js';
 import BountyBlastRules from '../Pages/Games/BountyBlast/BountyBlastRules.js';
 
-const gameRules = {
-  KingsCup: KingsCupRules,
-  RideTheBus: RideTheBusRules,
-  Snap: SnapRules,
-  Trivia: TriviaRules,
-  PromptDash: PromptDashRules,
-  DiceRoll: DiceRollRules,
-  DrinkRoulette: DrinkRouletteRules,
-  BountyBlast: BountyBlastRules,
+const defaultRulesets = {
+  KingsCup: {
+    default: KingsCupRules,
+  },
+  RideTheBus: {
+    default: RideTheBusRules,
+  },
+  Snap: {
+    default: SnapRules,
+  },
+  Trivia: {
+    default: TriviaRules,
+  },
+  PromptDash: {
+    default: PromptDashRules,
+  },
+  DiceRoll: {
+    default: DiceRollRules,
+  },
+  DrinkRoulette: {
+    default: DrinkRouletteRules,
+  },
+  BountyBlast: {
+    default: BountyBlastRules,
+  },
 };
 
-saveDefaultRulesets(gameRules);
+const defaultActiveRulesets = {
+  KingsCup: 'default',
+  RideTheBus: 'default',
+  Snap: 'default',
+  Trivia: 'default',
+  PromptDash: 'default',
+  DiceRoll: 'default',
+  DrinkRoulette: 'default',
+  BountyBlast: 'default',
+};
+
+// this gets all rulesets for a game (works)
+export async function getRulesets(gameName) {
+  const rulesets =
+    JSON.parse(localStorage.getItem('rulesets')) || defaultRulesets;
+  return rulesets[gameName] || defaultRulesets[gameName];
+}
 
 // Save a ruleset for a game (works)
-async function saveRuleset(gameName, rulesetTitle, rules) {
-  let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
+export async function saveRuleset(gameName, rulesetTitle, rules) {
+  const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   rulesets[gameName] = rulesets[gameName] || {};
-  rulesets[gameName][rulesetTitle] = { title: rulesetTitle, rules: rules };
+  rulesets[gameName][rulesetTitle] = { ...rules };
   localStorage.setItem('rulesets', JSON.stringify(rulesets));
 }
 
-// Delete a ruleset for a game (works)
-async function deleteRuleset(gameName, rulesetTitle) {
-  let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
+// Delete a ruleset for a game
+export async function deleteRuleset(gameName, rulesetTitle) {
+  const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
+
   if (rulesets[gameName]) {
+    // Prevent deleting 'default' ruleset
+    if (rulesetTitle === 'default') {
+      console.error("Cannot delete 'default' ruleset");
+      return;
+    }
+
     delete rulesets[gameName][rulesetTitle];
     localStorage.setItem('rulesets', JSON.stringify(rulesets));
   }
 }
 
-// this gets all rulesets for a game (works)
-async function getRulesets(gameName) {
-  let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
-  return rulesets[gameName] || {};
-}
-
 // this gets the active ruleset for a game (works)
-async function getActiveRuleset(gameName) {
-  let activeRuleset = JSON.parse(
-    localStorage.getItem(`activeRuleset-${gameName}`)
-  );
-  return activeRuleset || null;
+export async function getActiveRuleset(gameName) {
+  const activeRulesets =
+    JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
+  return activeRulesets[gameName] || defaultActiveRulesets[gameName];
 }
 
 // this sets the active ruleset for a game (works)
-async function setActiveRuleset(gameName, rulesetTitle) {
-  let rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
-  let selectedRuleset = rulesets[gameName] && rulesets[gameName][rulesetTitle];
-  if (selectedRuleset) {
-    localStorage.setItem(
-      `activeRuleset-${gameName}`,
-      JSON.stringify(selectedRuleset)
-    );
-  }
+export async function setActiveRuleset(gameName, rulesetTitle) {
+  const activeRulesets =
+    JSON.parse(localStorage.getItem('activeRulesets')) || {};
+  activeRulesets[gameName] = rulesetTitle;
+  localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
 }
 
-// Save all default rulesets to local storage
-async function saveDefaultRulesets(gameRules) {
-  localStorage.setItem('rulesets-default', JSON.stringify(gameRules));
-}
-
-// this sets the active ruleset to null for a game
-async function setDefaultRuleset(gameName) {
-  const defaultRulesets =
-    JSON.parse(localStorage.getItem('rulesets-default')) || {};
-  const defaultRuleset = defaultRulesets[gameName];
-  if (defaultRuleset) {
-    localStorage.setItem(
-      `activeRuleset-${gameName}`,
-      JSON.stringify({ title: 'Default', rules: defaultRuleset })
-    );
-  }
-}
-
-export {
-  saveRuleset,
-  getActiveRuleset,
-  setActiveRuleset,
-  deleteRuleset,
-  getRulesets,
-  setDefaultRuleset,
-  saveDefaultRulesets,
-};
+/**
+ *
+ * rulesets[game][rulesetName]
+ *
+ * 'rulesets'
+ * rulesets: {
+ *   KingsCup: {
+ *     default: {
+ *
+ *     },
+ *     myCustomRules: {
+ *
+ *     }
+ *   }
+ * }
+ *
+ * activeRulesets[game]
+ *
+ * 'activeRulesets'
+ * activeRulesets: {
+ *   KingsCup: 'myCustomRules',
+ *   RideTheBus: 'coolRules'
+ * }
+ */
