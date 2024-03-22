@@ -52,6 +52,21 @@ export async function getRulesets(gameName) {
   return rulesets[gameName] || defaultRulesets[gameName];
 }
 
+// this gets the active ruleset for a game (works)
+export async function getActiveRuleset(gameName) {
+  const activeRulesets =
+    JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
+  return activeRulesets[gameName] || defaultActiveRulesets[gameName];
+}
+
+// this sets the active ruleset for a game (works)
+export async function setActiveRuleset(gameName, rulesetTitle) {
+  const activeRulesets =
+    JSON.parse(localStorage.getItem('activeRulesets')) || {};
+  activeRulesets[gameName] = rulesetTitle;
+  localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
+}
+
 // Save a ruleset for a game (works)
 export async function saveRuleset(gameName, rulesetTitle, rules) {
   const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
@@ -76,21 +91,6 @@ export async function deleteRuleset(gameName, rulesetTitle) {
   }
 }
 
-// this gets the active ruleset for a game (works)
-export async function getActiveRuleset(gameName) {
-  const activeRulesets =
-    JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
-  return activeRulesets[gameName] || defaultActiveRulesets[gameName];
-}
-
-// this sets the active ruleset for a game (works)
-export async function setActiveRuleset(gameName, rulesetTitle) {
-  const activeRulesets =
-    JSON.parse(localStorage.getItem('activeRulesets')) || {};
-  activeRulesets[gameName] = rulesetTitle;
-  localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
-}
-
 /**
  *
  * rulesets[game][rulesetName]
@@ -101,7 +101,7 @@ export async function setActiveRuleset(gameName, rulesetTitle) {
  *     default: {
  *
  *     },
- *     myCustomRules: {
+ *     myCustomRules: { 'custom rule1', 'custom rule2' }
  *
  *     }
  *   }
@@ -111,7 +111,7 @@ export async function setActiveRuleset(gameName, rulesetTitle) {
  *
  * 'activeRulesets'
  * activeRulesets: {
- *   KingsCup: 'myCustomRules',
- *   RideTheBus: 'coolRules'
+ *   KingsCup: 'custom rule1',
+ *   RideTheBus: 'custom rule2',
  * }
  */

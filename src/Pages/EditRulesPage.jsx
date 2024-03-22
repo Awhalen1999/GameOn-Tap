@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
-import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
-import DiceRollRules from './Games/DiceRoll/DiceRollRules';
-import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
+import { useParams, Link } from 'react-router-dom';
 import { TiDelete } from 'react-icons/ti';
 import { MdKeyboardReturn } from 'react-icons/md';
 import {
@@ -14,40 +11,24 @@ import {
 } from '../utils/api';
 import RuleEdit from './RuleEdit';
 
-const rulesModules = {
-  KingsCup: KingsCupRules,
-  DiceRoll: DiceRollRules,
-  DrinkRoulette: DrinkRouletteRules,
-};
-
 const EditRulesPage = () => {
-  const [customRulesTitle, setCustomRulesTitle] = useState('');
-  const [savedRulesets, setSavedRulesets] = useState({});
-  const [activeRulesetTitle, setActiveRulesetTitle] = useState('');
+  const [customRulesetTitle, setCustomRulesetTitle] = useState('');
+  const [storedRulesets, setStoredRulesets] = useState({});
+  const [currentRulesetTitle, setCurrentRulesetTitle] = useState('');
   const { game } = useParams();
-  const location = useLocation();
-  const rules = rulesModules[game];
-  const [editing, setEditing] = useState(null);
-  const [editedText, setEditedText] = useState('');
-  const [editedRules, setEditedRules] = useState(rules);
+  const [currentlyEditing, setCurrentlyEditing] = useState(null);
+  const [editedRuleText, setEditedRuleText] = useState('');
+  const [editedRuleSet, setEditedRuleSet] = useState([]);
 
-  //this sets the default ruleset for the game (this works)
-  const handleDefaultRules = () => {
-    setEditedRules(rulesModules[game]);
-    setDefaultRuleset(game);
-    setActiveRulesetTitle('Default');
-  };
-
-  // Save custom ruleset function
   const handleSaveCustomRuleset = async () => {
-    if (customRulesTitle.trim() !== '') {
+    if (customRulesetTitle.trim() !== '') {
       try {
-        await saveRuleset(game, customRulesTitle, editedRules);
+        await saveRuleset(game, customRulesetTitle, editedRuleSet);
         const updatedRulesets = await getRulesets(game);
-        setSavedRulesets(updatedRulesets || {});
-        setActiveRulesetTitle(customRulesTitle);
-        await handleLoadSavedRuleset(customRulesTitle);
-        setCustomRulesTitle('');
+        setStoredRulesets(updatedRulesets || {});
+        setCurrentRulesetTitle(customRulesetTitle);
+        await handleLoadSavedRuleset(customRulesetTitle);
+        setCustomRulesetTitle('');
       } catch (error) {
         console.error('Failed to save ruleset:', error);
       }
@@ -56,108 +37,73 @@ const EditRulesPage = () => {
     }
   };
 
-  // Delete ruleset function
   const handleDeleteRuleset = async (title) => {
     try {
       await deleteRuleset(game, title);
       const updatedSavedRulesets = await getRulesets(game);
-      setSavedRulesets(updatedSavedRulesets || {});
+      setStoredRulesets(updatedSavedRulesets || {});
 
-      if (activeRulesetTitle === title) {
-        handleDefaultRules();
+      if (currentRulesetTitle === title) {
+        const defaultRuleset = await getRulesets(game);
+        setEditedRuleSet(defaultRuleset);
+        setCurrentRulesetTitle('Default');
       }
     } catch (error) {
       console.error('Failed to delete ruleset:', error);
     }
   };
 
-  //this reflects the changes to the ruleset in the ui once the user clicks submit (this works)
   const handleSubmit = () => {
-    if (editing) {
-      setEditedRules((prevRules) => {
-        let newRules;
-        if (activeRulesetTitle === 'default') {
-          newRules = JSON.parse(JSON.stringify(rulesModules[game]));
-        } else {
-          newRules = JSON.parse(JSON.stringify(prevRules));
-        }
-        newRules[editing.key][editing.type] = editedText;
+    if (currentlyEditing) {
+      setEditedRuleSet((prevRules) => {
+        let newRules = JSON.parse(JSON.stringify(prevRules));
+        newRules[currentlyEditing.key][currentlyEditing.type] = editedRuleText;
         return newRules;
       });
-      setEditing(null);
+      setCurrentlyEditing(null);
     }
   };
 
   const handleEdit = (key, type, text) => {
-    setEditing({ key, type });
-    setEditedText(text);
+    setCurrentlyEditing({ key, type });
+    setEditedRuleText(text);
   };
 
-  //this loads the saved rulesets for the game (this works)
   useEffect(() => {
-    // const loadSavedRulesets = async () => {
-    //   try {
-    //     const rulesets = await getRulesets(game);
-    //     setSavedRulesets(rulesets);
-    //   } catch (error) {
-    //     console.error('Failed to load rulesets:', error);
-    //   }
-    // };
-    // loadSavedRulesets();
-
-    getActiveRuleset(game)
-      .then((activeRulesetTitle) => {
-        getRulesets(game, activeRulesetTitle).then((activeRuleset) => {
-          setEditedRules(activeRuleset);
-          setActiveRulesetTitle(activeRulesetTitle);
-        });
-      })
-      .catch((error) =>
-        console.error('Failed to get active ruleset title:', game)
-      );
+    const loadRulesets = async () => {
+      try {
+        const rulesets = await getRulesets(game);
+        setStoredRulesets(rulesets || {});
+        const activeRulesetTitle = await getActiveRuleset(game);
+        if (activeRulesetTitle && rulesets[activeRulesetTitle]) {
+          setEditedRuleSet(rulesets[activeRulesetTitle]);
+          setCurrentRulesetTitle(activeRulesetTitle);
+        } else {
+          console.error('Failed to get active ruleset:', activeRulesetTitle);
+        }
+      } catch (error) {
+        console.error('Failed to load rulesets:', error);
+      }
+    };
+    loadRulesets();
   }, [game]);
-
-  // useEffect(() => {
-  //   const loadActiveRuleset = async () => {
-  //     const activeRulesetTitle = await getActiveRulesetTitle(game);
-  //     if (activeRulesetTitle) {
-  //       const activeRuleset = await getRulesets(game, activeRulesetTitle);
-  //       if (activeRuleset) {
-  //         setEditedRules(activeRuleset.rules);
-  //         setActiveRulesetTitle(activeRulesetTitle);
-  //       }
-  //     }
-  //   };
-  //   loadActiveRuleset();
-  // }, [game]);
-
-  // useEffect(() => {
-  //   // const loadActiveRulesetTitle = async () => {
-  //   //   const activeRulesetTitle = await getActiveRulesetTitle(game);
-  //   //   setActiveRulesetTitle(activeRulesetTitle);
-  //   // };
-  //   // loadActiveRulesetTitle();
-  //   getActiveRuleset(game).then((activeRulesetTitle) =>
-  //     setActiveRulesetTitle(activeRulesetTitle)
-  //   );
-  // }, [game, activeRulesetTitle]);
 
   const handleLoadSavedRuleset = async (selectedRulesetTitle) => {
     try {
       await setActiveRuleset(game, selectedRulesetTitle);
-      const activeRuleset = await getActiveRuleset(game);
-      if (activeRuleset) {
-        setEditedRules(activeRuleset.rules);
-        setActiveRulesetTitle(activeRuleset.title);
+      const rulesets = await getRulesets(game);
+      if (rulesets && rulesets[selectedRulesetTitle]) {
+        setEditedRuleSet(rulesets[selectedRulesetTitle]);
+        setCurrentRulesetTitle(selectedRulesetTitle);
       } else {
-        console.error('Failed to get active ruleset:', activeRuleset);
+        console.error('Failed to get ruleset:', selectedRulesetTitle);
       }
     } catch (error) {
       console.error('Failed to set active ruleset:', error);
     }
   };
 
-  //this is the main return for the component
+  // Return JSX
 
   return (
     <div className='p-6 bg-base-100 min-h-screen font-space'>
@@ -178,8 +124,8 @@ const EditRulesPage = () => {
         <input
           type='text'
           className='input input-bordered input-primary w-1/4'
-          value={customRulesTitle}
-          onChange={(e) => setCustomRulesTitle(e.target.value)}
+          value={customRulesetTitle}
+          onChange={(e) => setCustomRulesetTitle(e.target.value)}
           placeholder='Enter a title for your custom ruleset'
         />
         <button
@@ -192,19 +138,15 @@ const EditRulesPage = () => {
         {/* Ruleset selector */}
         <select
           className='select select-bordered select-primary ml-6'
-          value={activeRulesetTitle || ''}
+          value={currentRulesetTitle || ''}
           onChange={(e) => {
             const selectedRulesetTitle = e.target.value;
-            if (selectedRulesetTitle === 'Default') {
-              handleDefaultRules();
-            } else {
-              handleLoadSavedRuleset(selectedRulesetTitle);
-            }
+            handleLoadSavedRuleset(selectedRulesetTitle);
           }}
         >
           <option value='Default'>Default</option>
-          {Object.values(savedRulesets).map((ruleset) => (
-            <option key={ruleset.title} value={ruleset.title}>
+          {Object.values(storedRulesets).map((ruleset, index) => (
+            <option key={index} value={ruleset.title}>
               {ruleset.title}
             </option>
           ))}
@@ -241,10 +183,10 @@ const EditRulesPage = () => {
 
           {/* Saved rulesets list */}
           <ul>
-            {Object.values(savedRulesets).map((ruleset) => (
+            {Object.values(storedRulesets).map((ruleset, index) => (
               <li
                 className=' flex justify-between items-center px-4 py-2 rounded-lg mb-2 bg-base-100'
-                key={ruleset.title}
+                key={index}
               >
                 {ruleset.title}
                 <button
@@ -260,8 +202,8 @@ const EditRulesPage = () => {
       </dialog>
 
       {/* Rules editor */}
-      {editedRules &&
-        Object.entries(editedRules).map(([key, rule]) => {
+      {editedRuleSet &&
+        Object.entries(editedRuleSet).map(([key, rule]) => {
           if (!rule) {
             console.error(`Rule with key ${key} is undefined`);
             return null;
@@ -274,9 +216,9 @@ const EditRulesPage = () => {
                   {rule.result}
                 </div>
                 <RuleEdit
-                  editing={editing}
-                  editedText={editedText}
-                  setEditedText={setEditedText}
+                  editing={currentlyEditing}
+                  editedText={editedRuleText}
+                  setEditedText={setEditedRuleText}
                   handleSubmit={handleSubmit}
                   handleEdit={handleEdit}
                   rule={rule}
@@ -285,9 +227,9 @@ const EditRulesPage = () => {
                 />
               </div>
               <RuleEdit
-                editing={editing}
-                editedText={editedText}
-                setEditedText={setEditedText}
+                editing={currentlyEditing}
+                editedText={editedRuleText}
+                setEditedText={setEditedRuleText}
                 handleSubmit={handleSubmit}
                 handleEdit={handleEdit}
                 rule={rule}
