@@ -44,9 +44,10 @@ const EditRulesPage = () => {
       setStoredRulesets(updatedSavedRulesets || {});
 
       if (currentRulesetTitle === title) {
-        const defaultRuleset = await getRulesets(game);
+        const defaultRuleset = updatedSavedRulesets['default'];
         setEditedRuleSet(defaultRuleset);
-        setCurrentRulesetTitle('Default');
+        setCurrentRulesetTitle('default');
+        await setActiveRuleset(game, 'default');
       }
     } catch (error) {
       console.error('Failed to delete ruleset:', error);

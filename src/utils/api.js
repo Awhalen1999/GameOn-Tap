@@ -83,6 +83,8 @@ export async function saveRuleset(gameName, rulesetTitle, rules) {
 // Delete a ruleset for a game
 export async function deleteRuleset(gameName, rulesetTitle) {
   const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
+  const activeRulesets =
+    JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
 
   if (rulesets[gameName]) {
     // Prevent deleting 'default' ruleset
@@ -93,6 +95,12 @@ export async function deleteRuleset(gameName, rulesetTitle) {
 
     delete rulesets[gameName][rulesetTitle];
     localStorage.setItem('rulesets', JSON.stringify(rulesets));
+
+    // If the deleted ruleset was the active one, set the active ruleset to 'default'
+    if (activeRulesets[gameName] === rulesetTitle) {
+      activeRulesets[gameName] = 'default';
+      localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
+    }
   }
 }
 
