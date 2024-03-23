@@ -40,7 +40,7 @@ const Nav = () => {
     if (game) {
       fetchActiveRuleset();
     }
-  }, [game]); // Only re-run the effect if game changes
+  }, [game, activeRuleset]);
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
@@ -56,8 +56,6 @@ const Nav = () => {
   useEffect(() => {
     localStorage.setItem('theme', theme);
   }, [theme]);
-
-  // this gets the current active ruleset from the api.js file for the nav modal
 
   const gameTitlesButton = {
     '/games/KingsCup': 'Kings Cup Rules',
