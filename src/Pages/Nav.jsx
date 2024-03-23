@@ -10,7 +10,7 @@ import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
-import { getActiveRuleset, getRulesets } from '../utils/api'; // import the function to get the act
+import { getActiveRuleset, getRulesets } from '../utils/api';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
