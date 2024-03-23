@@ -144,10 +144,9 @@ const EditRulesPage = () => {
             handleLoadSavedRuleset(selectedRulesetTitle);
           }}
         >
-          <option value='Default'>Default</option>
-          {Object.values(storedRulesets).map((ruleset, index) => (
-            <option key={index} value={ruleset.title}>
-              {ruleset.title}
+          {Object.keys(storedRulesets).map((title, index) => (
+            <option key={index} value={title}>
+              {title}
             </option>
           ))}
         </select>
@@ -183,15 +182,15 @@ const EditRulesPage = () => {
 
           {/* Saved rulesets list */}
           <ul>
-            {Object.values(storedRulesets).map((ruleset, index) => (
+            {Object.keys(storedRulesets).map((title, index) => (
               <li
                 className=' flex justify-between items-center px-4 py-2 rounded-lg mb-2 bg-base-100'
                 key={index}
               >
-                {ruleset.title}
+                {title}
                 <button
                   className='btn btn-primary ml-4'
-                  onClick={() => handleDeleteRuleset(ruleset.title)}
+                  onClick={() => handleDeleteRuleset(title)}
                 >
                   <TiDelete size={28} />
                 </button>
