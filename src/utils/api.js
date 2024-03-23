@@ -47,9 +47,14 @@ const defaultActiveRulesets = {
 
 // this gets all rulesets for a game (works)
 export async function getRulesets(gameName) {
-  const rulesets =
-    JSON.parse(localStorage.getItem('rulesets')) || defaultRulesets;
-  return rulesets[gameName] || defaultRulesets[gameName];
+  const storedRulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
+  const gameRulesets = storedRulesets[gameName] || {};
+  const defaultGameRuleset = defaultRulesets[gameName];
+
+  return {
+    ...defaultGameRuleset,
+    ...gameRulesets,
+  };
 }
 
 // this gets the active ruleset for a game (works)

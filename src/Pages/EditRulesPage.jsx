@@ -162,7 +162,7 @@ const EditRulesPage = () => {
         </button>
       </div>
 
-      {/* Saved rulesets modal */}
+      {/* delete rulesets modal */}
       <dialog id='saved-rulesets-modal' className='modal'>
         <div className='modal-box bg-neutral'>
           {/* Modal navbar */}
@@ -180,22 +180,24 @@ const EditRulesPage = () => {
             </button>
           </div>
 
-          {/* Saved rulesets list */}
+          {/* delete rulesets list */}
           <ul>
-            {Object.keys(storedRulesets).map((title, index) => (
-              <li
-                className=' flex justify-between items-center px-4 py-2 rounded-lg mb-2 bg-base-100'
-                key={index}
-              >
-                {title}
-                <button
-                  className='btn btn-primary ml-4'
-                  onClick={() => handleDeleteRuleset(title)}
+            {Object.keys(storedRulesets)
+              .filter((title) => title !== 'default')
+              .map((title, index) => (
+                <li
+                  className=' flex justify-between items-center px-4 py-2 rounded-lg mb-2 bg-base-100'
+                  key={index}
                 >
-                  <TiDelete size={28} />
-                </button>
-              </li>
-            ))}
+                  {title}
+                  <button
+                    className='btn btn-primary ml-4'
+                    onClick={() => handleDeleteRuleset(title)}
+                  >
+                    <TiDelete size={28} />
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
       </dialog>
