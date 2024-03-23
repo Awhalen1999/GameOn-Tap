@@ -64,7 +64,7 @@ export const KingsCupRules = {
     result: 'King',
     title: "King's Cup",
     description:
-      "When each of the first 3 Kings is drawn, the person who drew it puts some of their drink into the King's Cup in the center of the table. When the 4th King is drawn, the person who drew it must drink the entire King's Cup.",
+      "When each of the first 3 Kings is drawn, the person who drew it puts some of their drink into the King's Cup in the center of the table.",
   },
   A: {
     result: 'Ace',

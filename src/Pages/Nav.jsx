@@ -10,7 +10,7 @@ import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
-import { getActiveRuleset } from '../utils/api'; // import the function to get the act
+import { getActiveRuleset, getRulesets } from '../utils/api'; // import the function to get the act
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -27,6 +27,20 @@ const Nav = () => {
   const isGamePage = location.pathname === '/GamePage';
   const game = location.pathname.split('/')[2];
   const [activeRuleset, setActiveRuleset] = useState(null);
+
+  useEffect(() => {
+    const fetchActiveRuleset = async () => {
+      const activeRulesetName = await getActiveRuleset(game);
+      const allRulesets = await getRulesets(game);
+      const activeRuleset = allRulesets[activeRulesetName];
+
+      setActiveRuleset(activeRuleset);
+    };
+
+    if (game) {
+      fetchActiveRuleset();
+    }
+  }, [game]); // Only re-run the effect if game changes
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
@@ -254,7 +268,7 @@ const Nav = () => {
           </div>
           <div className='p-4'>
             {activeRuleset &&
-              Object.values(activeRuleset.rules).map((rule, index, self) => (
+              Object.values(activeRuleset).map((rule, index, self) => (
                 <React.Fragment key={index}>
                   <div className='flex flex-col items-center'>
                     <strong className='text-xl mb-2 '>{rule.result}</strong>
