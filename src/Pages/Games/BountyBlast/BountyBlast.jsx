@@ -3,6 +3,7 @@ import treasureChest from '../../../assets/treasure-chest.png';
 import bomb from '../../../assets/bomb.png';
 import treasure from '../../../assets/treasure.png';
 import empty from '../../../assets/empty.png';
+import useActiveRuleset from '../../UseActiveRuleset.js';
 
 const BountyBlast = () => {
   const [bombs, setBombs] = useState(3);
@@ -11,6 +12,7 @@ const BountyBlast = () => {
   const [board, setBoard] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('');
+  const activeRuleset = useActiveRuleset('BountyBlast');
 
   useEffect(() => {
     if (gameStarted) {
@@ -64,15 +66,13 @@ const BountyBlast = () => {
       newBoard[index].opened = true;
       if (newBoard[index].type === 'bomb') {
         newBoard[index].img = bomb;
-        setMessage('Oh no! You found a bomb! Drink up!');
+        setMessage(activeRuleset[3].description);
       } else if (newBoard[index].type === 'treasure') {
         newBoard[index].img = treasure;
-        setMessage(
-          'Congratulations! You found treasure! You may assign a drink to another player or be safe from your next bomb!'
-        );
+        setMessage(activeRuleset[2].description);
       } else {
         newBoard[index].img = empty;
-        setMessage('Safe! This chest is empty.');
+        setMessage(activeRuleset[1].description);
       }
 
       setBoard(newBoard);

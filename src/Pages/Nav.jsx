@@ -72,6 +72,7 @@ const Nav = () => {
     '/games/KingsCup',
     '/games/DiceRoll',
     '/games/DrinkRoulette',
+    '/games/BountyBlast',
   ]);
 
   const openModal = () => {
