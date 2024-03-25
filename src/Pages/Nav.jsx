@@ -40,7 +40,7 @@ const Nav = () => {
     if (game) {
       fetchActiveRuleset();
     }
-  }, [game, activeRuleset]);
+  }, [game]);
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
