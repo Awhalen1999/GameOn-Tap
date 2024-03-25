@@ -70,6 +70,9 @@ export async function setActiveRuleset(gameName, rulesetTitle) {
     JSON.parse(localStorage.getItem('activeRulesets')) || {};
   activeRulesets[gameName] = rulesetTitle;
   localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
+
+  // Dispatch a custom event after setting the active ruleset
+  window.dispatchEvent(new CustomEvent('activeRulesetChanged'));
 }
 
 // Save a ruleset for a game (works)

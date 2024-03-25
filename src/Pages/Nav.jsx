@@ -28,18 +28,33 @@ const Nav = () => {
   const game = location.pathname.split('/')[2];
   const [activeRuleset, setActiveRuleset] = useState(null);
 
+  // get the active ruleset and update it when it changes code for nav modal
   useEffect(() => {
     const fetchActiveRuleset = async () => {
+      console.log('Fetching active ruleset...');
       const activeRulesetName = await getActiveRuleset(game);
       const allRulesets = await getRulesets(game);
       const activeRuleset = allRulesets[activeRulesetName];
+      console.log('Active ruleset fetched:', activeRuleset);
 
       setActiveRuleset(activeRuleset);
     };
 
-    if (game) {
+    const handleActiveRulesetChange = () => {
+      console.log('Active ruleset changed, fetching active ruleset...');
       fetchActiveRuleset();
-    }
+    };
+
+    window.addEventListener('activeRulesetChanged', handleActiveRulesetChange);
+
+    fetchActiveRuleset();
+
+    return () => {
+      window.removeEventListener(
+        'activeRulesetChanged',
+        handleActiveRulesetChange
+      );
+    };
   }, [game]);
 
   const gameRules = {
