@@ -12,30 +12,22 @@ import {
   FaDiceSix,
 } from 'react-icons/fa';
 import DiceRollRules from './DiceRollRules';
+import useActiveRuleset from '../../UseActiveRuleset.js';
 
 function DiceRoll() {
   const [dice1, setDice1] = useState(null);
   const [dice2, setDice2] = useState(null);
   const [total, setTotal] = useState(null);
-  const [activeRuleset, setActiveRuleset] = useState(DiceRollRules);
+  const [rules, setRules] = useState({});
+  const activeRuleset = useActiveRuleset('DiceRoll');
 
   useEffect(() => {
-    const activeRulesetTitle = localStorage.getItem('activeRuleset-DiceRoll');
-    if (activeRulesetTitle) {
-      const savedRulesets =
-        JSON.parse(localStorage.getItem('rulesets-DiceRoll')) || [];
-      const activeRuleset = savedRulesets.find(
-        (ruleset) => ruleset.title === activeRulesetTitle
-      );
-      if (activeRuleset) {
-        setActiveRuleset(activeRuleset.rules);
-      } else {
-        setActiveRuleset(DiceRollRules);
-      }
+    if (activeRuleset) {
+      setRules(activeRuleset.rules);
     } else {
-      setActiveRuleset(DiceRollRules);
+      setRules(DiceRollRules);
     }
-  }, []);
+  }, [activeRuleset]);
 
   const diceIcons = [
     null,
