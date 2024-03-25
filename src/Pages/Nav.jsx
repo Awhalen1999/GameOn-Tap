@@ -10,7 +10,7 @@ import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
-import { getActiveRuleset, getRulesets } from '../utils/api';
+import useActiveRuleset from './UseActiveRuleset.js';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -26,36 +26,9 @@ const Nav = () => {
   const isHomePage = location.pathname === '/';
   const isGamePage = location.pathname === '/GamePage';
   const game = location.pathname.split('/')[2];
-  const [activeRuleset, setActiveRuleset] = useState(null);
 
-  // get the active ruleset and update it when it changes code for nav modal
-  useEffect(() => {
-    const fetchActiveRuleset = async () => {
-      console.log('Fetching active ruleset...');
-      const activeRulesetName = await getActiveRuleset(game);
-      const allRulesets = await getRulesets(game);
-      const activeRuleset = allRulesets[activeRulesetName];
-      console.log('Active ruleset fetched:', activeRuleset);
-
-      setActiveRuleset(activeRuleset);
-    };
-
-    const handleActiveRulesetChange = () => {
-      console.log('Active ruleset changed, fetching active ruleset...');
-      fetchActiveRuleset();
-    };
-
-    window.addEventListener('activeRulesetChanged', handleActiveRulesetChange);
-
-    fetchActiveRuleset();
-
-    return () => {
-      window.removeEventListener(
-        'activeRulesetChanged',
-        handleActiveRulesetChange
-      );
-    };
-  }, [game]);
+  // this gets the active ruleset for a game from my UseActiveRuleset.js import
+  const activeRuleset = useActiveRuleset(game);
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
