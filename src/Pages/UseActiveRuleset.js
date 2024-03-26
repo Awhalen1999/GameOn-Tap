@@ -6,6 +6,11 @@ const useActiveRuleset = (game) => {
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
+      if (!game) {
+        console.log('No game specified, not fetching active ruleset');
+        return;
+      }
+
       console.log('Fetching active ruleset...');
       const activeRulesetName = await getActiveRuleset(game);
       const allRulesets = await getRulesets(game);
