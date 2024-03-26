@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaCheck } from 'react-icons/fa6';
+import { MdEdit } from 'react-icons/md';
 
 const RuleEdit = ({
   editing,
@@ -23,14 +25,14 @@ const RuleEdit = ({
     )}
     {editing?.key === ruleKey && editing?.type === type ? (
       <button className='btn btn-primary ml-4' onClick={handleSubmit}>
-        Submit
+        <FaCheck size={22} />
       </button>
     ) : (
       <button
         className='btn btn-primary ml-4'
         onClick={() => handleEdit(ruleKey, type, rule[type])}
       >
-        Edit
+        <MdEdit size={22} />
       </button>
     )}
   </div>

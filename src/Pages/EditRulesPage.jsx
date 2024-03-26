@@ -104,6 +104,23 @@ const EditRulesPage = () => {
     }
   };
 
+  // default ruleset button
+
+  const handleDefaultRuleset = async () => {
+    try {
+      await setActiveRuleset(game, 'default');
+      const rulesets = await getRulesets(game);
+      if (rulesets && rulesets['default']) {
+        setEditedRuleSet(rulesets['default']);
+        setCurrentRulesetTitle('default');
+      } else {
+        console.error('Failed to get default ruleset');
+      }
+    } catch (error) {
+      console.error('Failed to set active ruleset to default:', error);
+    }
+  };
+
   // Return JSX
 
   return (
@@ -160,6 +177,9 @@ const EditRulesPage = () => {
           }
         >
           View saved rulesets
+        </button>
+        <button className='btn btn-error ml-6' onClick={handleDefaultRuleset}>
+          Default Ruleset
         </button>
       </div>
 
