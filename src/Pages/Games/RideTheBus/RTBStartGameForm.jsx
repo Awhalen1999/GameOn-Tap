@@ -8,23 +8,15 @@ const RTBStartGameForm = ({
   setRuleSet,
   startGame,
 }) => {
-  const getColorClass = (number) => {
-    if (number < 5) {
-      return 'text-base-content';
-    } else if (number >= 5 && number <= 6) {
-      return 'text-yellow-600';
-    } else {
-      return 'text-red-600';
-    }
-  };
+  const getColorClass = (num) =>
+    num < 5
+      ? 'text-base-content'
+      : num <= 6
+      ? 'text-yellow-600'
+      : 'text-red-600';
 
-  const handleChange = (event) => {
-    setNumber(event.target.value);
-  };
-
-  const handleRuleSetChange = (event) => {
-    setRuleSet(event.target.value);
-  };
+  const handleChange = ({ target: { value } }) =>
+    setNumber(Math.min(parseInt(value), 8));
 
   return (
     <form
@@ -32,46 +24,35 @@ const RTBStartGameForm = ({
       className='flex flex-col items-center justify-center flex-grow'
     >
       <div className='mb-4 space-y-4'>
-        <label className='flex items-center space-x-2 text-lg'>
-          <input
-            className='radio radio-primary'
-            type='radio'
-            value='higher/lower'
-            checked={ruleSet === 'higher/lower'}
-            onChange={handleRuleSetChange}
-          />
-          <span className='text-xl font-bold'>Higher/Lower</span>
-        </label>
-        <label className='flex items-center space-x-2 text-lg'>
-          <input
-            className='radio radio-primary'
-            type='radio'
-            value='red/black'
-            checked={ruleSet === 'red/black'}
-            onChange={handleRuleSetChange}
-          />
-          <span className='text-xl font-bold'>Red/Black</span>
-        </label>
+        {['higher/lower', 'red/black'].map((value) => (
+          <label key={value} className='flex items-center space-x-2 text-lg'>
+            <input
+              className='radio radio-primary'
+              type='radio'
+              value={value}
+              checked={ruleSet === value}
+              onChange={({ target: { value } }) => setRuleSet(value)}
+            />
+            <span className='text-xl font-bold'>
+              {value.split('/')[0]} / {value.split('/')[1]}
+            </span>
+          </label>
+        ))}
       </div>
-      {/* input */}
-      <div className='w-full flex justify-center items-center'>
-        <label className='text-xl font-medium text-base-content mr-4'>
+      <div className='w-full flex flex-col sm:flex-row justify-center items-center'>
+        <label className='text-xl font-medium text-base-content mb-4 sm:mb-0 sm:mr-4'>
           Choose a number of cards to draw (1-8)
         </label>
-        <div className='relative flex items-center my-5'>
-          {/* Minus button */}
+        <div className='relative flex items-center'>
           <button
             type='button'
-            onClick={() =>
-              setNumber((prev) => Math.min(Math.max(prev - 1, 1), 8))
-            }
+            onClick={() => setNumber((prev) => Math.max(prev - 1, 1))}
             className='btn btn-ghost btn-outline'
           >
             <FaMinus />
           </button>
-          {/* Number input */}
           <input
-            type='text'
+            type='number'
             id='counter-input'
             value={number}
             onChange={handleChange}
@@ -80,19 +61,16 @@ const RTBStartGameForm = ({
             )}`}
             required
           />
-          {/* Plus button */}
           <button
             type='button'
-            onClick={() =>
-              setNumber((prev) => Math.min(Math.max(prev + 1, 1), 8))
-            }
+            onClick={() => setNumber((prev) => Math.min(prev + 1, 8))}
             className='btn btn-ghost btn-outline'
           >
             <FaPlus />
           </button>
         </div>
       </div>
-      <button type='submit' className='btn btn-primary btn-lg'>
+      <button type='submit' className='btn btn-primary btn-lg mt-4'>
         Start Game
       </button>
     </form>
