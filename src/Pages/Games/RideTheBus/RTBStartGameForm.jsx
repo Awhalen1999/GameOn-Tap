@@ -7,6 +7,7 @@ const RTBStartGameForm = ({
   ruleSet,
   setRuleSet,
   startGame,
+  hideAlert,
 }) => {
   const getColorClass = (num) =>
     num < 5
@@ -40,7 +41,7 @@ const RTBStartGameForm = ({
         ))}
       </div>
       <div className='w-full flex flex-col sm:flex-row justify-center items-center'>
-        <label className='text-xl font-medium text-base-content mb-4 sm:mb-0 sm:mr-4'>
+        <label className='text-xl font-medium text-base-content mb-4 sm:mb-0 px-2'>
           Choose a number of cards to draw (1-8)
         </label>
         <div className='relative flex items-center'>
@@ -70,7 +71,11 @@ const RTBStartGameForm = ({
           </button>
         </div>
       </div>
-      <button type='submit' className='btn btn-primary btn-lg mt-4'>
+      <button
+        type='submit'
+        className='btn btn-primary btn-lg mt-4'
+        onClick={hideAlert} // Add this line
+      >
         Start Game
       </button>
     </form>

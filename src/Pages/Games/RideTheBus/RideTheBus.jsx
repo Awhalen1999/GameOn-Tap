@@ -13,6 +13,7 @@ const RideTheBus = () => {
   const [cardImages, setCardImages] = useState({});
   const [guessStatus, setGuessStatus] = useState('');
   const [ruleSet, setRuleSet] = useState('higher/lower');
+  const [lastNumber, setLastNumber] = useState(1);
 
   useEffect(() => {
     if (guessStatus !== '') {
@@ -174,13 +175,14 @@ const RideTheBus = () => {
     if (event) {
       event.preventDefault();
     }
+    setLastNumber(number);
     setGameStarted(true);
     drawCard();
   };
 
   const resetGame = () => {
     setGameStarted(false);
-    setNumber(1);
+    setNumber(lastNumber);
   };
 
   return (
@@ -192,7 +194,7 @@ const RideTheBus = () => {
         </button>
       </div>
       {/* alert */}
-      {showAlert && (
+      {showAlert && !gameStarted && (
         <div
           role='alert'
           className='alert w-[90vw] mx-auto border border-base-content mt-2'
@@ -227,14 +229,20 @@ const RideTheBus = () => {
           ruleSet={ruleSet}
           setRuleSet={setRuleSet}
           startGame={startGame}
+          hideAlert={() => setShowAlert(false)} // Add this line
         />
       ) : (
         // Placeholder cards
         <div className='flex flex-col items-center justify-center flex-grow'>
           <div className='flex justify-center'>
-            <div className='flex justify-center items-end'>
+            <div className='flex justify-center items-end sm:flex-col md:flex-row'>
               {drawnCards.map((card, index) => (
-                <div key={index} className='mx-2 relative'>
+                <div
+                  key={index}
+                  className={`mx-2 relative ${
+                    index < drawnCards.length - 1 && 'sm:hidden'
+                  } ${index < drawnCards.length - 2 && 'hidden md:flex'}`}
+                >
                   {index === drawnCards.length - 1 && (
                     <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
                   )}
@@ -250,13 +258,17 @@ const RideTheBus = () => {
                 (_, index) => (
                   <div
                     key={index + drawnCards.length}
-                    className='mx-2 relative'
+                    className={`mx-2 relative ${index > 0 && 'sm:hidden'} ${
+                      index > 1 && 'hidden md:flex'
+                    }`}
                   >
-                    <img
-                      src={placeholderCard}
-                      alt='placeholder card'
-                      className='h-64'
-                    />
+                    {index === 0 && (
+                      <img
+                        src={placeholderCard}
+                        alt='placeholder card'
+                        className='h-64'
+                      />
+                    )}
                   </div>
                 )
               )}
