@@ -229,21 +229,16 @@ const RideTheBus = () => {
           ruleSet={ruleSet}
           setRuleSet={setRuleSet}
           startGame={startGame}
-          hideAlert={() => setShowAlert(false)} // Add this line
+          hideAlert={() => setShowAlert(false)}
         />
       ) : (
         // Placeholder cards
         <div className='flex flex-col items-center justify-center flex-grow'>
           <div className='flex justify-center'>
-            <div className='flex justify-center items-end sm:flex-col md:flex-row'>
-              {drawnCards.map((card, index) => (
-                <div
-                  key={index}
-                  className={`mx-2 relative ${
-                    index < drawnCards.length - 1 && 'sm:hidden'
-                  } ${index < drawnCards.length - 2 && 'hidden md:flex'}`}
-                >
-                  {index === drawnCards.length - 1 && (
+            <div className='flex justify-center items-end'>
+              {drawnCards.slice(-2).map((card, index) => (
+                <div key={index} className='mx-2 relative'>
+                  {(index === 1 || drawnCards.length === 1) && (
                     <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
                   )}
                   <img
@@ -258,9 +253,7 @@ const RideTheBus = () => {
                 (_, index) => (
                   <div
                     key={index + drawnCards.length}
-                    className={`mx-2 relative ${index > 0 && 'sm:hidden'} ${
-                      index > 1 && 'hidden md:flex'
-                    }`}
+                    className='mx-2 relative'
                   >
                     {index === 0 && (
                       <img
