@@ -76,14 +76,14 @@ const PromptDash = () => {
       </div>
       <div className='flex flex-col items-center justify-center mt-20'>
         {prompt && (
-          <div className='w-[35vw] h-auto bg-neutral rounded p-8 flex items-center justify-center border border-secondary text-neutral-content'>
+          <div className='w-4/5 sm:w-3/5 lg:w-2/5 h-auto bg-neutral rounded p-8 flex items-center justify-center border border-secondary text-neutral-content'>
             <p className='text-center text-xl text-bold'>{prompt}</p>
           </div>
         )}
       </div>
       <button
         onClick={resetPrompts}
-        className='btn btn-success absolute bottom-0 right-0 m-4'
+        className='btn btn-success absolute bottom-0 right-0 m-2'
       >
         Reset Prompts
       </button>
