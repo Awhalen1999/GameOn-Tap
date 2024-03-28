@@ -186,7 +186,7 @@ const RideTheBus = () => {
   };
 
   return (
-    <div className='flex flex-col h-full font-space'>
+    <div className='flex flex-col h-full font-space p-2'>
       {/* Reset game button */}
       <div className='absolute bottom-0 right-0 m-4'>
         <button onClick={resetGame} className='btn btn-success'>
@@ -233,39 +233,34 @@ const RideTheBus = () => {
         />
       ) : (
         // Placeholder cards
-        <div className='flex flex-col items-center justify-center flex-grow'>
-          <div className='flex justify-center'>
-            <div className='flex justify-center items-end'>
-              {drawnCards.slice(-2).map((card, index) => (
-                <div key={index} className='mx-2 relative'>
-                  {(index === 1 || drawnCards.length === 1) && (
-                    <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
-                  )}
-                  <img
-                    src={cardImages[card] || placeholderCard}
-                    alt={card}
-                    className='h-64'
-                  />
-                </div>
-              ))}
+        <div className='flex flex-col items-center justify-center flex-grow '>
+          <div className='flex justify-center items-center  mx-auto w-full gap-2'>
+            {drawnCards.slice(-2).map((card, index) => (
+              <div key={index} className=' relative'>
+                {(index === 1 || drawnCards.length === 1) && (
+                  <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
+                )}
+                <img
+                  src={cardImages[card] || placeholderCard}
+                  alt={card}
+                  className='h-56'
+                />
+              </div>
+            ))}
 
-              {[...Array(parseInt(number) - drawnCards.length)].map(
-                (_, index) => (
-                  <div
-                    key={index + drawnCards.length}
-                    className='mx-2 relative'
-                  >
-                    {index === 0 && (
-                      <img
-                        src={placeholderCard}
-                        alt='placeholder card'
-                        className='h-64'
-                      />
-                    )}
-                  </div>
-                )
-              )}
-            </div>
+            {[...Array(parseInt(number) - drawnCards.length)].map(
+              (_, index) => (
+                <div key={index + drawnCards.length} className=' relative'>
+                  {index === 0 && (
+                    <img
+                      src={placeholderCard}
+                      alt='placeholder card'
+                      className='h-56'
+                    />
+                  )}
+                </div>
+              )
+            )}
           </div>
 
           <div className='mt-12 flex flex-col items-center justify-center'>
