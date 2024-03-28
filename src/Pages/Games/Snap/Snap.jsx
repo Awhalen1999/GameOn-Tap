@@ -102,7 +102,7 @@ const Snap = () => {
         </div>
       )}
       {/* Delay slider and Draw Card button */}
-      <div className='flex flex-col items-center mt-10'>
+      <div className='flex flex-col items-center mt-6'>
         {/* Delay slider */}
         <div className='mb-4 text-center'>
           <label htmlFor='delay' className='text-lg font-bold mb-2'>
@@ -132,7 +132,7 @@ const Snap = () => {
         </button>
       </div>
       {/* Radio buttons */}
-      <div className='flex flex-col justify-center space-y-4 ml-4 absolute left-0 top-0 bottom-0'>
+      <div className='flex flex-col justify-end space-y-2  absolute left-0 bottom-0 m-2'>
         <label className='flex items-center space-x-2 text-lg'>
           <input
             className='radio radio-primary'
@@ -155,7 +155,7 @@ const Snap = () => {
         </label>
       </div>
       {/* Card container */}
-      <div className='flex flex-col items-center mt-10'>
+      <div className='flex flex-col items-center mt-4 '>
         <div className='items-center '>
           {drawnCards.length > 0 ? (
             <div className='text-center'>
@@ -197,7 +197,7 @@ const Snap = () => {
         </div>
       </div>
       {/* Snap show */}
-      <div className='absolute bottom-24 right-0 m-4 flex items-center'>
+      <div className='absolute bottom-24 right-0 m-2 flex items-center'>
         <input
           type='checkbox'
           id='showSnap'
@@ -205,12 +205,15 @@ const Snap = () => {
           onChange={(e) => setShowSnap(e.target.checked)}
           className='checkbox checkbox-primary'
         />
-        <label htmlFor='showSnap' className='ml-2 text-lg font-bold'>
-          Show "SNAP!" text
+        <label
+          htmlFor='showSnap'
+          className='ml-2 text-base sm:text-lg font-bold'
+        >
+          Show "SNAP!"
         </label>
       </div>
       {/* Auto-reset deck */}
-      <div className='absolute bottom-14 right-0 m-4 flex items-center'>
+      <div className='absolute bottom-14 right-0 m-2 flex items-center'>
         <input
           type='checkbox'
           id='autoReset'
@@ -218,12 +221,15 @@ const Snap = () => {
           onChange={(e) => setAutoReset(e.target.checked)}
           className='checkbox checkbox-primary'
         />
-        <label htmlFor='autoReset' className='ml-2 text-lg font-bold'>
+        <label
+          htmlFor='autoReset'
+          className='ml-2 text-base sm:text-lg font-bold'
+        >
           Auto-reset deck
         </label>
       </div>
       {/* Reset Deck button */}
-      <div className='absolute bottom-0 right-0 m-4 flex items-center'>
+      <div className='absolute bottom-0 right-0 m-2 flex items-center'>
         <button onClick={resetDeck} className='btn btn-success '>
           Reset Deck
         </button>
