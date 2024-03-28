@@ -145,7 +145,7 @@ const BountyBlast = () => {
         <div className='flex flex-col items-center h-full'>
           <div className='mt-10'>
             <div className='board'>
-              <div className='grid grid-cols-6 gap-4'>
+              <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-8'>
                 {board.map((chest, index) => (
                   <div
                     key={index}
@@ -157,7 +157,7 @@ const BountyBlast = () => {
                     <img
                       src={chest.img}
                       alt={chest.type}
-                      className='card-img w-1/2'
+                      className='card-img w-24 sm:w-32 md:w-42 lg:w-44'
                     />
                   </div>
                 ))}
@@ -165,25 +165,24 @@ const BountyBlast = () => {
             </div>
           </div>
           {message && (
-            <div className='mt-auto mb-10 p-4 rounded bg-neutral text-neutral-content border border-secondary text-center text-lg font-semibold max-w-[70vw]'>
+            <div className='mt-auto mb-4 p-4 rounded bg-neutral text-neutral-content border border-secondary text-center text-lg font-semibold max-w-[70vw]'>
               {message}
             </div>
           )}
-          <button
-            onClick={() => {
-              setGameStarted(false);
-              setMessage('');
-            }}
-            className='btn btn-primary absolute bottom-4 left-4'
-          >
-            Return to Game Start
-          </button>
-          <button
-            onClick={restartRound}
-            className='btn btn-primary absolute bottom-4 right-4'
-          >
-            Restart Round
-          </button>
+          <div className='flex justify-between w-full p-4'>
+            <button
+              onClick={() => {
+                setGameStarted(false);
+                setMessage('');
+              }}
+              className='btn btn-primary'
+            >
+              Return to Game Start
+            </button>
+            <button onClick={restartRound} className='btn btn-primary'>
+              Restart Round
+            </button>
+          </div>
         </div>
       )}
     </div>
