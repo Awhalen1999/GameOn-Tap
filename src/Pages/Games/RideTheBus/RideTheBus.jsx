@@ -267,7 +267,7 @@ const RideTheBus = () => {
             <p className='text-center text-xl font-bold mb-6 text-base-content'>
               You are on card {drawnCards.length} of {number}.
             </p>
-            <p className='text-center text-xl font-bold mb-6 text-base-content'>
+            <p className='text-center sm:text-xl text-base font-bold mb-6 text-base-content'>
               {ruleSet === 'higher/lower'
                 ? `Will the next card be lower, equal, or higher than ${drawnCards[
                     drawnCards.length - 1
