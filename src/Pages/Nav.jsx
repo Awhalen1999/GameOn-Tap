@@ -147,15 +147,9 @@ const Nav = () => {
         </div>
         {/* center */}
         <div className='navbar bg-base-100'>
-          {isHomePage ? (
-            <span className='text-3xl font-bold ml-2 font-pixel'>
-              GameOn Tap
-            </span>
-          ) : (
-            <Link to='/' className='btn btn-ghost text-3xl font-pixel'>
-              GameOn Tap
-            </Link>
-          )}
+          <Link to='/' className='btn btn-ghost text-3xl font-pixel'>
+            GameOn Tap
+          </Link>
         </div>
       </div>
       <div className='navbar-center hidden lg:flex text-2xl font-bold text-primary'>
