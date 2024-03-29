@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import placeholderCard from '../../../cards/red.png';
+import placeholderCard from '../../../assets/red.png';
 import initialDeck from '../DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
@@ -29,7 +29,7 @@ const RideTheBus = () => {
     const loadImages = async () => {
       let images = {};
       for (let card of initialDeck) {
-        images[card] = (await import(`../../../cards/${card}.png`)).default;
+        images[card] = (await import(`../../../assets/${card}.png`)).default;
       }
       setCardImages(images);
     };

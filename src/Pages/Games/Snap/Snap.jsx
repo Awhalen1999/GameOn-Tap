@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../DeckOfCards';
-import placeholderCard from '../../../cards/red.png';
+import placeholderCard from '../../../assets/red.png';
 import { FaInfoCircle } from 'react-icons/fa';
 
 const Snap = () => {
@@ -21,7 +21,7 @@ const Snap = () => {
     const loadImages = async () => {
       let images = {};
       for (let card of initialDeck) {
-        images[card] = (await import(`../../../cards/${card}.png`)).default;
+        images[card] = (await import(`../../../assets/${card}.png`)).default;
       }
       setCardImages(images);
     };
