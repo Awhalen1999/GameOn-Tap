@@ -14,6 +14,13 @@ const RideTheBus = () => {
   const [guessStatus, setGuessStatus] = useState('');
   const [ruleSet, setRuleSet] = useState('higher/lower');
   const [lastNumber, setLastNumber] = useState(1);
+  const [bgColor, setBgColor] = useState('base');
+
+  const handleIncorrectGuess = () => {
+    setGuessStatus('incorrect');
+    setBgColor('error');
+    setTimeout(() => setBgColor('base'), 500);
+  };
 
   useEffect(() => {
     if (guessStatus !== '') {
@@ -108,6 +115,7 @@ const RideTheBus = () => {
         checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
+        handleIncorrectGuess();
       }
     }
   };
@@ -123,6 +131,7 @@ const RideTheBus = () => {
         checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
+        handleIncorrectGuess();
       }
     }
   };
@@ -138,6 +147,7 @@ const RideTheBus = () => {
         checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
+        handleIncorrectGuess();
       }
     }
   };
@@ -152,6 +162,7 @@ const RideTheBus = () => {
         checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
+        handleIncorrectGuess();
       }
     }
   };
@@ -167,6 +178,7 @@ const RideTheBus = () => {
         checkGameEnd(newDrawnCards);
       } else {
         setGuessStatus('incorrect');
+        handleIncorrectGuess();
       }
     }
   };
@@ -186,7 +198,11 @@ const RideTheBus = () => {
   };
 
   return (
-    <div className='flex flex-col h-full font-space p-2'>
+    <div
+      className={`flex flex-col h-full font-space p-2 transition-colors duration-500 ${
+        bgColor === 'error' ? 'bg-error' : 'bg-base'
+      }`}
+    >
       {/* Reset game button */}
       <div className='absolute bottom-0 right-0 m-4'>
         <button onClick={resetGame} className='btn btn-success'>
