@@ -31,7 +31,7 @@ const LoginPage = () => {
           </button>
         </form>
         <h2 className='text-2xl font-bold text-center mt-4 mb-6'>
-          {isLogin ? 'Login' : 'Register'}
+          {isLogin ? 'Login' : 'Sign-up'}
         </h2>
         <form>
           {!isLogin && (
@@ -76,14 +76,17 @@ const LoginPage = () => {
               )}
             </button>
           </label>
-          <button type='submit' className='btn btn-primary w-full mb-4'>
-            {isLogin ? 'Login' : 'Register'}
+          <button type='submit' className='btn btn-primary w-full mb-4 text-lg'>
+            {isLogin ? 'Login' : 'Sign-up'}
           </button>
         </form>
-        <p>
+        <p className=' text-lg'>
           {isLogin ? `Don't have an account?` : 'Already have an account?'}
-          <span onClick={switchForm} className='text-blue-500 cursor-pointer'>
-            {isLogin ? ' Register' : ' Login'}
+          <span
+            onClick={switchForm}
+            className='text-primary cursor-pointer font-semibold'
+          >
+            {isLogin ? '  Sign-up' : '  Login'}
           </span>
         </p>
       </div>
