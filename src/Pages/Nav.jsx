@@ -11,6 +11,7 @@ import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import useActiveRuleset from './UseActiveRuleset.js';
+import LoginPage from './LoginPage.jsx';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -200,8 +201,14 @@ const Nav = () => {
           </li>
         </ul>
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
-          <a className=' btn-outline btn ml-2'>Login</a>
+          <button
+            className='btn-outline btn ml-2'
+            onClick={() => document.getElementById('login_modal').showModal()}
+          >
+            Login
+          </button>
         </li>
+        <LoginPage />
       </div>
       <dialog
         id={`${location.pathname.slice(1)}-rules`}
