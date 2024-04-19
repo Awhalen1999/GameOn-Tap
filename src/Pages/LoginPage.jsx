@@ -24,7 +24,7 @@ const LoginPage = () => {
 
   return (
     <dialog id='login_modal' className='modal backdrop-blur-sm'>
-      <div className='modal-box px-6 py-10'>
+      <div className='modal-box px-6 py-10 border border-base-content'>
         <form method='dialog'>
           <button className='absolute top-0 right-0 btn'>
             <IoClose size={24} />
