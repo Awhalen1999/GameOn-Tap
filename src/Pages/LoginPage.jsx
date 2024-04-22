@@ -9,17 +9,40 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const switchForm = () => {
     setIsLogin(!isLogin);
     setUsername('');
     setEmail('');
     setPassword('');
+    setError(null);
   };
 
   const togglePasswordVisibility = (event) => {
     event.preventDefault();
     setPasswordVisible(!passwordVisible);
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+    // fetch login
+    // If successful, redirect the user to the home page
+    // If an error occurs, return error
+    setLoading(false);
+  };
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+    // fetch sign up
+    // If successful, redirect the user to the home page
+    // If an error occurs, return error
+    setLoading(false);
   };
 
   return (
@@ -33,7 +56,7 @@ const LoginPage = () => {
         <h2 className='text-2xl font-bold text-center mt-4 mb-6'>
           {isLogin ? 'Login' : 'Sign-up'}
         </h2>
-        <form>
+        <form onSubmit={isLogin ? handleLogin : handleSignUp}>
           {!isLogin && (
             <label className='input input-bordered flex items-center gap-2 mb-4'>
               <FaUser />
@@ -76,10 +99,15 @@ const LoginPage = () => {
               )}
             </button>
           </label>
-          <button type='submit' className='btn btn-primary w-full mb-4 text-lg'>
+          <button
+            type='submit'
+            className='btn btn-primary w-full mb-4 text-lg'
+            disabled={loading}
+          >
             {isLogin ? 'Login' : 'Sign-up'}
           </button>
         </form>
+        {error && <p className='text-red-500'>{error}</p>}
         <p className=' text-lg'>
           {isLogin ? `Don't have an account?` : 'Already have an account?'}
           <span
