@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IoClose, IoMail } from 'react-icons/io5';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
+import { useHistory } from 'react-router-dom';
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,24 +26,40 @@ const LoginPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const history = useHistory();
+
   const handleLogin = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
-    // fetch login
-    // If successful, redirect the user to the home page
-    // If an error occurs, return error
-    setLoading(false);
+
+    const response = await fetch('/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      // If the login was successful, redirect to the home page
+      history.push('/');
+    }
   };
 
   const handleSignUp = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(null);
-    // fetch sign up
-    // If successful, redirect the user to the home page
-    // If an error occurs, return error
-    setLoading(false);
+
+    const response = await fetch('/users/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    if (response.ok) {
+      // If the signup was successful, redirect to the home page
+      history.push('/');
+    }
   };
 
   return (
