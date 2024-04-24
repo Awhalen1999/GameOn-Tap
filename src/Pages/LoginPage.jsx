@@ -40,7 +40,7 @@ const LoginPage = () => {
     });
 
     if (response.ok) {
-      // If the login was successful, redirect to the home page1
+      // If the login was successful, redirect to the home page
       history.push('/');
     }
   };
