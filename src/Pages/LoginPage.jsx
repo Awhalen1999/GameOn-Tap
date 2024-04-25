@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoClose, IoMail } from 'react-icons/io5';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -26,7 +26,7 @@ const LoginPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const history = useHistory();
+  const navigate = navigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ const LoginPage = () => {
 
     if (response.ok) {
       // If the login was successful, redirect to the home page
-      history.push('/');
+      navigate('/');
     }
   };
 
@@ -58,7 +58,7 @@ const LoginPage = () => {
 
     if (response.ok) {
       // If the signup was successful, redirect to the home page
-      history.push('/');
+      navigate('/');
     }
   };
 
