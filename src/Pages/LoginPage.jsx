@@ -26,10 +26,16 @@ const LoginPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const navigate = navigate();
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
+
+    // api.login({email, password})
+
+    // login() {
+    //   await fetch(`${baseUrl}/users/login`)
+    // }
 
     const response = await fetch('/users/login', {
       method: 'POST',
