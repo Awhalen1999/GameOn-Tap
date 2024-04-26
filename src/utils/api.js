@@ -45,7 +45,7 @@ const defaultActiveRulesets = {
   BountyBlast: 'default',
 };
 
-// this gets all rulesets for a game (works)
+// this gets all rulesets for a game (works), setup fetch for .get rulesets for user and game
 export async function getRulesets(gameName) {
   const storedRulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   const gameRulesets = storedRulesets[gameName] || {};
@@ -57,14 +57,14 @@ export async function getRulesets(gameName) {
   };
 }
 
-// this gets the active ruleset for a game (works)
+// this gets the active ruleset for a game (works), setup fetch for .get active ruleset route
 export async function getActiveRuleset(gameName) {
   const activeRulesets =
     JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
   return activeRulesets[gameName] || defaultActiveRulesets[gameName];
 }
 
-// this sets the active ruleset for a game (works)
+// this sets the active ruleset for a game (works), setup fetch for .put active ruleset route
 export async function setActiveRuleset(gameName, rulesetTitle) {
   const activeRulesets =
     JSON.parse(localStorage.getItem('activeRulesets')) || {};
