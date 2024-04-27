@@ -75,7 +75,7 @@ export async function setActiveRuleset(gameName, rulesetTitle) {
   window.dispatchEvent(new CustomEvent('activeRulesetChanged'));
 }
 
-// Save a ruleset for a game (works)
+// Save a ruleset for a game (works), setup fetch for .post ruleset route
 export async function saveRuleset(gameName, rulesetTitle, rules) {
   const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   rulesets[gameName] = rulesets[gameName] || {};
@@ -83,7 +83,7 @@ export async function saveRuleset(gameName, rulesetTitle, rules) {
   localStorage.setItem('rulesets', JSON.stringify(rulesets));
 }
 
-// Delete a ruleset for a game
+// Delete a ruleset for a game, setup fetch for .delete ruleset route
 export async function deleteRuleset(gameName, rulesetTitle) {
   const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
   const activeRulesets =
@@ -106,28 +106,3 @@ export async function deleteRuleset(gameName, rulesetTitle) {
     }
   }
 }
-
-/**
- *
- * rulesets[game][rulesetName]
- *
- * 'rulesets'
- * rulesets: {
- *   KingsCup: {
- *     default: {
- *
- *     },
- *     myCustomRules: { 'custom rule1', 'custom rule2' }
- *
- *     }
- *   }
- * }
- *
- * activeRulesets[game]
- *
- * 'activeRulesets'
- * activeRulesets: {
- *   KingsCup: 'custom rule1',
- *   RideTheBus: 'custom rule2',
- * }
- */
