@@ -3,6 +3,7 @@ import { IoClose, IoMail } from 'react-icons/io5';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { loginUser, signupUser } from '../utils/api.js';
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -30,41 +31,31 @@ const LoginPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    // api.login({email, password})
-
-    // login() {
-    //   await fetch(`${baseUrl}/users/login`)
-    // }
-
-    const response = await fetch('/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (response.ok) {
-      // If the login was successful, redirect to the home page
+    try {
+      await loginUser(email, password);
       navigate('/');
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSignUp = async (event) => {
     event.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    const response = await fetch('/users/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, email, password }),
-    });
-
-    if (response.ok) {
-      // If the signup was successful, redirect to the home page
+    try {
+      await signupUser(username, email, password);
       navigate('/');
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 

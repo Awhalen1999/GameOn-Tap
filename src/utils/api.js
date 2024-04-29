@@ -1,49 +1,38 @@
-import KingsCupRules from '../Pages/Games/KingsCup/KingsCupRules.js';
-import RideTheBusRules from '../Pages/Games/RideTheBus/RideTheBusRules.js';
-import SnapRules from '../Pages/Games/Snap/SnapRules.js';
-import TriviaRules from '../Pages/Games/Trivia/TriviaRules.js';
-import PromptDashRules from '../Pages/Games/PromptDash/PromptDashRules.js';
-import DiceRollRules from '../Pages/Games/DiceRoll/DiceRollRules.js';
-import DrinkRouletteRules from '../Pages/Games/DrinkRoulette/DrinkRouletteRules.js';
-import BountyBlastRules from '../Pages/Games/BountyBlast/BountyBlastRules.js';
+// Signup
+export async function signupUser(username, email, password) {
+  const response = await fetch('http://localhost:3000/users/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, email, password }),
+  });
 
-const defaultRulesets = {
-  KingsCup: {
-    default: KingsCupRules,
-  },
-  RideTheBus: {
-    default: RideTheBusRules,
-  },
-  Snap: {
-    default: SnapRules,
-  },
-  Trivia: {
-    default: TriviaRules,
-  },
-  PromptDash: {
-    default: PromptDashRules,
-  },
-  DiceRoll: {
-    default: DiceRollRules,
-  },
-  DrinkRoulette: {
-    default: DrinkRouletteRules,
-  },
-  BountyBlast: {
-    default: BountyBlastRules,
-  },
-};
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
 
-const defaultActiveRulesets = {
-  KingsCup: 'default',
-  RideTheBus: 'default',
-  Snap: 'default',
-  Trivia: 'default',
-  PromptDash: 'default',
-  DiceRoll: 'default',
-  DrinkRoulette: 'default',
-  BountyBlast: 'default',
-};
+  return response.json();
+}
+
+//login
+export async function loginUser(email, password) {
+  const response = await fetch('http://localhost:3000/users/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
+}
 
 // this gets all rulesets for a game (works), setup fetch for .get rulesets for user and game
 export async function getRulesets(gameName) {
