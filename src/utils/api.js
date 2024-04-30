@@ -34,64 +34,92 @@ export async function loginUser(email, password) {
   return response.json();
 }
 
-// this gets all rulesets for a game (works), setup fetch for .get rulesets for user and game
-export async function getRulesets(gameName) {
-  const storedRulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
-  const gameRulesets = storedRulesets[gameName] || {};
-  const defaultGameRuleset = defaultRulesets[gameName];
+// Get all rulesets for a specific user and game
+export async function getRulesets(userId, gameId) {
+  const response = await fetch(
+    `http://localhost:3000/users/${userId}/${gameId}/rulesets`
+  );
 
-  return {
-    ...defaultGameRuleset,
-    ...gameRulesets,
-  };
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
 }
 
-// this gets the active ruleset for a game (works), setup fetch for .get active ruleset route
-export async function getActiveRuleset(gameName) {
-  const activeRulesets =
-    JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
-  return activeRulesets[gameName] || defaultActiveRulesets[gameName];
+// Get the active ruleset for a specific user and game
+export async function getActiveRuleset(userId, gameId) {
+  const response = await fetch(
+    `http://localhost:3000/users/${userId}/${gameId}/activeRuleset`
+  );
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
 }
 
-// this sets the active ruleset for a game (works), setup fetch for .put active ruleset route
-export async function setActiveRuleset(gameName, rulesetTitle) {
-  const activeRulesets =
-    JSON.parse(localStorage.getItem('activeRulesets')) || {};
-  activeRulesets[gameName] = rulesetTitle;
-  localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
+// Update the active ruleset for a specific user and game
+export async function setActiveRuleset(userId, gameId, rulesetId) {
+  const response = await fetch(
+    `http://localhost:3000/users/${userId}/${gameId}/activeRuleset`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ rulesetId }),
+    }
+  );
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
 
   // Dispatch a custom event after setting the active ruleset
   window.dispatchEvent(new CustomEvent('activeRulesetChanged'));
+
+  return response.json();
 }
 
-// Save a ruleset for a game (works), setup fetch for .post ruleset route
-export async function saveRuleset(gameName, rulesetTitle, rules) {
-  const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
-  rulesets[gameName] = rulesets[gameName] || {};
-  rulesets[gameName][rulesetTitle] = { ...rules };
-  localStorage.setItem('rulesets', JSON.stringify(rulesets));
-}
-
-// Delete a ruleset for a game, setup fetch for .delete ruleset route
-export async function deleteRuleset(gameName, rulesetTitle) {
-  const rulesets = JSON.parse(localStorage.getItem('rulesets')) || {};
-  const activeRulesets =
-    JSON.parse(localStorage.getItem('activeRulesets')) || defaultActiveRulesets;
-
-  if (rulesets[gameName]) {
-    // Prevent deleting 'default' ruleset
-    if (rulesetTitle === 'default') {
-      console.error("Cannot delete 'default' ruleset");
-      return;
+// Save a ruleset for a specific user and game
+export async function saveRuleset(userId, gameId, rulesetName, rules) {
+  const response = await fetch(
+    `http://localhost:3000/users/${userId}/${gameId}/rulesets`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: rulesetName, rules }),
     }
+  );
 
-    delete rulesets[gameName][rulesetTitle];
-    localStorage.setItem('rulesets', JSON.stringify(rulesets));
-
-    // If the deleted ruleset was the active one, set the active ruleset to 'default'
-    if (activeRulesets[gameName] === rulesetTitle) {
-      activeRulesets[gameName] = 'default';
-      localStorage.setItem('activeRulesets', JSON.stringify(activeRulesets));
-    }
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
   }
+
+  return response.json();
+}
+
+// Delete a ruleset for a specific user and game
+export async function deleteRuleset(userId, gameId, rulesetId) {
+  const response = await fetch(
+    `http://localhost:3000/users/${userId}/${gameId}/rulesets/${rulesetId}`,
+    {
+      method: 'DELETE',
+    }
+  );
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
 }
