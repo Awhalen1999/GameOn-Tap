@@ -1,6 +1,8 @@
+const baseURL = 'http://localhost:3000';
+
 // Signup
 export async function signupUser(username, email, password) {
-  const response = await fetch('http://localhost:3000/users/signup', {
+  const response = await fetch(`${baseURL}/users/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +20,7 @@ export async function signupUser(username, email, password) {
 
 //login
 export async function loginUser(email, password) {
-  const response = await fetch('http://localhost:3000/users/login', {
+  const response = await fetch(`${baseURL}/users/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,9 +38,7 @@ export async function loginUser(email, password) {
 
 // Get all rulesets for a specific user and game
 export async function getRulesets(userId, gameId) {
-  const response = await fetch(
-    `http://localhost:3000/users/${userId}/${gameId}/rulesets`
-  );
+  const response = await fetch(`${baseURL}/users/${userId}/${gameId}/rulesets`);
 
   if (!response.ok) {
     const message = await response.json();
@@ -51,7 +51,7 @@ export async function getRulesets(userId, gameId) {
 // Get the active ruleset for a specific user and game
 export async function getActiveRuleset(userId, gameId) {
   const response = await fetch(
-    `http://localhost:3000/users/${userId}/${gameId}/activeRuleset`
+    `${baseURL}/users/${userId}/${gameId}/activeRuleset`
   );
 
   if (!response.ok) {
@@ -65,7 +65,7 @@ export async function getActiveRuleset(userId, gameId) {
 // Update the active ruleset for a specific user and game
 export async function setActiveRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
-    `http://localhost:3000/users/${userId}/${gameId}/activeRuleset`,
+    `${baseURL}/users/${userId}/${gameId}/activeRuleset`,
     {
       method: 'PUT',
       headers: {
@@ -89,7 +89,7 @@ export async function setActiveRuleset(userId, gameId, rulesetId) {
 // Save a ruleset for a specific user and game
 export async function saveRuleset(userId, gameId, rulesetName, rules) {
   const response = await fetch(
-    `http://localhost:3000/users/${userId}/${gameId}/rulesets`,
+    `${baseURL}/users/${userId}/${gameId}/rulesets`,
     {
       method: 'POST',
       headers: {
@@ -110,7 +110,7 @@ export async function saveRuleset(userId, gameId, rulesetName, rules) {
 // Delete a ruleset for a specific user and game
 export async function deleteRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
-    `http://localhost:3000/users/${userId}/${gameId}/rulesets/${rulesetId}`,
+    `${baseURL}/users/${userId}/${gameId}/rulesets/${rulesetId}`,
     {
       method: 'DELETE',
     }
