@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { IoClose, IoMail } from 'react-icons/io5';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
 import { loginUser, signupUser } from '../utils/api.js';
 
 const LoginPage = () => {
@@ -13,6 +12,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const switchForm = () => {
     setIsLogin(!isLogin);
@@ -27,8 +27,6 @@ const LoginPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const navigate = useNavigate();
-
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -36,7 +34,7 @@ const LoginPage = () => {
 
     try {
       await loginUser(email, password);
-      navigate('/');
+      setIsModalOpen(false);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -51,7 +49,7 @@ const LoginPage = () => {
 
     try {
       await signupUser(username, email, password);
-      navigate('/');
+      setIsModalOpen(false);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -60,79 +58,85 @@ const LoginPage = () => {
   };
 
   return (
-    <dialog id='login_modal' className='modal backdrop-blur-sm'>
-      <div className='modal-box px-6 py-10 border border-base-content'>
-        <form method='dialog'>
-          <button className='absolute top-0 right-0 btn'>
-            <IoClose size={24} />
-          </button>
-        </form>
-        <h2 className='text-2xl font-bold text-center mt-4 mb-6'>
-          {isLogin ? 'Login' : 'Sign-up'}
-        </h2>
-        <form onSubmit={isLogin ? handleLogin : handleSignUp}>
-          {!isLogin && (
+    isModalOpen && (
+      <dialog
+        id='login_modal'
+        className='modal backdrop-blur-sm'
+        open={isModalOpen}
+      >
+        <div className='modal-box px-6 py-10 border border-base-content'>
+          <form method='dialog'>
+            <button className='absolute top-0 right-0 btn'>
+              <IoClose size={24} />
+            </button>
+          </form>
+          <h2 className='text-2xl font-bold text-center mt-4 mb-6'>
+            {isLogin ? 'Login' : 'Sign-up'}
+          </h2>
+          <form onSubmit={isLogin ? handleLogin : handleSignUp}>
+            {!isLogin && (
+              <label className='input input-bordered flex items-center gap-2 mb-4'>
+                <FaUser />
+                <input
+                  type='text'
+                  className='grow'
+                  placeholder='Username'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
+            )}
             <label className='input input-bordered flex items-center gap-2 mb-4'>
-              <FaUser />
+              <IoMail />
               <input
                 type='text'
                 className='grow'
-                placeholder='Username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder='Email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
-          )}
-          <label className='input input-bordered flex items-center gap-2 mb-4'>
-            <IoMail />
-            <input
-              type='text'
-              className='grow'
-              placeholder='Email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label className='input input-bordered flex items-center gap-2 mb-4'>
-            <FaLock />
-            <input
-              type={passwordVisible ? 'text' : 'password'}
-              className='grow'
-              placeholder='Password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <label className='input input-bordered flex items-center gap-2 mb-4'>
+              <FaLock />
+              <input
+                type={passwordVisible ? 'text' : 'password'}
+                className='grow'
+                placeholder='Password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                onClick={togglePasswordVisibility}
+                className='focus:outline-none'
+              >
+                {passwordVisible ? (
+                  <IoMdEye size={24} />
+                ) : (
+                  <IoMdEyeOff size={24} />
+                )}
+              </button>
+            </label>
             <button
-              onClick={togglePasswordVisibility}
-              className='focus:outline-none'
+              type='submit'
+              className='btn btn-primary w-full mb-4 text-lg'
+              disabled={loading}
             >
-              {passwordVisible ? (
-                <IoMdEye size={24} />
-              ) : (
-                <IoMdEyeOff size={24} />
-              )}
+              {isLogin ? 'Login' : 'Sign-up'}
             </button>
-          </label>
-          <button
-            type='submit'
-            className='btn btn-primary w-full mb-4 text-lg'
-            disabled={loading}
-          >
-            {isLogin ? 'Login' : 'Sign-up'}
-          </button>
-        </form>
-        {error && <p className='text-red-500'>{error}</p>}
-        <p className=' text-lg'>
-          {isLogin ? `Don't have an account?` : 'Already have an account?'}
-          <span
-            onClick={switchForm}
-            className='text-primary cursor-pointer font-semibold'
-          >
-            {isLogin ? '  Sign-up' : '  Login'}
-          </span>
-        </p>
-      </div>
-    </dialog>
+          </form>
+          {error && <p className='text-red-500'>{error}</p>}
+          <p className=' text-lg'>
+            {isLogin ? `Don't have an account?` : 'Already have an account?'}
+            <span
+              onClick={switchForm}
+              className='text-primary cursor-pointer font-semibold'
+            >
+              {isLogin ? '  Sign-up' : '  Login'}
+            </span>
+          </p>
+        </div>
+      </dialog>
+    )
   );
 };
 
