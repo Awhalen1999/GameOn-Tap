@@ -80,9 +80,6 @@ export async function setActiveRuleset(userId, gameId, rulesetId) {
     throw new Error(message);
   }
 
-  // Dispatch a custom event after setting the active ruleset
-  window.dispatchEvent(new CustomEvent('activeRulesetChanged'));
-
   return response.json();
 }
 
