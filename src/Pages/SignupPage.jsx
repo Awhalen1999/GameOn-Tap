@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { loginUser } from '../utils/api.js';
+import { signupUser } from '../utils/api.js';
 import { useNavigate, Link } from 'react-router-dom';
 
-const LoginPage = () => {
+const SignupPage = () => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
+  const handleSignup = async (event) => {
     event.preventDefault();
     try {
-      const response = await loginUser(email, password);
+      const response = await signupUser(username, email, password);
       navigate('/');
     } catch (error) {
-      setError('Invalid email or password');
+      setError('Failed to create account');
     }
   };
 
@@ -29,17 +30,33 @@ const LoginPage = () => {
             Login or create an account to access all the features of GameOn Tap.
           </p>
           <p className='flex flex-col items-center justify-center mt-8 text-center'>
-            <span>Don't have an account?</span>
-            <Link to='/signup' className='underline font-bold'>
-              Get Started!
+            <span>Already have an account?</span>
+            <Link to='/login' className='underline font-bold'>
+              Login!
             </Link>
           </p>
         </div>
         <div className='p-5 bg-white md:flex-1'>
           <h3 className='my-4 text-2xl font-semibold text-black'>
-            Account Login
+            Account Signup
           </h3>
-          <form className='flex flex-col space-y-5' onSubmit={handleLogin}>
+          <form className='flex flex-col space-y-5' onSubmit={handleSignup}>
+            <div className='flex flex-col space-y-1'>
+              <label
+                htmlFor='username'
+                className='text-sm font-semibold text-gray-600'
+              >
+                Username
+              </label>
+              <input
+                type='text'
+                id='username'
+                autoFocus
+                className='px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary text-black'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
             <div className='flex flex-col space-y-1'>
               <label
                 htmlFor='email'
@@ -50,21 +67,18 @@ const LoginPage = () => {
               <input
                 type='email'
                 id='email'
-                autoFocus
                 className='px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary text-black'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className='flex flex-col space-y-1'>
-              <div className='flex items-center justify-between'>
-                <label
-                  htmlFor='password'
-                  className='text-sm font-semibold text-gray-600'
-                >
-                  Password
-                </label>
-              </div>
+              <label
+                htmlFor='password'
+                className='text-sm font-semibold text-gray-600'
+              >
+                Password
+              </label>
               <input
                 type='password'
                 id='password'
@@ -79,7 +93,7 @@ const LoginPage = () => {
                 type='submit'
                 className='w-full px-4 py-2 text-lg font-semibold text-primary-content bg-primary rounded'
               >
-                Log in
+                Sign up
               </button>
             </div>
           </form>
@@ -89,4 +103,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

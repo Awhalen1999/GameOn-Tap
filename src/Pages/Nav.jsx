@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import RideTheBusRules from './Games/RideTheBus/RideTheBusRules.js';
 import SnapRules from './Games/Snap/SnapRules.js';
@@ -11,7 +11,6 @@ import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import useActiveRuleset from './UseActiveRuleset.js';
-import LoginPage from './LoginPage.jsx';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -23,24 +22,12 @@ const Nav = () => {
   };
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
+
   const isGamePage = location.pathname === '/GamePage';
   const game = location.pathname.split('/')[2];
 
   // this gets the active ruleset for a game from my UseActiveRuleset.js import
   const activeRuleset = useActiveRuleset(game);
-
-  const gameRules = {
-    '/games/KingsCup': KingsCupRules,
-    '/games/RideTheBus': RideTheBusRules,
-    '/games/Snap': SnapRules,
-    '/games/Trivia': TriviaRules,
-    '/games/PromptDash': PromptDashRules,
-    '/games/DiceRoll': DiceRollRules,
-    '/games/DrinkRoulette': DrinkRouletteRules,
-    '/games/BountyBlast': BountyBlastRules,
-  };
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -203,12 +190,11 @@ const Nav = () => {
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
           <button
             className='btn-outline btn ml-2'
-            onClick={() => document.getElementById('login_modal').showModal()}
+            onClick={() => navigate('/login')}
           >
             Login
           </button>
         </li>
-        <LoginPage />
       </div>
       <dialog
         id={`${location.pathname.slice(1)}-rules`}

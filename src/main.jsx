@@ -16,6 +16,8 @@ import AIbartender from './Pages/Games/AIBartender/AIBartender';
 import BountyBlast from './Pages/Games/BountyBlast/BountyBlast';
 import EditRulesPage from './Pages/EditRulesPage';
 import GamePage from './Pages/GamePage/GamePage';
+import SignupPage from './Pages/SignupPage';
+import LoginPage from './Pages/LoginPage';
 
 const router = createBrowserRouter(
   [
@@ -24,6 +26,8 @@ const router = createBrowserRouter(
       element: <Layout />,
       children: [
         { path: '', element: <Index /> },
+        { path: 'login', element: <LoginPage /> },
+        { path: 'signup', element: <SignupPage /> },
         { path: 'GamePage', element: <GamePage /> },
         { path: 'games/KingsCup', element: <KingsCup /> },
         { path: 'games/RideTheBus', element: <RideTheBus /> },
