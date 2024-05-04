@@ -1,3 +1,8 @@
+// todo
+// fix error message
+// type password twice to confirm
+// placeholders and react icons
+
 import React, { useState } from 'react';
 import { signupUser } from '../utils/api.js';
 import { useNavigate, Link } from 'react-router-dom';
