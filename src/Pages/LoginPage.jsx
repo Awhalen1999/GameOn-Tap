@@ -2,10 +2,11 @@
 // placeholders and react icons
 // hover color change for login and signup page buttons
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { loginUser } from '../utils/api.js';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
+import { UserContext } from '../utils/UserContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -13,11 +14,13 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await loginUser(email, password);
+      const user = await loginUser(email, password);
+      setUser(user);
       navigate('/');
     } catch (error) {
       setError('Invalid email or password');
@@ -96,7 +99,7 @@ const LoginPage = () => {
                     <input
                       type='checkbox'
                       id='showPassword'
-                      Checked={showPassword}
+                      checked={showPassword}
                       onChange={togglePasswordVisibility}
                       className='ml-2 checkbox checkbox-primary checkbox-sm'
                     />

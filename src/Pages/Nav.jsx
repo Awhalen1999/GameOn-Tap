@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import RideTheBusRules from './Games/RideTheBus/RideTheBusRules.js';
@@ -11,6 +11,8 @@ import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
 import { FaWrench } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import useActiveRuleset from './UseActiveRuleset.js';
+import { UserContext } from '../utils/UserContext';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -84,6 +86,8 @@ const Nav = () => {
     location.pathname.includes('games') &&
     !location.pathname.endsWith('AIBartender')
   );
+
+  const { user } = useContext(UserContext);
 
   return (
     <div className='navbar bg-base-100 h-20 font-space'>
@@ -200,12 +204,21 @@ const Nav = () => {
           </li>
         </ul>
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
-          <button
-            className='btn-outline btn ml-2'
-            onClick={() => navigate('/login')}
-          >
-            Login
-          </button>
+          {user ? (
+            <button
+              className='btn-ghost btn ml-2'
+              onClick={() => navigate('/user')}
+            >
+              <FaUserCircle className='text-3xl' />
+            </button>
+          ) : (
+            <button
+              className='btn-outline btn ml-2'
+              onClick={() => navigate('/login')}
+            >
+              Login
+            </button>
+          )}
         </li>
       </div>
       <dialog

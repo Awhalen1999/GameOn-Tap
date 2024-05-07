@@ -18,6 +18,8 @@ import EditRulesPage from './Pages/EditRulesPage';
 import GamePage from './Pages/GamePage/GamePage';
 import SignupPage from './Pages/SignupPage';
 import LoginPage from './Pages/LoginPage';
+import UserPage from './Pages/UserPage';
+import { UserProvider } from './utils/UserContext';
 
 const router = createBrowserRouter(
   [
@@ -28,6 +30,7 @@ const router = createBrowserRouter(
         { path: '', element: <Index /> },
         { path: 'login', element: <LoginPage /> },
         { path: 'signup', element: <SignupPage /> },
+        { path: 'user', element: <UserPage /> },
         { path: 'GamePage', element: <GamePage /> },
         { path: 'games/KingsCup', element: <KingsCup /> },
         { path: 'games/RideTheBus', element: <RideTheBus /> },
@@ -50,6 +53,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
