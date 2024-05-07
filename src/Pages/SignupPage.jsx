@@ -3,10 +3,11 @@
 // type password twice to confirm
 // fix navigate to -1 vs home
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { signupUser } from '../utils/api.js';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
+import { UserContext } from '../utils/UserContext';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
@@ -15,11 +16,13 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   const handleSignup = async (event) => {
     event.preventDefault();
     try {
-      const response = await signupUser(username, email, password);
+      const user = await signupUser(username, email, password);
+      setUser(user);
       navigate('/');
     } catch (error) {
       setError('Failed to create account');

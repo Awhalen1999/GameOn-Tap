@@ -206,14 +206,14 @@ const Nav = () => {
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
           {user ? (
             <button
-              className='btn-ghost btn ml-2'
+              className='btn-ghost btn '
               onClick={() => navigate('/user')}
             >
               <FaUserCircle className='text-3xl' />
             </button>
           ) : (
             <button
-              className='btn-outline btn ml-2'
+              className='btn-outline btn '
               onClick={() => navigate('/login')}
             >
               Login
