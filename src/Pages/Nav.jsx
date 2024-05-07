@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
 import RideTheBusRules from './Games/RideTheBus/RideTheBusRules.js';
 import SnapRules from './Games/Snap/SnapRules.js';
@@ -22,6 +22,7 @@ const Nav = () => {
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isGamePage = location.pathname === '/GamePage';
   const game = location.pathname.split('/')[2];
@@ -32,6 +33,17 @@ const Nav = () => {
   useEffect(() => {
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  const gameRules = {
+    '/games/KingsCup': KingsCupRules,
+    '/games/RideTheBus': RideTheBusRules,
+    '/games/Snap': SnapRules,
+    '/games/Trivia': TriviaRules,
+    '/games/PromptDash': PromptDashRules,
+    '/games/DiceRoll': DiceRollRules,
+    '/games/DrinkRoulette': DrinkRouletteRules,
+    '/games/BountyBlast': BountyBlastRules,
+  };
 
   const gameTitlesButton = {
     '/games/KingsCup': 'Kings Cup Rules',
@@ -148,7 +160,7 @@ const Nav = () => {
         <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
           {!isGamePage && (
             <li>
-              <Link to='/GamePage' className='btn btn-ghost mr-2'>
+              <Link to='/GamePage' className='btn btn-ghost'>
                 Games
               </Link>
             </li>

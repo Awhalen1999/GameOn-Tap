@@ -1,7 +1,6 @@
 // todo
 // fix error message
 // type password twice to confirm
-// placeholders and react icons
 // fix navigate to -1 vs home
 
 import React, { useState } from 'react';

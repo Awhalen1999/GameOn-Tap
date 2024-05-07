@@ -1,7 +1,6 @@
 //todo
 // placeholders and react icons
 // hover color change for login and signup page buttons
-// add close/back buttons
 
 import React, { useState } from 'react';
 import { loginUser } from '../utils/api.js';
