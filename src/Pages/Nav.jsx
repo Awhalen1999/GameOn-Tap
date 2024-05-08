@@ -8,11 +8,10 @@ import PromptDashRules from './Games/PromptDash/PromptDashRules.js';
 import DiceRollRules from './Games/DiceRoll/DiceRollRules';
 import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
 import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
-import { FaWrench } from 'react-icons/fa';
+import { UserContext } from '../utils/UserContext';
+import { FaWrench, FaUserCircle } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import useActiveRuleset from './UseActiveRuleset.js';
-import { UserContext } from '../utils/UserContext';
-import { FaUserCircle } from 'react-icons/fa';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
@@ -31,10 +30,6 @@ const Nav = () => {
 
   // this gets the active ruleset for a game from my UseActiveRuleset.js import
   const activeRuleset = useActiveRuleset(game);
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
 
   const gameRules = {
     '/games/KingsCup': KingsCupRules,
@@ -221,12 +216,12 @@ const Nav = () => {
           )}
         </li>
       </div>
+      {/* modal */}
       <dialog
         id={`${location.pathname.slice(1)}-rules`}
         className='modal modal-bottom sm:modal-middle'
       >
         <div className='modal-box p-0'>
-          {/* modal */}
           <div className='navbar bg-base-100 sticky top-0 px-5'>
             <div className='flex-1'>
               <h3 className='font-bold text-lg'>
