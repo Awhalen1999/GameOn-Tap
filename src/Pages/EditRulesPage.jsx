@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
 import { getRulesets, getActiveRuleset, setActiveRuleset } from '../utils/api';
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdClose } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa';
 
 const EditRulesPage = () => {
@@ -58,6 +58,11 @@ const EditRulesPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    setEditing(null);
+    setEditedText('');
+  };
+
   return (
     <div className='h-full bg-base-100 p-8'>
       <div className='flex justify-between items-center mb-4'>
@@ -101,60 +106,74 @@ const EditRulesPage = () => {
               <h3 className='text-xl font-semibold mb-2 mt-6'>{rule.result}</h3>
               <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg'>
                 {editing?.key === ruleKey && editing?.type === 'title' ? (
-                  <input
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
-                    autoFocus
-                    className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
-                  />
+                  <>
+                    <input
+                      value={editedText}
+                      onChange={(e) => setEditedText(e.target.value)}
+                      autoFocus
+                      className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
+                    />
+                    <div className='flex space-x-4 ml-4'>
+                      <button
+                        className='btn btn-primary'
+                        onClick={handleSubmit}
+                      >
+                        <FaCheck size={22} />
+                      </button>
+                      <button className='btn btn-error' onClick={handleCancel}>
+                        <MdClose size={22} />
+                      </button>
+                    </div>
+                  </>
                 ) : (
-                  <div className='font-semibold text-accent'>{rule.title}</div>
-                )}
-                {editing?.key === ruleKey && editing?.type === 'title' ? (
-                  <button
-                    className='btn btn-primary ml-4'
-                    onClick={handleSubmit}
-                  >
-                    <FaCheck size={22} />
-                  </button>
-                ) : (
-                  <button
-                    className='btn btn-primary ml-4'
-                    onClick={() => handleEdit(ruleKey, 'title', rule.title)}
-                  >
-                    <MdEdit size={22} />
-                  </button>
+                  <>
+                    <div className='font-semibold text-accent'>
+                      {rule.title}
+                    </div>
+                    <button
+                      className='btn btn-primary ml-4'
+                      onClick={() => handleEdit(ruleKey, 'title', rule.title)}
+                    >
+                      <MdEdit size={22} />
+                    </button>
+                  </>
                 )}
               </div>
               <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg mt-4'>
                 {editing?.key === ruleKey && editing?.type === 'description' ? (
-                  <input
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
-                    autoFocus
-                    className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
-                  />
+                  <>
+                    <input
+                      value={editedText}
+                      onChange={(e) => setEditedText(e.target.value)}
+                      autoFocus
+                      className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
+                    />
+                    <div className='flex space-x-4 ml-4'>
+                      <button
+                        className='btn btn-primary'
+                        onClick={handleSubmit}
+                      >
+                        <FaCheck size={22} />
+                      </button>
+                      <button className='btn btn-error' onClick={handleCancel}>
+                        <MdClose size={22} />
+                      </button>
+                    </div>
+                  </>
                 ) : (
-                  <div className='font-semibold text-accent'>
-                    {rule.description}
-                  </div>
-                )}
-                {editing?.key === ruleKey && editing?.type === 'description' ? (
-                  <button
-                    className='btn btn-primary ml-4'
-                    onClick={handleSubmit}
-                  >
-                    <FaCheck size={22} />
-                  </button>
-                ) : (
-                  <button
-                    className='btn btn-primary ml-4'
-                    onClick={() =>
-                      handleEdit(ruleKey, 'description', rule.description)
-                    }
-                  >
-                    <MdEdit size={22} />
-                  </button>
+                  <>
+                    <div className='font-semibold text-accent'>
+                      {rule.description}
+                    </div>
+                    <button
+                      className='btn btn-primary ml-4'
+                      onClick={() =>
+                        handleEdit(ruleKey, 'description', rule.description)
+                      }
+                    >
+                      <MdEdit size={22} />
+                    </button>
+                  </>
                 )}
               </div>
             </div>
