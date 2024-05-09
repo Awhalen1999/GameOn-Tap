@@ -14,10 +14,12 @@ const EditRulesPage = () => {
   const [editing, setEditing] = useState(null);
   const [editedText, setEditedText] = useState('');
 
+  // Fetch rulesets all rulesets for game id and user id
   useEffect(() => {
     getRulesets(user.id, game).then(setRulesets).catch(console.error);
   }, [user.id, game]);
 
+  // Fetch active ruleset for game id and user id
   useEffect(() => {
     getActiveRuleset(user.id, game)
       .then((activeRuleset) => {
@@ -27,6 +29,7 @@ const EditRulesPage = () => {
       .catch(console.error);
   }, [user.id, game]);
 
+  // Change active ruleset
   const handleSelectChange = async (event) => {
     const rulesetId = event.target.value;
     setSelectedRuleset(rulesetId);
@@ -36,11 +39,13 @@ const EditRulesPage = () => {
       .catch(console.error);
   };
 
+  // Handle edit button click
   const handleEdit = (ruleKey, type, text) => {
     setEditing({ key: ruleKey, type: type });
     setEditedText(text);
   };
 
+  // Handle submit button click
   const handleSubmit = () => {
     if (editing) {
       setActiveRulesetState((prevRuleset) => {
@@ -58,6 +63,7 @@ const EditRulesPage = () => {
     }
   };
 
+  // Handle cancel button click
   const handleCancel = () => {
     setEditing(null);
     setEditedText('');
@@ -65,6 +71,7 @@ const EditRulesPage = () => {
 
   return (
     <div className='h-full bg-base-100 p-8'>
+      {/* Header Section */}
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl font-bold text-primary'>
           Edit Rules for {game}
@@ -73,6 +80,8 @@ const EditRulesPage = () => {
           Return to {game}
         </Link>
       </div>
+
+      {/* Input and Select Section */}
       <div className='flex justify-between items-center mb-4'>
         <div className='flex items-center w-96 mr-4'>
           <input
@@ -96,14 +105,20 @@ const EditRulesPage = () => {
           </select>
         </div>
       </div>
+
+      {/* Active Ruleset Section */}
       {activeRuleset && (
         <div className='mt-10'>
           <h2 className='text-xl font-bold text-primary'>
             {activeRuleset.name}
           </h2>
+
+          {/* Rules Section */}
           {Object.entries(activeRuleset.rules).map(([ruleKey, rule], index) => (
             <div key={index} className='mb-4'>
               <h3 className='text-xl font-semibold mb-2 mt-6'>{rule.result}</h3>
+
+              {/* Title Section */}
               <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg'>
                 {editing?.key === ruleKey && editing?.type === 'title' ? (
                   <>
@@ -139,6 +154,8 @@ const EditRulesPage = () => {
                   </>
                 )}
               </div>
+
+              {/* Description Section */}
               <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg mt-4'>
                 {editing?.key === ruleKey && editing?.type === 'description' ? (
                   <>
