@@ -19,6 +19,7 @@ const EditRulesPage = () => {
   const [editing, setEditing] = useState(null);
   const [editedText, setEditedText] = useState('');
   const [rulesetName, setRulesetName] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false);
 
   // Fetch rulesets all rulesets for game id and user id
   useEffect(() => {
@@ -75,19 +76,29 @@ const EditRulesPage = () => {
     setEditedText('');
   };
 
-  // Handle saving ruleset
+  // Save ruleset
   const handleSave = async () => {
     try {
       await saveRuleset(user.id, game, rulesetName, activeRuleset.rules);
-      //  do something here after the save is successful
+      setRulesetName('');
+      setAlertVisible(true);
+      setTimeout(() => {
+        setAlertVisible(false);
+      }, 2000);
     } catch (error) {
       console.error(error);
-      // handle errors
+      //  handle errors: same name.
     }
   };
 
   return (
     <div className='h-full bg-base-100 p-8'>
+      {/* Alert Section */}
+      {alertVisible && (
+        <div className='alert alert-success my-2 '>
+          Ruleset successfully saved!
+        </div>
+      )}
       {/* Header Section */}
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl font-bold text-primary'>
@@ -100,17 +111,21 @@ const EditRulesPage = () => {
 
       {/* Input and Select Section */}
       <div className='flex justify-between items-center mb-4'>
-        <div className='flex items-center w-96 mr-4'>
+        <div className='flex items-center w-1/3 mr-4'>
           <input
             type='text'
-            placeholder='Type here'
+            placeholder='Enter Custom Ruleset Name'
             className='input input-bordered w-full'
             value={rulesetName}
             onChange={(e) => setRulesetName(e.target.value)}
             required
           />
-          <button className='btn btn-primary ml-4' onClick={handleSave}>
-            Save
+          <button
+            className='btn btn-primary ml-4'
+            onClick={handleSave}
+            disabled={!rulesetName.trim()} // disable save button if rulesetName is empty
+          >
+            Save Ruleset
           </button>
         </div>
         <div className='w-full max-w-xs'>
