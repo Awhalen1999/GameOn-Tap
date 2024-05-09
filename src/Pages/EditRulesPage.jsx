@@ -1,3 +1,9 @@
+//todo:
+// delete rulesets modal
+// change react icon for cancel button
+// reload get rulesets after save
+// on save set that ruleset to active (maybe?)
+
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
@@ -9,6 +15,7 @@ import {
 } from '../utils/api';
 import { MdEdit, MdClose } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa';
+import { LuPartyPopper } from 'react-icons/lu';
 
 const EditRulesPage = () => {
   const { user } = useContext(UserContext);
@@ -96,7 +103,7 @@ const EditRulesPage = () => {
       {/* Alert Section */}
       {alertVisible && (
         <div className='alert alert-success my-2 '>
-          Ruleset successfully saved!
+          Ruleset successfully saved! <LuPartyPopper />
         </div>
       )}
       {/* Header Section */}
