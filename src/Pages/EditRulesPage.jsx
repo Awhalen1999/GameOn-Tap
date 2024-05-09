@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
-import { getRulesets, getActiveRuleset, setActiveRuleset } from '../utils/api';
+import {
+  getRulesets,
+  getActiveRuleset,
+  setActiveRuleset,
+  saveRuleset,
+} from '../utils/api';
 import { MdEdit, MdClose } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa';
 
@@ -13,6 +18,7 @@ const EditRulesPage = () => {
   const [selectedRuleset, setSelectedRuleset] = useState('');
   const [editing, setEditing] = useState(null);
   const [editedText, setEditedText] = useState('');
+  const [rulesetName, setRulesetName] = useState('');
 
   // Fetch rulesets all rulesets for game id and user id
   useEffect(() => {
@@ -69,6 +75,17 @@ const EditRulesPage = () => {
     setEditedText('');
   };
 
+  // Handle saving ruleset
+  const handleSave = async () => {
+    try {
+      await saveRuleset(user.id, game, rulesetName, activeRuleset.rules);
+      //  do something here after the save is successful
+    } catch (error) {
+      console.error(error);
+      // handle errors
+    }
+  };
+
   return (
     <div className='h-full bg-base-100 p-8'>
       {/* Header Section */}
@@ -88,8 +105,13 @@ const EditRulesPage = () => {
             type='text'
             placeholder='Type here'
             className='input input-bordered w-full'
+            value={rulesetName}
+            onChange={(e) => setRulesetName(e.target.value)}
+            required
           />
-          <button className='btn btn-primary ml-4'>Submit</button>
+          <button className='btn btn-primary ml-4' onClick={handleSave}>
+            Save
+          </button>
         </div>
         <div className='w-full max-w-xs'>
           <select
