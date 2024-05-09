@@ -72,10 +72,10 @@ const EditRulesPage = () => {
             <div key={index} className='mb-4'>
               <h3 className='text-xl font-semibold mb-1'>{rule.result}</h3>
               <div>
-                <h4 className=' bg-neutral rounded mb-2 py-1 px-2  text-lg'>
+                <h4 className=' bg-neutral rounded mb-2 py-2 px-4  text-lg'>
                   {rule.title}
                 </h4>
-                <p className=' bg-neutral rounded mb-2 py-1 px-2  text-lg'>
+                <p className=' bg-neutral rounded mb-2 py-2 px-4 text-lg'>
                   {rule.description}
                 </p>
               </div>
