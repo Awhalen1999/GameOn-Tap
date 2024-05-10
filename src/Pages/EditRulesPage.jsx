@@ -12,9 +12,10 @@ import {
   getActiveRuleset,
   setActiveRuleset,
   saveRuleset,
+  deleteRuleset,
 } from '../utils/api';
-import { MdEdit, MdClose } from 'react-icons/md';
-import { FaCheck } from 'react-icons/fa';
+import { MdEdit, MdClose, MdDelete } from 'react-icons/md';
+import { FaCheck } from 'react-icons/fa6';
 import { LuPartyPopper } from 'react-icons/lu';
 
 const EditRulesPage = () => {
@@ -98,6 +99,17 @@ const EditRulesPage = () => {
     }
   };
 
+  // Delete ruleset
+  const handleDelete = async (rulesetId) => {
+    try {
+      await deleteRuleset(user.id, game, rulesetId);
+      // Refresh rulesets
+      getRulesets(user.id, game).then(setRulesets).catch(console.error);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className='h-full bg-base-100 p-8'>
       {/* Alert Section */}
@@ -116,13 +128,13 @@ const EditRulesPage = () => {
         </Link>
       </div>
 
-      {/* Input and Select Section */}
+      {/* Input, Select and Button Section */}
       <div className='flex justify-between items-center mb-4'>
-        <div className='flex items-center w-1/3 mr-4'>
+        <div className='flex items-center w-full mr-4'>
           <input
             type='text'
             placeholder='Enter Custom Ruleset Name'
-            className='input input-bordered w-full'
+            className='input input-bordered w-1/3'
             value={rulesetName}
             onChange={(e) => setRulesetName(e.target.value)}
             required
@@ -130,25 +142,63 @@ const EditRulesPage = () => {
           <button
             className='btn btn-primary ml-4'
             onClick={handleSave}
-            disabled={!rulesetName.trim()} // disable save button if rulesetName is empty
+            disabled={!rulesetName.trim()}
           >
             Save Ruleset
           </button>
-        </div>
-        <div className='w-full max-w-xs'>
-          <select
-            className='select select-bordered w-full'
-            value={selectedRuleset}
-            onChange={handleSelectChange}
+          <div className='w-1/4 ml-4'>
+            <select
+              className='select select-bordered w-full'
+              value={selectedRuleset}
+              onChange={handleSelectChange}
+            >
+              {rulesets.map((ruleset) => (
+                <option key={ruleset.id} value={ruleset.id}>
+                  {ruleset.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            className='btn btn-primary ml-4'
+            onClick={() => document.getElementById('my_modal_1').showModal()}
           >
-            {rulesets.map((ruleset) => (
-              <option key={ruleset.id} value={ruleset.id}>
-                {ruleset.name}
-              </option>
-            ))}
-          </select>
+            View All Rulesets
+          </button>
         </div>
       </div>
+
+      {/* Modal */}
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <div className='flex justify-between items-center '>
+            <h3 className='font-bold text-lg items-center'>
+              Saved rules for {game}
+            </h3>
+            <form method='dialog' className='flex items-center'>
+              <button className='btn btn-ghost '>
+                <MdClose size={22} />
+              </button>
+            </form>
+          </div>
+          <ul className='py-4'>
+            {rulesets.map((ruleset) => (
+              <li
+                key={ruleset.id}
+                className='bg-neutral p-2 mb-2 rounded text-lg flex justify-between items-center'
+              >
+                <span>{ruleset.name}</span>
+                <button
+                  className='btn btn-error'
+                  onClick={() => handleDelete(ruleset.id)}
+                >
+                  <MdDelete size={22} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </dialog>
 
       {/* Active Ruleset Section */}
       {activeRuleset && (
