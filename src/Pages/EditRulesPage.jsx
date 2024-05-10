@@ -1,8 +1,9 @@
 //todo:
-// delete rulesets modal
 // change react icon for cancel button
-// reload get rulesets after save
+// prevent deleting default ruleset
+// handle deleting current active ruleset (set to default)
 // on save set that ruleset to active (maybe?)
+// change color of title and description text
 
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -88,7 +89,6 @@ const EditRulesPage = () => {
   const handleSave = async () => {
     try {
       await saveRuleset(user.id, game, rulesetName, activeRuleset.rules);
-      // Refresh rulesets
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
       setRulesetName('');
       setAlertVisible(true);
@@ -105,7 +105,6 @@ const EditRulesPage = () => {
   const handleDelete = async (rulesetId) => {
     try {
       await deleteRuleset(user.id, game, rulesetId);
-      // Refresh rulesets
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
     } catch (error) {
       console.error(error);
@@ -187,7 +186,7 @@ const EditRulesPage = () => {
             {rulesets.map((ruleset) => (
               <li
                 key={ruleset.id}
-                className='bg-neutral p-2 mb-2 rounded text-lg flex justify-between items-center'
+                className='bg-neutral py-2 px-4 mb-2 rounded-lg text-lg flex justify-between items-center'
               >
                 <span>{ruleset.name}</span>
                 <button
@@ -222,7 +221,7 @@ const EditRulesPage = () => {
                       value={editedText}
                       onChange={(e) => setEditedText(e.target.value)}
                       autoFocus
-                      className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
+                      className='w-full h-10 rounded-lg p-2 bg-secondary'
                     />
                     <div className='flex space-x-4 ml-4'>
                       <button
@@ -259,7 +258,7 @@ const EditRulesPage = () => {
                       value={editedText}
                       onChange={(e) => setEditedText(e.target.value)}
                       autoFocus
-                      className='w-full h-10 rounded-lg p-2 bg-secondary text-text'
+                      className='w-full h-10 rounded-lg p-2 bg-secondary '
                     />
                     <div className='flex space-x-4 ml-4'>
                       <button
