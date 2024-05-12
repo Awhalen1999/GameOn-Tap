@@ -1,5 +1,5 @@
 //todo:
-// change react icon for cancel button
+// change react icon for cancel button (too thin)
 // prevent deleting default ruleset
 // handle deleting current active ruleset (set to default)
 // on save set that ruleset to active (maybe?)
