@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { UserContext } from '../utils/UserContext';
 import { getActiveRuleset } from '../utils/api';
@@ -12,6 +12,7 @@ const Nav = () => {
   const { user } = useContext(UserContext);
   const gameId = location.pathname.split('/')[2];
   const [activeRuleset, setActiveRuleset] = useState(null);
+  const navigate = useNavigate();
 
   const handleThemeChange = (event) => {
     const newTheme = event.target.checked ? 'myLight' : 'myDark';
@@ -90,8 +91,11 @@ const Nav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
             <li>
-              <button className='btn btn-ghost'>
-                <Link to='/GamePage'>Games</Link>
+              <button
+                className='btn btn-ghost'
+                onClick={() => navigate('/GamePage')}
+              >
+                Games
               </button>
             </li>
             <li>
@@ -138,9 +142,12 @@ const Nav = () => {
         </div>
         {/* center */}
         <div className='navbar bg-base-100'>
-          <Link to='/' className='btn btn-ghost text-3xl font-pixel'>
+          <button
+            onClick={() => navigate('/')}
+            className='btn btn-ghost text-3xl font-pixel'
+          >
             GameOn Tap
-          </Link>
+          </button>
         </div>
       </div>
       <div className='navbar-center hidden lg:flex text-2xl font-bold text-primary'>
@@ -150,9 +157,12 @@ const Nav = () => {
       <div className='navbar-end'>
         <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
           <li>
-            <Link to='/GamePage' className='btn btn-ghost'>
+            <button
+              className='btn btn-ghost'
+              onClick={() => navigate('/GamePage')}
+            >
               Games
-            </Link>
+            </button>
           </li>
           {gamePaths.includes(location.pathname) && (
             <button
@@ -210,8 +220,9 @@ const Nav = () => {
         </li>
       </div>
       {/* modal */}
-      <dialog id='my_modal_3' className='modal p-4'>
-        <div className='modal-box'>
+      <dialog id='my_modal_3' className='modal p-4 '>
+        <div className='modal-box border flex flex-col h-full'>
+          {/* modal nav */}
           <div className='flex justify-between items-center mb-4'>
             <h3 className='font-bold text-lg'>Active Ruleset</h3>
             <form method='dialog'>
@@ -220,22 +231,31 @@ const Nav = () => {
               </button>
             </form>
           </div>
-          {activeRuleset ? (
-            <div>
-              <h4 className='font-bold text-lg mb-2'>{activeRuleset.name}</h4>
-              {Object.entries(activeRuleset.rules).map(
-                ([ruleKey, rule], index) => (
-                  <div key={index} className='mb-2'>
-                    <h3 className='font-bold text-xl'>{rule.result}</h3>
-                    <p>{rule.title}</p>
-                    <p>{rule.description}</p>
-                  </div>
-                )
-              )}
-            </div>
-          ) : (
-            <p>Loading...</p>
-          )}
+
+          {/* modal content */}
+          <div className='overflow-auto pr-2'>
+            {activeRuleset && (
+              <div>
+                <h4 className='font-bold text-xl mb-2'>{activeRuleset.name}</h4>
+                {Object.entries(activeRuleset.rules).map(
+                  ([ruleKey, rule], index, array) => (
+                    <div
+                      key={index}
+                      className={`mb-4 p-2 ${
+                        index !== array.length - 1
+                          ? 'border-b border-gray-200'
+                          : ''
+                      }`}
+                    >
+                      <h3 className='font-bold text-lg mb-2'>{rule.result}</h3>
+                      <p className='font-semibold text-base'>{rule.title}</p>
+                      <p className='text-sm'>{rule.description}</p>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </dialog>
       {/* modal end*/}
