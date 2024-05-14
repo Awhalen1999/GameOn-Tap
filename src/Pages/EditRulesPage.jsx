@@ -94,6 +94,7 @@ const EditRulesPage = () => {
         rulesetName,
         activeRuleset.rules
       );
+      console.log(newRuleset); // Log the newRuleset to the console
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
       setRulesetName('');
       setAlertVisible(true);
@@ -102,17 +103,12 @@ const EditRulesPage = () => {
       }, 2750);
 
       // Set the newly saved ruleset as the active one
-      setSelectedRuleset(newRuleset.id);
-      await setActiveRuleset(user.id, game, newRuleset.id);
-      getActiveRuleset(user.id, game)
-        .then(setActiveRulesetState)
-        .catch(console.error);
+      handleSelectChange({ target: { value: newRuleset.id } });
     } catch (error) {
       console.error(error);
       //  handle errors: same name.
     }
   };
-
   // Delete ruleset
   const handleDelete = async (rulesetId) => {
     if (rulesetId === 0) {
