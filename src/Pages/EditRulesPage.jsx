@@ -94,7 +94,6 @@ const EditRulesPage = () => {
         rulesetName,
         activeRuleset.rules
       );
-      console.log(newRuleset); // Log the newRuleset to the console
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
       setRulesetName('');
       setAlertVisible(true);
