@@ -1,6 +1,5 @@
 //todo:
 // handle deleting current active ruleset (set to default)
-// on save set that ruleset to active (maybe?)
 // change color of title and description text
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -105,9 +104,9 @@ const EditRulesPage = () => {
       handleSelectChange({ target: { value: newRuleset.id } });
     } catch (error) {
       console.error(error);
-      //  handle errors: same name.
     }
   };
+
   // Delete ruleset
   const handleDelete = async (rulesetId) => {
     if (rulesetId === 0) {
@@ -118,6 +117,11 @@ const EditRulesPage = () => {
     try {
       await deleteRuleset(user.id, game, rulesetId);
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
+
+      // If the ruleset being deleted is the active one, set the active ruleset to 0
+      if (rulesetId === selectedRuleset) {
+        handleSelectChange({ target: { value: '0' } });
+      }
     } catch (error) {
       console.error(error);
     }
