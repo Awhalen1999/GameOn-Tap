@@ -225,8 +225,21 @@ const Nav = () => {
           {/* modal nav */}
           <div className='flex justify-between items-center mb-4'>
             <h3 className='font-bold text-lg'>Active Ruleset</h3>
+            {gamesWithIcon.has(location.pathname) && (
+              <button
+                className='btn btn-ghost mr-4'
+                onClick={() => {
+                  navigate(
+                    `/EditRules${location.pathname.replace('/games', '')}`
+                  );
+                  document.getElementById('my_modal_3').close();
+                }}
+              >
+                Edit Rules <FaWrench />
+              </button>
+            )}
             <form method='dialog'>
-              <button className='btn btn-sm btn-circle btn-ghost'>
+              <button className='btn btn-circle btn-ghost'>
                 <IoCloseSharp size={24} />
               </button>
             </form>
