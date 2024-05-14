@@ -1,3 +1,5 @@
+//todo: fix alert
+
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
@@ -8,9 +10,7 @@ import {
   saveRuleset,
   deleteRuleset,
 } from '../utils/api';
-
-import Alert from '../components/alert';
-import { MdEdit, MdDelete } from 'react-icons/md';
+import { MdEdit, MdDelete, MdOutlineInfo } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
 import { IoCloseSharp } from 'react-icons/io5';
 
@@ -127,12 +127,21 @@ const EditRulesPage = () => {
   return (
     <div className='h-full bg-base-100 p-8'>
       {/* Alert Section */}
-      <Alert
-        visible={alertVisible}
-        setVisible={setAlertVisible}
-        title='Success!'
-        message='Ruleset successfully saved!'
-      />
+      {alertVisible && (
+        <div className='flex items-center h-16 border border-primary pr-4 w-full max-w-md  rounded-lg mx-auto'>
+          <div className='flex items-center justify-center bg-primary w-12 h-full rounded-l text-primary-content'>
+            <MdOutlineInfo size={24} />
+          </div>
+          <div className='px-6'>
+            <h5 className='font-semibold'>Saved</h5>
+            <p className='text-sm'>Custom Ruleset Saved!</p>
+          </div>
+          <button className='ml-auto' onClick={() => setAlertVisible(false)}>
+            <IoCloseSharp size={24} />
+          </button>
+        </div>
+      )}
+
       {/* Header Section */}
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl font-bold text-base-content'>
