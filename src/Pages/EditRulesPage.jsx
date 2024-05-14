@@ -1,5 +1,4 @@
 //todo:
-// change react icon for cancel button (too thin)
 // prevent deleting default ruleset
 // handle deleting current active ruleset (set to default)
 // on save set that ruleset to active (maybe?)
@@ -15,9 +14,9 @@ import {
   saveRuleset,
   deleteRuleset,
 } from '../utils/api';
+import Alert from '../components/Alert';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
-import { LuPartyPopper } from 'react-icons/lu';
 import { IoCloseSharp } from 'react-icons/io5';
 
 const EditRulesPage = () => {
@@ -95,7 +94,7 @@ const EditRulesPage = () => {
       setAlertVisible(true);
       setTimeout(() => {
         setAlertVisible(false);
-      }, 2000);
+      }, 10000);
     } catch (error) {
       console.error(error);
       //  handle errors: same name.
@@ -104,6 +103,11 @@ const EditRulesPage = () => {
 
   // Delete ruleset
   const handleDelete = async (rulesetId) => {
+    if (rulesetId === 0) {
+      alert('Cannot delete default ruleset');
+      return;
+    }
+
     try {
       await deleteRuleset(user.id, game, rulesetId);
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
@@ -115,11 +119,12 @@ const EditRulesPage = () => {
   return (
     <div className='h-full bg-base-100 p-8'>
       {/* Alert Section */}
-      {alertVisible && (
-        <div className='alert alert-success my-2 '>
-          Ruleset successfully saved! <LuPartyPopper />
-        </div>
-      )}
+      <Alert
+        visible={alertVisible}
+        setVisible={setAlertVisible}
+        title='Success!'
+        message='Ruleset successfully saved!'
+      />
       {/* Header Section */}
       <div className='flex justify-between items-center mb-4'>
         <h1 className='text-2xl font-bold text-primary'>
