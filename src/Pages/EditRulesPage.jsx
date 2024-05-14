@@ -1,6 +1,3 @@
-//todo:
-// change color of title and description text
-
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
@@ -137,7 +134,7 @@ const EditRulesPage = () => {
       />
       {/* Header Section */}
       <div className='flex justify-between items-center mb-4'>
-        <h1 className='text-2xl font-bold text-primary'>
+        <h1 className='text-2xl font-bold text-base-content'>
           Edit Rules for {game}
         </h1>
         <Link to={`/games/${game}`} className='btn btn-error'>
@@ -222,7 +219,7 @@ const EditRulesPage = () => {
       {/* Active Ruleset Section */}
       {activeRuleset && (
         <div className='mt-10'>
-          <h2 className='text-xl font-bold text-primary'>
+          <h2 className='text-xl font-bold text-accent'>
             {activeRuleset.name}
           </h2>
 
@@ -255,7 +252,7 @@ const EditRulesPage = () => {
                   </>
                 ) : (
                   <>
-                    <div className='font-semibold text-accent'>
+                    <div className='font-semibold text-neutral-content'>
                       {rule.title}
                     </div>
                     <button
@@ -292,7 +289,7 @@ const EditRulesPage = () => {
                   </>
                 ) : (
                   <>
-                    <div className='font-semibold text-accent'>
+                    <div className='font-semibold text-neutral-content'>
                       {rule.description}
                     </div>
                     <button
