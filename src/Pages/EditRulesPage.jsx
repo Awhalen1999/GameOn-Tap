@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
 import {
   getRulesets,
@@ -17,6 +17,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 const EditRulesPage = () => {
   const { user } = useContext(UserContext);
   const { game } = useParams();
+  const navigate = useNavigate();
   const [rulesets, setRulesets] = useState([]);
   const [activeRuleset, setActiveRulesetState] = useState(null);
   const [selectedRuleset, setSelectedRuleset] = useState('');
@@ -137,9 +138,12 @@ const EditRulesPage = () => {
         <h1 className='text-2xl font-bold text-base-content'>
           Edit Rules for {game}
         </h1>
-        <Link to={`/games/${game}`} className='btn btn-error'>
+        <button
+          className='btn btn-error'
+          onClick={() => navigate(`/games/${game}`)}
+        >
           Return to {game}
-        </Link>
+        </button>
       </div>
 
       {/* Input, Select and Button Section */}
