@@ -1,5 +1,4 @@
 //todo:
-// handle deleting current active ruleset (set to default)
 // change color of title and description text
 
 import React, { useContext, useEffect, useState } from 'react';
