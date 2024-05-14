@@ -15,9 +15,10 @@ import {
   saveRuleset,
   deleteRuleset,
 } from '../utils/api';
-import { MdEdit, MdClose, MdDelete } from 'react-icons/md';
+import { MdEdit, MdDelete } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
 import { LuPartyPopper } from 'react-icons/lu';
+import { IoCloseSharp } from 'react-icons/io5';
 
 const EditRulesPage = () => {
   const { user } = useContext(UserContext);
@@ -178,7 +179,7 @@ const EditRulesPage = () => {
             </h3>
             <form method='dialog' className='flex items-center'>
               <button className='btn btn-ghost '>
-                <MdClose size={22} />
+                <IoCloseSharp size={22} />
               </button>
             </form>
           </div>
@@ -231,7 +232,7 @@ const EditRulesPage = () => {
                         <FaCheck size={22} />
                       </button>
                       <button className='btn btn-error' onClick={handleCancel}>
-                        <MdClose size={22} />
+                        <IoCloseSharp size={22} />
                       </button>
                     </div>
                   </>
@@ -268,7 +269,7 @@ const EditRulesPage = () => {
                         <FaCheck size={22} />
                       </button>
                       <button className='btn btn-error' onClick={handleCancel}>
-                        <MdClose size={22} />
+                        <IoCloseSharp size={22} />
                       </button>
                     </div>
                   </>
