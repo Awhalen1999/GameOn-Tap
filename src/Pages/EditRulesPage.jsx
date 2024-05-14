@@ -88,13 +88,25 @@ const EditRulesPage = () => {
   // Save ruleset
   const handleSave = async () => {
     try {
-      await saveRuleset(user.id, game, rulesetName, activeRuleset.rules);
+      const newRuleset = await saveRuleset(
+        user.id,
+        game,
+        rulesetName,
+        activeRuleset.rules
+      );
       getRulesets(user.id, game).then(setRulesets).catch(console.error);
       setRulesetName('');
       setAlertVisible(true);
       setTimeout(() => {
         setAlertVisible(false);
       }, 2750);
+
+      // Set the newly saved ruleset as the active one
+      setSelectedRuleset(newRuleset.id);
+      await setActiveRuleset(user.id, game, newRuleset.id);
+      getActiveRuleset(user.id, game)
+        .then(setActiveRulesetState)
+        .catch(console.error);
     } catch (error) {
       console.error(error);
       //  handle errors: same name.
