@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import KingsCupRules from './Games/KingsCup/KingsCupRules.js';
-import RideTheBusRules from './Games/RideTheBus/RideTheBusRules.js';
-import SnapRules from './Games/Snap/SnapRules.js';
-import TriviaRules from './Games/Trivia/TriviaRules.js';
-import PromptDashRules from './Games/PromptDash/PromptDashRules.js';
-import DiceRollRules from './Games/DiceRoll/DiceRollRules';
-import DrinkRouletteRules from './Games/DrinkRoulette/DrinkRouletteRules.js';
-import BountyBlastRules from './Games/BountyBlast/BountyBlastRules.js';
-import { UserContext } from '../utils/UserContext';
-import { FaWrench, FaUserCircle } from 'react-icons/fa';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
-import useActiveRuleset from './UseActiveRuleset.js';
+import { UserContext } from '../utils/UserContext';
+import { getActiveRuleset } from '../utils/api';
+import { IoCloseSharp } from 'react-icons/io5';
+import { FaWrench, FaUserCircle } from 'react-icons/fa';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
+  const location = useLocation();
+  const { user } = useContext(UserContext);
+  const gameId = location.pathname.split('/')[2];
+  const [activeRuleset, setActiveRuleset] = useState(null);
 
   const handleThemeChange = (event) => {
     const newTheme = event.target.checked ? 'myLight' : 'myDark';
@@ -22,36 +19,29 @@ const Nav = () => {
     localStorage.setItem('theme', newTheme);
   };
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  useEffect(() => {
+    console.log('user:', user);
+    console.log('gameId:', gameId);
+    if (user && gameId) {
+      getActiveRuleset(user.id, gameId)
+        .then((ruleset) => {
+          console.log('ruleset:', ruleset);
+          setActiveRuleset(ruleset);
+        })
+        .catch(console.error);
+    }
+  }, [user, gameId]);
 
-  const isGamePage = location.pathname === '/GamePage';
-  const game = location.pathname.split('/')[2];
-
-  // this gets the active ruleset for a game from my UseActiveRuleset.js import
-  const activeRuleset = useActiveRuleset(game);
-
-  const gameRules = {
-    '/games/KingsCup': KingsCupRules,
-    '/games/RideTheBus': RideTheBusRules,
-    '/games/Snap': SnapRules,
-    '/games/Trivia': TriviaRules,
-    '/games/PromptDash': PromptDashRules,
-    '/games/DiceRoll': DiceRollRules,
-    '/games/DrinkRoulette': DrinkRouletteRules,
-    '/games/BountyBlast': BountyBlastRules,
-  };
-
-  const gameTitlesButton = {
-    '/games/KingsCup': 'Kings Cup Rules',
-    '/games/RideTheBus': 'Ride The Bus Rules',
-    '/games/Snap': 'Snap Rules',
-    '/games/Trivia': 'Trivia Rules',
-    '/games/PromptDash': 'Prompt Dash Rules',
-    '/games/DiceRoll': 'Dice Roll Rules',
-    '/games/DrinkRoulette': 'Drink Roulette Rules',
-    '/games/BountyBlast': 'Bounty Blast Rules',
-  };
+  const gamePaths = [
+    '/games/KingsCup',
+    '/games/RideTheBus',
+    '/games/Snap',
+    '/games/Trivia',
+    '/games/PromptDash',
+    '/games/DiceRoll',
+    '/games/DrinkRoulette',
+    '/games/BountyBlast',
+  ];
 
   const gameTitles = {
     '/games/KingsCup': 'Kings Cup',
@@ -61,7 +51,18 @@ const Nav = () => {
     '/games/PromptDash': 'Prompt Dash',
     '/games/DiceRoll': 'Dice Roll',
     '/games/DrinkRoulette': 'Drink Roulette',
+    '/games/BountyBlast': 'Bounty Blast',
     '/games/AIBartender': 'AI Bartender',
+  };
+
+  const gameTitlesButton = {
+    '/games/KingsCup': 'Kings Cup',
+    '/games/RideTheBus': 'Ride The Bus',
+    '/games/Snap': 'Snap',
+    '/games/Trivia': 'Trivia',
+    '/games/PromptDash': 'Prompt Dash',
+    '/games/DiceRoll': 'Dice Roll',
+    '/games/DrinkRoulette': 'Drink Roulette',
     '/games/BountyBlast': 'Bounty Blast',
   };
 
@@ -71,18 +72,6 @@ const Nav = () => {
     '/games/DrinkRoulette',
     '/games/BountyBlast',
   ]);
-
-  const openModal = () => {
-    const modalId = `${location.pathname.slice(1)}-rules`;
-    document.getElementById(modalId).showModal();
-  };
-
-  const isNotGamePage = !(
-    location.pathname.includes('games') &&
-    !location.pathname.endsWith('AIBartender')
-  );
-
-  const { user } = useContext(UserContext);
 
   return (
     <div className='navbar bg-base-100 h-20 font-space'>
@@ -101,15 +90,18 @@ const Nav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
             <li>
-              {!isGamePage && (
-                <button className='btn btn-ghost'>
-                  <Link to='/GamePage'>Games</Link>
-                </button>
-              )}
+              <button className='btn btn-ghost'>
+                <Link to='/GamePage'>Games</Link>
+              </button>
             </li>
             <li>
-              {!isNotGamePage && (
-                <button className='btn btn-ghost' onClick={openModal}>
+              {gamePaths.includes(location.pathname) && (
+                <button
+                  className='btn btn-ghost'
+                  onClick={() =>
+                    document.getElementById('my_modal_3').showModal()
+                  }
+                >
                   {gameTitlesButton[location.pathname]}
                   {gamesWithIcon.has(location.pathname) && (
                     <FaWrench className='ml-2' size={18} />
@@ -157,15 +149,16 @@ const Nav = () => {
       {/* right */}
       <div className='navbar-end'>
         <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
-          {!isGamePage && (
-            <li>
-              <Link to='/GamePage' className='btn btn-ghost'>
-                Games
-              </Link>
-            </li>
-          )}
-          {!isNotGamePage && (
-            <button className='btn btn-ghost' onClick={openModal}>
+          <li>
+            <Link to='/GamePage' className='btn btn-ghost'>
+              Games
+            </Link>
+          </li>
+          {gamePaths.includes(location.pathname) && (
+            <button
+              className='btn btn-ghost'
+              onClick={() => document.getElementById('my_modal_3').showModal()}
+            >
               {gameTitlesButton[location.pathname]}
               {gamesWithIcon.has(location.pathname) && (
                 <FaWrench className='ml-2' size={18} />
@@ -217,65 +210,35 @@ const Nav = () => {
         </li>
       </div>
       {/* modal */}
-      <dialog
-        id={`${location.pathname.slice(1)}-rules`}
-        className='modal modal-bottom sm:modal-middle'
-      >
-        <div className='modal-box p-0'>
-          <div className='navbar bg-base-100 sticky top-0 px-5'>
-            <div className='flex-1'>
-              <h3 className='font-bold text-lg'>
-                {gameTitles[location.pathname]}
-              </h3>
-            </div>
-            <div className='flex-none'>
-              <ul className='menu menu-horizontal px-1'>
-                <li>
-                  {gamesWithIcon.has(location.pathname) && (
-                    <button
-                      className='btn'
-                      onClick={() => {
-                        document
-                          .getElementById(`${location.pathname.slice(1)}-rules`)
-                          .close();
-                        navigate(`/EditRules/${location.pathname.slice(7)}`);
-                      }}
-                    >
-                      Edit Rules <FaWrench className='ml-2' size={18} />
-                    </button>
-                  )}
-                </li>
-                <li>
-                  <button
-                    className='btn ml-2'
-                    onClick={() =>
-                      document
-                        .getElementById(`${location.pathname.slice(1)}-rules`)
-                        .close()
-                    }
-                  >
-                    Close
-                  </button>
-                </li>
-              </ul>
-            </div>
+      <dialog id='my_modal_3' className='modal p-4'>
+        <div className='modal-box'>
+          <div className='flex justify-between items-center mb-4'>
+            <h3 className='font-bold text-lg'>Active Ruleset</h3>
+            <form method='dialog'>
+              <button className='btn btn-sm btn-circle btn-ghost'>
+                <IoCloseSharp size={24} />
+              </button>
+            </form>
           </div>
-          <div className='p-4'>
-            {activeRuleset &&
-              Object.values(activeRuleset).map((rule, index, self) => (
-                <React.Fragment key={index}>
-                  <div className='flex flex-col items-center'>
-                    <strong className='text-xl mb-2 '>{rule.result}</strong>
-                    <div className='text-lg'>
-                      <strong>{rule.title}</strong>: {rule.description}
-                    </div>
+          {activeRuleset ? (
+            <div>
+              <h4 className='font-bold text-lg mb-2'>{activeRuleset.name}</h4>
+              {Object.entries(activeRuleset.rules).map(
+                ([ruleKey, rule], index) => (
+                  <div key={index} className='mb-2'>
+                    <h3 className='font-bold text-xl'>{rule.result}</h3>
+                    <p>{rule.title}</p>
+                    <p>{rule.description}</p>
                   </div>
-                  {index < self.length - 1 && <div className='divider'></div>}
-                </React.Fragment>
-              ))}
-          </div>
+                )
+              )}
+            </div>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       </dialog>
+      {/* modal end*/}
     </div>
   );
 };
