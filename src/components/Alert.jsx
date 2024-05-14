@@ -2,7 +2,7 @@ import React from 'react';
 import { MdOutlineInfo } from 'react-icons/md';
 import { IoCloseSharp } from 'react-icons/io5';
 
-const Alert = ({ visible, setVisible, title, message }) => {
+const alert = ({ visible, setVisible, title, message }) => {
   if (!visible) return null;
 
   return (
@@ -21,4 +21,4 @@ const Alert = ({ visible, setVisible, title, message }) => {
   );
 };
 
-export default Alert;
+export default alert;
