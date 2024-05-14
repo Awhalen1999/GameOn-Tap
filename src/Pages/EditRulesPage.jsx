@@ -1,5 +1,4 @@
 //todo:
-// prevent deleting default ruleset
 // handle deleting current active ruleset (set to default)
 // on save set that ruleset to active (maybe?)
 // change color of title and description text
@@ -15,7 +14,7 @@ import {
   deleteRuleset,
 } from '../utils/api';
 
-import Alert from '../components/Alert';
+import Alert from '../components/alert';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
 import { IoCloseSharp } from 'react-icons/io5';
@@ -95,7 +94,7 @@ const EditRulesPage = () => {
       setAlertVisible(true);
       setTimeout(() => {
         setAlertVisible(false);
-      }, 10000);
+      }, 2750);
     } catch (error) {
       console.error(error);
       //  handle errors: same name.
@@ -196,12 +195,14 @@ const EditRulesPage = () => {
                 className='bg-neutral py-2 px-4 mb-2 rounded-lg text-lg flex justify-between items-center'
               >
                 <span>{ruleset.name}</span>
-                <button
-                  className='btn btn-error'
-                  onClick={() => handleDelete(ruleset.id)}
-                >
-                  <MdDelete size={22} />
-                </button>
+                {Number(ruleset.id) !== 0 && (
+                  <button
+                    className='btn btn-error'
+                    onClick={() => handleDelete(ruleset.id)}
+                  >
+                    <MdDelete size={22} />
+                  </button>
+                )}
               </li>
             ))}
           </ul>

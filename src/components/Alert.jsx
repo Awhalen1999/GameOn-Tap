@@ -1,5 +1,5 @@
 import React from 'react';
-import { LuPartyPopper } from 'react-icons/lu';
+import { MdOutlineInfo } from 'react-icons/md';
 import { IoCloseSharp } from 'react-icons/io5';
 
 const Alert = ({ visible, setVisible, title, message }) => {
@@ -8,7 +8,7 @@ const Alert = ({ visible, setVisible, title, message }) => {
   return (
     <div className='flex items-center h-16 border border-primary pr-4 w-full max-w-md  rounded-lg mx-auto'>
       <div className='flex items-center justify-center bg-primary w-12 h-full rounded-l text-primary-content'>
-        <LuPartyPopper size={24} />
+        <MdOutlineInfo size={24} />
       </div>
       <div className='px-6'>
         <h5 className='font-semibold'>{title}</h5>
