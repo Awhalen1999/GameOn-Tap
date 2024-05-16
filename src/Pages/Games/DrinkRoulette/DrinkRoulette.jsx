@@ -2,11 +2,11 @@
 // todo: ease spin at end
 // todo: add slider for spin time
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './DrinkRoulette.css';
 import { TiArrowDownThick } from 'react-icons/ti';
-import { DrinkRouletteRules } from './DrinkRouletteRules';
-import useActiveRuleset from '../../UseActiveRuleset.js';
+import { getActiveRuleset } from '../../../utils/api';
+import { UserContext } from '../../../utils/UserContext';
 
 const DrinkRoulette = () => {
   const [rotation, setRotation] = useState(0);
@@ -14,9 +14,24 @@ const DrinkRoulette = () => {
   const [description, setDescription] = useState('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
-  const activeRuleset = useActiveRuleset('DrinkRoulette', DrinkRouletteRules);
+  const [rules, setRules] = useState({});
+  const { user } = useContext(UserContext);
+  const userId = user?.id;
+  const gameId = 'DrinkRoulette';
 
-  const itemNames = activeRuleset ? Object.keys(activeRuleset) : [];
+  useEffect(() => {
+    if (userId) {
+      getActiveRuleset(userId, gameId)
+        .then((ruleset) => {
+          setRules(ruleset.rules);
+        })
+        .catch((error) => {
+          console.error('Error fetching active ruleset:', error);
+        });
+    }
+  }, [userId]);
+
+  const itemNames = rules ? Object.keys(rules) : [];
 
   const startRotation = () => {
     setIsSpinning(true);
@@ -25,9 +40,11 @@ const DrinkRoulette = () => {
     setTimeout(() => {
       const resultIndex = 13 - Math.ceil((totalDegrees % 360) / 30);
       const resultKey = itemNames[resultIndex - 1];
-      const resultRule = activeRuleset[resultKey];
-      setResult(resultRule.title);
-      setDescription(resultRule.description);
+      const resultRule = rules[resultKey];
+      if (resultRule) {
+        setResult(resultRule.title);
+        setDescription(resultRule.description);
+      }
       setIsSpinning(false);
       setHasSpun(true);
     }, 3500);
@@ -44,23 +61,13 @@ const DrinkRoulette = () => {
         <ul className='circle' style={{ transform: `rotate(${rotation}deg)` }}>
           {itemNames.map((itemName) => (
             <li className='item' key={itemName}>
-              <div className='text text-black'>
-                {activeRuleset[itemName].title}
-              </div>
+              <div className='text text-black'>{rules[itemName].title}</div>
             </li>
           ))}
         </ul>
       </div>
       <div className='flex justify-center'>
-        <button
-          onClick={startRotation}
-          disabled={isSpinning}
-          className={`px-6 py-3 text-lg text-white rounded ${
-            isSpinning
-              ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
-              : 'bg-primary hover:bg-accent'
-          }`}
-        >
+        <button onClick={startRotation} className='btn btn-primary btn-lg mt-6'>
           SPIN
         </button>
       </div>
