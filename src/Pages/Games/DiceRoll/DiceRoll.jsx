@@ -19,7 +19,7 @@ function DiceRoll() {
   const [dice2, setDice2] = useState(null);
   const [total, setTotal] = useState(null);
   const [rules, setRules] = useState({});
-  const { user } = useContext(UserContext); // Access user data from UserContext
+  const { user } = useContext(UserContext);
   const userId = user?.id;
   const gameId = 'DiceRoll';
 

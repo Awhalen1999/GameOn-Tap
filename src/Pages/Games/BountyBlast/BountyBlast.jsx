@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import treasureChest from '../../../assets/treasure-chest.png';
 import bomb from '../../../assets/bomb.png';
 import treasure from '../../../assets/treasure.png';
 import empty from '../../../assets/empty.png';
-import useActiveRuleset from '../../UseActiveRuleset.js';
+import { UserContext } from '../../../utils/UserContext';
+import { getActiveRuleset } from '../../../utils/api';
 
 const BountyBlast = () => {
   const [bombs, setBombs] = useState(3);
@@ -12,7 +13,20 @@ const BountyBlast = () => {
   const [board, setBoard] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('');
-  const activeRuleset = useActiveRuleset('BountyBlast');
+  const [rules, setRules] = useState({});
+  const { user } = useContext(UserContext);
+  const userId = user?.id;
+  const gameId = 'BountyBlast';
+
+  useEffect(() => {
+    if (userId) {
+      getActiveRuleset(userId, gameId)
+        .then((ruleset) => {
+          setRules(ruleset.rules);
+        })
+        .catch((error) => {});
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -64,15 +78,21 @@ const BountyBlast = () => {
     if (!board[index].opened) {
       let newBoard = [...board];
       newBoard[index].opened = true;
+      let ruleKey;
       if (newBoard[index].type === 'bomb') {
         newBoard[index].img = bomb;
-        setMessage(activeRuleset[3].description);
+        ruleKey = '3';
       } else if (newBoard[index].type === 'treasure') {
         newBoard[index].img = treasure;
-        setMessage(activeRuleset[2].description);
+        ruleKey = '2';
       } else {
         newBoard[index].img = empty;
-        setMessage(activeRuleset[1].description);
+        ruleKey = '1';
+      }
+
+      const rule = rules[ruleKey];
+      if (rule) {
+        setMessage(rule.description);
       }
 
       setBoard(newBoard);
