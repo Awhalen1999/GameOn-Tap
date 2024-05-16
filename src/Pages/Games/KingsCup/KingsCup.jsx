@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import placeholderCard from '../../../assets/red.png';
-import KingsCupRules from './KingsCupRules.js';
 import initialDeck from '../DeckOfCards.jsx';
 import { FaInfoCircle } from 'react-icons/fa';
-import useActiveRuleset from '../../UseActiveRuleset.js';
+import { getActiveRuleset } from '../../../utils/api';
+import { UserContext } from '../../../utils/UserContext';
 
 const KingsCup = () => {
   const [deck, setDeck] = useState([...initialDeck]);
   const [drawnCards, setDrawnCards] = useState([]);
   const [cardImages, setCardImages] = useState({});
-  const [rules, setRules] = useState({});
-  const activeRuleset = useActiveRuleset('KingsCup');
   const [hideRules, setHideRules] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const remainingKings = deck.filter((card) => card.includes('K')).length;
+  const { user } = useContext(UserContext);
+  const userId = user?.id;
+  const gameId = 'KingsCup';
+  const [activeRuleset, setActiveRuleset] = useState(null);
+  const [currentRule, setCurrentRule] = useState({
+    title: '',
+    description: '',
+  });
 
   useEffect(() => {
     const loadImages = async () => {
@@ -23,15 +31,17 @@ const KingsCup = () => {
     };
     loadImages();
 
-    if (activeRuleset) {
-      setRules(activeRuleset.rules);
-    } else {
-      setRules(KingsCupRules);
-    }
-  }, [activeRuleset]);
+    // Fetch the active ruleset for the user and game
+    getActiveRuleset(userId, gameId)
+      .then((ruleset) => {
+        setActiveRuleset(ruleset);
+      })
+      .catch((error) => {
+        console.error('Error fetching active ruleset:', error);
+      });
+  }, [userId, gameId]);
 
-  const [showAlert, setShowAlert] = useState(false);
-
+  // Draw a card from the deck
   const drawCard = () => {
     if (deck.length === 0) {
       setShowAlert(true);
@@ -39,18 +49,32 @@ const KingsCup = () => {
     }
     const randomIndex = Math.floor(Math.random() * deck.length);
     const drawnCard = deck[randomIndex];
+
+    // Extract the rank of the card
+    const cardRank = drawnCard.slice(0, -1);
+
+    // Get the rule for the drawn card
+    let rule = activeRuleset?.rules[cardRank];
+
+    // Check for special rules
+    if (drawnCard === 'AS') {
+      rule = activeRuleset?.rules['AS'];
+    } else if (drawnCard.includes('K') && remainingKings === 1) {
+      rule = activeRuleset?.rules['LastK'];
+    }
+
+    setCurrentRule(rule);
+
     setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
     setDrawnCards([drawnCard]);
   };
 
+  // Reset the deck
   const resetDeck = () => {
     setDeck([...initialDeck]);
     setDrawnCards([]);
+    setCurrentRule({ title: '', description: '' });
   };
-
-  const remainingKings = deck.filter((card) => card.includes('K')).length;
-
-  console.log('drawnCards:', drawnCards);
 
   return (
     <div className='bg-base-100 h-full font-space'>
@@ -136,36 +160,11 @@ const KingsCup = () => {
           {!hideRules && drawnCards.length > 0 && (
             <div className='w-64 h-auto p-4 bg-neutral rounded shadow-lg border border-secondary'>
               <h3 className='text-xl font-bold text-neutral-content text-center'>
-                {drawnCards[0] === 'AS'
-                  ? (console.log('AS title:', activeRuleset['AS'].title),
-                    activeRuleset['AS'].title)
-                  : drawnCards[0].includes('K') && remainingKings === 0
-                  ? 'Last King'
-                  : activeRuleset && activeRuleset[drawnCards[0].slice(0, -1)]
-                  ? (console.log(
-                      'title:',
-                      activeRuleset[drawnCards[0].slice(0, -1)].title
-                    ),
-                    activeRuleset[drawnCards[0].slice(0, -1)].title)
-                  : ''}
+                {currentRule.title} {/* Display the rule title */}
               </h3>
               <div className='divider'></div>
               <p className='mt-2 text-neutral-content text-lg'>
-                {drawnCards[0] === 'AS'
-                  ? (console.log(
-                      'AS description:',
-                      activeRuleset['AS'].description
-                    ),
-                    activeRuleset['AS'].description)
-                  : drawnCards[0].includes('K') && remainingKings === 0
-                  ? 'The person who draws the last King must drink the entire King’s Cup.'
-                  : activeRuleset && activeRuleset[drawnCards[0].slice(0, -1)]
-                  ? (console.log(
-                      'description:',
-                      activeRuleset[drawnCards[0].slice(0, -1)].description
-                    ),
-                    activeRuleset[drawnCards[0].slice(0, -1)].description)
-                  : ''}
+                {currentRule.description} {/* Display the rule description */}
               </p>
             </div>
           )}

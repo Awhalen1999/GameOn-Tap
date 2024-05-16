@@ -56,7 +56,7 @@ export async function getActiveRuleset(userId, gameId) {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(JSON.stringify(message));
   }
 
   return response.json();
