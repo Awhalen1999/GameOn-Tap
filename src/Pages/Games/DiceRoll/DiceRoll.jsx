@@ -1,7 +1,7 @@
 // todo: add the roll number inside the rules box
 // todo: add rolling animation
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   FaDiceD6,
   FaDiceOne,
@@ -11,23 +11,29 @@ import {
   FaDiceFive,
   FaDiceSix,
 } from 'react-icons/fa';
-import DiceRollRules from './DiceRollRules';
-import useActiveRuleset from '../../UseActiveRuleset.js';
+import { getActiveRuleset } from '../../../utils/api';
+import { UserContext } from '../../../utils/UserContext';
 
 function DiceRoll() {
   const [dice1, setDice1] = useState(null);
   const [dice2, setDice2] = useState(null);
   const [total, setTotal] = useState(null);
   const [rules, setRules] = useState({});
-  const activeRuleset = useActiveRuleset('DiceRoll');
+  const { user } = useContext(UserContext); // Access user data from UserContext
+  const userId = user?.id;
+  const gameId = 'DiceRoll';
 
   useEffect(() => {
-    if (activeRuleset) {
-      setRules(activeRuleset.rules);
-    } else {
-      setRules(DiceRollRules);
+    if (userId) {
+      getActiveRuleset(userId, gameId)
+        .then((ruleset) => {
+          setRules(ruleset.rules);
+        })
+        .catch((error) => {
+          console.error('Error fetching active ruleset:', error);
+        });
     }
-  }, [activeRuleset]);
+  }, [userId]);
 
   const diceIcons = [
     null,
@@ -45,7 +51,8 @@ function DiceRoll() {
 
     setDice1(randomNumber1);
     setDice2(randomNumber2);
-    setTotal(randomNumber1 + randomNumber2);
+    const rollTotal = randomNumber1 + randomNumber2;
+    setTotal(rollTotal);
   };
 
   return (
@@ -74,10 +81,10 @@ function DiceRoll() {
         {total !== null ? (
           <div className='bg-neutral border border-secondary w-[40vw] rounded text-center p-4'>
             <h3 className='text-xl font-bold text-neutral-content'>
-              {activeRuleset[total].title}
+              {rules[total]?.title}
             </h3>
             <p className='mt-2 text-neutral-content text-lg font-medium'>
-              {activeRuleset[total].description}
+              {rules[total]?.description}
             </p>
           </div>
         ) : (
