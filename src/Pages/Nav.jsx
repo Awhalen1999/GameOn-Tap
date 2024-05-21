@@ -1,4 +1,5 @@
 //todo: update active ruleset on change
+// move the modal to the game component and pass the ruleset as a prop from the game.
 
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
