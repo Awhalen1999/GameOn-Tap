@@ -1,51 +1,23 @@
 //todo: update active ruleset on change
 // move the modal to the game component and pass the ruleset as a prop from the game.
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { UserContext } from '../utils/UserContext';
-import { getActiveRuleset } from '../utils/api';
-import { IoCloseSharp } from 'react-icons/io5';
-import { FaWrench, FaUserCircle } from 'react-icons/fa';
+import { HiOutlineMenuAlt3 } from 'react-icons/hi';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
   const location = useLocation();
-  const { user } = useContext(UserContext);
-  const gameId = location.pathname.split('/')[2];
-  const [activeRuleset, setActiveRuleset] = useState(null);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   const handleThemeChange = (event) => {
     const newTheme = event.target.checked ? 'myLight' : 'myDark';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
   };
-
-  useEffect(() => {
-    console.log('user:', user);
-    console.log('gameId:', gameId);
-    if (user && gameId) {
-      getActiveRuleset(user.id, gameId)
-        .then((ruleset) => {
-          console.log('ruleset:', ruleset);
-          setActiveRuleset(ruleset);
-        })
-        .catch(console.error);
-    }
-  }, [user, gameId]);
-
-  const gamePaths = [
-    '/games/KingsCup',
-    '/games/RideTheBus',
-    '/games/Snap',
-    '/games/Trivia',
-    '/games/PromptDash',
-    '/games/DiceRoll',
-    '/games/DrinkRoulette',
-    '/games/BountyBlast',
-  ];
 
   const gameTitles = {
     '/games/KingsCup': 'Kings Cup',
@@ -58,24 +30,6 @@ const Nav = () => {
     '/games/BountyBlast': 'Bounty Blast',
     '/games/AIBartender': 'AI Bartender',
   };
-
-  const gameTitlesButton = {
-    '/games/KingsCup': 'Kings Cup',
-    '/games/RideTheBus': 'Ride The Bus',
-    '/games/Snap': 'Snap',
-    '/games/Trivia': 'Trivia',
-    '/games/PromptDash': 'Prompt Dash',
-    '/games/DiceRoll': 'Dice Roll',
-    '/games/DrinkRoulette': 'Drink Roulette',
-    '/games/BountyBlast': 'Bounty Blast',
-  };
-
-  const gamesWithIcon = new Set([
-    '/games/KingsCup',
-    '/games/DiceRoll',
-    '/games/DrinkRoulette',
-    '/games/BountyBlast',
-  ]);
 
   return (
     <div className='navbar bg-base-100 h-20 font-space'>
@@ -100,21 +54,6 @@ const Nav = () => {
               >
                 Games
               </button>
-            </li>
-            <li>
-              {gamePaths.includes(location.pathname) && (
-                <button
-                  className='btn btn-ghost'
-                  onClick={() =>
-                    document.getElementById('my_modal_3').showModal()
-                  }
-                >
-                  {gameTitlesButton[location.pathname]}
-                  {gamesWithIcon.has(location.pathname) && (
-                    <FaWrench className='ml-2' size={18} />
-                  )}
-                </button>
-              )}
             </li>
             <li>
               <label className='swap swap-rotate'>
@@ -167,17 +106,6 @@ const Nav = () => {
               Games
             </button>
           </li>
-          {gamePaths.includes(location.pathname) && (
-            <button
-              className='btn btn-ghost'
-              onClick={() => document.getElementById('my_modal_3').showModal()}
-            >
-              {gameTitlesButton[location.pathname]}
-              {gamesWithIcon.has(location.pathname) && (
-                <FaWrench className='ml-2' size={18} />
-              )}
-            </button>
-          )}
           <li>
             <label className='swap swap-rotate'>
               <input
@@ -222,59 +150,6 @@ const Nav = () => {
           )}
         </li>
       </div>
-      {/* modal */}
-      <dialog id='my_modal_3' className='modal p-4 '>
-        <div className='modal-box border flex flex-col h-full'>
-          {/* modal nav */}
-          <div className='flex justify-between items-center mb-4'>
-            <h3 className='font-bold text-lg'>Active Ruleset</h3>
-            {gamesWithIcon.has(location.pathname) && (
-              <button
-                className='btn btn-ghost mr-4'
-                onClick={() => {
-                  navigate(
-                    `/EditRules${location.pathname.replace('/games', '')}`
-                  );
-                  document.getElementById('my_modal_3').close();
-                }}
-              >
-                Edit Rules <FaWrench />
-              </button>
-            )}
-            <form method='dialog'>
-              <button className='btn btn-circle btn-ghost'>
-                <IoCloseSharp size={24} />
-              </button>
-            </form>
-          </div>
-
-          {/* modal content */}
-          <div className='overflow-auto pr-2'>
-            {activeRuleset && (
-              <div>
-                <h4 className='font-bold text-xl mb-2'>{activeRuleset.name}</h4>
-                {Object.entries(activeRuleset.rules).map(
-                  ([ruleKey, rule], index, array) => (
-                    <div
-                      key={index}
-                      className={`mb-4 p-2 ${
-                        index !== array.length - 1
-                          ? 'border-b border-gray-200'
-                          : ''
-                      }`}
-                    >
-                      <h3 className='font-bold text-lg mb-2'>{rule.result}</h3>
-                      <p className='font-semibold text-base'>{rule.title}</p>
-                      <p className='text-sm'>{rule.description}</p>
-                    </div>
-                  )
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </dialog>
-      {/* modal end*/}
     </div>
   );
 };

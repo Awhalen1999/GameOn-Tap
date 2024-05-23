@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import { getActiveRuleset } from '../../utils/api';
 import { UserContext } from '../../utils/UserContext';
+import RulesetDisplay from '../../components/RulesetDisplay';
 
 function DiceRoll() {
   const [dice1, setDice1] = useState(null);
@@ -57,6 +58,17 @@ function DiceRoll() {
 
   return (
     <div className='h-full font-space'>
+      <button
+        className='btn'
+        onClick={() => document.getElementById('my_modal_1').showModal()}
+      >
+        open modal
+      </button>
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <RulesetDisplay />
+        </div>
+      </dialog>
       {/* dice */}
       <div className='flex justify-center mt-20'>
         {dice1 !== null ? (
