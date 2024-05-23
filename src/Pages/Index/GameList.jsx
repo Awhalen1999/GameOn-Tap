@@ -10,7 +10,7 @@ import diceRollCover from '../../assets/dice-roll-cover.png';
 import drinkRouletteCover from '../../assets/drink-roulette-cover.png';
 import bountyBlastCover from '../../assets/bounty-blast-cover.png';
 import aiBartenderCover from '../../assets/ai-bartender-cover.png';
-import ImageLoader from '../ImageLoader';
+import ImageLoader from '../../components/ImageLoader';
 
 const GameList = () => {
   const games = [

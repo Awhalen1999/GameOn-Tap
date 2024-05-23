@@ -7,7 +7,7 @@ import React, { useState, useContext } from 'react';
 import { signupUser } from '../utils/api.js';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-import { UserContext } from '../utils/UserContext';
+import { UserContext } from '../utils/UserContext.jsx';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');

@@ -16,7 +16,7 @@ import { TbPlayCard } from 'react-icons/tb';
 import { FaDiceFive } from 'react-icons/fa';
 import { IoIosMore } from 'react-icons/io';
 import { BiGridAlt } from 'react-icons/bi';
-import ImageLoader from '../ImageLoader';
+import ImageLoader from '../../components/ImageLoader';
 
 const GamePage = () => {
   const games = [
