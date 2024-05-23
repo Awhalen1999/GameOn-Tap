@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import kingsCupCover from '../../assets/kings-cup-cover.png';
-import rideTheBusCover from '../../assets/ride-the-bus-cover.png';
-import snapCover from '../../assets/snap-cover.png';
-import triviaCover from '../../assets/trivia-cover.png';
-import promptDashCover from '../../assets/prompt-dash-cover.png';
-import diceRollCover from '../../assets/dice-roll-cover.png';
-import drinkRouletteCover from '../../assets/drink-roulette-cover.png';
-import bountyBlastCover from '../../assets/bounty-blast-cover.png';
-import aiBartenderCover from '../../assets/ai-bartender-cover.png';
-import gameDescription from './GameDescription';
+import kingsCupCover from '../assets/kings-cup-cover.png';
+import rideTheBusCover from '../assets/ride-the-bus-cover.png';
+import snapCover from '../assets/snap-cover.png';
+import triviaCover from '../assets/trivia-cover.png';
+import promptDashCover from '../assets/prompt-dash-cover.png';
+import diceRollCover from '../assets/dice-roll-cover.png';
+import drinkRouletteCover from '../assets/drink-roulette-cover.png';
+import bountyBlastCover from '../assets/bounty-blast-cover.png';
+import aiBartenderCover from '../assets/ai-bartender-cover.png';
 import { MdMenuOpen, MdQuestionMark } from 'react-icons/md';
 import { FaUserGroup } from 'react-icons/fa6';
 import { TbPlayCard } from 'react-icons/tb';
 import { FaDiceFive } from 'react-icons/fa';
 import { IoIosMore } from 'react-icons/io';
 import { BiGridAlt } from 'react-icons/bi';
-import ImageLoader from '../../components/ImageLoader';
+import ImageLoader from '../components/ImageLoader';
 
 const GamePage = () => {
   const games = [
@@ -24,55 +23,58 @@ const GamePage = () => {
       name: 'Kings Cup',
       route: '/games/KingsCup',
       image: kingsCupCover,
-      description: gameDescription['Kings Cup'],
+      description:
+        'Get ready for a classic with Kings Cup! Each card comes with its own rule, leading to hilarious antics. But watch out for the final king - the one who draws it loses!',
     },
     {
       name: 'Ride The Bus',
       route: '/games/RideTheBus',
       image: rideTheBusCover,
-      description: gameDescription['Ride The Bus'],
+      description: `Customize your ride and brace yourself for a challenging journey! With each card chosen, you're one step closer to victory. But choose wisely to avoid getting stranded on the bus!`,
     },
     {
       name: 'Dice Roll',
       route: '/games/DiceRoll',
       image: diceRollCover,
-      description: gameDescription['Dice Roll'],
+      description:
+        'Roll the dice and let the fun begin in Dice Roll! Each number corresponds to a unique rule or challenge, promising surprises and laughs with every roll.',
     },
     {
       name: 'Snap',
       route: '/games/Snap',
       image: snapCover,
-      description: gameDescription['Snap'],
+      description: `Keep your reflexes sharp in Snap! Be the first to recognize when the deck snaps with two of the same card drawn consecutively. It's a fast-paced frenzy of slaps and shouts!`,
     },
     {
       name: 'Prompt Dash',
       route: '/games/PromptDash',
       image: promptDashCover,
-      description: gameDescription['Prompt Dash'],
+      description: `Race against the Your friends in Prompt Dash! With each prompt drawn, be quick to complete the prompt before other players. It's a frantic rush of creativity and laughter!`,
     },
     {
       name: 'Bounty Blast',
       route: '/games/BountyBlast',
       image: bountyBlastCover,
-      description: gameDescription['Bounty Blast'],
+      description: `Embark on a treasure hunt in Bounty Blast! Uncover chests to reveal bombs or treasures, but be careful - one wrong move and you'll face the explosive consequences!`,
     },
     {
       name: 'Trivia',
       route: '/games/Trivia',
       image: triviaCover,
-      description: gameDescription['Trivia'],
+      description:
+        'Test your knowledge and sip on drinks in Trivia! Answer questions across various categories and see who emerges as the trivia champ among your friends.',
     },
     {
       name: 'Drink Roulette',
       route: '/games/DrinkRoulette',
       image: drinkRouletteCover,
-      description: gameDescription['Drink Roulette'],
+      description: `Take a spin and let fate decide your drinking fate in Drink Roulette! Whether it's a shot or a fun challenge, the roulette wheel adds an exciting twist to your drinking game night.`,
     },
     {
       name: 'AI Bartender',
       route: '/games/AIBartender',
       image: aiBartenderCover,
-      description: gameDescription['AI Bartender'],
+      description: `Embark on a treasure hunt in Bounty Blast! Uncover chests to reveal bombs or treasures, but be careful - one wrong move and you'll face the explosive consequences!`,
     },
   ];
 

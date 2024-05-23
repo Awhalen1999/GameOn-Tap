@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import treasureChest from '../../../assets/treasure-chest.png';
-import bomb from '../../../assets/bomb.png';
-import treasure from '../../../assets/treasure.png';
-import empty from '../../../assets/empty.png';
-import { UserContext } from '../../../utils/UserContext';
-import { getActiveRuleset } from '../../../utils/api';
+import treasureChest from '../../assets/treasure-chest.png';
+import bomb from '../../assets/bomb.png';
+import treasure from '../../assets/treasure.png';
+import empty from '../../assets/empty.png';
+import { UserContext } from '../../utils/UserContext';
+import { getActiveRuleset } from '../../utils/api';
 
 const BountyBlast = () => {
   const [bombs, setBombs] = useState(3);

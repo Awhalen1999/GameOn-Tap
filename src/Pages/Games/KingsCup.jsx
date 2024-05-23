@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import placeholderCard from '../../../assets/red.png';
-import initialDeck from '../DeckOfCards.jsx';
+import placeholderCard from '../../assets/red.png';
+import initialDeck from '../../components/DeckOfCards.jsx';
 import { FaInfoCircle } from 'react-icons/fa';
-import { getActiveRuleset } from '../../../utils/api.js';
-import { UserContext } from '../../../utils/UserContext.jsx';
+import { getActiveRuleset } from '../../utils/api.js';
+import { UserContext } from '../../utils/UserContext.jsx';
 
 const KingsCup = () => {
   const [deck, setDeck] = useState([...initialDeck]);

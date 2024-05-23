@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import initialDeck from '../DeckOfCards';
-import placeholderCard from '../../../assets/red.png';
+import initialDeck from '../../components/DeckOfCards';
+import placeholderCard from '../../assets/red.png';
 import { FaInfoCircle } from 'react-icons/fa';
 
 const Snap = () => {

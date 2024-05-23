@@ -11,8 +11,8 @@ import {
   FaDiceFive,
   FaDiceSix,
 } from 'react-icons/fa';
-import { getActiveRuleset } from '../../../utils/api';
-import { UserContext } from '../../../utils/UserContext';
+import { getActiveRuleset } from '../../utils/api';
+import { UserContext } from '../../utils/UserContext';
 
 function DiceRoll() {
   const [dice1, setDice1] = useState(null);

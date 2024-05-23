@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../../assets/red.png';
-import initialDeck from '../DeckOfCards.jsx';
+import initialDeck from '../../../components/DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
 import { FaInfoCircle } from 'react-icons/fa';
