@@ -1,9 +1,12 @@
+//todo: clean up code here
+
 import React, { useState, useEffect, useContext } from 'react';
 import placeholderCard from '../../assets/red.png';
 import initialDeck from '../../components/DeckOfCards.jsx';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaWrench } from 'react-icons/fa';
 import { getActiveRuleset } from '../../utils/api.js';
 import { UserContext } from '../../utils/UserContext.jsx';
+import RulesetDisplay from '../../components/RulesetDisplay';
 
 const KingsCup = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -78,6 +81,20 @@ const KingsCup = () => {
 
   return (
     <div className='bg-base-100 h-full font-space'>
+      {/* Game Rules button */}
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Kings Cup Rules <FaWrench />
+        </button>
+        <dialog id='my_modal_1' className='modal'>
+          <div className='modal-box'>
+            <RulesetDisplay rules={activeRuleset?.rules} gameId='KingsCup' />
+          </div>
+        </dialog>
+      </div>
       {/* alert */}
       {showAlert && (
         <div

@@ -1,6 +1,3 @@
-// todo: add the roll number inside the rules box
-// todo: add rolling animation
-
 import React, { useState, useEffect, useContext } from 'react';
 import {
   FaDiceD6,
@@ -10,16 +7,15 @@ import {
   FaDiceFour,
   FaDiceFive,
   FaDiceSix,
+  FaWrench,
 } from 'react-icons/fa';
 import { getActiveRuleset } from '../../utils/api';
 import { UserContext } from '../../utils/UserContext';
 import RulesetDisplay from '../../components/RulesetDisplay';
 
 function DiceRoll() {
-  const [dice1, setDice1] = useState(null);
-  const [dice2, setDice2] = useState(null);
-  const [total, setTotal] = useState(null);
-  const [rules, setRules] = useState({});
+  const [dice, setDice] = useState([null, null]);
+  const [gameState, setGameState] = useState({ rules: {}, total: null });
   const { user } = useContext(UserContext);
   const userId = user?.id;
   const gameId = 'DiceRoll';
@@ -28,7 +24,7 @@ function DiceRoll() {
     if (userId) {
       getActiveRuleset(userId, gameId)
         .then((ruleset) => {
-          setRules(ruleset.rules);
+          setGameState((prevState) => ({ ...prevState, rules: ruleset.rules }));
         })
         .catch((error) => {
           console.error('Error fetching active ruleset:', error);
@@ -49,37 +45,35 @@ function DiceRoll() {
   const rollDice = () => {
     const randomNumber1 = Math.floor(Math.random() * 6) + 1;
     const randomNumber2 = Math.floor(Math.random() * 6) + 1;
-
-    setDice1(randomNumber1);
-    setDice2(randomNumber2);
     const rollTotal = randomNumber1 + randomNumber2;
-    setTotal(rollTotal);
+
+    setDice([randomNumber1, randomNumber2]);
+    setGameState((prevState) => ({ ...prevState, total: rollTotal }));
   };
 
   return (
     <div className='h-full font-space'>
-      <button
-        className='btn'
-        onClick={() => document.getElementById('my_modal_1').showModal()}
-      >
-        open modal
-      </button>
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4 font-bold'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Dice Roll Rules <FaWrench />
+        </button>
+      </div>
       <dialog id='my_modal_1' className='modal'>
         <div className='modal-box'>
-          <RulesetDisplay />
+          <RulesetDisplay rules={gameState.rules} gameId='DiceRoll' />
         </div>
       </dialog>
       {/* dice */}
       <div className='flex justify-center mt-20'>
-        {dice1 !== null ? (
-          React.cloneElement(diceIcons[dice1], { size: 96 })
-        ) : (
-          <FaDiceD6 size={96} />
-        )}
-        {dice2 !== null ? (
-          React.cloneElement(diceIcons[dice2], { size: 96 })
-        ) : (
-          <FaDiceD6 size={96} />
+        {dice.map((die, index) =>
+          die !== null ? (
+            React.cloneElement(diceIcons[die], { size: 96, key: index })
+          ) : (
+            <FaDiceD6 size={96} key={index} />
+          )
         )}
       </div>
       {/* dice roll button */}
@@ -90,13 +84,13 @@ function DiceRoll() {
       </div>
       {/* dice roll rules */}
       <div className='flex justify-center mt-10'>
-        {total !== null ? (
+        {gameState.total !== null ? (
           <div className='bg-neutral border border-secondary w-[40vw] rounded text-center p-4'>
             <h3 className='text-xl font-bold text-neutral-content'>
-              {rules[total]?.title}
+              {gameState.rules[gameState.total]?.title}
             </h3>
             <p className='mt-2 text-neutral-content text-lg font-medium'>
-              {rules[total]?.description}
+              {gameState.rules[gameState.total]?.description}
             </p>
           </div>
         ) : (
