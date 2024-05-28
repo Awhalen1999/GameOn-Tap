@@ -2,12 +2,13 @@ const baseURL = 'http://localhost:3000';
 
 // Signup
 export async function signupUser(username, email, password) {
+  const theme = 'myDark'; // Manually set the theme
   const response = await fetch(`${baseURL}/users/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, email, password }),
+    body: JSON.stringify({ username, email, password, theme }), // Include theme in the body
   });
 
   if (!response.ok) {
