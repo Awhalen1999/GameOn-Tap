@@ -7,6 +7,8 @@ import './DrinkRoulette.css';
 import { TiArrowDownThick } from 'react-icons/ti';
 import { getActiveRuleset } from '../../../utils/api';
 import { UserContext } from '../../../utils/UserContext';
+import RulesetDisplay from '../../../components/RulesetDisplay';
+import { FaWrench } from 'react-icons/fa';
 
 const DrinkRoulette = () => {
   const [rotation, setRotation] = useState(0);
@@ -52,6 +54,19 @@ const DrinkRoulette = () => {
 
   return (
     <div className='h-full bg-base-100 font-space'>
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4 font-bold'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Drink Roulette Rules <FaWrench />
+        </button>
+      </div>
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <RulesetDisplay rules={rules} gameId='DrinkRoulette' />
+        </div>
+      </dialog>
       <div className='flex justify-center'>
         <div className='z-10'>
           <TiArrowDownThick size={38} />
