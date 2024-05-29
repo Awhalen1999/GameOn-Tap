@@ -5,6 +5,8 @@ import treasure from '../../assets/treasure.png';
 import empty from '../../assets/empty.png';
 import { UserContext } from '../../utils/UserContext';
 import { getActiveRuleset } from '../../utils/api';
+import RulesetDisplay from '../../components/RulesetDisplay';
+import { FaWrench } from 'react-icons/fa';
 
 const BountyBlast = () => {
   const [bombs, setBombs] = useState(3);
@@ -111,6 +113,19 @@ const BountyBlast = () => {
 
   return (
     <div className='h-full bg-base-100 font-space'>
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4 font-bold'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Bounty Blast Rules <FaWrench />
+        </button>
+      </div>
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <RulesetDisplay rules={rules} gameId='BountyBlast' />
+        </div>
+      </dialog>
       {!gameStarted && (
         <div className='flex flex-col items-center justify-center'>
           <h2 className='text-4xl font-bold m-8 text-base-content'>
