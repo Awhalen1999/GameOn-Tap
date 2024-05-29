@@ -21,7 +21,7 @@ const Snap = () => {
     const loadImages = async () => {
       let images = {};
       for (let card of initialDeck) {
-        images[card] = (await import(`../../../assets/${card}.png`)).default;
+        images[card] = (await import(`../../assets/${card}.png`)).default;
       }
       setCardImages(images);
     };
