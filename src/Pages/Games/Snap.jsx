@@ -1,4 +1,4 @@
-//todo: add ruleset button which will change with suit and value
+//todo: ask about not adding ruleset button for this game
 
 import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../../components/DeckOfCards';
