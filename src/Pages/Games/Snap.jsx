@@ -1,3 +1,5 @@
+//todo: add ruleset button which will change with suit and value
+
 import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../../components/DeckOfCards';
 import placeholderCard from '../../assets/red.png';
