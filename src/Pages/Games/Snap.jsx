@@ -1,4 +1,6 @@
 //todo: ask about not adding ruleset button for this game
+// if suit set activeRuleset to suit (change saved rulesets to 2 different rulesets)
+// handle set activeRuleset in game component
 
 import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../../components/DeckOfCards';
