@@ -116,7 +116,7 @@ const SignupPage = () => {
                     <input
                       type='checkbox'
                       id='showPassword'
-                      Checked={showPassword}
+                      checked={showPassword}
                       onChange={togglePasswordVisibility}
                       className='ml-2 checkbox checkbox-primary checkbox-sm'
                     />
