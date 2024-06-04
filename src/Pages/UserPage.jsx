@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../utils/UserContext';
 import { getRulesets } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
-  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
   const [gameId, setGameId] = useState('');
   const [rulesets, setRulesets] = useState([]);
 
@@ -30,8 +32,22 @@ const UserPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    // Clear the user session from the context
+    setUser(null);
+
+    // Remove the user's information from the session storage
+    sessionStorage.removeItem('user');
+
+    // Redirect to the home page
+    navigate('/');
+  };
+
   return (
     <div className='h-full bg-base-100 p-8'>
+      <button onClick={handleLogout} className='btn btn-error mb-4'>
+        Logout
+      </button>
       <div className='mb-4'>
         <p className='mb-2'>
           <span className='font-bold '>ID:</span> {user.id}
