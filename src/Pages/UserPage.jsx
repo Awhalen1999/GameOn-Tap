@@ -26,20 +26,22 @@ const UserPage = () => {
   };
 
   const fetchAndSetRulesets = async () => {
+    console.log('User object:', user);
     if (gameId) {
-      const rulesets = await getRulesets(user.id, gameId);
+      console.log(
+        `Fetching rulesets for user ID: ${user.user_id} and game ID: ${gameId}`
+      );
+      const rulesets = await getRulesets(user.user_id, gameId);
+      console.log('Received rulesets from backend:', rulesets);
       setRulesets(rulesets);
     }
   };
 
   const handleLogout = () => {
-    // Clear the user session from the context
     setUser(null);
 
-    // Remove the user's information from the session storage
     sessionStorage.removeItem('user');
 
-    // Redirect to the home page
     navigate('/');
   };
 
@@ -50,7 +52,7 @@ const UserPage = () => {
       </button>
       <div className='mb-4'>
         <p className='mb-2'>
-          <span className='font-bold '>ID:</span> {user.id}
+          <span className='font-bold '>ID:</span> {user.user_id}
         </p>
         <p className='mb-2 '>
           <span className='font-bold '>Username:</span> {user.username}
@@ -80,15 +82,18 @@ const UserPage = () => {
       </div>
       <div className='mt-8'>
         {rulesets.map((ruleset) => (
-          <div key={ruleset.id} className='mb-4 p-4 bg-base-100 rounded shadow'>
+          <div
+            key={ruleset.ruleset_id}
+            className='mb-4 p-4 bg-base-100 rounded shadow'
+          >
             <div className='flex  items-center mb-4'>
               <h2 className='font-bold text-lg mr-4 text-primary'>
                 {ruleset.name}
               </h2>
-              <p className='text-gray-500'>ID: {ruleset.id}</p>
+              <p className='text-gray-500'>ID: {ruleset.ruleset_id}</p>
             </div>
             {Object.values(ruleset.rules).map((rule, index) => (
-              <div key={index} className='mb-4'>
+              <div key={`${ruleset.ruleset_id}-${index}`} className='mb-4'>
                 <h3 className='text-xl font-semibold mb-1'>{rule.result}</h3>
                 <h4>{rule.title}</h4>
                 <p>{rule.description}</p>
