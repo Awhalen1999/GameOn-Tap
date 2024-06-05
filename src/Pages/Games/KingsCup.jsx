@@ -16,7 +16,7 @@ const KingsCup = () => {
   const [showAlert, setShowAlert] = useState(false);
   const remainingKings = deck.filter((card) => card.includes('K')).length;
   const { user } = useContext(UserContext);
-  const userId = user?.id;
+  const userId = user.user_id;
   const gameId = 'KingsCup';
   const [activeRuleset, setActiveRuleset] = useState(null);
   const [currentRule, setCurrentRule] = useState({
@@ -37,6 +37,7 @@ const KingsCup = () => {
     // Fetch the active ruleset for the user and game
     getActiveRuleset(userId, gameId)
       .then((ruleset) => {
+        console.log('Fetched ruleset:', ruleset);
         setActiveRuleset(ruleset);
       })
       .catch((error) => {
@@ -78,6 +79,9 @@ const KingsCup = () => {
     setDrawnCards([]);
     setCurrentRule({ title: '', description: '' });
   };
+
+  console.log('userId:', userId);
+  console.log('gameId:', gameId);
 
   return (
     <div className='bg-base-100 h-full font-space'>

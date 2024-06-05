@@ -17,7 +17,6 @@ const UserPage = () => {
     'PromptDash',
     'DiceRoll',
     'DrinkRoulette',
-    'AIBartender',
     'BountyBlast',
   ];
 
@@ -26,13 +25,8 @@ const UserPage = () => {
   };
 
   const fetchAndSetRulesets = async () => {
-    console.log('User object:', user);
     if (gameId) {
-      console.log(
-        `Fetching rulesets for user ID: ${user.user_id} and game ID: ${gameId}`
-      );
       const rulesets = await getRulesets(user.user_id, gameId);
-      console.log('Received rulesets from backend:', rulesets);
       setRulesets(rulesets);
     }
   };
