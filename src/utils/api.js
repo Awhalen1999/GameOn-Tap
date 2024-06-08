@@ -49,10 +49,24 @@ export async function getRulesets(userId, gameId) {
   return response.json();
 }
 
+// Get a specific ruleset for a specific user and game
+export async function getRuleset(userId, gameId, rulesetId) {
+  const response = await fetch(
+    `${baseURL}/users/${userId}/${gameId}/rulesets/${rulesetId}`
+  );
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
 // Get the active ruleset for a specific user and game
 export async function getActiveRuleset(userId, gameId) {
   const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/activeRuleset`
+    `${baseURL}/users/${userId}/${gameId}/active_ruleset`
   );
 
   if (!response.ok) {
@@ -66,7 +80,7 @@ export async function getActiveRuleset(userId, gameId) {
 // Update the active ruleset for a specific user and game
 export async function setActiveRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/activeRuleset`,
+    `${baseURL}/users/${userId}/${gameId}/active_ruleset`,
     {
       method: 'PUT',
       headers: {

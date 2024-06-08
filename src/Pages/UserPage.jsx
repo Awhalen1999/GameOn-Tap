@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../utils/UserContext';
-import { getRulesets } from '../utils/api';
+import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
@@ -8,6 +8,7 @@ const UserPage = () => {
   const { user, setUser } = useContext(UserContext);
   const [gameId, setGameId] = useState('');
   const [rulesets, setRulesets] = useState([]);
+  const [activeRuleset, setActiveRuleset] = useState(null);
 
   const gameIds = [
     'KingsCup',
@@ -24,19 +25,53 @@ const UserPage = () => {
     setGameId(event.target.value);
   };
 
-  const fetchAndSetRulesets = async () => {
-    if (gameId) {
-      const rulesets = await getRulesets(user.user_id, gameId);
-      setRulesets(rulesets);
-    }
-  };
-
   const handleLogout = () => {
     setUser(null);
 
     sessionStorage.removeItem('user');
 
     navigate('/');
+  };
+
+  // fetch all rulesets for the selected game
+  const fetchRulesets = async () => {
+    if (gameId) {
+      const rulesets = await getRulesets(user.user_id, gameId);
+      setRulesets(rulesets);
+    }
+  };
+
+  const fetchActiveRuleset = async () => {
+    if (gameId) {
+      console.log(
+        `Fetching active ruleset for user ${user.user_id} and game ${gameId}`
+      );
+      const activeRulesetResponse = await getActiveRuleset(
+        user.user_id,
+        gameId
+      );
+      console.log('Active ruleset response:', activeRulesetResponse);
+
+      if (activeRulesetResponse.ruleset_id) {
+        console.log(
+          'Getting ruleset with user ID:',
+          user.user_id,
+          'game ID:',
+          gameId,
+          'ruleset ID:',
+          activeRulesetResponse.ruleset_id
+        );
+        const activeRuleset = await getRuleset(
+          user.user_id,
+          gameId,
+          activeRulesetResponse.ruleset_id
+        );
+        console.log('Active ruleset:', activeRuleset);
+        setActiveRuleset(activeRuleset);
+      } else {
+        console.log('No active ruleset found for this user and game');
+      }
+    }
   };
 
   return (
@@ -70,31 +105,42 @@ const UserPage = () => {
             </option>
           ))}
         </select>
-        <button className='btn btn-primary mt-4' onClick={fetchAndSetRulesets}>
+        <button className='btn btn-primary mt-4' onClick={fetchRulesets}>
           Fetch
+        </button>
+        <button
+          className='btn btn-primary mt-4 ml-4'
+          onClick={fetchActiveRuleset}
+        >
+          Fetch Active Ruleset
         </button>
       </div>
       <div className='mt-8'>
-        {rulesets.map((ruleset) => (
-          <div
-            key={ruleset.ruleset_id}
-            className='mb-4 p-4 bg-base-100 rounded shadow'
-          >
-            <div className='flex  items-center mb-4'>
-              <h2 className='font-bold text-lg mr-4 text-primary'>
-                {ruleset.name}
-              </h2>
-              <p className='text-gray-500'>ID: {ruleset.ruleset_id}</p>
-            </div>
-            {Object.values(ruleset.rules).map((rule, index) => (
-              <div key={`${ruleset.ruleset_id}-${index}`} className='mb-4'>
-                <h3 className='text-xl font-semibold mb-1'>{rule.result}</h3>
-                <h4>{rule.title}</h4>
-                <p>{rule.description}</p>
+        {[...rulesets, activeRuleset].map(
+          (ruleset) =>
+            ruleset && (
+              <div
+                key={ruleset.ruleset_id}
+                className='mb-4 p-4 bg-base-100 rounded shadow'
+              >
+                <div className='flex  items-center mb-4'>
+                  <h2 className='font-bold text-lg mr-4 text-primary'>
+                    {ruleset.name}
+                  </h2>
+                  <p className='text-gray-500'>ID: {ruleset.ruleset_id}</p>
+                </div>
+                {Object.values(ruleset.rules).map((rule, index) => (
+                  <div key={`${ruleset.ruleset_id}-${index}`} className='mb-4'>
+                    <h3 className='text-xl font-semibold mb-1'>
+                      {rule.result}
+                    </h3>
+                    <h4>{rule.title}</h4>
+                    <p>{rule.description}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ))}
+            )
+        )}
       </div>
     </div>
   );
