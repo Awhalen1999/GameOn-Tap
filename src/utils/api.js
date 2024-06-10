@@ -10,7 +10,7 @@ export async function signupUser(username, email, password) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, email, password, theme }), // Include theme in the body
+    body: JSON.stringify({ username, email, password, theme }),
   });
 
   if (!response.ok) {
@@ -23,6 +23,8 @@ export async function signupUser(username, email, password) {
 
 //login
 export async function loginUser(email, password) {
+  console.log('Logging in with email:', email, 'and password:', password);
+
   const response = await fetch(`${baseURL}/users/login`, {
     method: 'POST',
     headers: {
@@ -30,6 +32,8 @@ export async function loginUser(email, password) {
     },
     body: JSON.stringify({ email, password }),
   });
+
+  console.log('Server response:', response);
 
   if (!response.ok) {
     const message = await response.json();
@@ -57,12 +61,13 @@ export async function getRuleset(userId, gameId, rulesetId) {
     `${baseURL}/users/${userId}/${gameId}/rulesets/${rulesetId}`
   );
 
+  const data = await response.json();
+
   if (!response.ok) {
-    const message = await response.json();
-    throw new Error(message);
+    throw new Error(data.message);
   }
 
-  return response.json();
+  return data;
 }
 
 // Get the active ruleset for a specific user and game
