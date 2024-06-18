@@ -1,3 +1,5 @@
+//todo: clear rulesets if fetching new rulesets
+
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../utils/UserContext';
 import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
@@ -41,35 +43,22 @@ const UserPage = () => {
     }
   };
 
+  // fetch the active ruleset for the selected game
   const fetchActiveRuleset = async () => {
     if (gameId) {
-      console.log(
-        `Fetching active ruleset for user ${user.user_id} and game ${gameId}`
-      );
       const activeRulesetResponse = await getActiveRuleset(
         user.user_id,
         gameId
       );
-      console.log('Active ruleset response:', activeRulesetResponse);
 
       if (activeRulesetResponse.ruleset_id) {
-        console.log(
-          'Getting ruleset with user ID:',
-          user.user_id,
-          'game ID:',
-          gameId,
-          'ruleset ID:',
-          activeRulesetResponse.ruleset_id
-        );
         const activeRuleset = await getRuleset(
           user.user_id,
           gameId,
           activeRulesetResponse.ruleset_id
         );
-        console.log('Active ruleset:', activeRuleset);
+
         setActiveRuleset(activeRuleset);
-      } else {
-        console.log('No active ruleset found for this user and game');
       }
     }
   };

@@ -9,6 +9,7 @@ import {
   setActiveRuleset,
   saveRuleset,
   deleteRuleset,
+  getRuleset,
 } from '../utils/api';
 import { MdEdit, MdDelete, MdOutlineInfo } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
@@ -28,25 +29,40 @@ const EditRulesPage = () => {
 
   // Fetch rulesets all rulesets for game id and user id
   useEffect(() => {
-    getRulesets(user.id, game).then(setRulesets).catch(console.error);
-  }, [user.id, game]);
+    getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
+  }, [user.user_id, game]);
 
   // Fetch active ruleset for game id and user id
   useEffect(() => {
-    getActiveRuleset(user.id, game)
-      .then((activeRuleset) => {
-        setActiveRulesetState(activeRuleset);
-        setSelectedRuleset(activeRuleset.id);
-      })
-      .catch(console.error);
-  }, [user.id, game]);
+    const fetchActiveRuleset = async () => {
+      if (game) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          game
+        );
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user.user_id,
+            game,
+            activeRulesetResponse.ruleset_id
+          );
+
+          setActiveRulesetState(activeRuleset);
+          setSelectedRuleset(activeRuleset.ruleset_id);
+        }
+      }
+    };
+
+    fetchActiveRuleset().catch(console.error);
+  }, [user.user_id, game]);
 
   // Change active ruleset
   const handleSelectChange = async (event) => {
     const rulesetId = event.target.value;
     setSelectedRuleset(rulesetId);
-    await setActiveRuleset(user.id, game, rulesetId);
-    getActiveRuleset(user.id, game)
+    setActiveRuleset(user.user_id, game, rulesetId)
+      .then(() => getActiveRuleset(user.user_id, game))
       .then(setActiveRulesetState)
       .catch(console.error);
   };
@@ -180,7 +196,7 @@ const EditRulesPage = () => {
               onChange={handleSelectChange}
             >
               {rulesets.map((ruleset) => (
-                <option key={ruleset.id} value={ruleset.id}>
+                <option key={ruleset.ruleset_id} value={ruleset.ruleset_id}>
                   {ruleset.name}
                 </option>
               ))}
@@ -195,7 +211,7 @@ const EditRulesPage = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal to show rulesets */}
       <dialog id='my_modal_1' className='modal'>
         <div className='modal-box'>
           <div className='flex justify-between items-center '>
@@ -211,14 +227,15 @@ const EditRulesPage = () => {
           <ul className='py-4'>
             {rulesets.map((ruleset) => (
               <li
-                key={ruleset.id}
+                key={ruleset.ruleset_id}
                 className='bg-neutral py-2 px-4 mb-2 rounded-lg text-lg flex justify-between items-center'
               >
+                <span>{ruleset.ruleset_id}</span>
                 <span>{ruleset.name}</span>
                 {Number(ruleset.id) !== 0 && (
                   <button
                     className='btn btn-error'
-                    onClick={() => handleDelete(ruleset.id)}
+                    onClick={() => handleDelete(ruleset.ruleset_id)}
                   >
                     <MdDelete size={22} />
                   </button>
@@ -237,8 +254,9 @@ const EditRulesPage = () => {
           </h2>
 
           {/* Rules Section */}
-          {Object.entries(activeRuleset.rules).map(([ruleKey, rule], index) => (
-            <div key={index} className='mb-4'>
+          {Object.entries(activeRuleset.rules).map(([ruleKey, rule]) => (
+            <div key={ruleKey} className='mb-4'>
+              {/* Result Section */}
               <h3 className='text-xl font-semibold mb-2 mt-6'>{rule.result}</h3>
 
               {/* Title Section */}

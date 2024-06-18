@@ -91,7 +91,7 @@ export async function setActiveRuleset(userId, gameId, rulesetId) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ rulesetId }),
+      body: JSON.stringify({ ruleset_id }),
     }
   );
 

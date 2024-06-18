@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import placeholderCard from '../../assets/red.png';
 import initialDeck from '../../components/DeckOfCards.jsx';
 import { FaInfoCircle, FaWrench } from 'react-icons/fa';
-import { getActiveRuleset } from '../../utils/api.js';
+import { getActiveRuleset, getRuleset } from '../../utils/api.js';
 import { UserContext } from '../../utils/UserContext.jsx';
 import RulesetDisplay from '../../components/RulesetDisplay';
 
@@ -25,6 +25,7 @@ const KingsCup = () => {
   });
 
   useEffect(() => {
+    // Load card images
     const loadImages = async () => {
       let images = {};
       for (let card of initialDeck) {
@@ -35,17 +36,28 @@ const KingsCup = () => {
     loadImages();
 
     // Fetch the active ruleset for the user and game
-    getActiveRuleset(userId, gameId)
-      .then((ruleset) => {
-        console.log('Fetched ruleset:', ruleset);
-        setActiveRuleset(ruleset);
-      })
-      .catch((error) => {
-        console.error('Error fetching active ruleset:', error);
-      });
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user.user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setActiveRuleset(activeRuleset);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
   }, [userId, gameId]);
 
-  // Draw a card from the deck
+  // Draw a random card from the deck
   const drawCard = () => {
     if (deck.length === 0) {
       setShowAlert(true);
@@ -67,7 +79,16 @@ const KingsCup = () => {
       rule = activeRuleset?.rules['LastK'];
     }
 
-    setCurrentRule(rule);
+    // Only set currentRule if rule is defined
+    if (rule) {
+      setCurrentRule(rule);
+    } else {
+      // Set a default rule if no rule is found
+      setCurrentRule({
+        title: 'No Rule',
+        description: 'This card has no rule.',
+      });
+    }
 
     setDeck((prevDeck) => prevDeck.filter((card) => card !== drawnCard));
     setDrawnCards([drawnCard]);
@@ -79,9 +100,6 @@ const KingsCup = () => {
     setDrawnCards([]);
     setCurrentRule({ title: '', description: '' });
   };
-
-  console.log('userId:', userId);
-  console.log('gameId:', gameId);
 
   return (
     <div className='bg-base-100 h-full font-space'>
