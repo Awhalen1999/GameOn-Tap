@@ -91,7 +91,7 @@ export async function setActiveRuleset(userId, gameId, rulesetId) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ruleset_id }),
+      body: JSON.stringify({ ruleset_id: rulesetId }),
     }
   );
 
@@ -104,7 +104,7 @@ export async function setActiveRuleset(userId, gameId, rulesetId) {
 }
 
 // Save a ruleset for a specific user and game
-export async function saveRuleset(userId, gameId, rulesetName, rules) {
+export async function saveRuleset(userId, gameId, name, rules) {
   const response = await fetch(
     `${baseURL}/users/${userId}/${gameId}/rulesets`,
     {
@@ -112,7 +112,7 @@ export async function saveRuleset(userId, gameId, rulesetName, rules) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name: rulesetName, rules }),
+      body: JSON.stringify({ name, rules }),
     }
   );
 
