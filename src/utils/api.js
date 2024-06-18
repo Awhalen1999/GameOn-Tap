@@ -7,8 +7,6 @@ export async function signupUser(username, email, password) {
   const theme = 'myDark'; // Manually set the theme
   const requestBody = JSON.stringify({ username, email, password, theme });
 
-  console.log(requestBody); // Log the request body
-
   const response = await fetch(`${baseURL}/users/signup`, {
     method: 'POST',
     headers: {
@@ -27,8 +25,6 @@ export async function signupUser(username, email, password) {
 
 //login
 export async function loginUser(email, password) {
-  console.log('Logging in with email:', email, 'and password:', password);
-
   const response = await fetch(`${baseURL}/users/login`, {
     method: 'POST',
     headers: {
@@ -36,8 +32,6 @@ export async function loginUser(email, password) {
     },
     body: JSON.stringify({ email, password }),
   });
-
-  console.log('Server response:', response);
 
   if (!response.ok) {
     const message = await response.json();
