@@ -61,9 +61,17 @@ const EditRulesPage = () => {
   const handleSelectChange = async (event) => {
     const rulesetId = event.target.value;
     setSelectedRuleset(rulesetId);
+
+    console.log('Setting active ruleset...'); // Debugging line
     setActiveRuleset(user.user_id, game, rulesetId)
-      .then(() => getActiveRuleset(user.user_id, game))
-      .then(setActiveRulesetState)
+      .then(() => {
+        console.log('Getting active ruleset...'); // Debugging line
+        return getActiveRuleset(user.user_id, game);
+      })
+      .then((activeRuleset) => {
+        console.log('Setting active ruleset state:', activeRuleset); // Debugging line
+        setActiveRulesetState(activeRuleset);
+      })
       .catch(console.error);
   };
 
@@ -101,12 +109,12 @@ const EditRulesPage = () => {
   const handleSave = async () => {
     try {
       const newRuleset = await saveRuleset(
-        user.id,
+        user.user_id,
         game,
         rulesetName,
         activeRuleset.rules
       );
-      getRulesets(user.id, game).then(setRulesets).catch(console.error);
+      getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
       setRulesetName('');
       setAlertVisible(true);
       setTimeout(() => {
@@ -114,7 +122,7 @@ const EditRulesPage = () => {
       }, 2750);
 
       // Set the newly saved ruleset as the active one
-      handleSelectChange({ target: { value: newRuleset.id } });
+      handleSelectChange({ target: { value: newRuleset.ruleset_id } });
     } catch (error) {
       console.error(error);
     }
