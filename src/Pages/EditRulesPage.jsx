@@ -1,4 +1,4 @@
-//todo: fix alert
+//todo: rewrite mapping for rulesets
 
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
