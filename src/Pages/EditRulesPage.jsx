@@ -1,5 +1,3 @@
-//todo: rewrite mapping for rulesets
-
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../utils/UserContext';
@@ -16,7 +14,9 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoCloseSharp } from 'react-icons/io5';
 
 const EditRulesPage = () => {
-  const { user } = useContext(UserContext);
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
   const { game } = useParams();
   const navigate = useNavigate();
   const [rulesets, setRulesets] = useState([]);
@@ -26,51 +26,88 @@ const EditRulesPage = () => {
   const [editedText, setEditedText] = useState('');
   const [rulesetName, setRulesetName] = useState('');
   const [alertVisible, setAlertVisible] = useState(false);
+  const defaultRulesetIds = {
+    KingsCup: 1,
+    DiceRoll: 2,
+    DrinkRoulette: 3,
+    BountyBlast: 4,
+    RideTheBus: 5,
+    Snap: 6,
+    Trivia: 7,
+    PromptDash: 8,
+  };
 
-  // Fetch rulesets all rulesets for game id and user id
+  // Fetch all rulesets for game id and user id (works)
   useEffect(() => {
-    getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
-  }, [user.user_id, game]);
+    getRulesets(user_id, game).then(setRulesets).catch(console.error);
+  }, [user_id, game]);
 
   // Fetch active ruleset for game id and user id
   useEffect(() => {
-    const fetchActiveRuleset = async () => {
-      if (game) {
-        const activeRulesetResponse = await getActiveRuleset(
-          user.user_id,
-          game
-        );
-
-        if (activeRulesetResponse.ruleset_id) {
-          const activeRuleset = await getRuleset(
-            user.user_id,
-            game,
-            activeRulesetResponse.ruleset_id
-          );
-
-          setActiveRulesetState(activeRuleset);
-          setSelectedRuleset(activeRuleset.ruleset_id);
-        }
-      }
-    };
-
-    fetchActiveRuleset().catch(console.error);
-  }, [user.user_id, game]);
+    getActiveRuleset(user_id, game)
+      .then((activeRulesetResponse) => {
+        return getRuleset(user_id, game, activeRulesetResponse.ruleset_id);
+      })
+      .then((activeRuleset) => {
+        setActiveRulesetState(activeRuleset);
+        setSelectedRuleset(activeRuleset.ruleset_id);
+      })
+      .catch(console.error);
+  }, [user_id, game]);
 
   // Change active ruleset
-  const handleSelectChange = async (event) => {
+  const handleSelectChange = (event) => {
     const rulesetId = event.target.value;
     setSelectedRuleset(rulesetId);
 
-    console.log('Setting active ruleset...'); // Debugging line
-    setActiveRuleset(user.user_id, game, rulesetId)
+    setActiveRuleset(user_id, game, rulesetId)
       .then(() => {
-        console.log('Getting active ruleset...'); // Debugging line
-        return getActiveRuleset(user.user_id, game);
+        return getActiveRuleset(user_id, game);
+      })
+      .then((activeRulesetResponse) => {
+        return getRuleset(user_id, game, activeRulesetResponse.ruleset_id);
       })
       .then((activeRuleset) => {
-        console.log('Setting active ruleset state:', activeRuleset); // Debugging line
         setActiveRulesetState(activeRuleset);
+        setSelectedRuleset(activeRuleset.ruleset_id);
+      })
+      .catch(console.error);
+  };
+
+  // Save ruleset
+  const handleSave = () => {
+    saveRuleset(user_id, game, rulesetName, activeRuleset.rules)
+      .then((newRuleset) => {
+        getRulesets(user_id, game).then(setRulesets).catch(console.error);
+
+        setRulesetName('');
+        setAlertVisible(true);
+        setTimeout(() => {
+          setAlertVisible(false);
+        }, 2750);
+
+        // Set the newly saved ruleset as the active one
+        handleSelectChange({ target: { value: newRuleset.ruleset_id } });
+      })
+      .catch(console.error);
+  };
+
+  // Delete ruleset
+  const handleDelete = async (rulesetId) => {
+    if ((rulesetId >= 1 && rulesetId <= 8) || user_id === 1) {
+      alert('Cannot delete default ruleset');
+      return;
+    }
+
+    // If the ruleset being deleted is the active one, set the active ruleset to the default for the current game
+    if (rulesetId === selectedRuleset) {
+      const defaultRulesetId = defaultRulesetIds[game];
+      handleSelectChange({ target: { value: defaultRulesetId } });
+    }
+
+    deleteRuleset(user_id, game, rulesetId)
+      .then(() => {
+        getRulesets(user_id, game).then(setRulesets).catch(console.error);
       })
       .catch(console.error);
   };
@@ -103,49 +140,6 @@ const EditRulesPage = () => {
   const handleCancel = () => {
     setEditing(null);
     setEditedText('');
-  };
-
-  // Save ruleset
-  const handleSave = async () => {
-    try {
-      const newRuleset = await saveRuleset(
-        user.user_id,
-        game,
-        rulesetName,
-        activeRuleset.rules
-      );
-      getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
-      setRulesetName('');
-      setAlertVisible(true);
-      setTimeout(() => {
-        setAlertVisible(false);
-      }, 2750);
-
-      // Set the newly saved ruleset as the active one
-      handleSelectChange({ target: { value: newRuleset.ruleset_id } });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // Delete ruleset
-  const handleDelete = async (rulesetId) => {
-    if (rulesetId === 0) {
-      alert('Cannot delete default ruleset');
-      return;
-    }
-
-    try {
-      await deleteRuleset(user.id, game, rulesetId);
-      getRulesets(user.id, game).then(setRulesets).catch(console.error);
-
-      // If the ruleset being deleted is the active one, set the active ruleset to 0
-      if (rulesetId === selectedRuleset) {
-        handleSelectChange({ target: { value: '0' } });
-      }
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
@@ -238,9 +232,8 @@ const EditRulesPage = () => {
                 key={ruleset.ruleset_id}
                 className='bg-neutral py-2 px-4 mb-2 rounded-lg text-lg flex justify-between items-center'
               >
-                <span>{ruleset.ruleset_id}</span>
                 <span>{ruleset.name}</span>
-                {Number(ruleset.id) !== 0 && (
+                {Number(ruleset.ruleset_id) > 8 && (
                   <button
                     className='btn btn-error'
                     onClick={() => handleDelete(ruleset.ruleset_id)}
@@ -255,95 +248,106 @@ const EditRulesPage = () => {
       </dialog>
 
       {/* Active Ruleset Section */}
-      {activeRuleset && (
+      {activeRuleset && activeRuleset.rules && (
         <div className='mt-10'>
           <h2 className='text-xl font-bold text-accent'>
             {activeRuleset.name}
           </h2>
 
           {/* Rules Section */}
-          {Object.entries(activeRuleset.rules).map(([ruleKey, rule]) => (
-            <div key={ruleKey} className='mb-4'>
-              {/* Result Section */}
-              <h3 className='text-xl font-semibold mb-2 mt-6'>{rule.result}</h3>
+          {activeRuleset &&
+            activeRuleset.rules &&
+            Object.entries(activeRuleset.rules).map(([ruleKey, rule]) => (
+              <div key={ruleKey} className='mb-4'>
+                {/* Result Section */}
+                <h3 className='text-xl font-semibold mb-2 mt-6'>
+                  {rule.result}
+                </h3>
 
-              {/* Title Section */}
-              <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg'>
-                {editing?.key === ruleKey && editing?.type === 'title' ? (
-                  <>
-                    <input
-                      value={editedText}
-                      onChange={(e) => setEditedText(e.target.value)}
-                      autoFocus
-                      className='w-full h-10 rounded-lg p-2 bg-secondary'
-                    />
-                    <div className='flex space-x-4 ml-4'>
+                {/* Title Section */}
+                <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg'>
+                  {editing?.key === ruleKey && editing?.type === 'title' ? (
+                    <>
+                      <input
+                        value={editedText}
+                        onChange={(e) => setEditedText(e.target.value)}
+                        autoFocus
+                        className='w-full h-10 rounded-lg p-2 bg-secondary'
+                      />
+                      <div className='flex space-x-4 ml-4'>
+                        <button
+                          className='btn btn-primary'
+                          onClick={handleSubmit}
+                        >
+                          <FaCheck size={22} />
+                        </button>
+                        <button
+                          className='btn btn-error'
+                          onClick={handleCancel}
+                        >
+                          <IoCloseSharp size={22} />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className='font-semibold text-neutral-content'>
+                        {rule.title}
+                      </div>
                       <button
-                        className='btn btn-primary'
-                        onClick={handleSubmit}
+                        className='btn btn-primary ml-4'
+                        onClick={() => handleEdit(ruleKey, 'title', rule.title)}
                       >
-                        <FaCheck size={22} />
+                        <MdEdit size={22} />
                       </button>
-                      <button className='btn btn-error' onClick={handleCancel}>
-                        <IoCloseSharp size={22} />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className='font-semibold text-neutral-content'>
-                      {rule.title}
-                    </div>
-                    <button
-                      className='btn btn-primary ml-4'
-                      onClick={() => handleEdit(ruleKey, 'title', rule.title)}
-                    >
-                      <MdEdit size={22} />
-                    </button>
-                  </>
-                )}
-              </div>
+                    </>
+                  )}
+                </div>
 
-              {/* Description Section */}
-              <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg mt-4'>
-                {editing?.key === ruleKey && editing?.type === 'description' ? (
-                  <>
-                    <input
-                      value={editedText}
-                      onChange={(e) => setEditedText(e.target.value)}
-                      autoFocus
-                      className='w-full h-10 rounded-lg p-2 bg-secondary '
-                    />
-                    <div className='flex space-x-4 ml-4'>
+                {/* Description Section */}
+                <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg mt-4'>
+                  {editing?.key === ruleKey &&
+                  editing?.type === 'description' ? (
+                    <>
+                      <input
+                        value={editedText}
+                        onChange={(e) => setEditedText(e.target.value)}
+                        autoFocus
+                        className='w-full h-10 rounded-lg p-2 bg-secondary '
+                      />
+                      <div className='flex space-x-4 ml-4'>
+                        <button
+                          className='btn btn-primary'
+                          onClick={handleSubmit}
+                        >
+                          <FaCheck size={22} />
+                        </button>
+                        <button
+                          className='btn btn-error'
+                          onClick={handleCancel}
+                        >
+                          <IoCloseSharp size={22} />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className='font-semibold text-neutral-content'>
+                        {rule.description}
+                      </div>
                       <button
-                        className='btn btn-primary'
-                        onClick={handleSubmit}
+                        className='btn btn-primary ml-4'
+                        onClick={() =>
+                          handleEdit(ruleKey, 'description', rule.description)
+                        }
                       >
-                        <FaCheck size={22} />
+                        <MdEdit size={22} />
                       </button>
-                      <button className='btn btn-error' onClick={handleCancel}>
-                        <IoCloseSharp size={22} />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className='font-semibold text-neutral-content'>
-                      {rule.description}
-                    </div>
-                    <button
-                      className='btn btn-primary ml-4'
-                      onClick={() =>
-                        handleEdit(ruleKey, 'description', rule.description)
-                      }
-                    >
-                      <MdEdit size={22} />
-                    </button>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>
