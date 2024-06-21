@@ -9,28 +9,37 @@ import {
   FaDiceSix,
   FaWrench,
 } from 'react-icons/fa';
-import { getActiveRuleset } from '../../utils/api';
+import { getActiveRuleset, getRuleset } from '../../utils/api';
 import { UserContext } from '../../utils/UserContext';
 import RulesetDisplay from '../../components/RulesetDisplay';
 
 function DiceRoll() {
   const [dice, setDice] = useState([null, null]);
-  const [gameState, setGameState] = useState({ rules: {}, total: null });
-  const { user } = useContext(UserContext);
-  const userId = user?.id;
+  const [rolledNumber, setRolledNumber] = useState(null);
+  const [activeRuleset, setActiveRuleset] = useState(null);
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
   const gameId = 'DiceRoll';
 
   useEffect(() => {
-    if (userId) {
-      getActiveRuleset(userId, gameId)
-        .then((ruleset) => {
-          setGameState((prevState) => ({ ...prevState, rules: ruleset.rules }));
-        })
-        .catch((error) => {
-          console.error('Error fetching active ruleset:', error);
-        });
-    }
-  }, [userId]);
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setActiveRuleset(activeRuleset);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
+  }, [user_id, gameId]);
 
   const diceIcons = [
     null,
@@ -48,7 +57,7 @@ function DiceRoll() {
     const rollTotal = randomNumber1 + randomNumber2;
 
     setDice([randomNumber1, randomNumber2]);
-    setGameState((prevState) => ({ ...prevState, total: rollTotal }));
+    setRolledNumber(rollTotal);
   };
 
   return (
@@ -63,34 +72,32 @@ function DiceRoll() {
       </div>
       <dialog id='my_modal_1' className='modal'>
         <div className='modal-box'>
-          <RulesetDisplay rules={gameState.rules} gameId='DiceRoll' />
+          <RulesetDisplay rules={activeRuleset?.rules} gameId='DiceRoll' />
         </div>
       </dialog>
-      {/* dice */}
       <div className='flex justify-center mt-20'>
-        {dice.map((die, index) =>
-          die !== null ? (
-            React.cloneElement(diceIcons[die], { size: 96, key: index })
+        {dice.map((number, index) =>
+          number !== null ? (
+            React.cloneElement(diceIcons[number], { size: 96, key: index })
           ) : (
             <FaDiceD6 size={96} key={index} />
           )
         )}
       </div>
-      {/* dice roll button */}
       <div className='flex justify-center'>
         <button onClick={rollDice} className='btn btn-primary btn-lg mt-10'>
           Roll Dice
         </button>
       </div>
-      {/* dice roll rules */}
+
       <div className='flex justify-center mt-10'>
-        {gameState.total !== null ? (
+        {rolledNumber !== null ? (
           <div className='bg-neutral border border-secondary w-[40vw] rounded text-center p-4'>
             <h3 className='text-xl font-bold text-neutral-content'>
-              {gameState.rules[gameState.total]?.title}
+              {activeRuleset.rules[rolledNumber]?.title}
             </h3>
             <p className='mt-2 text-neutral-content text-lg font-medium'>
-              {gameState.rules[gameState.total]?.description}
+              {activeRuleset.rules[rolledNumber]?.description}
             </p>
           </div>
         ) : (
