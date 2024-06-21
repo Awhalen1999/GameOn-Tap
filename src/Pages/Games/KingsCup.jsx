@@ -15,8 +15,9 @@ const KingsCup = () => {
   const [hideRules, setHideRules] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const remainingKings = deck.filter((card) => card.includes('K')).length;
-  const { user } = useContext(UserContext);
-  const userId = user.user_id;
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
   const gameId = 'KingsCup';
   const [activeRuleset, setActiveRuleset] = useState(null);
   const [currentRule, setCurrentRule] = useState({
@@ -38,14 +39,11 @@ const KingsCup = () => {
     // Fetch the active ruleset for the user and game
     const fetchActiveRuleset = async () => {
       if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(
-          user.user_id,
-          gameId
-        );
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
 
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user.user_id,
+            user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -55,7 +53,7 @@ const KingsCup = () => {
     };
 
     fetchActiveRuleset();
-  }, [userId, gameId]);
+  }, [user_id, gameId]);
 
   // Draw a random card from the deck
   const drawCard = () => {
