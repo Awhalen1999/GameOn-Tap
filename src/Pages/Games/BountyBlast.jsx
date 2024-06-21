@@ -4,7 +4,7 @@ import bomb from '../../assets/bomb.png';
 import treasure from '../../assets/treasure.png';
 import empty from '../../assets/empty.png';
 import { UserContext } from '../../utils/UserContext';
-import { getActiveRuleset } from '../../utils/api';
+import { getActiveRuleset, getRuleset } from '../../utils/api';
 import RulesetDisplay from '../../components/RulesetDisplay';
 import { FaWrench } from 'react-icons/fa';
 
@@ -15,20 +15,30 @@ const BountyBlast = () => {
   const [board, setBoard] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('');
-  const [rules, setRules] = useState({});
-  const { user } = useContext(UserContext);
-  const userId = user?.id;
+  const [activeRuleset, setActiveRuleset] = useState(null);
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
   const gameId = 'BountyBlast';
 
   useEffect(() => {
-    if (userId) {
-      getActiveRuleset(userId, gameId)
-        .then((ruleset) => {
-          setRules(ruleset.rules);
-        })
-        .catch((error) => {});
-    }
-  }, [userId]);
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setActiveRuleset(activeRuleset);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
+  }, [user_id, gameId]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -92,7 +102,7 @@ const BountyBlast = () => {
         ruleKey = '1';
       }
 
-      const rule = rules[ruleKey];
+      const rule = activeRuleset.rules[ruleKey];
       if (rule) {
         setMessage(rule.description);
       }
@@ -123,7 +133,7 @@ const BountyBlast = () => {
       </div>
       <dialog id='my_modal_1' className='modal'>
         <div className='modal-box'>
-          <RulesetDisplay rules={rules} gameId='BountyBlast' />
+          <RulesetDisplay rules={activeRuleset?.rules} gameId='BountyBlast' />
         </div>
       </dialog>
       {!gameStarted && (
