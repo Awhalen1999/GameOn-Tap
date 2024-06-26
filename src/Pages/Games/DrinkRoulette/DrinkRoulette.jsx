@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './DrinkRoulette.css';
 import { TiArrowDownThick } from 'react-icons/ti';
-import { getActiveRuleset } from '../../../utils/api';
+import { getActiveRuleset, getRuleset } from '../../../utils/api';
 import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
 import { FaWrench } from 'react-icons/fa';
@@ -17,21 +17,29 @@ const DrinkRoulette = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
   const [rules, setRules] = useState({});
-  const { user } = useContext(UserContext);
-  const userId = user?.id;
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
   const gameId = 'DrinkRoulette';
 
   useEffect(() => {
-    if (userId) {
-      getActiveRuleset(userId, gameId)
-        .then((ruleset) => {
-          setRules(ruleset.rules);
-        })
-        .catch((error) => {
-          console.error('Error fetching active ruleset:', error);
-        });
-    }
-  }, [userId]);
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setRules(activeRuleset.rules);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
+  }, [user_id, gameId]);
 
   const itemNames = rules ? Object.keys(rules) : [];
 
