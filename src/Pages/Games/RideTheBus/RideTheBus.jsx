@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { FaArrowDown, FaInfoCircle } from 'react-icons/fa';
 import placeholderCard from '../../../assets/red.png';
 import initialDeck from '../../../components/DeckOfCards.jsx';
-import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
-import { FaInfoCircle } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../../utils/api';
 import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
@@ -19,6 +18,8 @@ const RideTheBus = () => {
   const [lastNumber, setLastNumber] = useState(1);
   const [bgColor, setBgColor] = useState('base');
   const [activeRuleset, setActiveRuleset] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
   const {
     user: { user_id },
   } = useContext(UserContext);
@@ -28,7 +29,6 @@ const RideTheBus = () => {
     const fetchActiveRuleset = async () => {
       if (gameId) {
         const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
-
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
             user_id,
@@ -39,30 +39,20 @@ const RideTheBus = () => {
         }
       }
     };
-
     fetchActiveRuleset();
   }, [user_id, gameId]);
 
-  const handleIncorrectGuess = () => {
-    setGuessStatus('incorrect');
-    setBgColor('error');
-    setTimeout(() => setBgColor('base'), 500);
-  };
-
   useEffect(() => {
     if (guessStatus !== '') {
-      const timer = setTimeout(() => {
-        setGuessStatus('');
-      }, 1000);
-
+      const timer = setTimeout(() => setGuessStatus(''), 1000);
       return () => clearTimeout(timer);
     }
   }, [guessStatus]);
 
   useEffect(() => {
     const loadImages = async () => {
-      let images = {};
-      for (let card of initialDeck) {
+      const images = {};
+      for (const card of initialDeck) {
         images[card] = (await import(`../../../assets/${card}.png`)).default;
       }
       setCardImages(images);
@@ -70,8 +60,13 @@ const RideTheBus = () => {
     loadImages();
   }, []);
 
+  const handleIncorrectGuess = () => {
+    setGuessStatus('incorrect');
+    setBgColor('error');
+    setTimeout(() => setBgColor('base'), 500);
+  };
+
   const drawCard = () => {
-    console.log('deck:', deck);
     if (deck.length === 0) {
       setDeck([...initialDeck]);
       return;
@@ -101,22 +96,14 @@ const RideTheBus = () => {
     ];
     const rank1 = ranks.indexOf(card1.slice(0, -1));
     const rank2 = ranks.indexOf(card2.slice(0, -1));
-    if (rank2 < rank1) {
-      return 'lower';
-    } else if (rank2 > rank1) {
-      return 'higher';
-    } else {
-      return 'equal';
-    }
+    if (rank2 < rank1) return 'lower';
+    if (rank2 > rank1) return 'higher';
+    return 'equal';
   };
 
   const getCardColor = (card) => {
     const suit = card.slice(-1);
-    if (suit === 'H' || suit === 'D') {
-      return 'red';
-    } else if (suit === 'S' || suit === 'C') {
-      return 'black';
-    }
+    return suit === 'H' || suit === 'D' ? 'red' : 'black';
   };
 
   const checkGameEnd = (newDrawnCards) => {
@@ -124,7 +111,6 @@ const RideTheBus = () => {
       handleWin();
     }
   };
-  const [showAlert, setShowAlert] = useState(false);
 
   const handleWin = () => {
     setShowAlert(true);
@@ -141,7 +127,6 @@ const RideTheBus = () => {
         setGuessStatus('correct');
         checkGameEnd(newDrawnCards);
       } else {
-        setGuessStatus('incorrect');
         handleIncorrectGuess();
       }
     }
@@ -157,7 +142,6 @@ const RideTheBus = () => {
         setGuessStatus('correct');
         checkGameEnd(newDrawnCards);
       } else {
-        setGuessStatus('incorrect');
         handleIncorrectGuess();
       }
     }
@@ -173,11 +157,11 @@ const RideTheBus = () => {
         setGuessStatus('correct');
         checkGameEnd(newDrawnCards);
       } else {
-        setGuessStatus('incorrect');
         handleIncorrectGuess();
       }
     }
   };
+
   const handleRedClick = () => {
     const newCard = drawCard();
     if (newCard) {
@@ -188,7 +172,6 @@ const RideTheBus = () => {
         setGuessStatus('correct');
         checkGameEnd(newDrawnCards);
       } else {
-        setGuessStatus('incorrect');
         handleIncorrectGuess();
       }
     }
@@ -204,16 +187,13 @@ const RideTheBus = () => {
         setGuessStatus('correct');
         checkGameEnd(newDrawnCards);
       } else {
-        setGuessStatus('incorrect');
         handleIncorrectGuess();
       }
     }
   };
 
   const startGame = (event) => {
-    if (event) {
-      event.preventDefault();
-    }
+    if (event) event.preventDefault();
     setLastNumber(number);
     setGameStarted(true);
     drawCard();
@@ -230,13 +210,12 @@ const RideTheBus = () => {
         bgColor === 'error' ? 'bg-error' : 'bg-base'
       }`}
     >
-      {/* Reset game button */}
       <div className='absolute bottom-0 right-0 m-4'>
         <button onClick={resetGame} className='btn btn-success'>
           Reset Game
         </button>
       </div>
-      {/* alert */}
+
       {showAlert && !gameStarted && (
         <div
           role='alert'
@@ -263,6 +242,7 @@ const RideTheBus = () => {
           </div>
         </div>
       )}
+
       <div className='flex justify-end'>
         <button
           className='btn btn-ghost mr-4 font-bold'
@@ -271,6 +251,7 @@ const RideTheBus = () => {
           Ride the Bus Rules
         </button>
       </div>
+
       <dialog id='my_modal_1' className='modal'>
         <div className='modal-box'>
           <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
@@ -278,7 +259,6 @@ const RideTheBus = () => {
       </dialog>
 
       {!gameStarted ? (
-        // Game start form
         <RTBStartGameForm
           number={number}
           setNumber={setNumber}
@@ -288,11 +268,10 @@ const RideTheBus = () => {
           hideAlert={() => setShowAlert(false)}
         />
       ) : (
-        // Placeholder cards
-        <div className='flex flex-col items-center justify-center flex-grow '>
-          <div className='flex justify-center items-center  mx-auto w-full gap-2'>
+        <div className='flex flex-col items-center justify-center flex-grow'>
+          <div className='flex justify-center items-center mx-auto w-full gap-2'>
             {drawnCards.slice(-2).map((card, index) => (
-              <div key={index} className=' relative'>
+              <div key={index} className='relative'>
                 {(index === 1 || drawnCards.length === 1) && (
                   <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
                 )}
@@ -306,7 +285,7 @@ const RideTheBus = () => {
 
             {[...Array(parseInt(number) - drawnCards.length)].map(
               (_, index) => (
-                <div key={index + drawnCards.length} className=' relative'>
+                <div key={index + drawnCards.length} className='relative'>
                   {index === 0 && (
                     <img
                       src={placeholderCard}
@@ -327,10 +306,7 @@ const RideTheBus = () => {
               {ruleSet === 'higher/lower'
                 ? `Will the next card be lower, equal, or higher than ${drawnCards[
                     drawnCards.length - 1
-                  ].substring(
-                    0,
-                    drawnCards[drawnCards.length - 1].length - 1
-                  )}?`
+                  ].slice(0, -1)}?`
                 : 'Will the next card be red or black?'}
             </p>
             <div className='flex justify-center'>
@@ -344,7 +320,7 @@ const RideTheBus = () => {
                   </button>
                   <button
                     onClick={handleEqualClick}
-                    className='mx-8 btn btn-lg btn-outline text-white  bg-yellow-500 hover:bg-yellow-600 hover:text-white'
+                    className='mx-8 btn btn-lg btn-outline text-white bg-yellow-500 hover:bg-yellow-600 hover:text-white'
                   >
                     Equal
                   </button>
@@ -356,7 +332,6 @@ const RideTheBus = () => {
                   </button>
                 </>
               ) : (
-                // Red/Black buttons
                 <>
                   <button
                     onClick={handleRedClick}

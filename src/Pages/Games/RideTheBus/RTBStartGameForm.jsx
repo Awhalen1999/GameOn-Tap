@@ -9,12 +9,11 @@ const RTBStartGameForm = ({
   startGame,
   hideAlert,
 }) => {
-  const getColorClass = (num) =>
-    num < 5
-      ? 'text-base-content'
-      : num <= 6
-      ? 'text-yellow-600'
-      : 'text-red-600';
+  const getColorClass = (num) => {
+    if (num < 5) return 'text-base-content';
+    if (num <= 6) return 'text-yellow-600';
+    return 'text-red-600';
+  };
 
   const handleChange = ({ target: { value } }) =>
     setNumber(Math.min(parseInt(value), 8));
@@ -74,7 +73,7 @@ const RTBStartGameForm = ({
       <button
         type='submit'
         className='btn btn-primary btn-lg mt-4'
-        onClick={hideAlert} // Add this line
+        onClick={hideAlert}
       >
         Start Game
       </button>
