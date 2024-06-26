@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import placeholderCard from '../../../assets/red.png';
 import initialDeck from '../../../components/DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaWrench } from 'react-icons/fa';
+import { getActiveRuleset, getRuleset } from '../../../utils/api';
+import { UserContext } from '../../../utils/UserContext';
+import RulesetDisplay from '../../../components/RulesetDisplay';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -15,6 +18,30 @@ const RideTheBus = () => {
   const [ruleSet, setRuleSet] = useState('higher/lower');
   const [lastNumber, setLastNumber] = useState(1);
   const [bgColor, setBgColor] = useState('base');
+  const [activeRuleset, setActiveRuleset] = useState(null);
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
+  const gameId = 'RideTheBus';
+
+  useEffect(() => {
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setActiveRuleset(activeRuleset);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
+  }, [user_id, gameId]);
 
   const handleIncorrectGuess = () => {
     setGuessStatus('incorrect');
@@ -209,6 +236,19 @@ const RideTheBus = () => {
           Reset Game
         </button>
       </div>
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4 font-bold'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Ride the Bus Rules <FaWrench />
+        </button>
+      </div>
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
+        </div>
+      </dialog>
       {/* alert */}
       {showAlert && !gameStarted && (
         <div
