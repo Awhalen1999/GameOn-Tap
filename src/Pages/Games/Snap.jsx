@@ -23,6 +23,8 @@ const Snap = () => {
   const [autoReset, setAutoReset] = useState(true);
   const [showSnap, setShowSnap] = useState(true);
   const [activeRuleset, setActiveRuleset] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
   const {
     user: { user_id },
   } = useContext(UserContext);
@@ -32,7 +34,6 @@ const Snap = () => {
     const fetchActiveRuleset = async () => {
       if (gameId) {
         const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
-
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
             user_id,
@@ -43,14 +44,13 @@ const Snap = () => {
         }
       }
     };
-
     fetchActiveRuleset();
   }, [user_id, gameId]);
 
   useEffect(() => {
     const loadImages = async () => {
-      let images = {};
-      for (let card of initialDeck) {
+      const images = {};
+      for (const card of initialDeck) {
         images[card] = (await import(`../../assets/${card}.png`)).default;
       }
       setCardImages(images);
@@ -72,8 +72,6 @@ const Snap = () => {
       resolve();
     });
   };
-
-  const [showAlert, setShowAlert] = useState(false);
 
   const drawCard = async () => {
     if (deck.length === 0) {
@@ -104,7 +102,6 @@ const Snap = () => {
 
   return (
     <div className='flex flex-col bg-base-100 h-full font-space'>
-      {/* alert */}
       {showAlert && (
         <div
           role='alert'
@@ -144,9 +141,7 @@ const Snap = () => {
           <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
         </div>
       </dialog>
-      {/* Delay slider and Draw Card button */}
       <div className='flex flex-col items-center mt-6'>
-        {/* Delay slider */}
         <div className='mb-4 text-center'>
           <label htmlFor='delay' className='text-lg font-bold mb-2'>
             Delay (ms):
@@ -161,7 +156,6 @@ const Snap = () => {
             className='range range-primary'
           />
         </div>
-        {/* Draw Card button */}
         <button
           onClick={drawCard}
           disabled={loading && delay > 175}
@@ -174,8 +168,7 @@ const Snap = () => {
           Flip a Card
         </button>
       </div>
-      {/* Radio buttons */}
-      <div className='flex flex-col justify-end space-y-2  absolute left-0 bottom-0 m-2'>
+      <div className='flex flex-col justify-end space-y-2 absolute left-0 bottom-0 m-2'>
         <label className='flex items-center space-x-2 text-lg'>
           <input
             className='radio radio-primary'
@@ -197,9 +190,8 @@ const Snap = () => {
           <span className='text-xl font-bold'>Value</span>
         </label>
       </div>
-      {/* Card container */}
-      <div className='flex flex-col items-center mt-4 '>
-        <div className='items-center '>
+      <div className='flex flex-col items-center mt-4'>
+        <div className='items-center'>
           {drawnCards.length > 0 ? (
             <div className='text-center'>
               <div className='relative flex items-center justify-center'>
@@ -216,17 +208,16 @@ const Snap = () => {
                   className='w-auto h-100 object-contain rounded shadow-lg z-20'
                 />
               </div>
-              {/* Display "SNAP!" if the new card is the same as the previous card */}
               {showSnap &&
-              ((ruleSet === 'value' &&
-                drawnCards[0].slice(0, -1) === previousCardRank) ||
-                (ruleSet === 'suit' &&
-                  previousCard &&
-                  drawnCards[0].slice(-1) === previousCard.slice(-1))) ? (
-                <p className='text-4xl font-bold mt-10 text-base-content'>
-                  SNAP!
-                </p>
-              ) : null}
+                ((ruleSet === 'value' &&
+                  drawnCards[0].slice(0, -1) === previousCardRank) ||
+                  (ruleSet === 'suit' &&
+                    previousCard &&
+                    drawnCards[0].slice(-1) === previousCard.slice(-1))) && (
+                  <p className='text-4xl font-bold mt-10 text-base-content'>
+                    SNAP!
+                  </p>
+                )}
             </div>
           ) : (
             <div>
@@ -239,7 +230,6 @@ const Snap = () => {
           )}
         </div>
       </div>
-      {/* Snap show */}
       <div className='absolute bottom-24 right-0 m-2 flex items-center'>
         <input
           type='checkbox'
@@ -255,7 +245,6 @@ const Snap = () => {
           Show "SNAP!"
         </label>
       </div>
-      {/* Auto-reset deck */}
       <div className='absolute bottom-14 right-0 m-2 flex items-center'>
         <input
           type='checkbox'
@@ -271,9 +260,8 @@ const Snap = () => {
           Auto-reset deck
         </label>
       </div>
-      {/* Reset Deck button */}
       <div className='absolute bottom-0 right-0 m-2 flex items-center'>
-        <button onClick={resetDeck} className='btn btn-success '>
+        <button onClick={resetDeck} className='btn btn-success'>
           Reset Deck
         </button>
       </div>

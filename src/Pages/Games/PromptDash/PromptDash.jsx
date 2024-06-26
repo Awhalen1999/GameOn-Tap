@@ -21,7 +21,6 @@ const PromptDash = () => {
     const fetchActiveRuleset = async () => {
       if (gameId) {
         const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
-
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
             user_id,
@@ -32,7 +31,6 @@ const PromptDash = () => {
         }
       }
     };
-
     fetchActiveRuleset();
   }, [user_id, gameId]);
 
@@ -85,7 +83,6 @@ const PromptDash = () => {
         </div>
       </dialog>
       <div className='flex flex-col items-center mt-10'>
-        {/* Delay slider */}
         <div className='mb-4 text-center'>
           <label htmlFor='delay' className='text-lg font-bold mb-2'>
             Delay (ms):
@@ -100,11 +97,10 @@ const PromptDash = () => {
             className='range range-primary'
           />
         </div>
-        {/* Draw Card button */}
         <button
           onClick={drawPrompt}
           disabled={loading && delay > 175}
-          className={`  text-white px-8 py-4 rounded ${
+          className={`text-white px-8 py-4 rounded ${
             loading && delay > 175
               ? 'animate-pulse bg-red-500 hover:bg-red-600 cursor-not-allowed'
               : 'bg-primary hover:bg-accent'

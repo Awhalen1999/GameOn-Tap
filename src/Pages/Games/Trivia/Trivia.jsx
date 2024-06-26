@@ -127,7 +127,7 @@ function TriviaGame() {
             className='btn btn-ghost mr-4 font-bold'
             onClick={() => document.getElementById('my_modal_1').showModal()}
           >
-            Prompt Dash Rules
+            Trivia Rules
           </button>
         </div>
         <dialog id='my_modal_1' className='modal'>
@@ -168,7 +168,7 @@ function TriviaGame() {
             className='btn btn-ghost mr-4 font-bold'
             onClick={() => document.getElementById('my_modal_1').showModal()}
           >
-            Prompt Dash Rules
+            Trivia Rules
           </button>
         </div>
         <dialog id='my_modal_1' className='modal'>
