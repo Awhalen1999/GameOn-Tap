@@ -1,6 +1,9 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import promptList from './PromptList';
+import { FaWrench } from 'react-icons/fa';
+import { getActiveRuleset, getRuleset } from '../../../utils/api';
+import { UserContext } from '../../../utils/UserContext';
+import RulesetDisplay from '../../../components/RulesetDisplay';
 
 const PromptDash = () => {
   const [prompt, setPrompt] = useState('');
@@ -9,6 +12,30 @@ const PromptDash = () => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef();
+  const [activeRuleset, setActiveRuleset] = useState(null);
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
+  const gameId = 'PromptDash';
+
+  useEffect(() => {
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setActiveRuleset(activeRuleset);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
+  }, [user_id, gameId]);
 
   const drawPrompt = () => {
     if (remainingPrompts.length === 0) {
@@ -45,6 +72,19 @@ const PromptDash = () => {
 
   return (
     <div className='h-full bg-base-100 font-space'>
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4 font-bold'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Prompt Dash Rules <FaWrench />
+        </button>
+      </div>
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
+        </div>
+      </dialog>
       <div className='flex flex-col items-center mt-10'>
         {/* Delay slider */}
         <div className='mb-4 text-center'>
