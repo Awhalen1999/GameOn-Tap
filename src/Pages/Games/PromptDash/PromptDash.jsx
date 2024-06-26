@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import promptList from './PromptList';
-import { FaWrench } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../../utils/api';
 import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
@@ -77,7 +76,7 @@ const PromptDash = () => {
           className='btn btn-ghost mr-4 font-bold'
           onClick={() => document.getElementById('my_modal_1').showModal()}
         >
-          Prompt Dash Rules <FaWrench />
+          Prompt Dash Rules
         </button>
       </div>
       <dialog id='my_modal_1' className='modal'>

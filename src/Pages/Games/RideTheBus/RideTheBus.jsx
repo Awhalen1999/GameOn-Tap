@@ -3,7 +3,7 @@ import placeholderCard from '../../../assets/red.png';
 import initialDeck from '../../../components/DeckOfCards.jsx';
 import { FaArrowDown } from 'react-icons/fa';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
-import { FaInfoCircle, FaWrench } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../../utils/api';
 import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
@@ -268,7 +268,7 @@ const RideTheBus = () => {
           className='btn btn-ghost mr-4 font-bold'
           onClick={() => document.getElementById('my_modal_1').showModal()}
         >
-          Ride the Bus Rules <FaWrench />
+          Ride the Bus Rules
         </button>
       </div>
       <dialog id='my_modal_1' className='modal'>

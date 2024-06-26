@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import initialDeck from '../../components/DeckOfCards';
 import placeholderCard from '../../assets/red.png';
-import { FaInfoCircle, FaWrench } from 'react-icons/fa';
+import { FaInfoCircle } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../utils/api';
 import { UserContext } from '../../utils/UserContext';
 import RulesetDisplay from '../../components/RulesetDisplay';
@@ -136,7 +136,7 @@ const Snap = () => {
           className='btn btn-ghost mr-4 font-bold'
           onClick={() => document.getElementById('my_modal_1').showModal()}
         >
-          Snap Rules <FaWrench />
+          Snap Rules
         </button>
       </div>
       <dialog id='my_modal_1' className='modal'>
