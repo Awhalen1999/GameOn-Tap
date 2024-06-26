@@ -15,9 +15,6 @@ const TriviaGameStartForm = ({
 }) => {
   return (
     <div className='p-6 bg-base-100 h-full font-space'>
-      <h1 className='text-2xl font-bold mb-4 text-base-content'>
-        Trivia Game Setup
-      </h1>
       <div className='flex flex-col items-center justify-center'>
         <div className='mb-4 w-1/3'>
           {/* Number of questions: */}

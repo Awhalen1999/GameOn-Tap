@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import TriviaGameStartForm from './TriviaGameStartForm';
+import { getActiveRuleset, getRuleset } from '../../../utils/api';
+import { UserContext } from '../../../utils/UserContext';
+import RulesetDisplay from '../../../components/RulesetDisplay';
 
 function TriviaGame() {
   const [amount, setAmount] = useState(5);
@@ -13,6 +16,30 @@ function TriviaGame() {
   const [gameStarted, setGameStarted] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [activeRuleset, setActiveRuleset] = useState(null);
+  const {
+    user: { user_id },
+  } = useContext(UserContext);
+  const gameId = 'Trivia';
+
+  useEffect(() => {
+    const fetchActiveRuleset = async () => {
+      if (gameId) {
+        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+
+        if (activeRulesetResponse.ruleset_id) {
+          const activeRuleset = await getRuleset(
+            user_id,
+            gameId,
+            activeRulesetResponse.ruleset_id
+          );
+          setActiveRuleset(activeRuleset);
+        }
+      }
+    };
+
+    fetchActiveRuleset();
+  }, [user_id, gameId]);
 
   // handle user's answer
   const handleTriviaAnswer = (answer) => {
@@ -94,18 +121,33 @@ function TriviaGame() {
 
   if (!gameStarted) {
     return (
-      <TriviaGameStartForm
-        amount={amount}
-        setAmount={setAmount}
-        category={category}
-        setCategory={setCategory}
-        difficulty={difficulty}
-        setDifficulty={setDifficulty}
-        type={type}
-        setType={setType}
-        categories={categories}
-        handleStartGame={handleStartGame}
-      />
+      <div>
+        <div className='flex justify-end'>
+          <button
+            className='btn btn-ghost mr-4 font-bold'
+            onClick={() => document.getElementById('my_modal_1').showModal()}
+          >
+            Prompt Dash Rules
+          </button>
+        </div>
+        <dialog id='my_modal_1' className='modal'>
+          <div className='modal-box'>
+            <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
+          </div>
+        </dialog>
+        <TriviaGameStartForm
+          amount={amount}
+          setAmount={setAmount}
+          category={category}
+          setCategory={setCategory}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          type={type}
+          setType={setType}
+          categories={categories}
+          handleStartGame={handleStartGame}
+        />
+      </div>
     );
   }
 
@@ -121,7 +163,19 @@ function TriviaGame() {
   if (currentQuestion) {
     return (
       <div className='p-6 bg-base-100 h-full font-space'>
-        <h1 className='text-2xl font-bold mb-4'>Trivia Game</h1>
+        <div className='flex justify-end'>
+          <button
+            className='btn btn-ghost mr-4 font-bold'
+            onClick={() => document.getElementById('my_modal_1').showModal()}
+          >
+            Prompt Dash Rules
+          </button>
+        </div>
+        <dialog id='my_modal_1' className='modal'>
+          <div className='modal-box'>
+            <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
+          </div>
+        </dialog>
         <div className='my-4 flex flex-col items-center justify-center'>
           <p className=' font-bold text-lg text-base-content'>
             Question {currentQuestionIndex + 1} of {amount}
