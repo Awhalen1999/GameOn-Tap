@@ -236,19 +236,6 @@ const RideTheBus = () => {
           Reset Game
         </button>
       </div>
-      <div className='flex justify-end'>
-        <button
-          className='btn btn-ghost mr-4 font-bold'
-          onClick={() => document.getElementById('my_modal_1').showModal()}
-        >
-          Ride the Bus Rules <FaWrench />
-        </button>
-      </div>
-      <dialog id='my_modal_1' className='modal'>
-        <div className='modal-box'>
-          <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
-        </div>
-      </dialog>
       {/* alert */}
       {showAlert && !gameStarted && (
         <div
@@ -276,6 +263,19 @@ const RideTheBus = () => {
           </div>
         </div>
       )}
+      <div className='flex justify-end'>
+        <button
+          className='btn btn-ghost mr-4 font-bold'
+          onClick={() => document.getElementById('my_modal_1').showModal()}
+        >
+          Ride the Bus Rules <FaWrench />
+        </button>
+      </div>
+      <dialog id='my_modal_1' className='modal'>
+        <div className='modal-box'>
+          <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
+        </div>
+      </dialog>
 
       {!gameStarted ? (
         // Game start form
