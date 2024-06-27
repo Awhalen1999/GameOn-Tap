@@ -30,6 +30,7 @@ export async function loginUser(email, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
+    credentials: 'include',
   });
 
   if (!response.ok) {
