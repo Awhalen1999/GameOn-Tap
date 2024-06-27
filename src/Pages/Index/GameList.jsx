@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import kingsCupCover from '../../assets/kings-cup-cover.png';
@@ -13,7 +13,7 @@ import aiBartenderCover from '../../assets/ai-bartender-cover.png';
 import ImageLoader from '../../components/ImageLoader';
 
 const GameList = () => {
-  const games = [
+  const allGames = [
     {
       name: 'Kings Cup',
       route: '/games/KingsCup',
@@ -29,7 +29,49 @@ const GameList = () => {
       route: '/games/BountyBlast',
       image: bountyBlastCover,
     },
+    {
+      name: 'Ride The Bus',
+      route: '/games/RideTheBus',
+      image: rideTheBusCover,
+    },
+    {
+      name: 'Snap',
+      route: '/games/Snap',
+      image: snapCover,
+    },
+    {
+      name: 'Trivia',
+      route: '/games/Trivia',
+      image: triviaCover,
+    },
+    {
+      name: 'Prompt Dash',
+      route: '/games/PromptDash',
+      image: promptDashCover,
+    },
+    {
+      name: 'Dice Roll',
+      route: '/games/DiceRoll',
+      image: diceRollCover,
+    },
+    {
+      name: 'AI Bartender',
+      route: '/games/AIBartender',
+      image: aiBartenderCover,
+    },
   ];
+
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    const today = new Date().getDay();
+    const selectedGames = [
+      allGames[today % allGames.length],
+      allGames[(today + 1) % allGames.length],
+      allGames[(today + 2) % allGames.length],
+    ];
+    setGames(selectedGames);
+  }, []);
 
   return (
     <div className='w-screen h-auto bg-base-100 font-space'>
