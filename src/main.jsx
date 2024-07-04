@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import Layout from './utils/Layout';
 import Index from './Pages/Index/IndexPage';
@@ -19,7 +19,7 @@ import GamePage from './Pages/GamePage';
 import SignupPage from './Pages/SignupPage';
 import LoginPage from './Pages/LoginPage';
 import UserPage from './Pages/UserPage';
-import { UserProvider } from './utils/UserContext';
+import { AuthProvider } from './components/AuthProvider';
 
 const router = createBrowserRouter(
   [
@@ -53,8 +53,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <UserProvider>
+    <AuthProvider>
       <RouterProvider router={router} />
-    </UserProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

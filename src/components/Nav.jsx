@@ -3,7 +3,7 @@
 
 import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { UserContext } from '../utils/UserContext';
+import { useAuth } from '../hooks/useAuth';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -11,7 +11,7 @@ const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, logout } = useAuth();
 
   const handleThemeChange = (event) => {
     const newTheme = event.target.checked ? 'myLight' : 'myDark';

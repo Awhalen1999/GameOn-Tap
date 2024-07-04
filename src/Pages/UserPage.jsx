@@ -1,16 +1,21 @@
 //todo: clear rulesets if fetching new rulesets
 
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../utils/UserContext';
 import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const UserPage = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  // const { user, setUser } = useContext(UserContext);
   const [gameId, setGameId] = useState('');
   const [rulesets, setRulesets] = useState([]);
   const [activeRuleset, setActiveRuleset] = useState(null);
+  const { user, logout } = useAuth();
+
+  if (!user) {
+    navigate('/login');
+  }
 
   const gameIds = [
     'KingsCup',
@@ -28,16 +33,14 @@ const UserPage = () => {
   };
 
   const handleLogout = () => {
-    setUser(null);
-
-    // sessionStorage.removeItem('user');
-
+    // setUser(null);
     navigate('/');
+    logout();
   };
 
   // fetch all rulesets for the selected game
   const fetchRulesets = async () => {
-    if (gameId) {
+    if (gameId && user) {
       const rulesets = await getRulesets(user.user_id, gameId);
       setRulesets(rulesets);
     }
@@ -45,7 +48,7 @@ const UserPage = () => {
 
   // fetch the active ruleset for the selected game
   const fetchActiveRuleset = async () => {
-    if (gameId) {
+    if (gameId && user) {
       const activeRulesetResponse = await getActiveRuleset(
         user.user_id,
         gameId
@@ -70,13 +73,13 @@ const UserPage = () => {
       </button>
       <div className='mb-4'>
         <p className='mb-2'>
-          <span className='font-bold '>ID:</span> {user.user_id}
+          <span className='font-bold '>ID:</span> {user?.user_id}
         </p>
         <p className='mb-2 '>
-          <span className='font-bold '>Username:</span> {user.username}
+          <span className='font-bold '>Username:</span> {user?.username}
         </p>
         <p className='mb-2'>
-          <span className='font-bold '>Email:</span> {user.email}
+          <span className='font-bold '>Email:</span> {user?.email}
         </p>
       </div>
       <div className='w-full max-w-xs'>

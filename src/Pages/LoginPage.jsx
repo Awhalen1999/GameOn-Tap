@@ -6,7 +6,8 @@ import React, { useState, useContext } from 'react';
 import { loginUser } from '../utils/api.js';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-import { UserContext } from '../utils/UserContext.jsx';
+// import { UserContext } from '../utils/UserContext.jsx';
+import { useAuth } from '../hooks/useAuth.js';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,13 +15,13 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  // const { setUser } = useContext(UserContext);
+  const { user, login } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const user = await loginUser(email, password);
-      setUser(user);
+      login(email, password);
       navigate('/');
     } catch (error) {
       setError('Invalid email or password');

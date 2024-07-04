@@ -4,7 +4,7 @@
 
 const baseURL = 'http://localhost:3000';
 
-// Signup
+// Signup user
 export async function signupUser(username, email, password) {
   const theme = 'myDark'; // Manually set the theme
 
@@ -14,6 +14,7 @@ export async function signupUser(username, email, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username, email, password, theme }),
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -24,7 +25,7 @@ export async function signupUser(username, email, password) {
   return response.json();
 }
 
-//login
+//login user
 export async function loginUser(email, password) {
   const response = await fetch(`${baseURL}/users/login`, {
     method: 'POST',
@@ -32,6 +33,36 @@ export async function loginUser(email, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+//logout user
+export async function logoutUser() {
+  const response = await fetch(`${baseURL}/users/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+//authenticate user
+export async function authUser() {
+  const response = await fetch(`${baseURL}/users/auth`, {
+    method: 'GET',
     credentials: 'include',
   });
 

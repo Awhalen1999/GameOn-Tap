@@ -1,0 +1,49 @@
+import { useState, useEffect } from 'react';
+import * as api from '../utils/api';
+import { AuthContext } from '../contexts/auth';
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await api.authUser();
+        if (response.status === 200) {
+          console.log('Auth:', response.data);
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error('Not authenticated', error);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const login = (email, password) => {
+    api
+      .loginUser(email, password)
+      .then((user) => {
+        console.log('Login:', user);
+        setUser(user);
+      })
+      .catch((error) => console.error(JSON.stringify(error)));
+  };
+
+  const logout = () => {
+    api
+      .logoutUser()
+      .then(() => {
+        setUser(null);
+        console.log('Logout');
+      })
+      .catch((error) => console.error(JSON.stringify(error)));
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
