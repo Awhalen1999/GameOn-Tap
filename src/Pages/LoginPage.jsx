@@ -2,11 +2,9 @@
 // placeholders and react icons
 // hover color change for login and signup page buttons
 
-import React, { useState, useContext } from 'react';
-import { loginUser } from '../utils/api.js';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-// import { UserContext } from '../utils/UserContext.jsx';
 import { useAuth } from '../hooks/useAuth.js';
 
 const LoginPage = () => {
@@ -15,8 +13,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  // const { setUser } = useContext(UserContext);
-  const { user, login } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();

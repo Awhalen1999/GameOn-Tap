@@ -1,13 +1,11 @@
 // todo
 // fix error message
 // type password twice to confirm
-// fix navigate to -1 vs home
 
-import React, { useState, useContext } from 'react';
-import { signupUser } from '../utils/api.js';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-import { UserContext } from '../utils/UserContext.jsx';
+import { useAuth } from '../hooks/useAuth.js';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
@@ -16,15 +14,15 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { signup } = useAuth();
 
   const handleSignup = async (event) => {
     event.preventDefault();
     try {
-      const user = await signupUser(username, email, password);
-      setUser(user);
+      await signup(username, email, password);
       navigate('/');
     } catch (error) {
+      console.error('Signup error:', error);
       setError('Failed to create account');
     }
   };

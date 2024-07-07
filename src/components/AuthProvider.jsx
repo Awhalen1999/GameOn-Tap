@@ -31,6 +31,16 @@ export const AuthProvider = ({ children }) => {
       .catch((error) => console.error(JSON.stringify(error)));
   };
 
+  const signup = (username, email, password) => {
+    api
+      .signupUser(username, email, password)
+      .then((user) => {
+        console.log('Signup:', user);
+        setUser(user);
+      })
+      .catch((error) => console.error(JSON.stringify(error)));
+  };
+
   const logout = () => {
     api
       .logoutUser()
@@ -42,7 +52,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );
