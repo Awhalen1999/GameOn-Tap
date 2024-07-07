@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import treasureChest from '../../assets/treasure-chest.png';
 import bomb from '../../assets/bomb.png';
 import treasure from '../../assets/treasure.png';
 import empty from '../../assets/empty.png';
-import { UserContext } from '../../utils/UserContext';
 import { getActiveRuleset, getRuleset } from '../../utils/api';
 import RulesetDisplay from '../../components/RulesetDisplay';
 import { FaWrench } from 'react-icons/fa';
+import { useAuth } from '../../hooks/useAuth';
 
 const BountyBlast = () => {
   const [bombs, setBombs] = useState(3);
@@ -16,19 +16,20 @@ const BountyBlast = () => {
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('');
   const [activeRuleset, setActiveRuleset] = useState(null);
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'BountyBlast';
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
 
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -38,7 +39,7 @@ const BountyBlast = () => {
     };
 
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   useEffect(() => {
     if (gameStarted) {

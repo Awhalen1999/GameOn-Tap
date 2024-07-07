@@ -1,12 +1,10 @@
-//todo: clean up code here
-
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import placeholderCard from '../../assets/red.png';
 import initialDeck from '../../components/DeckOfCards.jsx';
 import { FaInfoCircle, FaWrench } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../utils/api.js';
-import { UserContext } from '../../utils/UserContext.jsx';
 import RulesetDisplay from '../../components/RulesetDisplay';
+import { useAuth } from '../../hooks/useAuth';
 
 const KingsCup = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -15,15 +13,13 @@ const KingsCup = () => {
   const [hideRules, setHideRules] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const remainingKings = deck.filter((card) => card.includes('K')).length;
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'KingsCup';
   const [activeRuleset, setActiveRuleset] = useState(null);
   const [currentRule, setCurrentRule] = useState({
     title: '',
     description: '',
   });
+  const { user } = useAuth();
 
   useEffect(() => {
     // Load card images
@@ -38,12 +34,15 @@ const KingsCup = () => {
 
     // Fetch the active ruleset for the user and game
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
 
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -53,7 +52,7 @@ const KingsCup = () => {
     };
 
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   // Draw a random card from the deck
   const drawCard = () => {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import promptList from './PromptList';
 import { getActiveRuleset, getRuleset } from '../../../utils/api';
-import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
+import { useAuth } from '../../../hooks/useAuth';
 
 const PromptDash = () => {
   const [prompt, setPrompt] = useState('');
@@ -12,18 +12,20 @@ const PromptDash = () => {
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef();
   const [activeRuleset, setActiveRuleset] = useState(null);
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'PromptDash';
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
+
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -31,8 +33,9 @@ const PromptDash = () => {
         }
       }
     };
+
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   const drawPrompt = () => {
     if (remainingPrompts.length === 0) {

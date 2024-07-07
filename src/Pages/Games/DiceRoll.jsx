@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaDiceD6,
   FaDiceOne,
@@ -10,26 +10,27 @@ import {
   FaWrench,
 } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../utils/api';
-import { UserContext } from '../../utils/UserContext';
 import RulesetDisplay from '../../components/RulesetDisplay';
+import { useAuth } from '../../hooks/useAuth';
 
 function DiceRoll() {
   const [dice, setDice] = useState([null, null]);
   const [rolledNumber, setRolledNumber] = useState(null);
   const [activeRuleset, setActiveRuleset] = useState(null);
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'DiceRoll';
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
 
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -39,7 +40,7 @@ function DiceRoll() {
     };
 
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   const diceIcons = [
     null,

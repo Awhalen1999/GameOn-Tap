@@ -1,13 +1,12 @@
 //todo: clear rulesets if fetching new rulesets
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const UserPage = () => {
   const navigate = useNavigate();
-  // const { user, setUser } = useContext(UserContext);
   const [gameId, setGameId] = useState('');
   const [rulesets, setRulesets] = useState([]);
   const [activeRuleset, setActiveRuleset] = useState(null);

@@ -1,13 +1,10 @@
-// if suit set activeRuleset to suit (change saved rulesets to 2 different rulesets)
-// handle set activeRuleset in game component
-
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import initialDeck from '../../components/DeckOfCards';
 import placeholderCard from '../../assets/red.png';
 import { FaInfoCircle } from 'react-icons/fa';
 import { getActiveRuleset, getRuleset } from '../../utils/api';
-import { UserContext } from '../../utils/UserContext';
 import RulesetDisplay from '../../components/RulesetDisplay';
+import { useAuth } from '../../hooks/useAuth';
 
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -24,19 +21,20 @@ const Snap = () => {
   const [showSnap, setShowSnap] = useState(true);
   const [activeRuleset, setActiveRuleset] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
-
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'Snap';
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
+
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -44,8 +42,9 @@ const Snap = () => {
         }
       }
     };
+
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   useEffect(() => {
     const loadImages = async () => {

@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaArrowDown, FaInfoCircle } from 'react-icons/fa';
 import placeholderCard from '../../../assets/red.png';
 import initialDeck from '../../../components/DeckOfCards.jsx';
 import RTBStartGameForm from './RTBStartGameForm.jsx';
 import { getActiveRuleset, getRuleset } from '../../../utils/api';
-import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
+import { useAuth } from '../../../hooks/useAuth';
 
 const RideTheBus = () => {
   const [number, setNumber] = useState(1);
@@ -19,19 +19,20 @@ const RideTheBus = () => {
   const [bgColor, setBgColor] = useState('base');
   const [activeRuleset, setActiveRuleset] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
-
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'RideTheBus';
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
+
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -39,8 +40,9 @@ const RideTheBus = () => {
         }
       }
     };
+
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   useEffect(() => {
     if (guessStatus !== '') {

@@ -1,7 +1,4 @@
-//todo: update active ruleset on change
-// move the modal to the game component and pass the ruleset as a prop from the game.
-
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
@@ -11,7 +8,7 @@ const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   const handleThemeChange = (event) => {
     const newTheme = event.target.checked ? 'myLight' : 'myDark';

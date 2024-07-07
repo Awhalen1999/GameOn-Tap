@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TriviaGameStartForm from './TriviaGameStartForm';
 import { getActiveRuleset, getRuleset } from '../../../utils/api';
-import { UserContext } from '../../../utils/UserContext';
 import RulesetDisplay from '../../../components/RulesetDisplay';
+import { useAuth } from '../../../hooks/useAuth';
 
 function TriviaGame() {
   const [amount, setAmount] = useState(5);
@@ -17,19 +17,20 @@ function TriviaGame() {
   const [categories, setCategories] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [activeRuleset, setActiveRuleset] = useState(null);
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const gameId = 'Trivia';
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId) {
-        const activeRulesetResponse = await getActiveRuleset(user_id, gameId);
+      if (gameId && user) {
+        const activeRulesetResponse = await getActiveRuleset(
+          user.user_id,
+          gameId
+        );
 
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
-            user_id,
+            user.user_id,
             gameId,
             activeRulesetResponse.ruleset_id
           );
@@ -39,7 +40,7 @@ function TriviaGame() {
     };
 
     fetchActiveRuleset();
-  }, [user_id, gameId]);
+  }, [user, gameId]);
 
   // handle user's answer
   const handleTriviaAnswer = (answer) => {
