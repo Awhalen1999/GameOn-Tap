@@ -1,7 +1,3 @@
-// todo: Reword rule descriptions
-// todo: ease spin at end
-// todo: add slider for spin time
-
 import React, { useState, useEffect } from 'react';
 import './DrinkRoulette.css';
 import { TiArrowDownThick } from 'react-icons/ti';

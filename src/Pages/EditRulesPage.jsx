@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { UserContext } from '../utils/UserContext';
 import {
   getRulesets,
   getActiveRuleset,
@@ -12,11 +11,9 @@ import {
 import { MdEdit, MdDelete, MdOutlineInfo } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
 import { IoCloseSharp } from 'react-icons/io5';
+import { useAuth } from '../hooks/useAuth';
 
 const EditRulesPage = () => {
-  const {
-    user: { user_id },
-  } = useContext(UserContext);
   const { game } = useParams();
   const navigate = useNavigate();
   const [rulesets, setRulesets] = useState([]);
@@ -36,36 +33,45 @@ const EditRulesPage = () => {
     Trivia: 7,
     PromptDash: 8,
   };
+  const { user } = useAuth();
 
   // Fetch all rulesets for game id and user id (works)
   useEffect(() => {
-    getRulesets(user_id, game).then(setRulesets).catch(console.error);
-  }, [user_id, game]);
+    if (user) {
+      getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
+    }
+  }, [user, game]);
 
   // Fetch active ruleset for game id and user id
   useEffect(() => {
-    getActiveRuleset(user_id, game)
-      .then((activeRulesetResponse) => {
-        return getRuleset(user_id, game, activeRulesetResponse.ruleset_id);
-      })
-      .then((activeRuleset) => {
-        setActiveRulesetState(activeRuleset);
-        setSelectedRuleset(activeRuleset.ruleset_id);
-      })
-      .catch(console.error);
-  }, [user_id, game]);
+    if (user) {
+      getActiveRuleset(user.user_id, game)
+        .then((activeRulesetResponse) => {
+          return getRuleset(
+            user.user_id,
+            game,
+            activeRulesetResponse.ruleset_id
+          );
+        })
+        .then((activeRuleset) => {
+          setActiveRulesetState(activeRuleset);
+          setSelectedRuleset(activeRuleset.ruleset_id);
+        })
+        .catch(console.error);
+    }
+  }, [user, game]);
 
   // Change active ruleset
   const handleSelectChange = (event) => {
     const rulesetId = event.target.value;
     setSelectedRuleset(rulesetId);
 
-    setActiveRuleset(user_id, game, rulesetId)
+    setActiveRuleset(user.user_id, game, rulesetId)
       .then(() => {
-        return getActiveRuleset(user_id, game);
+        return getActiveRuleset(user.user_id, game);
       })
       .then((activeRulesetResponse) => {
-        return getRuleset(user_id, game, activeRulesetResponse.ruleset_id);
+        return getRuleset(user.user_id, game, activeRulesetResponse.ruleset_id);
       })
       .then((activeRuleset) => {
         setActiveRulesetState(activeRuleset);
@@ -76,9 +82,9 @@ const EditRulesPage = () => {
 
   // Save ruleset
   const handleSave = () => {
-    saveRuleset(user_id, game, rulesetName, activeRuleset.rules)
+    saveRuleset(user.user_id, game, rulesetName, activeRuleset.rules)
       .then((newRuleset) => {
-        getRulesets(user_id, game).then(setRulesets).catch(console.error);
+        getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
 
         setRulesetName('');
         setAlertVisible(true);
@@ -94,7 +100,7 @@ const EditRulesPage = () => {
 
   // Delete ruleset
   const handleDelete = async (rulesetId) => {
-    if ((rulesetId >= 1 && rulesetId <= 8) || user_id === 1) {
+    if ((rulesetId >= 1 && rulesetId <= 8) || user.user_id === 1) {
       alert('Cannot delete default ruleset');
       return;
     }
@@ -105,9 +111,9 @@ const EditRulesPage = () => {
       handleSelectChange({ target: { value: defaultRulesetId } });
     }
 
-    deleteRuleset(user_id, game, rulesetId)
+    deleteRuleset(user.user_id, game, rulesetId)
       .then(() => {
-        getRulesets(user_id, game).then(setRulesets).catch(console.error);
+        getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
       })
       .catch(console.error);
   };
