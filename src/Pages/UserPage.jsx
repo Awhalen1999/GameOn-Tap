@@ -32,7 +32,6 @@ const UserPage = () => {
   };
 
   const handleLogout = () => {
-    // setUser(null);
     navigate('/');
     logout();
   };
