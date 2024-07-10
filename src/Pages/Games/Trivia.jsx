@@ -21,13 +21,12 @@ function TriviaGame() {
   const { user } = useAuth();
 
   useEffect(() => {
-    const fetchActiveRuleset = async () => {
-      if (gameId && user) {
+    if (user) {
+      const fetchActiveRuleset = async () => {
         const activeRulesetResponse = await getActiveRuleset(
           user.user_id,
           gameId
         );
-
         if (activeRulesetResponse.ruleset_id) {
           const activeRuleset = await getRuleset(
             user.user_id,
@@ -36,20 +35,59 @@ function TriviaGame() {
           );
           setActiveRuleset(activeRuleset);
         }
-      }
-    };
-
-    fetchActiveRuleset();
+      };
+      fetchActiveRuleset();
+    }
   }, [user, gameId]);
 
-  // handle user's answer
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          'https://opentdb.com/api_category.php'
+        );
+        setCategories(response.data.trivia_categories);
+      } catch (error) {
+        console.error('Error fetching trivia categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    if (gameStarted) {
+      const fetchQuestions = async () => {
+        try {
+          const response = await axios.get(buildApiUrl());
+          setQuestions(response.data.results);
+        } catch (error) {
+          console.error('Error fetching trivia questions:', error);
+        }
+      };
+      setTimeout(fetchQuestions, 1000);
+    }
+  }, [gameStarted]);
+
+  const buildApiUrl = () => {
+    let apiUrl = `https://opentdb.com/api.php?amount=${amount}`;
+    if (category) apiUrl += `&category=${category}`;
+    if (difficulty) apiUrl += `&difficulty=${difficulty}`;
+    if (type) apiUrl += `&type=${type}`;
+    return apiUrl;
+  };
+
+  const handleStartGame = (event) => {
+    event.preventDefault();
+    setGameStarted(true);
+  };
+
   const handleTriviaAnswer = (answer) => {
     setSelectedAnswer(answer);
     const currentQuestion = questions[currentQuestionIndex];
 
     let newScore = score;
     if (answer === currentQuestion.correct_answer) {
-      newScore = score + 1;
+      newScore += 1;
       setScore(newScore);
     }
 
@@ -58,67 +96,24 @@ function TriviaGame() {
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
-        // Game Over
         alert(`Game Over! Your score: ${newScore}/${questions.length}`);
-        // Reset game
-        setCurrentQuestionIndex(0);
-        setScore(0);
-        setGameStarted(false);
+        resetGame();
       }
     }, 1000);
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get('https://opentdb.com/api_category.php');
-      setCategories(response.data.trivia_categories);
-    } catch (error) {
-      console.error('Error fetching trivia categories:', error);
-    }
+  const resetGame = () => {
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setGameStarted(false);
   };
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get(buildApiUrl());
-        setQuestions(response.data.results);
-      } catch (error) {
-        console.error('Error fetching trivia questions:', error);
-      }
-    };
-
-    if (gameStarted) {
-      // Add a delay before fetching the questions
-      setTimeout(fetchQuestions, 1000);
+  const handleAmountChange = (value) => {
+    if (value > 50) {
+      setAmount(50);
+    } else {
+      setAmount(value);
     }
-  }, [gameStarted]);
-
-  // Function to build API URL
-  const buildApiUrl = () => {
-    let apiUrl = `https://opentdb.com/api.php?amount=${amount}`;
-
-    if (category) {
-      apiUrl += `&category=${category}`;
-    }
-
-    if (difficulty) {
-      apiUrl += `&difficulty=${difficulty}`;
-    }
-
-    if (type) {
-      apiUrl += `&type=${type}`;
-    }
-
-    return apiUrl;
-  };
-
-  const handleStartGame = (event) => {
-    event.preventDefault();
-    setGameStarted(true);
   };
 
   if (!gameStarted) {
@@ -137,111 +132,100 @@ function TriviaGame() {
             <RulesetDisplay rules={activeRuleset?.rules} gameId='Trivia' />
           </div>
         </dialog>
-        <div>
-          <div className='p-6 bg-base-100 h-full font-space'>
-            <div className='flex flex-col items-center justify-center'>
-              <div className='mb-4 w-1/3'>
-                <form onSubmit={handleStartGame}>
-                  {/* Number of questions: */}
-                  <div className='mb-4'>
-                    <label className='block text-md font-medium text-base-content'>
-                      Number of Questions:
-                    </label>
-                    <div className=' bg-neutral rounded-lg border border-primary'>
-                      <div className='w-full flex justify-between items-center gap-x-5'>
-                        <input
-                          className='input bg-neutral w-full'
-                          type='number'
-                          value={amount}
-                          onChange={(e) => {
-                            const value = parseInt(e.target.value);
-                            if (value > 50) {
-                              setAmount(50);
-                            } else {
-                              setAmount(value);
-                            }
-                          }}
-                        />
-                        <div className='flex justify-end items-center gap-x-1.5 m-2'>
-                          <button
-                            type='button'
-                            className='btn btn-sm btn-primary'
-                            onClick={() =>
-                              setAmount(amount > 1 ? amount - 1 : 1)
-                            }
-                          >
-                            <FaMinus />
-                          </button>
-                          <button
-                            type='button'
-                            className='btn btn-sm btn-primary'
-                            onClick={() =>
-                              setAmount(amount < 50 ? amount + 1 : 50)
-                            }
-                          >
-                            <FaPlus />
-                          </button>
-                        </div>
+        <div className='p-6 bg-base-100 h-full font-space'>
+          <div className='flex flex-col items-center justify-center'>
+            <div className='mb-4 w-1/3'>
+              <form onSubmit={handleStartGame}>
+                <div className='mb-4'>
+                  <label className='block text-md font-medium text-base-content'>
+                    Number of Questions:
+                  </label>
+                  <div className='bg-neutral rounded-lg border border-primary'>
+                    <div className='w-full flex justify-between items-center gap-x-5'>
+                      <input
+                        className='input bg-neutral w-full'
+                        type='number'
+                        value={amount}
+                        onChange={(e) =>
+                          handleAmountChange(parseInt(e.target.value))
+                        }
+                      />
+                      <div className='flex justify-end items-center gap-x-1.5 m-2'>
+                        <button
+                          type='button'
+                          className='btn btn-sm btn-primary'
+                          onClick={() =>
+                            handleAmountChange(amount > 1 ? amount - 1 : 1)
+                          }
+                        >
+                          <FaMinus />
+                        </button>
+                        <button
+                          type='button'
+                          className='btn btn-sm btn-primary'
+                          onClick={() =>
+                            handleAmountChange(amount < 50 ? amount + 1 : 50)
+                          }
+                        >
+                          <FaPlus />
+                        </button>
                       </div>
                     </div>
                   </div>
-                  {/* Type */}
-                  <div className='mb-4'>
-                    <label className='block text-md font-medium text-base-content'>
-                      Select Type:
-                      <select
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        className='select select-primary w-full bg-neutral text-neutral-content'
-                      >
-                        <option value=''>Any Type</option>
-                        <option value='multiple'>Multiple Choice</option>
-                        <option value='boolean'>True/False</option>
-                      </select>
-                    </label>
-                  </div>
-                  {/* Category */}
-                  <div className='mb-4'>
-                    <label className='block text-md font-medium text-base-content'>
-                      Select Category:
-                      <select
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        className='select select-primary w-full bg-neutral text-neutral-content'
-                      >
-                        <option value=''>Any Category</option>
-                        {categories.map((category) => (
-                          <option key={category.id} value={category.id}>
-                            {category.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-                  {/* Difficulty */}
-                  <div className='mb-4'>
-                    <label className='block text-md font-medium text-base-content'>
-                      Select Difficulty:
-                      <select
-                        value={difficulty}
-                        onChange={(e) => setDifficulty(e.target.value)}
-                        className='select select-primary w-full bg-neutral text-neutral-content'
-                      >
-                        <option value=''>Any Difficulty</option>
-                        <option value='easy'>Easy</option>
-                        <option value='medium'>Medium</option>
-                        <option value='hard'>Hard</option>
-                      </select>
-                    </label>
-                  </div>
-                  <button
-                    onClick={handleStartGame}
-                    className='btn btn-primary w-full text-lg font-bold'
+                </div>
+                <div className='mb-4'>
+                  <label className='block text-md font-medium text-base-content'>
+                    Select Type:
+                  </label>
+                  <select
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                    className='select select-primary w-full bg-neutral text-neutral-content'
                   >
-                    Start Game
-                  </button>
-                </form>
-              </div>
+                    <option value=''>Any Type</option>
+                    <option value='multiple'>Multiple Choice</option>
+                    <option value='boolean'>True/False</option>
+                  </select>
+                </div>
+                <div className='mb-4'>
+                  <label className='block text-md font-medium text-base-content'>
+                    Select Category:
+                  </label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className='select select-primary w-full bg-neutral text-neutral-content'
+                  >
+                    <option value=''>Any Category</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className='mb-4'>
+                  <label className='block text-md font-medium text-base-content'>
+                    Select Difficulty:
+                  </label>
+                  <select
+                    value={difficulty}
+                    onChange={(e) => setDifficulty(e.target.value)}
+                    className='select select-primary w-full bg-neutral text-neutral-content'
+                  >
+                    <option value=''>Any Difficulty</option>
+                    <option value='easy'>Easy</option>
+                    <option value='medium'>Medium</option>
+                    <option value='hard'>Hard</option>
+                  </select>
+                </div>
+                <button
+                  onClick={handleStartGame}
+                  className='btn btn-primary w-full text-lg font-bold'
+                >
+                  Start Game
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -275,10 +259,10 @@ function TriviaGame() {
           </div>
         </dialog>
         <div className='my-4 flex flex-col items-center justify-center'>
-          <p className=' font-bold text-lg text-base-content'>
+          <p className='font-bold text-lg text-base-content'>
             Question {currentQuestionIndex + 1} of {amount}
           </p>
-          <div className=' divider divider-primary'></div>
+          <div className='divider divider-primary'></div>
           <p
             className='text-lg font-medium text-base-content my-4'
             dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
@@ -312,11 +296,7 @@ function TriviaGame() {
           </p>
         </div>
         <button
-          onClick={() => {
-            setCurrentQuestionIndex(0);
-            setScore(0);
-            setGameStarted(false);
-          }}
+          onClick={resetGame}
           className='btn btn-success absolute bottom-0 right-0 m-4'
         >
           Reset Game
