@@ -10,7 +10,7 @@ const AIBartender = () => {
   const [bartender, setBartender] = useState('Default');
   const [isLoading, setIsLoading] = useState(false);
 
-  const bartenders = Object.keys(BartenderInfo); // List of bartenders
+  const bartenders = Object.keys(BartenderInfo);
 
   const [initialPrompt, setInitialPrompt] = useState(
     BartenderInfo[bartender].initialPrompt
