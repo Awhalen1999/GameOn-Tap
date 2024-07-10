@@ -136,6 +136,7 @@ function TriviaGame() {
           <div className='flex flex-col items-center justify-center'>
             <div className='mb-4 w-1/3'>
               <form onSubmit={handleStartGame}>
+                {/* number of questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Number of Questions:
@@ -173,6 +174,7 @@ function TriviaGame() {
                     </div>
                   </div>
                 </div>
+                {/* type of questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Select Type:
@@ -187,6 +189,7 @@ function TriviaGame() {
                     <option value='boolean'>True/False</option>
                   </select>
                 </div>
+                {/* category of questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Select Category:
@@ -204,6 +207,7 @@ function TriviaGame() {
                     ))}
                   </select>
                 </div>
+                {/* difficulty of questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Select Difficulty:
