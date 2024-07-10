@@ -8,7 +8,7 @@ import ErrorPage from './error-page';
 import KingsCup from './Pages/Games/KingsCup';
 import RideTheBus from './Pages/Games/RideTheBus/RideTheBus';
 import Snap from './Pages/Games/Snap';
-import Trivia from './Pages/Games/Trivia/Trivia';
+import Trivia from './Pages/Games/Trivia';
 import PromptDash from './Pages/Games/PromptDash/PromptDash';
 import DiceRoll from './Pages/Games/DiceRoll';
 import DrinkRoulette from './Pages/Games/DrinkRoulette/DrinkRoulette';
