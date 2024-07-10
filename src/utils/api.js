@@ -1,5 +1,4 @@
 // remove user id from functions once context is implemented
-//create auth function to check if user is logged in
 
 const baseURL = 'http://localhost:3000';
 

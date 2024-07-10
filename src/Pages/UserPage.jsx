@@ -39,6 +39,7 @@ const UserPage = () => {
   // fetch all rulesets for the selected game
   const fetchRulesets = async () => {
     if (gameId && user) {
+      setActiveRuleset(null);
       const rulesets = await getRulesets(user.user_id, gameId);
       setRulesets(rulesets);
     }
@@ -47,6 +48,7 @@ const UserPage = () => {
   // fetch the active ruleset for the selected game
   const fetchActiveRuleset = async () => {
     if (gameId && user) {
+      setRulesets([]);
       const activeRulesetResponse = await getActiveRuleset(
         user.user_id,
         gameId
