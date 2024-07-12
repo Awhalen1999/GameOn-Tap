@@ -6,19 +6,31 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await api.authUser();
-        if (response.status === 200) {
+    // const checkAuth = async () => {
+    //   try {
+    //     const response = await api.authUser();
+
+    //     console.log(response);
+    //     if (response.status === 200) {
+    //       console.log('Auth:', response.data);
+    //       setUser(response.data);
+    //     }
+    //   } catch (error) {
+    //     console.error('Not authenticated', error);
+    //   }
+    // };
+
+    // checkAuth();
+
+    api
+      .authUser()
+      .then((res) => {
+        if (res.status === 200) {
           console.log('Auth:', response.data);
           setUser(response.data);
         }
-      } catch (error) {
-        console.error('Not authenticated', error);
-      }
-    };
-
-    checkAuth();
+      })
+      .catch((error) => console.error('Not authenticated', error));
   }, []);
 
   const login = (email, password) => {

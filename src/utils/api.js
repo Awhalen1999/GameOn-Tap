@@ -17,7 +17,7 @@ export async function signupUser(username, email, password) {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(message.message);
   }
 
   return response.json();
@@ -36,7 +36,7 @@ export async function loginUser(email, password) {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(message.message);
   }
 
   return response.json();
@@ -51,7 +51,7 @@ export async function logoutUser() {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(message.message);
   }
 
   return response.json();
@@ -66,7 +66,7 @@ export async function authUser() {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(message.message);
   }
 
   return response.json();
@@ -78,7 +78,7 @@ export async function getRulesets(userId, gameId) {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(message.message);
   }
 
   return response.json();
