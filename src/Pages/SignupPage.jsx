@@ -3,7 +3,7 @@
 // type password twice to confirm
 
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import { useAuth } from '../hooks/useAuth.js';
 
@@ -13,14 +13,12 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const { signup } = useAuth();
 
   const handleSignup = async (event) => {
     event.preventDefault();
     try {
       await signup(username, email, password);
-      navigate('/');
     } catch (error) {
       console.error('Signup error:', error);
       setError('Failed to create account');
@@ -34,12 +32,12 @@ const SignupPage = () => {
   return (
     <div className='flex items-center h-full p-6 bg-base-100 justify-center'>
       <div className='relative flex flex-col overflow-hidden rounded-lg shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md'>
-        <button
-          onClick={() => navigate('/')}
+        <Link
+          to='/'
           className='absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700'
         >
           <IoClose />
-        </button>
+        </Link>
         <div className='flex flex-col overflow-hidden rounded-lg shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md'>
           <div className='p-4 py-6 text-primary-content bg-primary md:w-80 md:flex-shrink-0 md:flex md:flex-col md:items-center md:justify-evenly'>
             <div className='my-3 text-4xl font-bold tracking-wider text-center'>

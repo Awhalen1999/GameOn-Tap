@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
   getRulesets,
   getActiveRuleset,
@@ -15,7 +15,6 @@ import { useAuth } from '../hooks/useAuth';
 
 const EditRulesPage = () => {
   const { game } = useParams();
-  const navigate = useNavigate();
   const [rulesets, setRulesets] = useState([]);
   const [activeRuleset, setActiveRulesetState] = useState(null);
   const [selectedRuleset, setSelectedRuleset] = useState('');
@@ -152,7 +151,7 @@ const EditRulesPage = () => {
     <div className='h-full bg-base-100 p-8'>
       {/* Alert Section */}
       {alertVisible && (
-        <div className='flex items-center h-16 border border-primary pr-4 w-full max-w-md  rounded-lg mx-auto'>
+        <div className='flex items-center h-16 border border-primary pr-4 w-full max-w-md rounded-lg mx-auto'>
           <div className='flex items-center justify-center bg-primary w-12 h-full rounded-l text-primary-content'>
             <MdOutlineInfo size={24} />
           </div>
@@ -171,12 +170,9 @@ const EditRulesPage = () => {
         <h1 className='text-2xl font-bold text-base-content'>
           Edit Rules for {game}
         </h1>
-        <button
-          className='btn btn-error'
-          onClick={() => navigate(`/games/${game}`)}
-        >
+        <Link to={`/games/${game}`} className='btn btn-error'>
           Return to {game}
-        </button>
+        </Link>
       </div>
 
       {/* Input, Select and Button Section */}

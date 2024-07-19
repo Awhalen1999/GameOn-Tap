@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { FaUserCircle } from 'react-icons/fa';
@@ -7,7 +7,6 @@ import { FaUserCircle } from 'react-icons/fa';
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
   const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   const handleThemeChange = (event) => {
@@ -45,12 +44,9 @@ const Nav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
           >
             <li>
-              <button
-                className='btn btn-ghost'
-                onClick={() => navigate('/GamePage')}
-              >
+              <Link to='/GamePage' className='btn btn-ghost'>
                 Games
-              </button>
+              </Link>
             </li>
             <li>
               <label className='swap swap-rotate'>
@@ -81,12 +77,9 @@ const Nav = () => {
         </div>
         {/* center */}
         <div className='navbar bg-base-100'>
-          <button
-            onClick={() => navigate('/')}
-            className='btn btn-ghost text-3xl font-pixel'
-          >
+          <Link to='/' className='btn btn-ghost text-3xl font-pixel'>
             GameOn Tap
-          </button>
+          </Link>
         </div>
       </div>
       <div className='navbar-center hidden lg:flex text-2xl font-bold text-primary'>
@@ -96,12 +89,9 @@ const Nav = () => {
       <div className='navbar-end'>
         <ul className='menu menu-horizontal px-1 text-base-content font-semibold hidden lg:flex'>
           <li>
-            <button
-              className='btn btn-ghost'
-              onClick={() => navigate('/GamePage')}
-            >
+            <Link to='/GamePage' className='btn btn-ghost'>
               Games
-            </button>
+            </Link>
           </li>
           <li>
             <label className='swap swap-rotate'>
@@ -131,19 +121,13 @@ const Nav = () => {
         </ul>
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
           {user ? (
-            <button
-              className='btn-ghost btn '
-              onClick={() => navigate('/user')}
-            >
+            <Link to='/user' className='btn-ghost btn'>
               <FaUserCircle className='text-3xl' />
-            </button>
+            </Link>
           ) : (
-            <button
-              className='btn-outline btn '
-              onClick={() => navigate('/login')}
-            >
+            <Link to='/login' className='btn-outline btn'>
               Login
-            </button>
+            </Link>
           )}
         </li>
       </div>

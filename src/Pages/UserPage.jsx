@@ -1,20 +1,21 @@
 //todo: clear rulesets if fetching new rulesets
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const UserPage = () => {
-  const navigate = useNavigate();
   const [gameId, setGameId] = useState('');
   const [rulesets, setRulesets] = useState([]);
   const [activeRuleset, setActiveRuleset] = useState(null);
   const { user, logout } = useAuth();
 
-  if (!user) {
-    navigate('/login');
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user]);
 
   const gameIds = [
     'KingsCup',
@@ -32,11 +33,9 @@ const UserPage = () => {
   };
 
   const handleLogout = () => {
-    navigate('/');
     logout();
   };
 
-  // fetch all rulesets for the selected game
   const fetchRulesets = async () => {
     if (gameId && user) {
       setActiveRuleset(null);
@@ -45,7 +44,6 @@ const UserPage = () => {
     }
   };
 
-  // fetch the active ruleset for the selected game
   const fetchActiveRuleset = async () => {
     if (gameId && user) {
       setRulesets([]);
@@ -53,14 +51,12 @@ const UserPage = () => {
         user.user_id,
         gameId
       );
-
       if (activeRulesetResponse.ruleset_id) {
         const activeRuleset = await getRuleset(
           user.user_id,
           gameId,
           activeRulesetResponse.ruleset_id
         );
-
         setActiveRuleset(activeRuleset);
       }
     }
@@ -68,18 +64,18 @@ const UserPage = () => {
 
   return (
     <div className='h-full bg-base-100 p-8'>
-      <button onClick={handleLogout} className='btn btn-error mb-4'>
+      <Link to='/' className='btn btn-error mb-4' onClick={handleLogout}>
         Logout
-      </button>
+      </Link>
       <div className='mb-4'>
         <p className='mb-2'>
-          <span className='font-bold '>ID:</span> {user?.user_id}
-        </p>
-        <p className='mb-2 '>
-          <span className='font-bold '>Username:</span> {user?.username}
+          <span className='font-bold'>ID:</span> {user?.user_id}
         </p>
         <p className='mb-2'>
-          <span className='font-bold '>Email:</span> {user?.email}
+          <span className='font-bold'>Username:</span> {user?.username}
+        </p>
+        <p className='mb-2'>
+          <span className='font-bold'>Email:</span> {user?.email}
         </p>
       </div>
       <div className='w-full max-w-xs'>
@@ -97,15 +93,14 @@ const UserPage = () => {
             </option>
           ))}
         </select>
-        <button className='btn btn-primary mt-4' onClick={fetchRulesets}>
-          Fetch
-        </button>
-        <button
-          className='btn btn-primary mt-4 ml-4'
-          onClick={fetchActiveRuleset}
-        >
-          Fetch Active Ruleset
-        </button>
+        <div className='mt-4 flex'>
+          <button className='btn btn-primary' onClick={fetchRulesets}>
+            Fetch
+          </button>
+          <button className='btn btn-primary ml-4' onClick={fetchActiveRuleset}>
+            Fetch Active Ruleset
+          </button>
+        </div>
       </div>
       <div className='mt-8'>
         {[...rulesets, activeRuleset].map(
@@ -115,7 +110,7 @@ const UserPage = () => {
                 key={ruleset.ruleset_id}
                 className='mb-4 p-4 bg-base-100 rounded shadow'
               >
-                <div className='flex  items-center mb-4'>
+                <div className='flex items-center mb-4'>
                   <h2 className='font-bold text-lg mr-4 text-primary'>
                     {ruleset.name}
                   </h2>

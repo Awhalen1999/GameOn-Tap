@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import initialDeck from '../../components/DeckOfCards';
 import placeholderCard from '../../assets/red.png';
 import { FaInfoCircle } from 'react-icons/fa';
