@@ -64,7 +64,7 @@ const IndexPage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
+      {/* Hero */}
       <div
         className='hero min-h-screen bg-base-100'
         style={{ backgroundImage: `url(${heroImage})` }}
@@ -101,8 +101,8 @@ const IndexPage = () => {
         </div>
       </div>
 
-      {/* GameList Section */}
-      <div className='w-screen h-auto bg-base-100 font-space'>
+      {/* GameList */}
+      <div className='w-full h-auto bg-base-100 font-space'>
         <div className='max-w-[90vw] flex flex-wrap justify-between items-center relative mx-auto py-8'>
           <div className='w-full h-10 flex items-center justify-start'>
             <h1 className='font-bold text-4xl text-base-content'>Featured</h1>
@@ -143,7 +143,7 @@ const IndexPage = () => {
         </div>
       </div>
 
-      {/* Footer Section */}
+      {/* Footer */}
       <footer className='footer items-center p-4 bg-neutral text-neutral-content font-space'>
         <aside className='items-center grid-flow-col'>
           <img
