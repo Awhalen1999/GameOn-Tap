@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import Layout from './utils/Layout';
-import Index from './Pages/Index/IndexPage';
+import Index from './Pages/IndexPage';
 import ErrorPage from './error-page';
 import KingsCup from './Pages/Games/KingsCup';
 import RideTheBus from './Pages/Games/RideTheBus/RideTheBus';
