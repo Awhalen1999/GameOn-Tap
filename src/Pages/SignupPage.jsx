@@ -3,7 +3,7 @@
 // type password twice to confirm
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import { useAuth } from '../hooks/useAuth.js';
 
@@ -14,11 +14,13 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const { signup } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
     try {
       await signup(username, email, password);
+      navigate('/');
     } catch (error) {
       console.error('Signup error:', error);
       setError('Failed to create account');
