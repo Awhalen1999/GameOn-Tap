@@ -208,7 +208,7 @@ const RideTheBus = () => {
 
   return (
     <div
-      className={`flex flex-col h-full font-space p-2 transition-colors duration-500 ${
+      className={`flex flex-col h-full font-space transition-colors duration-500 ${
         bgColor === 'error' ? 'bg-error' : 'bg-base'
       }`}
     >
@@ -247,7 +247,7 @@ const RideTheBus = () => {
 
       <div className='flex justify-end'>
         <button
-          className='btn btn-ghost mr-4 font-bold'
+          className='btn btn-ghost mr-4 font-bold mt-1'
           onClick={() => document.getElementById('my_modal_1').showModal()}
         >
           Ride the Bus Rules
