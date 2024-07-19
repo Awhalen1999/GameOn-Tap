@@ -3,9 +3,9 @@ import Nav from '../components/Nav';
 
 const Layout = () => {
   return (
-    <div className='h-screen flex flex-col'>
-      <Nav className='h-20' />
-      <div className='flex-grow'>
+    <div className='app-container'>
+      <Nav className='navbar' />
+      <div className='content-container'>
         <Outlet />
       </div>
     </div>

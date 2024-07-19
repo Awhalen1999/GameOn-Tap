@@ -54,7 +54,7 @@ const AIBartender = () => {
 
   return (
     <div
-      className='flex h-screen w-screen'
+      className='flex h-full w-screen'
       style={{
         backgroundImage: `url(${BartenderInfo[bartender].background})`,
         backgroundSize: 'cover',
@@ -146,7 +146,7 @@ const AIBartender = () => {
           </div>
           {/* end of page content */}
         </div>
-        <div className='drawer-side'>
+        <div className='drawer-side h-full'>
           <label
             htmlFor='my-drawer-2'
             aria-label='close sidebar'
