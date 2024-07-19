@@ -28,7 +28,7 @@ const Nav = () => {
   };
 
   return (
-    <div className='navbar bg-base-100 h-20 font-space'>
+    <div className='navbar bg-base-100 h-20 font-space border-b border-secondary'>
       {/* left */}
       <div className='navbar-start'>
         <div className='dropdown'>
@@ -41,13 +41,14 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold'
+            className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold border-2 border-neutral'
           >
             <li>
               <Link to='/GamePage' className='btn btn-ghost'>
                 Games
               </Link>
             </li>
+            <div className='divider divider-neutral my-1'></div>
             <li>
               <label className='swap swap-rotate'>
                 <input
