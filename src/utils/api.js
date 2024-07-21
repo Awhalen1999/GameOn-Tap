@@ -5,6 +5,7 @@ const baseURL = 'http://localhost:3000';
 // Signup user
 export async function signupUser(username, email, password) {
   const theme = 'myDark'; // Manually set the theme
+  console.log('API: signupUser called');
 
   const response = await fetch(`${baseURL}/users/signup`, {
     method: 'POST',
@@ -17,14 +18,18 @@ export async function signupUser(username, email, password) {
 
   if (!response.ok) {
     const message = await response.json();
+    console.error('API: signupUser error', message);
     throw new Error(message.message);
   }
 
+  console.log('API: signupUser response', await response.clone().json());
   return response.json();
 }
 
-//login user
+// Login user
 export async function loginUser(email, password) {
+  console.log('API: loginUser called');
+
   const response = await fetch(`${baseURL}/users/login`, {
     method: 'POST',
     headers: {
@@ -36,14 +41,18 @@ export async function loginUser(email, password) {
 
   if (!response.ok) {
     const message = await response.json();
+    console.error('API: loginUser error', message);
     throw new Error(message.message);
   }
 
+  console.log('API: loginUser response', await response.clone().json());
   return response.json();
 }
 
-//logout user
+// Logout user
 export async function logoutUser() {
+  console.log('API: logoutUser called');
+
   const response = await fetch(`${baseURL}/users/logout`, {
     method: 'POST',
     credentials: 'include',
@@ -51,14 +60,18 @@ export async function logoutUser() {
 
   if (!response.ok) {
     const message = await response.json();
+    console.error('API: logoutUser error', message);
     throw new Error(message.message);
   }
 
+  console.log('API: logoutUser response', await response.clone().json());
   return response.json();
 }
 
-//authenticate user
+// Authenticate user
 export async function authUser() {
+  console.log('API: authUser called');
+
   const response = await fetch(`${baseURL}/users/auth`, {
     method: 'GET',
     credentials: 'include',
@@ -66,9 +79,11 @@ export async function authUser() {
 
   if (!response.ok) {
     const message = await response.json();
+    console.error('API: authUser error', message);
     throw new Error(message.message);
   }
 
+  console.log('API: authUser response', await response.clone().json());
   return response.json();
 }
 
