@@ -2,20 +2,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const UserPage = () => {
   const [gameId, setGameId] = useState('');
   const [rulesets, setRulesets] = useState([]);
   const [activeRuleset, setActiveRuleset] = useState(null);
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
+    if (!loading && !user) {
+      navigate('/');
     }
-  }, [user]);
+  }, [user, loading, navigate]);
 
   const gameIds = [
     'KingsCup',
@@ -62,8 +63,16 @@ const UserPage = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className='h-full flex items-center justify-center'>
+        <span className='loading loading-spinner text-secondary loading-lg'></span>
+      </div>
+    );
+  }
+
   return (
-    <div className='h-full bg-base-100 p-8'>
+    <div className='h-full  p-8'>
       <Link to='/' className='btn btn-error mb-4' onClick={handleLogout}>
         Logout
       </Link>

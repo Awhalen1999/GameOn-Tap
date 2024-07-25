@@ -7,7 +7,7 @@ import { FaUserCircle } from 'react-icons/fa';
 const Nav = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'myDark');
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const handleThemeChange = (event) => {
     const newTheme = event.target.checked ? 'myLight' : 'myDark';
@@ -121,7 +121,11 @@ const Nav = () => {
           </li>
         </ul>
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
-          {user ? (
+          {loading ? (
+            <div>
+              <FaUserCircle className='text-3xl' />
+            </div>
+          ) : user ? (
             <Link to='/user' className='btn-ghost btn'>
               <FaUserCircle className='text-3xl' />
             </Link>
