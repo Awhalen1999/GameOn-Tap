@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import * as api from '../utils/api';
 import { AuthContext } from '../contexts/auth';
 
+// if (res.status === 200) {
+//   setUser(res);
+// }
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
@@ -11,11 +15,12 @@ export const AuthProvider = ({ children }) => {
       try {
         const res = await api.authUser();
         console.log('Auth:', res);
-        if (res.status === 200) {
+        if (res && res.user_id) {
           setUser(res);
         }
       } catch (error) {
         console.error('Not authenticated', error);
+        setUser(null);
       }
     };
 
@@ -30,6 +35,7 @@ export const AuthProvider = ({ children }) => {
       setUser(user);
     } catch (error) {
       console.error('Login failed:', error);
+      setUser(null);
     }
   };
 
@@ -41,6 +47,7 @@ export const AuthProvider = ({ children }) => {
       setUser(user);
     } catch (error) {
       console.error('Signup failed:', error);
+      setUser(null);
     }
   };
 
@@ -52,6 +59,7 @@ export const AuthProvider = ({ children }) => {
       console.log('Logout successful');
     } catch (error) {
       console.error('Logout failed:', error);
+      setUser(null);
     }
   };
 
