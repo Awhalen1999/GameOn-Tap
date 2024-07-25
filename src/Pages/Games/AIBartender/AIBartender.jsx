@@ -54,7 +54,7 @@ const AIBartender = () => {
 
   return (
     <div
-      className='flex h-full w-screen'
+      className='flex h-full w-full'
       style={{
         backgroundImage: `url(${BartenderInfo[bartender].background})`,
         backgroundSize: 'cover',
