@@ -1,5 +1,3 @@
-//todo: clear rulesets if fetching new rulesets
-
 import React, { useState, useEffect } from 'react';
 import { getRulesets, getActiveRuleset, getRuleset } from '../utils/api';
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,16 +16,7 @@ const UserPage = () => {
     }
   }, [user, loading, navigate]);
 
-  const gameIds = [
-    'KingsCup',
-    'RideTheBus',
-    'Snap',
-    'Trivia',
-    'PromptDash',
-    'DiceRoll',
-    'DrinkRoulette',
-    'BountyBlast',
-  ];
+  const gameIds = ['KingsCup', 'DiceRoll', 'DrinkRoulette', 'BountyBlast'];
 
   const handleSelectChange = (event) => {
     setGameId(event.target.value);
