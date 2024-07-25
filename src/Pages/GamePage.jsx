@@ -109,7 +109,7 @@ const GamePage = () => {
   });
 
   return (
-    <div className='font-space flex'>
+    <div className='font-space flex w-full h-full'>
       <div className='drawer lg:drawer-open'>
         <input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
         <div className='drawer-content flex flex-col items-center justify-center'>
