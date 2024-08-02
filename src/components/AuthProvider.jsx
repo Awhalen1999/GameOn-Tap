@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const res = await api.authUser();
         console.log('Auth:', res);
-        if (res && res.user_id) {
+        if (res?.user_id) {
           setUser(res);
         }
       } catch (error) {
