@@ -2,13 +2,9 @@ import { useState, useEffect } from 'react';
 import * as api from '../utils/api';
 import { AuthContext } from '../contexts/auth';
 
-// if (res.status === 200) {
-//   setUser(res);
-// }
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
