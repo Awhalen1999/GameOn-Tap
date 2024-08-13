@@ -164,7 +164,7 @@ export async function saveRuleset(userId, gameId, rulesetName, rules) {
 
   if (!response.ok) {
     const message = await response.json();
-    throw new Error(message);
+    throw new Error(message.message);
   }
 
   return response.json();
