@@ -1,6 +1,7 @@
 // remove user id from functions once context is implemented
 
-const baseURL = 'http://localhost:3000';
+const baseURL =
+  'Gameontap-prod-env.eba-hmtmfnti.us-east-1.elasticbeanstalk.com';
 
 // Signup user
 export async function signupUser(username, email, password) {
