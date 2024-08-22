@@ -33,6 +33,8 @@ export async function signupUser(username, email, password) {
 export async function loginUser(email, password) {
   console.log('API: loginUser called');
 
+  console.log(baseURL);
+
   const response = await fetch(`${baseURL}/users/login`, {
     method: 'POST',
     headers: {
