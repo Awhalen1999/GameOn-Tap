@@ -1,7 +1,9 @@
 // remove user id from functions once context is implemented
 
 const baseURL =
-  'Gameontap-prod-env.eba-hmtmfnti.us-east-1.elasticbeanstalk.com';
+  import.meta.env.MODE === 'production'
+    ? 'https://Gameontap-prod-env.eba-hmtmfnti.us-east-1.elasticbeanstalk.com'
+    : 'http://localhost:8080';
 
 // Signup user
 export async function signupUser(username, email, password) {
