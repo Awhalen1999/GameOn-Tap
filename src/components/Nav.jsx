@@ -121,7 +121,7 @@ const Nav = () => {
           </li>
         </ul>
         <li className='menu menu-horizontal px-1 text-base-content font-semibold'>
-          {/* {loading ? (
+          {loading ? (
             <div>
               <FaUserCircle className='text-3xl' />
             </div>
@@ -129,11 +129,11 @@ const Nav = () => {
             <Link to='/user' className='btn-ghost btn'>
               <FaUserCircle className='text-3xl' />
             </Link>
-          ) : ( */}
-          <Link to='/login' className='btn-outline btn'>
-            Login
-          </Link>
-          {/* )} */}
+          ) : (
+            <Link to='/login' className='btn-outline btn'>
+              Login
+            </Link>
+          )}
         </li>
       </div>
     </div>
