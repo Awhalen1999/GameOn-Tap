@@ -1,6 +1,6 @@
 // remove user id from functions once context is implemented
 
-const baseURL =
+const apiUrl =
   import.meta.env.MODE === 'production'
     ? 'https://Gameontap-prod-env.eba-hmtmfnti.us-east-1.elasticbeanstalk.com'
     : 'http://localhost:8080';
@@ -10,7 +10,7 @@ export async function signupUser(username, email, password) {
   const theme = 'myDark'; // Manually set the theme
   console.log('API: signupUser called');
 
-  const response = await fetch(`${baseURL}/users/signup`, {
+  const response = await fetch(`${apiUrl}/users/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,9 +33,9 @@ export async function signupUser(username, email, password) {
 export async function loginUser(email, password) {
   console.log('API: loginUser called');
 
-  console.log(baseURL);
+  console.log(apiUrl);
 
-  const response = await fetch(`${baseURL}/users/login`, {
+  const response = await fetch(`${apiUrl}/users/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export async function loginUser(email, password) {
 export async function logoutUser() {
   console.log('API: logoutUser called');
 
-  const response = await fetch(`${baseURL}/users/logout`, {
+  const response = await fetch(`${apiUrl}/users/logout`, {
     method: 'POST',
     credentials: 'include',
   });
@@ -77,7 +77,7 @@ export async function logoutUser() {
 export async function authUser() {
   console.log('API: authUser called');
 
-  const response = await fetch(`${baseURL}/users/auth`, {
+  const response = await fetch(`${apiUrl}/users/auth`, {
     method: 'GET',
     credentials: 'include',
   });
@@ -94,7 +94,7 @@ export async function authUser() {
 
 // Get all rulesets for a specific user and game
 export async function getRulesets(userId, gameId) {
-  const response = await fetch(`${baseURL}/users/${userId}/${gameId}/rulesets`);
+  const response = await fetch(`${apiUrl}/users/${userId}/${gameId}/rulesets`);
 
   if (!response.ok) {
     const message = await response.json();
@@ -107,7 +107,7 @@ export async function getRulesets(userId, gameId) {
 // Get a specific ruleset for a specific user and game
 export async function getRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/rulesets/${rulesetId}`
+    `${apiUrl}/users/${userId}/${gameId}/rulesets/${rulesetId}`
   );
 
   const data = await response.json();
@@ -122,7 +122,7 @@ export async function getRuleset(userId, gameId, rulesetId) {
 // Get the active ruleset for a specific user and game
 export async function getActiveRuleset(userId, gameId) {
   const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/active_ruleset`
+    `${apiUrl}/users/${userId}/${gameId}/active_ruleset`
   );
 
   if (!response.ok) {
@@ -136,7 +136,7 @@ export async function getActiveRuleset(userId, gameId) {
 // Update the active ruleset for a specific user and game
 export async function setActiveRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/active_ruleset`,
+    `${apiUrl}/users/${userId}/${gameId}/active_ruleset`,
     {
       method: 'PUT',
       headers: {
@@ -156,16 +156,13 @@ export async function setActiveRuleset(userId, gameId, rulesetId) {
 
 // Save a ruleset for a specific user and game
 export async function saveRuleset(userId, gameId, rulesetName, rules) {
-  const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/rulesets`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: rulesetName, rules }),
-    }
-  );
+  const response = await fetch(`${apiUrl}/users/${userId}/${gameId}/rulesets`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: rulesetName, rules }),
+  });
 
   if (!response.ok) {
     const message = await response.json();
@@ -178,7 +175,7 @@ export async function saveRuleset(userId, gameId, rulesetName, rules) {
 // Delete a ruleset for a specific user and game
 export async function deleteRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
-    `${baseURL}/users/${userId}/${gameId}/rulesets/${rulesetId}`,
+    `${apiUrl}/users/${userId}/${gameId}/rulesets/${rulesetId}`,
     {
       method: 'DELETE',
     }
