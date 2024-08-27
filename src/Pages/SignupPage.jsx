@@ -1,4 +1,3 @@
-// todo
 // fix error message
 // type password twice to confirm
 
