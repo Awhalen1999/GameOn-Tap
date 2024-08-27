@@ -2,7 +2,7 @@
 
 const apiUrl =
   import.meta.env.MODE === 'production'
-    ? 'https://gameon-tap-backend-production.up.railway.app/'
+    ? 'https://gameon-tap-backend-production.up.railway.app'
     : 'http://localhost:8080';
 
 // Signup user
