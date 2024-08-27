@@ -2,7 +2,7 @@
 
 const apiUrl =
   import.meta.env.MODE === 'production'
-    ? 'https://Gameontap-prod-env.eba-hmtmfnti.us-east-1.elasticbeanstalk.com'
+    ? 'https://gameon-tap-backend-production.up.railway.app/'
     : 'http://localhost:8080';
 
 // Signup user
