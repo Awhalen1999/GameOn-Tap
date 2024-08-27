@@ -39,9 +39,13 @@ export async function loginUser(email, password) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      accept: '*/*',
     },
     body: JSON.stringify({ email, password }),
     credentials: 'include',
+  }).catch((error) => {
+    console.error('API: loginUser error', error);
+    throw new Error('API: loginUser error');
   });
 
   if (!response.ok) {
