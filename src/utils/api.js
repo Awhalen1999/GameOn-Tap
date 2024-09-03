@@ -102,6 +102,18 @@ export async function authUser() {
   }
 }
 
+// Get all rulesets for a specific user and game
+export async function getRulesets(userId, gameId) {
+  const response = await fetch(`${apiUrl}/users/${userId}/${gameId}/rulesets`);
+
+  if (!response.ok) {
+    const message = await response.json();
+    throw new Error(message.message);
+  }
+
+  return response.json();
+}
+
 // Get a specific ruleset for a specific user and game
 export async function getRuleset(userId, gameId, rulesetId) {
   const response = await fetch(
