@@ -79,31 +79,27 @@ export async function logoutUser() {
 export async function authUser() {
   console.log('API: authUser called');
 
-  const response = await fetch(`${apiUrl}/users/auth`, {
-    method: 'GET',
-    credentials: 'include',
-  });
+  try {
+    const response = await fetch(`${apiUrl}/users/auth`, {
+      method: 'GET',
+      credentials: 'include', // Include credentials for session-based authentication
+    });
 
-  if (!response.ok) {
-    const message = await response.json();
-    console.error('API: authUser error', message);
-    throw new Error(message.message);
+    // Handle response status
+    if (!response.ok) {
+      const message = await response.json();
+      console.error('API: authUser error', message);
+      throw new Error(message.message);
+    }
+
+    // If response is OK, parse and return user data
+    const userData = await response.json();
+    console.log('API: authUser response', userData);
+    return userData;
+  } catch (error) {
+    console.error('API: authUser failed', error);
+    return null; // Return null if authentication fails
   }
-
-  console.log('API: authUser response', await response.clone().json());
-  return response.json();
-}
-
-// Get all rulesets for a specific user and game
-export async function getRulesets(userId, gameId) {
-  const response = await fetch(`${apiUrl}/users/${userId}/${gameId}/rulesets`);
-
-  if (!response.ok) {
-    const message = await response.json();
-    throw new Error(message.message);
-  }
-
-  return response.json();
 }
 
 // Get a specific ruleset for a specific user and game
