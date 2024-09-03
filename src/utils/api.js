@@ -1,5 +1,3 @@
-// remove user id from functions once context is implemented
-
 const apiUrl =
   import.meta.env.MODE === 'production'
     ? 'https://gameon-tap-backend-production.up.railway.app'
