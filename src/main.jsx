@@ -21,35 +21,30 @@ import LoginPage from './Pages/LoginPage';
 import UserPage from './Pages/UserPage';
 import { AuthProvider } from './components/AuthProvider';
 
-const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        { path: '', element: <Index /> },
-        { path: 'login', element: <LoginPage /> },
-        { path: 'signup', element: <SignupPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'GamePage', element: <GamePage /> },
-        { path: 'games/KingsCup', element: <KingsCup /> },
-        { path: 'games/RideTheBus', element: <RideTheBus /> },
-        { path: 'games/Snap', element: <Snap /> },
-        { path: 'games/Trivia', element: <Trivia /> },
-        { path: 'games/PromptDash', element: <PromptDash /> },
-        { path: 'games/DiceRoll', element: <DiceRoll /> },
-        { path: 'games/DrinkRoulette', element: <DrinkRoulette /> },
-        { path: 'games/AIBartender', element: <AIbartender /> },
-        { path: 'games/BountyBlast', element: <BountyBlast /> },
-        { path: 'EditRules/:game', element: <EditRulesPage /> },
-      ],
-      errorElement: <ErrorPage />,
-    },
-  ],
+const router = createBrowserRouter([
   {
-    basename: '/GameOn-Tap/',
-  }
-);
+    path: '/',
+    element: <Layout />,
+    children: [
+      { path: '', element: <Index /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'signup', element: <SignupPage /> },
+      { path: 'user', element: <UserPage /> },
+      { path: 'GamePage', element: <GamePage /> },
+      { path: 'games/KingsCup', element: <KingsCup /> },
+      { path: 'games/RideTheBus', element: <RideTheBus /> },
+      { path: 'games/Snap', element: <Snap /> },
+      { path: 'games/Trivia', element: <Trivia /> },
+      { path: 'games/PromptDash', element: <PromptDash /> },
+      { path: 'games/DiceRoll', element: <DiceRoll /> },
+      { path: 'games/DrinkRoulette', element: <DrinkRoulette /> },
+      { path: 'games/AIBartender', element: <AIbartender /> },
+      { path: 'games/BountyBlast', element: <BountyBlast /> },
+      { path: 'EditRules/:game', element: <EditRulesPage /> },
+    ],
+    errorElement: <ErrorPage />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
