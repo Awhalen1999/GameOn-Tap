@@ -12,6 +12,7 @@ import {
 import { getActiveRuleset, getRuleset } from '../../utils/api';
 import RulesetDisplay from '../../components/RulesetDisplay';
 import { useAuth } from '../../hooks/useAuth';
+import defaultRulesets from '../../components/defaultRulesets';
 
 function DiceRoll() {
   const [dice, setDice] = useState([null, null]);
@@ -22,20 +23,34 @@ function DiceRoll() {
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId && user) {
-        const activeRulesetResponse = await getActiveRuleset(
-          user.user_id,
-          gameId
-        );
-
-        if (activeRulesetResponse.ruleset_id) {
-          const activeRuleset = await getRuleset(
+      try {
+        let activeRuleset;
+        if (user) {
+          // Logged-in user: fetch active ruleset from backend
+          const activeRulesetResponse = await getActiveRuleset(
             user.user_id,
-            gameId,
-            activeRulesetResponse.ruleset_id
+            gameId
           );
-          setActiveRuleset(activeRuleset);
+          if (activeRulesetResponse.ruleset_id) {
+            activeRuleset = await getRuleset(
+              user.user_id,
+              gameId,
+              activeRulesetResponse.ruleset_id
+            );
+          }
+        } else {
+          // No user: fetch default ruleset
+          console.log('No user logged in, fetching default ruleset');
+          activeRuleset = defaultRulesets[gameId];
         }
+
+        if (activeRuleset) {
+          setActiveRuleset(activeRuleset);
+        } else {
+          console.error('No active or default ruleset found.');
+        }
+      } catch (error) {
+        console.error('Error fetching active/default ruleset:', error);
       }
     };
 
@@ -72,7 +87,7 @@ function DiceRoll() {
         </button>
       </div>
       <dialog id='my_modal_1' className='modal'>
-        <div className='modal-box'>
+        <div className='modal-box border border-secondary'>
           <RulesetDisplay rules={activeRuleset?.rules} gameId='DiceRoll' />
         </div>
       </dialog>

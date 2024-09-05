@@ -5,6 +5,7 @@ import { getActiveRuleset, getRuleset } from '../../../utils/api';
 import RulesetDisplay from '../../../components/RulesetDisplay';
 import { FaWrench } from 'react-icons/fa';
 import { useAuth } from '../../../hooks/useAuth';
+import defaultRulesets from '../../../components/defaultRulesets'; // Import default rulesets
 
 const DrinkRoulette = () => {
   const [rotation, setRotation] = useState(0);
@@ -18,20 +19,35 @@ const DrinkRoulette = () => {
 
   useEffect(() => {
     const fetchActiveRuleset = async () => {
-      if (gameId && user) {
-        const activeRulesetResponse = await getActiveRuleset(
-          user.user_id,
-          gameId
-        );
-
-        if (activeRulesetResponse.ruleset_id) {
-          const activeRuleset = await getRuleset(
+      try {
+        let activeRuleset;
+        if (user) {
+          // Logged-in user: fetch active ruleset from backend
+          const activeRulesetResponse = await getActiveRuleset(
             user.user_id,
-            gameId,
-            activeRulesetResponse.ruleset_id
+            gameId
           );
-          setRules(activeRuleset.rules);
+
+          if (activeRulesetResponse.ruleset_id) {
+            activeRuleset = await getRuleset(
+              user.user_id,
+              gameId,
+              activeRulesetResponse.ruleset_id
+            );
+          }
+        } else {
+          // No user logged in: use default ruleset
+          console.log('No user logged in, using default ruleset');
+          activeRuleset = defaultRulesets[gameId];
         }
+
+        if (activeRuleset) {
+          setRules(activeRuleset.rules);
+        } else {
+          console.error('No active or default ruleset found');
+        }
+      } catch (error) {
+        console.error('Error fetching active/default ruleset:', error);
       }
     };
 
@@ -68,7 +84,7 @@ const DrinkRoulette = () => {
         </button>
       </div>
       <dialog id='my_modal_1' className='modal'>
-        <div className='modal-box'>
+        <div className='modal-box border border-secondary'>
           <RulesetDisplay rules={rules} gameId='DrinkRoulette' />
         </div>
       </dialog>
