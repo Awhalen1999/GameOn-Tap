@@ -5,7 +5,6 @@ const apiUrl =
 
 // Signup user
 export async function signupUser(username, email, password) {
-  const theme = 'myDark'; // Manually set the theme
   console.log('API: signupUser called');
 
   const response = await fetch(`${apiUrl}/users/signup`, {
@@ -13,7 +12,7 @@ export async function signupUser(username, email, password) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, email, password, theme }),
+    body: JSON.stringify({ username, email, password }),
     credentials: 'include',
   });
 
@@ -37,7 +36,6 @@ export async function loginUser(email, password) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      accept: '*/*',
     },
     body: JSON.stringify({ email, password }),
     credentials: 'include',
