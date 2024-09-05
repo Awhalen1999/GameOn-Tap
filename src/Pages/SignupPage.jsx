@@ -1,6 +1,3 @@
-// fix error message
-// type password twice to confirm
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
@@ -10,6 +7,7 @@ const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const { signup } = useAuth();
@@ -17,6 +15,22 @@ const SignupPage = () => {
 
   const handleSignup = async (event) => {
     event.preventDefault();
+
+    // Check if all fields are filled
+    if (!username || !email || !password || !confirmPassword) {
+      setError('All fields are required');
+      return;
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Clear any previous error messages
+    setError(null);
+
     try {
       await signup(username, email, password);
       navigate('/');
@@ -74,6 +88,7 @@ const SignupPage = () => {
                   className='px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary text-black'
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
               </div>
               <div className='flex flex-col space-y-1'>
@@ -89,6 +104,7 @@ const SignupPage = () => {
                   className='px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary text-black'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div className='flex flex-col space-y-1'>
@@ -104,7 +120,24 @@ const SignupPage = () => {
                   className='px-3 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary text-black'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
+                <div className='flex flex-col space-y-1'>
+                  <label
+                    htmlFor='confirmPassword'
+                    className='text-sm font-semibold text-gray-600'
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id='confirmPassword'
+                    className='px-3 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-primary text-black'
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
                 <div className='flex items-center'>
                   <label className='label cursor-pointer'>
                     <span className='label-text text-gray-600'>

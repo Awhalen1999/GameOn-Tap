@@ -5,7 +5,7 @@ import { getActiveRuleset, getRuleset } from '../../../utils/api';
 import RulesetDisplay from '../../../components/RulesetDisplay';
 import { FaWrench } from 'react-icons/fa';
 import { useAuth } from '../../../hooks/useAuth';
-import defaultRulesets from '../../../components/defaultRulesets'; // Import default rulesets
+import defaultRulesets from '../../../components/defaultRulesets';
 
 const DrinkRoulette = () => {
   const [rotation, setRotation] = useState(0);
