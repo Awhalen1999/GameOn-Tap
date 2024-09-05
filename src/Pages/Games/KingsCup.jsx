@@ -6,6 +6,7 @@ import { getActiveRuleset, getRuleset } from '../../utils/api.js';
 import RulesetDisplay from '../../components/RulesetDisplay';
 import { useAuth } from '../../hooks/useAuth';
 import defaultRulesets from '../../components/defaultRulesets';
+import ImageLoader from '../../components/ImageLoader'; // Import the ImageLoader component
 
 const KingsCup = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -191,19 +192,14 @@ const KingsCup = () => {
             )}
             {drawnCards.length > 0 ? (
               <div className='mb-4 md:mb-0'>
-                <img
+                <ImageLoader
                   src={cardImages[drawnCards[0]]}
                   alt={drawnCards[0]}
-                  className='w-auto h-100 object-contain shadow-lg'
                 />
               </div>
             ) : (
               <div className='mb-4 md:mb-0 md:mr-4'>
-                <img
-                  src={placeholderCard}
-                  alt='Placeholder'
-                  className='w-auto h-100 object-contain shadow-lg'
-                />
+                <ImageLoader src={placeholderCard} alt='Placeholder' />
               </div>
             )}
           </div>
