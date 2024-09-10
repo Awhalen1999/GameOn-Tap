@@ -257,7 +257,10 @@ function TriviaGame() {
   if (questions.length === 0) {
     return (
       <div className='bg-base-100 text-base-content h-full flex items-center justify-center'>
-        Loading...
+        <div className='flex flex-col items-center space-y-4'>
+          <span className='loading loading-dots loading-lg'></span>
+          <span>Loading...</span>
+        </div>
       </div>
     );
   }
