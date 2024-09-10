@@ -43,6 +43,8 @@ const AIBartender = () => {
       Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
     };
 
+    console.log(import.meta.env.VITE_OPENAI_API_KEY);
+
     axios
       .post('https://api.openai.com/v1/chat/completions', data, { headers })
       .then((response) => {
