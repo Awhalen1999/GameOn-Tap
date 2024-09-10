@@ -1,9 +1,4 @@
-//todo
-// placeholders and react icons
-// hover color change for login and signup page buttons
-// fix issue with redirect regardless of correct or incorrect login
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import { useAuth } from '../hooks/useAuth.js';
@@ -14,17 +9,23 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       await login(email, password);
-      navigate('/');
     } catch (error) {
       setError('Invalid email or password');
     }
   };
+
+  // Redirect user to home page if logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -32,7 +33,7 @@ const LoginPage = () => {
 
   return (
     <div className='flex items-center h-full p-6 bg-base-100 justify-center'>
-      <div className='relative flex flex-col overflow-hidden rounded-lg shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md'>
+      <div className='relative flex flex-col overflow-hidden rounded-lg shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md border border-neutral'>
         <Link
           to='/'
           className='absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700'
@@ -107,10 +108,7 @@ const LoginPage = () => {
               </div>
               {error && <p className='text-error'>{error}</p>}
               <div>
-                <button
-                  type='submit'
-                  className='w-full px-4 py-2 text-lg font-semibold text-primary-content bg-primary rounded'
-                >
+                <button type='submit' className='btn w-full btn-primary'>
                   Log in
                 </button>
               </div>

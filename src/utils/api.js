@@ -1,7 +1,7 @@
 const apiUrl =
   import.meta.env.MODE === 'production'
-    ? 'https://gameon-tap-backend-production.up.railway.app'
-    : 'http://localhost:8080';
+    ? 'https://gameon-tap-backend-production.up.railway.app' // Production backend URL
+    : 'http://localhost:8080'; // Development backend URL
 
 // Signup user
 export async function signupUser(username, email, password) {
@@ -80,7 +80,7 @@ export async function authUser() {
   try {
     const response = await fetch(`${apiUrl}/users/auth`, {
       method: 'GET',
-      credentials: 'include', // Include credentials for session-based authentication
+      credentials: 'include',
     });
 
     // Handle response status

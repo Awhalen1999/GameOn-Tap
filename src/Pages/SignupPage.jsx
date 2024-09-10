@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import { useAuth } from '../hooks/useAuth.js';
@@ -10,9 +10,10 @@ const SignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
-  const { signup } = useAuth();
+  const { signup, user } = useAuth(); 
   const navigate = useNavigate();
 
+  
   const handleSignup = async (event) => {
     event.preventDefault();
 
@@ -32,13 +33,21 @@ const SignupPage = () => {
     setError(null);
 
     try {
+      // Call the signup function from the Auth context
       await signup(username, email, password);
-      navigate('/');
     } catch (error) {
       console.error('Signup error:', error);
       setError('Failed to create account');
     }
   };
+
+  // Handle navigation when user is authenticated
+  useEffect(() => {
+    if (user) {
+      // Navigate to the home page when a user is authenticated
+      navigate('/');
+    }
+  }, [user, navigate]); // Only triggers when 'user' state changes
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -46,7 +55,7 @@ const SignupPage = () => {
 
   return (
     <div className='flex items-center h-full p-6 bg-base-100 justify-center'>
-      <div className='relative flex flex-col overflow-hidden rounded-lg shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md'>
+      <div className='relative flex flex-col overflow-hidden rounded-lg shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md border border-neutral'>
         <Link
           to='/'
           className='absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700'
@@ -155,10 +164,7 @@ const SignupPage = () => {
               </div>
               {error && <p className='text-error'>{error}</p>}
               <div>
-                <button
-                  type='submit'
-                  className='w-full px-4 py-2 text-lg font-semibold text-primary-content bg-primary rounded'
-                >
+                <button type='submit' className='btn w-full btn-primary'>
                   Sign up
                 </button>
               </div>

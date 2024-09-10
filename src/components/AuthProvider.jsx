@@ -5,6 +5,7 @@ import { AuthContext } from '../contexts/auth';
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // State for error handling
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -13,13 +14,15 @@ export const AuthProvider = ({ children }) => {
         const res = await api.authUser();
         console.log('Auth:', res);
         if (res?.user_id) {
-          setUser(res);
+          setUser(res); // Set the user if authenticated
+        } else {
+          setUser(null); // No user found, allow non-logged-in state
         }
       } catch (error) {
         console.error('Not authenticated', error);
-        setUser(null);
+        setUser(null); // Allow the app to continue without an authenticated user
       } finally {
-        setLoading(false);
+        setLoading(false); // End loading state
       }
     };
 
@@ -32,10 +35,11 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       const user = await api.loginUser(email, password);
       console.log('Login successful:', user);
-      setUser(user);
+      setUser(user); // Set the user on successful login
     } catch (error) {
       console.error('Login failed:', error);
-      setUser(null);
+      setError('Login failed. Please check your credentials and try again.');
+      setUser(null); // Reset user state if login fails
     } finally {
       setLoading(false);
     }
@@ -47,10 +51,11 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       const user = await api.signupUser(username, email, password);
       console.log('Signup successful:', user);
-      setUser(user);
+      setUser(user); // Set the user on successful signup
     } catch (error) {
       console.error('Signup failed:', error);
-      setUser(null);
+      setError('Signup failed. Please try again.');
+      setUser(null); // Reset user state if signup fails
     } finally {
       setLoading(false);
     }
@@ -61,7 +66,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       await api.logoutUser();
-      setUser(null);
+      setUser(null); // Reset user on logout
       console.log('Logout successful');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -71,7 +76,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, signup }}>
+    <AuthContext.Provider
+      value={{ user, loading, error, login, logout, signup }}
+    >
       {children}
     </AuthContext.Provider>
   );
