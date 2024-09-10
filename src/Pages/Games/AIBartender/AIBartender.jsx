@@ -122,7 +122,7 @@ const AIBartender = () => {
                 Random drink / Quick Start
               </button>
             </div>
-            {/* AI recipe returned: */}
+            {/* AI recipe returned */}
             {isLoading || recipe ? (
               <div className='mt-5'>
                 <div className='flex items-end'>
