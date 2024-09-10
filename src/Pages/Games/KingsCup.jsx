@@ -209,7 +209,10 @@ const KingsCup = () => {
           </div>
           {/* Rule container */}
           {!hideRules && drawnCards.length > 0 && (
-            <div className='w-64 h-auto p-4 bg-neutral rounded shadow-lg border border-secondary'>
+            <div
+              className='w-64 h-auto p-4 bg-neutral rounded shadow-lg border border-secondary
+                mb-10 sm:mb-0 lg:mb-0'
+            >
               <h3 className='text-xl font-bold text-neutral-content text-center'>
                 {currentRule.title} {/* Display the rule title */}
               </h3>
