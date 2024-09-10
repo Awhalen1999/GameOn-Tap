@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/auth';
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // State for error handling
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const checkAuth = async () => {
