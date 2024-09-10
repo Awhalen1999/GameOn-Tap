@@ -54,7 +54,7 @@ const AIBartender = () => {
 
   return (
     <div
-      className='flex h-full w-full'
+      className='flex flex-col h-full w-full overflow-auto'
       style={{
         backgroundImage: `url(${BartenderInfo[bartender].background})`,
         backgroundSize: 'cover',
@@ -62,9 +62,9 @@ const AIBartender = () => {
       }}
     >
       {/* DaisyUI drawer */}
-      <div className='drawer lg:drawer-open font-main'>
+      <div className='drawer lg:drawer-open font-main flex-grow'>
         <input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
-        <div className='drawer-content flex flex-col items-center justify-center'>
+        <div className='drawer-content flex flex-col items-center justify-start'>
           {/* Chat section */}
           <div className='flex-grow w-full h-full flex flex-col p-6 bg-black bg-opacity-75 overflow-auto'>
             <div className='flex items-center'>
