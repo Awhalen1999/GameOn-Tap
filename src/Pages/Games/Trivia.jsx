@@ -271,15 +271,15 @@ function TriviaGame() {
       <div className='p-6 bg-base-100 h-full font-space'>
         <div className='flex justify-end'>
           <button
-            className='btn btn-ghost mr-4 font-bold'
+            className='btn btn-ghost mr-4 font-bold '
             onClick={() => document.getElementById('my_modal_1').showModal()}
           >
             Trivia Rules
           </button>
         </div>
         <dialog id='my_modal_1' className='modal'>
-          <div className='modal-box'>
-            <RulesetDisplay rules={activeRuleset?.rules} gameId='RideTheBus' />
+          <div className='modal-box border border-secondary'>
+            <RulesetDisplay rules={activeRuleset?.rules} gameId='Trivia' />
           </div>
         </dialog>
         <div className='my-4 flex flex-col items-center justify-center'>

@@ -5,8 +5,6 @@ const apiUrl =
 
 // Signup user
 export async function signupUser(username, email, password) {
-  console.log('API: signupUser called');
-
   const response = await fetch(`${apiUrl}/users/signup`, {
     method: 'POST',
     headers: {
@@ -18,20 +16,15 @@ export async function signupUser(username, email, password) {
 
   if (!response.ok) {
     const message = await response.json();
-    console.error('API: signupUser error', message);
+
     throw new Error(message.message);
   }
 
-  console.log('API: signupUser response', await response.clone().json());
   return response.json();
 }
 
 // Login user
 export async function loginUser(email, password) {
-  console.log('API: loginUser called');
-
-  console.log(apiUrl);
-
   const response = await fetch(`${apiUrl}/users/login`, {
     method: 'POST',
     headers: {
@@ -40,24 +33,20 @@ export async function loginUser(email, password) {
     body: JSON.stringify({ email, password }),
     credentials: 'include',
   }).catch((error) => {
-    console.error('API: loginUser error', error);
     throw new Error('API: loginUser error');
   });
 
   if (!response.ok) {
     const message = await response.json();
-    console.error('API: loginUser error', message);
+
     throw new Error(message.message);
   }
 
-  console.log('API: loginUser response', await response.clone().json());
   return response.json();
 }
 
 // Logout user
 export async function logoutUser() {
-  console.log('API: logoutUser called');
-
   const response = await fetch(`${apiUrl}/users/logout`, {
     method: 'POST',
     credentials: 'include',
@@ -65,18 +54,15 @@ export async function logoutUser() {
 
   if (!response.ok) {
     const message = await response.json();
-    console.error('API: logoutUser error', message);
+
     throw new Error(message.message);
   }
 
-  console.log('API: logoutUser response', await response.clone().json());
   return response.json();
 }
 
 // Authenticate user
 export async function authUser() {
-  console.log('API: authUser called');
-
   try {
     const response = await fetch(`${apiUrl}/users/auth`, {
       method: 'GET',
@@ -86,16 +72,15 @@ export async function authUser() {
     // Handle response status
     if (!response.ok) {
       const message = await response.json();
-      console.error('API: authUser error', message);
+
       throw new Error(message.message);
     }
 
     // If response is OK, parse and return user data
     const userData = await response.json();
-    console.log('API: authUser response', userData);
+
     return userData;
   } catch (error) {
-    console.error('API: authUser failed', error);
     return null; // Return null if authentication fails
   }
 }
