@@ -7,7 +7,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { login, user, error } = useAuth(); // Grab error from context
+  const { login, user, error } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='flex items-center h-full p-6 justify-center bg-base-100'>
+    <div className='flex items-center h-screen lg:h-full p-6 justify-center bg-base-100'>
       <div className='card lg:card-side bg-base-100 shadow-2xl w-full lg:w-10/12 border border-neutral rounded-none '>
         {/* Form Section  */}
         <div className='card-body lg:w-2/3 bg-white '>
@@ -86,8 +86,8 @@ const LoginPage = () => {
         </div>
 
         {/* Side Section  */}
-        <div className='card-body bg-primary text-primary-content lg:w-1/3 flex flex-col items-center justify-center '>
-          <h2 className='text-3xl font-bold mb-6'>GameOn Tap</h2>
+        <div className='card-body bg-primary text-primary-content lg:w-1/3 flex flex-col  '>
+          <h2 className='text-3xl font-bold mb-6 text-center'>GameOn Tap</h2>
           <p className='text-center'>
             Login or create an account to access all the features of GameOn Tap.
           </p>

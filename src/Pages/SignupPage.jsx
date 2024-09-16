@@ -51,7 +51,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className='flex items-center h-full justify-center bg-base-100'>
+    <div className='flex items-center h-screen lg:h-full justify-center bg-base-100 p-6'>
       <div className='card lg:card-side bg-base-100 shadow-2xl w-full lg:w-10/12 border border-neutral rounded-none'>
         {/* Form Section  */}
         <div className='card-body lg:w-2/3 bg-white'>
