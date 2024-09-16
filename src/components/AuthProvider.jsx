@@ -33,12 +33,13 @@ export const AuthProvider = ({ children }) => {
     console.log('Login function called');
     try {
       setLoading(true);
+      setError(null); // Clear any previous errors before logging in
       const user = await api.loginUser(email, password);
       console.log('Login successful:', user);
       setUser(user); // Set the user on successful login
     } catch (error) {
       console.error('Login failed:', error);
-      setError('Login failed. Please check your credentials and try again.');
+      setError('Invalid email or password'); // Show specific error message for login
       setUser(null); // Reset user state if login fails
     } finally {
       setLoading(false);
@@ -49,12 +50,13 @@ export const AuthProvider = ({ children }) => {
     console.log('Signup function called');
     try {
       setLoading(true);
+      setError(null); // Clear any previous errors before signup
       const user = await api.signupUser(username, email, password);
       console.log('Signup successful:', user);
       setUser(user); // Set the user on successful signup
     } catch (error) {
       console.error('Signup failed:', error);
-      setError('Signup failed. Please try again.');
+      setError('Signup failed. Please try again.'); // Show generic error message for signup
       setUser(null); // Reset user state if signup fails
     } finally {
       setLoading(false);
