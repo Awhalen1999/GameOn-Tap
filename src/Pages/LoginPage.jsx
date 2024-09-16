@@ -8,11 +8,11 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { login, user, error } = useAuth(); // Grab error from context
+  const { login, user, error } = useAuth();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    await login(email, password); // The error state will be handled in the context
+    await login(email, password);
   };
 
   // Redirect user to home page if logged in

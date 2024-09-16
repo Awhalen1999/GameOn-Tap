@@ -32,7 +32,7 @@ const SignupPage = () => {
     setError(null);
 
     try {
-      // Call the signup function from the Auth context
+      // Call the signup function from Auth context
       await signup(username, email, password);
     } catch (error) {
       console.error('Signup error:', error);
