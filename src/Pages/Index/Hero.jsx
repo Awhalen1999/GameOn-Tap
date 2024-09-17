@@ -41,19 +41,21 @@ const Hero = () => {
             and roulette challenges and trivia showdowns. Spice up any gathering
             with laughter, competition, and good times!
           </p>
-          <Link
-            to='/GamePage'
-            className='inline-block font-semibold bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-primary-content border border-transparent hover:border-accent '
-          >
-            Games
-          </Link>
-          <Link
-            onClick={handleRandomGame}
-            to={randomGame}
-            className='inline-block font-semibold ml-6 border border-primary hover:border-accent hover:bg-accent mt-8 px-6 py-3 rounded-md text-white hover:text-primary-content '
-          >
-            Random Game
-          </Link>
+          <div className='flex flex-col sm:flex-row'>
+            <Link
+              to='/GamePage'
+              className='inline-block font-semibold bg-primary hover:bg-accent mt-8 px-6 py-3 rounded-md text-primary-content border border-transparent hover:border-accent text-center'
+            >
+              Games
+            </Link>
+            <Link
+              onClick={handleRandomGame}
+              to={randomGame}
+              className='inline-block font-semibold sm:ml-6 mt-6 sm:mt-8 border border-primary hover:border-accent hover:bg-accent px-6 py-3 rounded-md text-white hover:text-primary-content text-center'
+            >
+              Random Game
+            </Link>
+          </div>
         </div>
       </div>
     </div>

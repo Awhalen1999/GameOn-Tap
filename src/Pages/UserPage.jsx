@@ -62,7 +62,7 @@ const UserPage = () => {
   }
 
   return (
-    <div className='h-full px-20 py-8'>
+    <div className='h-full p-6'>
       <div className='mb-4'>
         <p className='mb-1 font-bold text-2xl'>{user?.username}'s account</p>
         <p className='text-sm text-neutral-content'>{user?.email}</p>
@@ -97,11 +97,17 @@ const UserPage = () => {
             </option>
           ))}
         </select>
-        <div className='mt-4 flex'>
-          <button className='btn btn-primary' onClick={fetchRulesets}>
+        <div className='flex flex-col sm:flex-row mt-4'>
+          <button
+            className='btn btn-primary text-center mt-2 sm:mt-0'
+            onClick={fetchRulesets}
+          >
             Fetch All Rulesets
           </button>
-          <button className='btn btn-primary ml-4' onClick={fetchActiveRuleset}>
+          <button
+            className='btn btn-primary text-center sm:ml-4 mt-2 sm:mt-0'
+            onClick={fetchActiveRuleset}
+          >
             Fetch Active Ruleset
           </button>
         </div>

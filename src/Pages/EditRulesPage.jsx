@@ -34,7 +34,7 @@ const EditRulesPage = () => {
   };
   const { user } = useAuth();
 
-  // Fetch all rulesets for game id and user id (works)
+  // Fetch all rulesets for game id and user id
   useEffect(() => {
     if (user) {
       getRulesets(user.user_id, game).then(setRulesets).catch(console.error);
@@ -166,8 +166,8 @@ const EditRulesPage = () => {
       )}
 
       {/* Header Section */}
-      <div className='flex justify-between items-center mb-4'>
-        <h1 className='text-2xl font-bold text-base-content'>
+      <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
+        <h1 className='text-2xl font-bold text-base-content mb-4 md:mb-0'>
           Edit Rules for {game}
         </h1>
         <Link to={`/games/${game}`} className='btn btn-error'>
@@ -176,38 +176,38 @@ const EditRulesPage = () => {
       </div>
 
       {/* Input, Select and Button Section */}
-      <div className='flex justify-between items-center mb-4'>
-        <div className='flex items-center w-full mr-4'>
+      <div className='flex flex-col lg:flex-row justify-between items-center mb-4'>
+        <div className='flex flex-col lg:flex-row items-center w-full mb-4 lg:mb-0 lg:w-2/3'>
           <input
             type='text'
             placeholder='Enter Custom Ruleset Name'
-            className='input input-bordered w-1/3'
+            className='input input-bordered w-full lg:w-1/2 mb-4 lg:mb-0'
             value={rulesetName}
             onChange={(e) => setRulesetName(e.target.value)}
             required
           />
           <button
-            className='btn btn-primary ml-4'
+            className='btn btn-primary lg:ml-4 w-full lg:w-auto'
             onClick={handleSave}
             disabled={!rulesetName.trim()}
           >
             Save Ruleset
           </button>
-          <div className='w-1/4 ml-4'>
-            <select
-              className='select select-bordered w-full'
-              value={selectedRuleset}
-              onChange={handleSelectChange}
-            >
-              {rulesets.map((ruleset) => (
-                <option key={ruleset.ruleset_id} value={ruleset.ruleset_id}>
-                  {ruleset.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        </div>
+        <div className='w-full lg:w-1/3 flex flex-col lg:flex-row items-center'>
+          <select
+            className='select select-bordered w-full lg:w-2/3 mb-4 lg:mb-0'
+            value={selectedRuleset}
+            onChange={handleSelectChange}
+          >
+            {rulesets.map((ruleset) => (
+              <option key={ruleset.ruleset_id} value={ruleset.ruleset_id}>
+                {ruleset.name}
+              </option>
+            ))}
+          </select>
           <button
-            className='btn btn-primary ml-4'
+            className='btn btn-primary lg:ml-4 w-full lg:w-auto'
             onClick={() => document.getElementById('my_modal_1').showModal()}
           >
             View All Rulesets
@@ -218,12 +218,10 @@ const EditRulesPage = () => {
       {/* Modal to show rulesets */}
       <dialog id='my_modal_1' className='modal'>
         <div className='modal-box'>
-          <div className='flex justify-between items-center '>
-            <h3 className='font-bold text-lg items-center'>
-              Saved rules for {game}
-            </h3>
-            <form method='dialog' className='flex items-center'>
-              <button className='btn btn-ghost '>
+          <div className='flex justify-between items-center'>
+            <h3 className='font-bold text-lg'>Saved rules for {game}</h3>
+            <form method='dialog'>
+              <button className='btn btn-ghost'>
                 <IoCloseSharp size={22} />
               </button>
             </form>
@@ -252,22 +250,21 @@ const EditRulesPage = () => {
       {/* Active Ruleset Section */}
       {activeRuleset && activeRuleset.rules && (
         <div className='mt-10'>
-          <h2 className='text-xl font-bold text-accent'>
-            {activeRuleset.name}
+          <h2 className='text-xl font-bold text-base-content'>
+            Active Ruleset:{' '}
+            <span className='text-primary'>{activeRuleset.name}</span>
           </h2>
 
           {/* Rules Section */}
-          {activeRuleset &&
-            activeRuleset.rules &&
+          {activeRuleset.rules &&
             Object.entries(activeRuleset.rules).map(([ruleKey, rule]) => (
               <div key={ruleKey} className='mb-4'>
-                {/* Result Section */}
-                <h3 className='text-xl font-semibold mb-2 mt-6'>
+                <h3 className='text-lg font-semibold mb-2 mt-6'>
                   {rule.result}
                 </h3>
 
                 {/* Title Section */}
-                <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg'>
+                <div className='flex flex-col sm:flex-row justify-between items-center bg-neutral py-2 px-4 rounded-lg'>
                   {editing?.key === ruleKey && editing?.type === 'title' ? (
                     <>
                       <input
@@ -276,7 +273,7 @@ const EditRulesPage = () => {
                         autoFocus
                         className='w-full h-10 rounded-lg p-2 bg-secondary'
                       />
-                      <div className='flex space-x-4 ml-4'>
+                      <div className='flex space-x-4 mt-4 sm:mt-0 sm:ml-4'>
                         <button
                           className='btn btn-primary'
                           onClick={handleSubmit}
@@ -297,7 +294,7 @@ const EditRulesPage = () => {
                         {rule.title}
                       </div>
                       <button
-                        className='btn btn-primary ml-4'
+                        className='btn btn-primary mt-4 sm:mt-0 sm:ml-4'
                         onClick={() => handleEdit(ruleKey, 'title', rule.title)}
                       >
                         <MdEdit size={22} />
@@ -307,7 +304,7 @@ const EditRulesPage = () => {
                 </div>
 
                 {/* Description Section */}
-                <div className='flex justify-between items-center bg-neutral py-2 px-4 rounded-lg mt-4'>
+                <div className='flex flex-col sm:flex-row justify-between items-center bg-neutral py-2 px-4 rounded-lg mt-4'>
                   {editing?.key === ruleKey &&
                   editing?.type === 'description' ? (
                     <>
@@ -315,9 +312,9 @@ const EditRulesPage = () => {
                         value={editedText}
                         onChange={(e) => setEditedText(e.target.value)}
                         autoFocus
-                        className='w-full h-10 rounded-lg p-2 bg-secondary '
+                        className='w-full h-10 rounded-lg p-2 bg-secondary'
                       />
-                      <div className='flex space-x-4 ml-4'>
+                      <div className='flex space-x-4 mt-4 sm:mt-0 sm:ml-4'>
                         <button
                           className='btn btn-primary'
                           onClick={handleSubmit}
@@ -338,7 +335,7 @@ const EditRulesPage = () => {
                         {rule.description}
                       </div>
                       <button
-                        className='btn btn-primary ml-4'
+                        className='btn btn-primary mt-4 sm:mt-0 sm:ml-4'
                         onClick={() =>
                           handleEdit(ruleKey, 'description', rule.description)
                         }
