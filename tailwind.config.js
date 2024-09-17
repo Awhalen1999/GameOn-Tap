@@ -22,7 +22,7 @@ module.exports = {
           'primary-content': '#111827',
           secondary: '#FF007F',
           'secondary-content': '#111827',
-          accent: '#c09400', // Darker version of primary color for hover effect
+          accent: '#c09400',
           'accent-content': '#FFFFFF',
           neutral: '#111827',
           'neutral-content': '#B0B0B0',
@@ -46,9 +46,9 @@ module.exports = {
           'primary-content': '#111827',
           secondary: '#FF007F',
           'secondary-content': '#FAFAFA',
-          accent: '#c09400', // Darker version of primary color for hover effect
+          accent: '#c09400',
           'accent-content': '#FAFAFA',
-          neutral: '#9ca3af',
+          neutral: '#d0d0d0',
           'neutral-content': '#4D4D4D',
           'base-100': '#FAFAFA',
           'base-200': '#E8E8E8',
