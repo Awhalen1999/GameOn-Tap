@@ -12,6 +12,7 @@ import { MdEdit, MdDelete, MdOutlineInfo } from 'react-icons/md';
 import { FaCheck } from 'react-icons/fa6';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useAuth } from '../hooks/useAuth';
+import { IoCaretBackOutline } from 'react-icons/io5';
 
 const EditRulesPage = () => {
   const { game } = useParams();
@@ -151,7 +152,7 @@ const EditRulesPage = () => {
     <div className='h-full bg-base-100 p-8'>
       {/* Alert Section */}
       {alertVisible && (
-        <div className='flex items-center h-16 border border-primary pr-4 w-full max-w-md rounded-lg mx-auto'>
+        <div className='flex items-center h-16 border border-primary pr-4 w-full max-w-md rounded-lg mx-auto mb-4'>
           <div className='flex items-center justify-center bg-primary w-12 h-full rounded-l text-primary-content'>
             <MdOutlineInfo size={24} />
           </div>
@@ -166,13 +167,19 @@ const EditRulesPage = () => {
       )}
 
       {/* Header Section */}
-      <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
-        <h1 className='text-2xl font-bold text-base-content mb-4 md:mb-0'>
+      <div className='relative flex flex-col items-center mb-6'>
+        {/* Return Button at the top left */}
+        <Link
+          to={`/games/${game}`}
+          className='absolute top-0 left-0 btn btn-error'
+        >
+          <IoCaretBackOutline size={24} /> Return to {game}
+        </Link>
+
+        {/* Centered Title */}
+        <h1 className='mt-16 text-2xl font-bold text-base-content text-center sm:mt-0'>
           Edit Rules for {game}
         </h1>
-        <Link to={`/games/${game}`} className='btn btn-error'>
-          Return to {game}
-        </Link>
       </div>
 
       {/* Input, Select and Button Section */}

@@ -81,7 +81,7 @@ const AIBartender = () => {
             <div className='mt-2'>
               <div className='flex items-center'>
                 <div className='avatar'>
-                  <div className='m-2 w-24 rounded-full ring ring-primary ring-offset-black ring-offset-2'>
+                  <div className='m-2 w-16 md:w-20 lg:w-24 rounded-full ring ring-primary ring-offset-black ring-offset-2'>
                     <img src={BartenderInfo[bartender].picture} />
                   </div>
                 </div>
@@ -97,7 +97,7 @@ const AIBartender = () => {
               onChange={(e) => setDrinkDescription(e.target.value)}
               cols='30'
               rows='2'
-              className='textarea textarea-primary w-1/2 mt-5'
+              className='textarea textarea-primary w-full sm:w-1/2 mt-5'
               placeholder='Describe a drink (optional):'
             />
             <textarea
@@ -105,21 +105,21 @@ const AIBartender = () => {
               onChange={(e) => setIngredients(e.target.value)}
               cols='30'
               rows='2'
-              className='textarea textarea-primary w-1/2 mt-5'
+              className='textarea textarea-primary w-full sm:w-1/2 mt-5'
               placeholder='Available ingredients (optional):'
             />
-            <div className='flex items-start mt-5'>
+            <div className='flex flex-col sm:flex-row items-start mt-5'>
               <button
                 onClick={() => handleSubmit(false)}
-                className='btn btn-primary mr-2'
+                className='btn btn-primary btn-wide sm:btn-auto mb-2 sm:mb-0 sm:mr-2 '
               >
                 Make this drink
               </button>
               <button
                 onClick={() => handleSubmit(true)}
-                className='btn btn-primary ml-2'
+                className='btn btn-primary btn-wide sm:btn-auto sm:ml-2'
               >
-                Random drink / Quick Start
+                Make a random drink
               </button>
             </div>
             {/* AI recipe returned */}
@@ -127,7 +127,7 @@ const AIBartender = () => {
               <div className='mt-5'>
                 <div className='flex items-end'>
                   <div className='avatar'>
-                    <div className='m-2 w-24 rounded-full ring ring-primary ring-offset-black ring-offset-2'>
+                    <div className='m-2 w-16 md:w-20 lg:w-24 rounded-full ring ring-primary ring-offset-black ring-offset-2'>
                       <img src={BartenderInfo[bartender].picture} />
                     </div>
                   </div>

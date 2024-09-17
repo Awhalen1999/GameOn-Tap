@@ -108,7 +108,7 @@ function DiceRoll() {
 
       <div className='flex justify-center mt-10'>
         {rolledNumber !== null ? (
-          <div className='bg-neutral border border-secondary w-[40vw] rounded text-center p-4'>
+          <div className='bg-neutral border border-secondary w-3/4 sm:w-[80vw] md:w-[60vw] lg:w-[50vw] xl:w-[40vw] rounded text-center p-4'>
             <h3 className='text-xl font-bold text-neutral-content'>
               {activeRuleset.rules[rolledNumber]?.title}
             </h3>

@@ -5,7 +5,7 @@ import treasure from '../../assets/treasure.png';
 import empty from '../../assets/empty.png';
 import { getActiveRuleset, getRuleset } from '../../utils/api';
 import RulesetDisplay from '../../components/RulesetDisplay';
-import { FaWrench } from 'react-icons/fa';
+import { FaWrench, FaMinus, FaPlus } from 'react-icons/fa';
 import { useAuth } from '../../hooks/useAuth';
 import defaultRulesets from '../../components/defaultRulesets';
 
@@ -154,46 +154,95 @@ const BountyBlast = () => {
       </dialog>
       {!gameStarted && (
         <div className='flex flex-col items-center justify-center'>
-          <h2 className='text-4xl font-bold m-8 text-base-content'>
+          <h2 className='text-4xl font-bold m-6 text-base-content'>
             Bounty Blast
           </h2>
           <h3 className='text-2xl mb-6 text-base-content'>Game Setup</h3>
-          <div className='space-y-4'>
-            <label className='flex flex-col text-lg text-base-content'>
-              Number of Bombs:
-              <input
-                type='number'
-                value={bombs}
-                onChange={(e) => {
-                  const newBombs = parseInt(e.target.value);
-                  if (newBombs + treasures <= 24) {
-                    setBombs(newBombs);
-                  }
-                }}
-                className={`input text-lg  mb-6 mt-2 input-bordered ${getColorClass(
-                  bombs
-                )}`}
-                required
-              />
+
+          {/* Number of Bombs Input */}
+          <div className='mb-4 w-full max-w-xs'>
+            <label className='block text-lg text-base-content mb-2'>
+              Number of Bombs
             </label>
-            <label className='flex flex-col text-lg text-base-content'>
-              Number of Treasures:
-              <input
-                type='number'
-                value={treasures}
-                onChange={(e) => {
-                  const newTreasures = parseInt(e.target.value);
-                  if (newTreasures + bombs <= 24) {
-                    setTreasures(newTreasures);
-                  }
-                }}
-                className={`input text-lg mb-6 mt-2 input-bordered ${getColorClass(
-                  treasures
-                )}`}
-                required
-              />
-            </label>
+            <div className='bg-neutral rounded-lg border border-primary'>
+              <div className='w-full flex justify-between items-center gap-x-5'>
+                <input
+                  className='input bg-neutral w-full'
+                  type='number'
+                  value={bombs}
+                  onChange={(e) => {
+                    const newBombs = parseInt(e.target.value);
+                    if (newBombs + treasures <= 24) {
+                      setBombs(newBombs);
+                    }
+                  }}
+                />
+                <div className='flex justify-end items-center gap-x-1.5 m-2'>
+                  <button
+                    type='button'
+                    className='btn btn-sm btn-primary'
+                    onClick={() => setBombs(bombs > 1 ? bombs - 1 : 1)}
+                  >
+                    <FaMinus />
+                  </button>
+                  <button
+                    type='button'
+                    className='btn btn-sm btn-primary'
+                    onClick={() =>
+                      setBombs(bombs + treasures < 24 ? bombs + 1 : bombs)
+                    }
+                  >
+                    <FaPlus />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Number of Treasures Input */}
+          <div className='mb-4 w-full max-w-xs'>
+            <label className='block text-lg text-base-content mb-2'>
+              Number of Treasures
+            </label>
+            <div className='bg-neutral rounded-lg border border-primary'>
+              <div className='w-full flex justify-between items-center gap-x-5'>
+                <input
+                  className='input bg-neutral w-full'
+                  type='number'
+                  value={treasures}
+                  onChange={(e) => {
+                    const newTreasures = parseInt(e.target.value);
+                    if (newTreasures + bombs <= 24) {
+                      setTreasures(newTreasures);
+                    }
+                  }}
+                />
+                <div className='flex justify-end items-center gap-x-1.5 m-2'>
+                  <button
+                    type='button'
+                    className='btn btn-sm btn-primary'
+                    onClick={() =>
+                      setTreasures(treasures > 1 ? treasures - 1 : 1)
+                    }
+                  >
+                    <FaMinus />
+                  </button>
+                  <button
+                    type='button'
+                    className='btn btn-sm btn-primary'
+                    onClick={() =>
+                      setTreasures(
+                        treasures + bombs < 24 ? treasures + 1 : treasures
+                      )
+                    }
+                  >
+                    <FaPlus />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <button
             onClick={() => setGameStarted(true)}
             className='btn btn-primary btn-lg mt-4'
@@ -226,7 +275,7 @@ const BountyBlast = () => {
             </div>
           </div>
           {message && (
-            <div className='mt-auto mb-4 p-4 rounded bg-neutral text-neutral-content border border-secondary text-center text-lg font-semibold max-w-[70vw]'>
+            <div className='mt-4 mb-4 p-4 rounded bg-neutral text-neutral-content border border-secondary text-center text-lg font-semibold max-w-[70vw]'>
               {message}
             </div>
           )}

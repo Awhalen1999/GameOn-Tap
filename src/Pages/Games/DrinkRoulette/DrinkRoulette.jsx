@@ -74,7 +74,7 @@ const DrinkRoulette = () => {
   };
 
   return (
-    <div className='h-full bg-base-100 font-space'>
+    <div className='h-full overflow-x-hidden bg-base-100 font-space'>
       <div className='flex justify-end'>
         <button
           className='btn btn-ghost mr-4 font-bold mt-1'

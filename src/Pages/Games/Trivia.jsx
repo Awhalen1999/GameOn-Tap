@@ -151,9 +151,9 @@ function TriviaGame() {
         </dialog>
         <div className='p-6 bg-base-100 h-full font-space'>
           <div className='flex flex-col items-center justify-center'>
-            <div className='mb-4 w-1/3'>
+            <div className='mb-4 w-full sm:w-4/5 md:w-3/4 lg:w-1/3'>
               <form onSubmit={handleStartGame}>
-                {/* number of questions */}
+                {/* Number of Questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Number of Questions:
@@ -191,7 +191,7 @@ function TriviaGame() {
                     </div>
                   </div>
                 </div>
-                {/* type of questions */}
+                {/* Type of Questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Select Type:
@@ -206,7 +206,7 @@ function TriviaGame() {
                     <option value='boolean'>True/False</option>
                   </select>
                 </div>
-                {/* category of questions */}
+                {/* Category of Questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Select Category:
@@ -224,7 +224,7 @@ function TriviaGame() {
                     ))}
                   </select>
                 </div>
-                {/* difficulty of questions */}
+                {/* Difficulty of Questions */}
                 <div className='mb-4'>
                   <label className='block text-md font-medium text-base-content'>
                     Select Difficulty:
@@ -268,30 +268,38 @@ function TriviaGame() {
   const currentQuestion = questions[currentQuestionIndex];
   if (currentQuestion) {
     return (
-      <div className='p-6 bg-base-100 h-full font-space'>
+      <div className=' bg-base-100 h-full font-space'>
+        {/* Header with Rules Button */}
         <div className='flex justify-end'>
           <button
-            className='btn btn-ghost mr-4 font-bold '
+            className='btn btn-ghost mr-4 font-bold'
             onClick={() => document.getElementById('my_modal_1').showModal()}
           >
             Trivia Rules
           </button>
         </div>
+
+        {/* Rules Modal */}
         <dialog id='my_modal_1' className='modal'>
           <div className='modal-box border border-secondary'>
             <RulesetDisplay rules={activeRuleset?.rules} gameId='Trivia' />
           </div>
         </dialog>
-        <div className='my-4 flex flex-col items-center justify-center'>
-          <p className='font-bold text-lg text-base-content'>
+
+        {/* Question Section */}
+        <div className='my-4 flex flex-col items-center justify-center p-6'>
+          <p className='font-bold text-lg text-base-content text-center'>
             Question {currentQuestionIndex + 1} of {amount}
           </p>
-          <div className='divider divider-primary'></div>
+          <div className='divider divider-primary w-full '></div>
+
           <p
-            className='text-lg font-medium text-base-content my-4'
+            className='text-lg font-medium text-base-content my-4 text-center px-4 md:px-8 lg:px-16 xl:px-24 max-w-3xl'
             dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
           />
-          <div className='space-x-4 my-6'>
+
+          {/* Answer Options */}
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 my-6 w-full max-w-xl'>
             {currentQuestion.incorrect_answers.map((answer, index) => (
               <button
                 key={index}
@@ -301,7 +309,7 @@ function TriviaGame() {
                   answer !== currentQuestion.correct_answer
                     ? 'bg-red-600'
                     : 'bg-primary hover:bg-accent'
-                } text-white`}
+                } text-white w-full`}
               >
                 {answer}
               </button>
@@ -310,18 +318,22 @@ function TriviaGame() {
               onClick={() => handleTriviaAnswer(currentQuestion.correct_answer)}
               className={`px-4 py-2 rounded ${
                 selectedAnswer ? 'bg-green-500' : 'bg-primary hover:bg-accent'
-              } text-white`}
+              } text-white w-full`}
             >
               {currentQuestion.correct_answer}
             </button>
           </div>
+
+          {/* Score Display */}
           <p className='my-6 text-base-content text-lg font-medium'>
             Score: {score}
           </p>
         </div>
+
+        {/* Reset Game Button */}
         <button
           onClick={resetGame}
-          className='btn btn-success absolute bottom-0 right-0 m-4'
+          className='btn btn-success fixed bottom-4 right-4'
         >
           Reset Game
         </button>
