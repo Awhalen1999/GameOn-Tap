@@ -286,16 +286,16 @@ const RideTheBus = () => {
         />
       ) : (
         <div className='flex flex-col items-center justify-center flex-grow'>
-          <div className='flex justify-center items-center mx-auto w-full gap-2'>
+          <div className='flex justify-center items-center mx-auto w-full gap-2 sm:gap-4 lg:gap-6'>
             {drawnCards.slice(-2).map((card, index) => (
               <div key={index} className='relative'>
                 {(index === 1 || drawnCards.length === 1) && (
-                  <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-4xl text-base-content' />
+                  <FaArrowDown className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full text-3xl sm:text-4xl text-base-content' />
                 )}
                 <img
                   src={cardImages[card] || placeholderCard}
                   alt={card}
-                  className='h-56'
+                  className='h-40 sm:h-48 md:h-56 lg:h-64'
                 />
               </div>
             ))}
@@ -307,7 +307,7 @@ const RideTheBus = () => {
                     <img
                       src={placeholderCard}
                       alt='placeholder card'
-                      className='h-56'
+                      className='h-40 sm:h-48 md:h-56 lg:h-64'
                     />
                   )}
                 </div>
@@ -315,35 +315,35 @@ const RideTheBus = () => {
             )}
           </div>
 
-          <div className='mt-12 flex flex-col items-center justify-center'>
-            <p className='text-center text-xl font-bold mb-6 text-base-content'>
+          <div className='mt-8 sm:mt-10 lg:mt-12 flex flex-col items-center justify-center'>
+            <p className='text-center text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6 text-base-content'>
               You are on card {drawnCards.length} of {number}.
             </p>
-            <p className='text-center sm:text-xl text-base font-bold mb-6 text-base-content'>
+            <p className='text-center text-base sm:text-lg lg:text-xl font-bold mb-4 sm:mb-6 text-base-content'>
               {ruleSet === 'higher/lower'
                 ? `Will the next card be lower, equal, or higher than ${drawnCards[
                     drawnCards.length - 1
                   ].slice(0, -1)}?`
                 : 'Will the next card be red or black?'}
             </p>
-            <div className='flex justify-center'>
+            <div className='flex justify-center gap-4 sm:gap-6'>
               {ruleSet === 'higher/lower' ? (
                 <>
                   <button
                     onClick={handleLowerClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-blue-500 hover:bg-blue-600 hover:text-white'
+                    className='px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 mx-2 sm:mx-4 btn btn-lg btn-outline text-white bg-blue-500 hover:bg-blue-600 hover:text-white'
                   >
                     Lower
                   </button>
                   <button
                     onClick={handleEqualClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-yellow-500 hover:bg-yellow-600 hover:text-white'
+                    className='px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 mx-2 sm:mx-4 btn btn-lg btn-outline text-white bg-yellow-500 hover:bg-yellow-600 hover:text-white'
                   >
                     Equal
                   </button>
                   <button
                     onClick={handleHigherClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600 hover:text-white'
+                    className='px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 mx-2 sm:mx-4 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600 hover:text-white'
                   >
                     Higher
                   </button>
@@ -352,13 +352,13 @@ const RideTheBus = () => {
                 <>
                   <button
                     onClick={handleRedClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600 hover:text-white'
+                    className='px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 mx-2 sm:mx-4 btn btn-lg btn-outline text-white bg-red-500 hover:bg-red-600 hover:text-white'
                   >
                     Red
                   </button>
                   <button
                     onClick={handleBlackClick}
-                    className='mx-8 btn btn-lg btn-outline text-white bg-black hover:bg-gray-900 hover:text-white'
+                    className='px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 mx-2 sm:mx-4 btn btn-lg btn-outline text-white bg-black hover:bg-gray-900 hover:text-white'
                   >
                     Black
                   </button>

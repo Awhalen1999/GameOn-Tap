@@ -27,6 +27,14 @@ const Nav = () => {
     '/games/AIBartender': 'AI Bartender',
   };
 
+  // hide burger menu dropdown on click
+  const handleDropdownItemClick = () => {
+    const dropdown = document.activeElement;
+    if (dropdown) {
+      dropdown.blur();
+    }
+  };
+
   return (
     <div className='navbar bg-base-100 h-20 font-space border-b border-secondary'>
       {/* left */}
@@ -44,7 +52,11 @@ const Nav = () => {
             className='menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-base-content font-semibold border-2 border-neutral'
           >
             <li>
-              <Link to='/GamePage' className='btn btn-ghost'>
+              <Link
+                to='/GamePage'
+                className='btn btn-ghost'
+                onClick={handleDropdownItemClick}
+              >
                 Games
               </Link>
             </li>
