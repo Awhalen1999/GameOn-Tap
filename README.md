@@ -45,4 +45,4 @@ I created **GameOn Tap** to bring all the classic party games into one seamless 
 
 ## 👏 Credits
 
-A huge thank you to my coach, ***Devin Marsh***, for his incredible support and guidance throughout the entire process of creating this project!
+A huge thank you to my coach, ***Devin Marsh*** 🐐, for his incredible support and guidance throughout the entire process of creating this project!
