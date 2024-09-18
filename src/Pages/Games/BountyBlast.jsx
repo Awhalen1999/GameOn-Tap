@@ -260,7 +260,7 @@ const BountyBlast = () => {
                   <div
                     key={index}
                     className={`card ${
-                      chest.opened ? 'bordered' : ''
+                      chest.opened ? '' : ''
                     } flex justify-center items-center`}
                     onClick={() => handleChestClick(index)}
                   >

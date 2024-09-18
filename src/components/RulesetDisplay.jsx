@@ -50,7 +50,7 @@ const RulesetDisplay = ({ rules, gameId }) => {
             <div
               key={index}
               className={`mb-4 p-2 ${
-                index !== array.length - 1 ? 'border-b border-gray-200' : ''
+                index !== array.length - 1 ? 'border-b border-gray-400' : ''
               }`}
             >
               <h3 className='font-bold text-lg mb-2'>{rule.result}</h3>

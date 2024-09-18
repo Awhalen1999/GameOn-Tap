@@ -239,7 +239,7 @@ const KingsCup = () => {
             <div className='modal-box border border-secondary '>
               {/* Close button */}
               <button
-                className='btn absolute top-1 right-1'
+                className='btn absolute top-1 right-1 btn-circle '
                 onClick={() => document.getElementById('my_modal_2').close()}
               >
                 <IoCloseSharp size={24} />
