@@ -227,10 +227,10 @@ const Snap = () => {
       </div>
 
       {/* settings */}
-      <div className='fixed bottom-16 right-4'>
+      <div className='fixed bottom-16 right-4 '>
         {/* Settings button */}
         <button
-          className='btn'
+          className='btn z-21'
           onClick={() => document.getElementById('my_modal_2').showModal()}
         >
           <IoMdSettings size={24} />
@@ -311,7 +311,7 @@ const Snap = () => {
       </div>
 
       <div className='absolute bottom-0 right-0 m-2 flex items-center'>
-        <button onClick={resetDeck} className='btn btn-success'>
+        <button onClick={resetDeck} className='btn btn-success z-21'>
           Reset Deck
         </button>
       </div>
