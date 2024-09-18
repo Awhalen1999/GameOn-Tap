@@ -17,7 +17,7 @@ const UserPage = () => {
     }
   }, [user, loading, navigate]);
 
-  const gameIds = ['KingsCup', 'DiceRoll', 'DrinkRoulette', 'BountyBlast'];
+  const gameIds = ['KingsCup', 'DiceRoll', 'BountyBlast'];
 
   const handleSelectChange = (event) => {
     setGameId(event.target.value);

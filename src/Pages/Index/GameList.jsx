@@ -19,11 +19,11 @@ const GameList = () => {
       route: '/games/KingsCup',
       image: kingsCupCover,
     },
-    {
-      name: 'Drink Roulette',
-      route: '/games/DrinkRoulette',
-      image: drinkRouletteCover,
-    },
+    // {
+    //   name: 'Drink Roulette',
+    //   route: '/games/DrinkRoulette',
+    //   image: drinkRouletteCover,
+    // },
     {
       name: 'Bounty Blast',
       route: '/games/BountyBlast',

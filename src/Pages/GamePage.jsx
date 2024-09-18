@@ -64,12 +64,12 @@ const GamePage = () => {
       description:
         'Test your knowledge and sip on drinks in Trivia! Answer questions across various categories and see who emerges as the trivia champ among your friends.',
     },
-    {
-      name: 'Drink Roulette',
-      route: '/games/DrinkRoulette',
-      image: drinkRouletteCover,
-      description: `Take a spin and let fate decide your drinking fate in Drink Roulette! Whether it's a shot or a fun challenge, the roulette wheel adds an exciting twist to your drinking game night.`,
-    },
+    // {
+    //   name: 'Drink Roulette',
+    //   route: '/games/DrinkRoulette',
+    //   image: drinkRouletteCover,
+    //   description: `Take a spin and let fate decide your drinking fate in Drink Roulette! Whether it's a shot or a fun challenge, the roulette wheel adds an exciting twist to your drinking game night.`,
+    // },
     {
       name: 'AI Bartender',
       route: '/games/AIBartender',

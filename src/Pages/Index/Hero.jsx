@@ -10,7 +10,7 @@ const Hero = () => {
     'games/Trivia',
     'games/PromptDash',
     'games/DiceRoll',
-    'games/DrinkRoulette',
+    // 'games/DrinkRoulette',
   ];
 
   const [randomGame, setRandomGame] = useState(
