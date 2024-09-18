@@ -65,10 +65,8 @@ const UserPage = () => {
     <div className='h-full p-6'>
       <div className='mb-4'>
         <p className='mb-1 font-bold text-2xl'>{user?.username}'s account</p>
-        <p className='text-sm text-neutral-content'>{user?.email}</p>
-        <p className='mb-4 text-sm text-neutral-content'>
-          User ID: {user?.user_id}
-        </p>
+        <p className='text-sm text-neutral-content mb-4'>{user?.email}</p>
+
         <Link
           to='/'
           className='btn btn-error mb-4 rounded-xl py-1 px-6'
