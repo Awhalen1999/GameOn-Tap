@@ -6,6 +6,8 @@ import { getActiveRuleset, getRuleset } from '../../utils/api';
 import RulesetDisplay from '../../components/RulesetDisplay';
 import { useAuth } from '../../hooks/useAuth';
 import defaultRulesets from '../../components/defaultRulesets';
+import { IoMdSettings } from 'react-icons/io';
+import { IoCloseSharp } from 'react-icons/io5';
 
 const Snap = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -182,28 +184,7 @@ const Snap = () => {
           Flip a Card
         </button>
       </div>
-      <div className='flex flex-col justify-end space-y-2 absolute left-0 bottom-0 m-2'>
-        <label className='flex items-center space-x-2 text-lg'>
-          <input
-            className='radio radio-primary'
-            type='radio'
-            value='suit'
-            checked={ruleSet === 'suit'}
-            onChange={(e) => setRuleSet(e.target.value)}
-          />
-          <span className='text-xl font-bold'>Suit</span>
-        </label>
-        <label className='flex items-center space-x-2 text-lg'>
-          <input
-            className='radio radio-primary'
-            type='radio'
-            value='value'
-            checked={ruleSet === 'value'}
-            onChange={(e) => setRuleSet(e.target.value)}
-          />
-          <span className='text-xl font-bold'>Value</span>
-        </label>
-      </div>
+
       <div className='flex flex-col items-center mt-4'>
         <div className='items-center'>
           {drawnCards.length > 0 ? (
@@ -244,36 +225,91 @@ const Snap = () => {
           )}
         </div>
       </div>
-      <div className='absolute bottom-24 right-0 m-2 flex items-center'>
-        <input
-          type='checkbox'
-          id='showSnap'
-          checked={showSnap}
-          onChange={(e) => setShowSnap(e.target.checked)}
-          className='checkbox checkbox-primary'
-        />
-        <label
-          htmlFor='showSnap'
-          className='ml-2 text-base sm:text-lg font-bold'
+
+      {/* settings */}
+      <div className='fixed bottom-16 right-0'>
+        {/* Settings button */}
+        <button
+          className='btn'
+          onClick={() => document.getElementById('my_modal_2').showModal()}
         >
-          Show "SNAP!"
-        </label>
+          <IoMdSettings size={24} />
+        </button>
+        {/* Settings modal */}
+        <dialog id='my_modal_2' className='modal'>
+          <div className='modal-box border border-secondary '>
+            {/* Close button */}
+            <button
+              className='btn absolute top-1 right-1'
+              onClick={() => document.getElementById('my_modal_2').close()}
+            >
+              <IoCloseSharp size={24} />
+            </button>
+
+            {/* Centered content */}
+            <div className='flex flex-col items-left justify-center h-full'>
+              <div className='flex flex-col space-y-2'>
+                {/* settings items */}
+                <div className='flex items-center'>
+                  <input
+                    type='checkbox'
+                    id='autoReset'
+                    checked={autoReset}
+                    onChange={(e) => setAutoReset(e.target.checked)}
+                    className='checkbox checkbox-primary'
+                  />
+                  <label
+                    htmlFor='autoReset'
+                    className='ml-2 text-base sm:text-lg font-bold'
+                  >
+                    Auto-reset deck
+                  </label>
+                </div>
+                <div className='flex items-center'>
+                  <input
+                    type='checkbox'
+                    id='showSnap'
+                    checked={showSnap}
+                    onChange={(e) => setShowSnap(e.target.checked)}
+                    className='checkbox checkbox-primary'
+                  />
+                  <label
+                    htmlFor='showSnap'
+                    className='ml-2 text-base sm:text-lg font-bold'
+                  >
+                    Show "SNAP!"
+                  </label>
+                </div>
+                <div className='flex items-center'>
+                  <label className='flex items-center space-x-2 text-lg'>
+                    <input
+                      className='radio radio-primary'
+                      type='radio'
+                      value='suit'
+                      checked={ruleSet === 'suit'}
+                      onChange={(e) => setRuleSet(e.target.value)}
+                    />
+                    <span className='text-xl font-bold'>Suit</span>
+                  </label>
+                </div>
+                <div className='flex items-center'>
+                  <label className='flex items-center space-x-2 text-lg'>
+                    <input
+                      className='radio radio-primary'
+                      type='radio'
+                      value='value'
+                      checked={ruleSet === 'value'}
+                      onChange={(e) => setRuleSet(e.target.value)}
+                    />
+                    <span className='text-xl font-bold'>Value</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </dialog>
       </div>
-      <div className='absolute bottom-14 right-0 m-2 flex items-center'>
-        <input
-          type='checkbox'
-          id='autoReset'
-          checked={autoReset}
-          onChange={(e) => setAutoReset(e.target.checked)}
-          className='checkbox checkbox-primary'
-        />
-        <label
-          htmlFor='autoReset'
-          className='ml-2 text-base sm:text-lg font-bold'
-        >
-          Auto-reset deck
-        </label>
-      </div>
+
       <div className='absolute bottom-0 right-0 m-2 flex items-center'>
         <button onClick={resetDeck} className='btn btn-success'>
           Reset Deck

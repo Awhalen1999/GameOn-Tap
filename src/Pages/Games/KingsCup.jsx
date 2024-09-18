@@ -6,6 +6,8 @@ import { getActiveRuleset, getRuleset } from '../../utils/api.js';
 import RulesetDisplay from '../../components/RulesetDisplay';
 import { useAuth } from '../../hooks/useAuth';
 import defaultRulesets from '../../components/defaultRulesets';
+import { IoMdSettings } from 'react-icons/io';
+import { IoCloseSharp } from 'react-icons/io5';
 
 const KingsCup = () => {
   const [deck, setDeck] = useState([...initialDeck]);
@@ -223,18 +225,45 @@ const KingsCup = () => {
             </div>
           )}
         </div>
-        {/* Hide Rules checkbox */}
-        <div className='form-control fixed bottom-16 right-4'>
-          <label className='label cursor-pointer'>
-            <span className='label-text mr-2'>Hide Rules</span>
-            <input
-              type='checkbox'
-              checked={hideRules}
-              onChange={() => setHideRules(!hideRules)}
-              className='checkbox checkbox-primary'
-            />
-          </label>
+        {/* settings */}
+        <div className='fixed bottom-16 right-4'>
+          {/* Settings button */}
+          <button
+            className='btn'
+            onClick={() => document.getElementById('my_modal_2').showModal()}
+          >
+            <IoMdSettings size={24} />
+          </button>
+          {/* Settings modal */}
+          <dialog id='my_modal_2' className='modal'>
+            <div className='modal-box border border-secondary '>
+              {/* Close button */}
+              <button
+                className='btn absolute top-1 right-1'
+                onClick={() => document.getElementById('my_modal_2').close()}
+              >
+                <IoCloseSharp size={24} />
+              </button>
+
+              {/* Centered content */}
+              <div className='flex flex-col items-left justify-center h-full'>
+                <div className='flex flex-col space-y-2'>
+                  {/* settings items */}
+                  <div className='flex items-center'>
+                    <span>Hide Rules</span>
+                    <input
+                      type='checkbox'
+                      checked={hideRules}
+                      onChange={() => setHideRules(!hideRules)}
+                      className='checkbox checkbox-primary ml-2'
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </dialog>
         </div>
+
         {/* Reset Deck button */}
         <button
           onClick={resetDeck}
