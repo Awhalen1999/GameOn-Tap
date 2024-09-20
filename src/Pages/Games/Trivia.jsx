@@ -18,6 +18,8 @@ function TriviaGame() {
   const [categories, setCategories] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [activeRuleset, setActiveRuleset] = useState(null);
+  // set state of shuffed answers so don't reset on reload (answer)
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const gameId = 'Trivia';
   const { user } = useAuth();
 
@@ -26,7 +28,6 @@ function TriviaGame() {
       try {
         let activeRuleset;
         if (user) {
-          // Logged-in user: fetch active ruleset from backend
           const activeRulesetResponse = await getActiveRuleset(
             user.user_id,
             gameId
@@ -39,8 +40,6 @@ function TriviaGame() {
             );
           }
         } else {
-          // No user: fetch default ruleset
-          console.log('No user logged in, fetching default ruleset');
           activeRuleset = defaultRulesets[gameId];
         }
 
@@ -84,6 +83,19 @@ function TriviaGame() {
       setTimeout(fetchQuestions, 1000);
     }
   }, [gameStarted]);
+
+  // shuffle array of answers so correct is not always on right side
+  useEffect(() => {
+    if (questions.length > 0) {
+      const currentQuestion = questions[currentQuestionIndex];
+      setShuffledAnswers(
+        shuffleArray([
+          ...currentQuestion.incorrect_answers,
+          currentQuestion.correct_answer,
+        ])
+      );
+    }
+  }, [currentQuestionIndex, questions]);
 
   const buildApiUrl = () => {
     let apiUrl = `https://opentdb.com/api.php?amount=${amount}`;
@@ -131,6 +143,10 @@ function TriviaGame() {
     } else {
       setAmount(value);
     }
+  };
+
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
   };
 
   if (!gameStarted) {
@@ -268,7 +284,7 @@ function TriviaGame() {
   const currentQuestion = questions[currentQuestionIndex];
   if (currentQuestion) {
     return (
-      <div className=' bg-base-100 h-full font-space'>
+      <div className='bg-base-100 h-full font-space'>
         {/* Header with Rules Button */}
         <div className='flex justify-end'>
           <button
@@ -291,16 +307,16 @@ function TriviaGame() {
           <p className='font-bold text-lg text-base-content text-center'>
             Question {currentQuestionIndex + 1} of {amount}
           </p>
-          <div className='divider divider-primary w-full '></div>
+          <div className='divider divider-primary w-full'></div>
 
           <p
             className='text-lg font-medium text-base-content my-4 text-center px-4 md:px-8 lg:px-16 xl:px-24 max-w-3xl'
             dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
           />
 
-          {/* Answer Options */}
+          {/* Render Answer Options in shuffled array */}
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 my-6 w-full max-w-xl'>
-            {currentQuestion.incorrect_answers.map((answer, index) => (
+            {shuffledAnswers.map((answer, index) => (
               <button
                 key={index}
                 onClick={() => handleTriviaAnswer(answer)}
@@ -308,20 +324,15 @@ function TriviaGame() {
                   selectedAnswer === answer &&
                   answer !== currentQuestion.correct_answer
                     ? 'bg-red-600'
+                    : selectedAnswer === answer &&
+                      answer === currentQuestion.correct_answer
+                    ? 'bg-green-500'
                     : 'bg-primary hover:bg-accent'
                 } text-white w-full`}
               >
                 {answer}
               </button>
             ))}
-            <button
-              onClick={() => handleTriviaAnswer(currentQuestion.correct_answer)}
-              className={`px-4 py-2 rounded ${
-                selectedAnswer ? 'bg-green-500' : 'bg-primary hover:bg-accent'
-              } text-white w-full`}
-            >
-              {currentQuestion.correct_answer}
-            </button>
           </div>
 
           {/* Score Display */}
